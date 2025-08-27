@@ -3,11 +3,8 @@ from datetime import timedelta
 from pathlib import Path
 
 import dj_database_url
-import django_stubs_ext
 from dotenv import load_dotenv
 
-# monkeypatch django types
-django_stubs_ext.monkeypatch()
 # load envs
 env_file = os.getenv('ENV_FILE', '.env')
 load_dotenv(env_file)
