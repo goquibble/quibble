@@ -1,10 +1,9 @@
+from apps.post.models import Post
+from apps.user.models import Profile
 from django.contrib.postgres import indexes as idx
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django_ltree.models import TreeModel
-
-from apps.post.models import Post
-from apps.user.models import Profile
 from shared.mixins.models.created_at import CreatedAtMixin
 
 from .managers import CommentManager

@@ -1,12 +1,6 @@
 from http import HTTPMethod
 from typing import cast
 
-from django.db.models import QuerySet
-from django_filters import rest_framework as filters
-from drf_spectacular.utils import extend_schema
-from rest_framework import exceptions, response, viewsets
-from rest_framework.decorators import action
-
 from apps.api.http import HttpRequest
 from apps.api.serializers.community import (
     CommunityBasicSerializer,
@@ -18,6 +12,11 @@ from apps.api.serializers.post import PostSerializer
 from apps.api.serializers.post.highlighted import PostHighlightedSerializer
 from apps.community.filters import CommunityFilter
 from apps.community.models import Community
+from django.db.models import QuerySet
+from django_filters import rest_framework as filters
+from drf_spectacular.utils import extend_schema
+from rest_framework import exceptions, response, viewsets
+from rest_framework.decorators import action
 
 
 @extend_schema(tags=["communities & topics"])

@@ -1,6 +1,5 @@
-from django.contrib.auth.backends import ModelBackend
-
 from apps.user.models import User
+from django.contrib.auth.backends import ModelBackend
 
 
 class EmailAuthBackend(ModelBackend):

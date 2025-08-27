@@ -1,9 +1,8 @@
 import copy
 
-from rest_framework import serializers
-
 from apps.api.serializers.comment import CommentSerializer
 from apps.api.serializers.post import PostSerializer
+from rest_framework import serializers
 
 
 class UpvotedSerializer(serializers.Serializer):

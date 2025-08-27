@@ -1,6 +1,7 @@
 from allauth.account import app_settings as allauth_account_settings
 from allauth.account.adapter import get_adapter
 from allauth.account.models import EmailAddress
+from apps.user.models import User
 from dj_rest_auth.registration.serializers import (
     RegisterSerializer as RestAuthRegisterSerializer,
 )
@@ -8,8 +9,6 @@ from dj_rest_auth.serializers import LoginSerializer as RestAuthLoginSerializer
 from django.utils.translation import gettext_lazy as _
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
-
-from apps.user.models import User
 
 from .profile import ProfileBasicSerializer
 

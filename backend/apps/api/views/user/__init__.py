@@ -1,11 +1,10 @@
+from apps.api.serializers.user import UserSerializer
+from apps.api.serializers.user.profile import ProfileSerializer
+from apps.api.utils import unset_jwt_cookies_with_profile_id
 from drf_spectacular.utils import extend_schema
 from rest_framework import permissions, status, views
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
-
-from apps.api.serializers.user import UserSerializer
-from apps.api.serializers.user.profile import ProfileSerializer
-from apps.api.utils import unset_jwt_cookies_with_profile_id
 
 
 @extend_schema(tags=["user & profiles"])

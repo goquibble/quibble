@@ -1,10 +1,9 @@
+from apps.community.models import Community
+from apps.user.models import Profile
 from django.db import models
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from dynamic_filenames import FilePattern
-
-from apps.community.models import Community
-from apps.user.models import Profile
 from shared.mixins.models.created_at import CreatedAtMixin
 from shared.mixins.models.shortuuid import ShortUUIDMixin
 from shared.mixins.models.type import TypeMixin

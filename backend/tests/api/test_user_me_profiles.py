@@ -1,5 +1,4 @@
 import pytest
-
 from apps.user.models import Profile
 
 

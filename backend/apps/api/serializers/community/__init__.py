@@ -1,7 +1,6 @@
-from rest_framework import serializers
-
 from apps.api.serializers.user.profile import ProfileBasicSerializer
 from apps.community.models import Community
+from rest_framework import serializers
 
 
 class CommunitySerializer(serializers.ModelSerializer):

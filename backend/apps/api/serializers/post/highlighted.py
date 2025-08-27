@@ -1,6 +1,5 @@
-from rest_framework import serializers
-
 from apps.post.models import Post
+from rest_framework import serializers
 
 
 class PostHighlightedSerializer(serializers.ModelSerializer):

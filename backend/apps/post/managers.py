@@ -1,11 +1,4 @@
-from django.db.models import (
-    Count,
-    ExpressionWrapper,
-    F,
-    FloatField,
-    Manager,
-    Value,
-)
+from django.db.models import Count, ExpressionWrapper, F, FloatField, Manager, Value
 from django.db.models.functions import Coalesce, ExtractHour, Now, NullIf
 
 
