@@ -10,7 +10,7 @@ class CommentViewSet(ReactionMixin, UpdateRetrieveDestroyViewSet):
     serializer_class = CommentSerializer
 
     serializer_mapping = {
-        'reaction': ReactionSerializer,
+        "reaction": ReactionSerializer,
     }
 
     def get_serializer_class(self):  # pyright: ignore

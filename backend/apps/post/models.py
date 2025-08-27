@@ -16,30 +16,30 @@ class Post(CreatedAtMixin, TypeMixin, ShortUUIDMixin):
     community = models.ForeignKey(
         Community,
         on_delete=models.CASCADE,
-        related_name='posts',
-        verbose_name=_('Community'),
+        related_name="posts",
+        verbose_name=_("Community"),
     )
     poster = models.ForeignKey(
         Profile,
         on_delete=models.CASCADE,
-        related_name='posts',
-        verbose_name=_('Poster'),
+        related_name="posts",
+        verbose_name=_("Poster"),
     )
-    highlighted = models.BooleanField(_('Highlighted'), default=False)
-    title = models.CharField(_('Title'), max_length=255)
-    slug = models.SlugField(_('Slug'), max_length=25, blank=True)
-    content = models.TextField(_('Content'), blank=True)
+    highlighted = models.BooleanField(_("Highlighted"), default=False)
+    title = models.CharField(_("Title"), max_length=255)
+    slug = models.SlugField(_("Slug"), max_length=25, blank=True)
+    content = models.TextField(_("Content"), blank=True)
     cover = models.ImageField(
-        _('Cover'),
-        upload_to=FilePattern(filename_pattern='cover/{uuid:s}{ext}'),
+        _("Cover"),
+        upload_to=FilePattern(filename_pattern="cover/{uuid:s}{ext}"),
         blank=True,
         null=True,
     )
     upvotes = models.ManyToManyField(
-        Profile, related_name='upvoted_posts', blank=True, verbose_name=_('Upvotes')
+        Profile, related_name="upvoted_posts", blank=True, verbose_name=_("Upvotes")
     )
     downvotes = models.ManyToManyField(
-        Profile, related_name='downvoted_posts', blank=True, verbose_name=_('Downvotes')
+        Profile, related_name="downvoted_posts", blank=True, verbose_name=_("Downvotes")
     )
 
     objects = PostManager()
@@ -52,9 +52,9 @@ class Post(CreatedAtMixin, TypeMixin, ShortUUIDMixin):
         super().save(*args, **kwargs)
 
     def __str__(self) -> str:
-        return f'{self.pk}/{self.slug}'
+        return f"{self.pk}/{self.slug}"
 
     class Meta:  # pyright: ignore
-        verbose_name = _('Post')
-        verbose_name_plural = _('Posts')
-        ordering = ['-created_at']
+        verbose_name = _("Post")
+        verbose_name_plural = _("Posts")
+        ordering = ["-created_at"]

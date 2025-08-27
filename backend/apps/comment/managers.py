@@ -8,9 +8,9 @@ class CommentManager(TreeManager):
             super()
             .get_queryset()
             .annotate(
-                upvotes_count=Count('upvotes', distinct=True),
-                downvotes_count=Count('downvotes', distinct=True),
-                ratio=F('upvotes_count') - F('downvotes_count'),
+                upvotes_count=Count("upvotes", distinct=True),
+                downvotes_count=Count("downvotes", distinct=True),
+                ratio=F("upvotes_count") - F("downvotes_count"),
             )
         )
 

@@ -15,11 +15,11 @@ class PostSerializer(BaseRatioModelSerializer):
 
     class Meta:
         model = Post
-        fields = '__all__'
+        fields = "__all__"
 
     @extend_schema_field(OpenApiTypes.INT)
     def get_comment_count(self, obj):
-        if hasattr(obj, 'comment_count'):
+        if hasattr(obj, "comment_count"):
             return obj.comment_count
         return 0  # default value for new posts
 
@@ -27,10 +27,10 @@ class PostSerializer(BaseRatioModelSerializer):
 class PostCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ('community', 'poster', 'title', 'content', 'cover')
+        fields = ("community", "poster", "title", "content", "cover")
 
     def create(self, validated_data):
-        poster = self.context['request'].user_profile
+        poster = self.context["request"].user_profile
         post = Post.objects.create(**validated_data)
 
         post.upvotes.add(poster)

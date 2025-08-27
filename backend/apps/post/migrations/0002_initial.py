@@ -9,39 +9,39 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('post', '0001_initial'),
-        ('user', '0001_initial'),
+        ("post", "0001_initial"),
+        ("user", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='post',
-            name='downvotes',
+            model_name="post",
+            name="downvotes",
             field=models.ManyToManyField(
                 blank=True,
-                related_name='downvoted_posts',
-                to='user.profile',
-                verbose_name='downvotes',
+                related_name="downvoted_posts",
+                to="user.profile",
+                verbose_name="downvotes",
             ),
         ),
         migrations.AddField(
-            model_name='post',
-            name='poster',
+            model_name="post",
+            name="poster",
             field=models.ForeignKey(
                 on_delete=django.db.models.deletion.CASCADE,
-                related_name='posts',
-                to='user.profile',
-                verbose_name='poster',
+                related_name="posts",
+                to="user.profile",
+                verbose_name="poster",
             ),
         ),
         migrations.AddField(
-            model_name='post',
-            name='upvotes',
+            model_name="post",
+            name="upvotes",
             field=models.ManyToManyField(
                 blank=True,
-                related_name='upvoted_posts',
-                to='user.profile',
-                verbose_name='upvotes',
+                related_name="upvoted_posts",
+                to="user.profile",
+                verbose_name="upvotes",
             ),
         ),
     ]

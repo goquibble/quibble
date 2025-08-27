@@ -7,45 +7,45 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('comment', '0002_initial'),
-        ('user', '0002_alter_profile_avatar_alter_profile_created_at_and_more'),
+        ("comment", "0002_initial"),
+        ("user", "0002_alter_profile_avatar_alter_profile_created_at_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='comment',
-            name='commenter',
+            model_name="comment",
+            name="commenter",
             field=models.ForeignKey(
                 null=True,
                 on_delete=django.db.models.deletion.SET_NULL,
-                related_name='comments',
-                to='user.profile',
-                verbose_name='Commenter',
+                related_name="comments",
+                to="user.profile",
+                verbose_name="Commenter",
             ),
         ),
         migrations.AlterField(
-            model_name='comment',
-            name='created_at',
-            field=models.DateTimeField(auto_now_add=True, verbose_name='Create at'),
+            model_name="comment",
+            name="created_at",
+            field=models.DateTimeField(auto_now_add=True, verbose_name="Create at"),
         ),
         migrations.AlterField(
-            model_name='comment',
-            name='downvotes',
+            model_name="comment",
+            name="downvotes",
             field=models.ManyToManyField(
                 blank=True,
-                related_name='downvoted_comments',
-                to='user.profile',
-                verbose_name='Downvotes',
+                related_name="downvoted_comments",
+                to="user.profile",
+                verbose_name="Downvotes",
             ),
         ),
         migrations.AlterField(
-            model_name='comment',
-            name='upvotes',
+            model_name="comment",
+            name="upvotes",
             field=models.ManyToManyField(
                 blank=True,
-                related_name='upvoted_comments',
-                to='user.profile',
-                verbose_name='Upvotes',
+                related_name="upvoted_comments",
+                to="user.profile",
+                verbose_name="Upvotes",
             ),
         ),
     ]

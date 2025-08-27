@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('post', '0004_remove_post_is_public_post_type'),
+        ("post", "0004_remove_post_is_public_post_type"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='post',
-            name='comments',
+            model_name="post",
+            name="comments",
         ),
     ]

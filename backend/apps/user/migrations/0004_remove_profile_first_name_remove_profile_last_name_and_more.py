@@ -6,21 +6,23 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('user', '0003_profile_banner'),
+        ("user", "0003_profile_banner"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='profile',
-            name='first_name',
+            model_name="profile",
+            name="first_name",
         ),
         migrations.RemoveField(
-            model_name='profile',
-            name='last_name',
+            model_name="profile",
+            name="last_name",
         ),
         migrations.AddField(
-            model_name='profile',
-            name='name',
-            field=models.CharField(blank=True, max_length=255, null=True, verbose_name='Name'),
+            model_name="profile",
+            name="name",
+            field=models.CharField(
+                blank=True, max_length=255, null=True, verbose_name="Name"
+            ),
         ),
     ]

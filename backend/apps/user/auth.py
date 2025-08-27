@@ -16,14 +16,16 @@ class ExtendedJWTCookieAuthentication(JWTCookieAuthentication):
             return None
 
         user, token = user_auth_tuple
-        profile_id = request.COOKIES.get('profile-id')
+        profile_id = request.COOKIES.get("profile-id")
         user_profile = None
 
         if profile_id is not None:
             try:
                 user_profile = Profile.objects.get(id=profile_id, user=user)
             except Profile.DoesNotExist:
-                raise exceptions.PermissionDenied('Invalid Profile! please re-login again.')
+                raise exceptions.PermissionDenied(
+                    "Invalid Profile! please re-login again."
+                )
 
         request.user_profile = user_profile
         return (user, token)

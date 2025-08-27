@@ -12,30 +12,36 @@ class CustomUserAdmin(UserAdmin):
     add_form = CustomUserAdminForm
 
     fieldsets = (
-        (None, {'fields': ('email', 'password')}),
+        (None, {"fields": ("email", "password")}),
         (
-            _('permissions'),
+            _("permissions"),
             {
-                'fields': ('is_active', 'is_staff', 'is_superuser'),
+                "fields": ("is_active", "is_staff", "is_superuser"),
             },  # , 'groups', 'user_permissions')},
         ),
-        (_('important dates'), {'fields': ('date_joined',)}),
+        (_("important dates"), {"fields": ("date_joined",)}),
     )
 
     add_fieldsets = (
         (
             None,
             {
-                'classes': ('wide',),
-                'fields': ('email', 'password', 'is_active', 'is_staff', 'is_superuser'),
+                "classes": ("wide",),
+                "fields": (
+                    "email",
+                    "password",
+                    "is_active",
+                    "is_staff",
+                    "is_superuser",
+                ),
             },
         ),
     )
 
-    readonly_fields = ('date_joined',)
-    list_display = ('email', 'is_active', 'is_staff', 'is_superuser', 'date_joined')
-    search_fields = ('email',)
-    ordering = ('email',)
+    readonly_fields = ("date_joined",)
+    list_display = ("email", "is_active", "is_staff", "is_superuser", "date_joined")
+    search_fields = ("email",)
+    ordering = ("email",)
 
 
 @admin.register(Profile)
@@ -45,12 +51,12 @@ class ProfileAdmin(admin.ModelAdmin):
     fieldsets = (
         (
             None,
-            {'fields': ('user', 'username', 'avatar', 'banner', 'name', 'bio')},
+            {"fields": ("user", "username", "avatar", "banner", "name", "bio")},
         ),
-        (_('important dates'), {'fields': ('created_at',)}),
+        (_("important dates"), {"fields": ("created_at",)}),
     )
 
-    list_display = ('username', 'user__email', 'name', 'created_at')
-    search_fields = ('username', 'user__email')
-    ordering = ('-created_at',)
-    readonly_fields = ('created_at',)
+    list_display = ("username", "user__email", "name", "created_at")
+    search_fields = ("username", "user__email")
+    ordering = ("-created_at",)
+    readonly_fields = ("created_at",)

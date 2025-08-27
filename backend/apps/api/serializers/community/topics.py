@@ -8,7 +8,7 @@ class TopicSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Topic
-        fields = ('id', 'display_name', 'icon', 'sensitivity', 'children')
+        fields = ("id", "display_name", "icon", "sensitivity", "children")
 
     def get_children(self, obj) -> dict:
         return TopicSerializer(obj.children.all(), many=True).data

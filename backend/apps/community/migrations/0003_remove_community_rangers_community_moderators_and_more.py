@@ -7,35 +7,35 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('community', '0002_initial'),
-        ('user', '0001_initial'),
+        ("community", "0002_initial"),
+        ("user", "0001_initial"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='community',
-            name='rangers',
+            model_name="community",
+            name="rangers",
         ),
         migrations.AddField(
-            model_name='community',
-            name='moderators',
+            model_name="community",
+            name="moderators",
             field=models.ManyToManyField(
                 blank=True,
-                related_name='moded_communities',
-                to='user.profile',
-                verbose_name='moderators',
+                related_name="moded_communities",
+                to="user.profile",
+                verbose_name="moderators",
             ),
         ),
         migrations.AlterField(
-            model_name='community',
-            name='banner',
+            model_name="community",
+            name="banner",
             field=models.ImageField(
                 blank=True,
                 null=True,
                 upload_to=dynamic_filenames.FilePattern(
-                    filename_pattern='community_banner/{uuid:s}{ext}'
+                    filename_pattern="community_banner/{uuid:s}{ext}"
                 ),
-                verbose_name='banner',
+                verbose_name="banner",
             ),
         ),
     ]

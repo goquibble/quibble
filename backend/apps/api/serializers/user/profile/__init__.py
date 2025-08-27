@@ -9,13 +9,13 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = '__all__'
+        fields = "__all__"
 
 
 class ProfileBasicSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ('id', 'username', 'avatar', 'name')
+        fields = ("id", "username", "avatar", "name")
 
 
 class ProfileTotalCountSerializer(serializers.Serializer):

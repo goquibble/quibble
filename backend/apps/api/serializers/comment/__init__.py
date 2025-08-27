@@ -12,7 +12,7 @@ class CommentSerializer(BaseRatioModelSerializer):
 
     class Meta:
         model = Comment
-        fields = '__all__'
+        fields = "__all__"
 
 
 class CommentOverviewSerializer(CommentSerializer):
@@ -23,23 +23,23 @@ class CommentOverviewSerializer(CommentSerializer):
 
     class Meta(CommentSerializer.Meta):
         fields = (
-            'id',
-            'commenter',
-            'reply_to',
-            'is_op',
-            'ratio',
-            'post',
-            'created_at',
-            'content',
-            'upvotes',
-            'downvotes',
+            "id",
+            "commenter",
+            "reply_to",
+            "is_op",
+            "ratio",
+            "post",
+            "created_at",
+            "content",
+            "upvotes",
+            "downvotes",
         )
 
     def get_commenter(self, obj):
         return obj.commenter.username
 
     def get_post(self, obj):
-        request = self.context.get('request')
+        request = self.context.get("request")
 
         if post := Post.objects.filter(comments=obj).first():
             return {
@@ -74,23 +74,25 @@ class CommentCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ('path', 'content', 'post')
-        extra_kwargs = {'post': {'write_only': True}}
+        fields = ("path", "content", "post")
+        extra_kwargs = {"post": {"write_only": True}}
 
     def create(self, validated_data):
         data = {
-            'commenter': self.context['request'].user_profile,
-            'content': validated_data['content'],
-            'post': validated_data['post'],
+            "commenter": self.context["request"].user_profile,
+            "content": validated_data["content"],
+            "post": validated_data["post"],
         }
 
-        if path := validated_data.get('path'):
+        if path := validated_data.get("path"):
             parent_instance = get_object_or_404(Comment, path__match=path)
             comment_instance: Comment = Comment.objects.create_child(  # pyright: ignore
                 parent=parent_instance, **data
             )
         else:
-            comment_instance: Comment = Comment.objects.create_child(**data)  # pyright: ignore
+            comment_instance: Comment = Comment.objects.create_child(
+                **data
+            )  # pyright: ignore
 
-        comment_instance.upvotes.add(data['commenter'])
+        comment_instance.upvotes.add(data["commenter"])
         return comment_instance

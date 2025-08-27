@@ -9,36 +9,36 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('community', '0001_initial'),
-        ('user', '0001_initial'),
+        ("community", "0001_initial"),
+        ("user", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='community',
-            name='members',
+            model_name="community",
+            name="members",
             field=models.ManyToManyField(
                 blank=True,
-                related_name='joined_communities',
-                to='user.profile',
-                verbose_name='members',
+                related_name="joined_communities",
+                to="user.profile",
+                verbose_name="members",
             ),
         ),
         migrations.AddField(
-            model_name='community',
-            name='rangers',
+            model_name="community",
+            name="rangers",
             field=models.ManyToManyField(
                 blank=True,
-                related_name='ranged_communities',
-                to='user.profile',
-                verbose_name='rangers',
+                related_name="ranged_communities",
+                to="user.profile",
+                verbose_name="rangers",
             ),
         ),
         migrations.AddConstraint(
-            model_name='community',
+            model_name="community",
             constraint=models.UniqueConstraint(
-                django.db.models.functions.text.Lower('name'),
-                name='unique_community_name_case_insensitive',
+                django.db.models.functions.text.Lower("name"),
+                name="unique_community_name_case_insensitive",
             ),
         ),
     ]

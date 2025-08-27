@@ -7,49 +7,58 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('community', '0007_alter_community_type'),
+        ("community", "0007_alter_community_type"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='community',
-            name='topics',
+            model_name="community",
+            name="topics",
         ),
         migrations.CreateModel(
-            name='Topic',
+            name="Topic",
             fields=[
                 (
-                    'id',
+                    "id",
                     models.BigAutoField(
-                        auto_created=True, primary_key=True, serialize=False, verbose_name='ID'
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
                     ),
                 ),
-                ('display_name', models.CharField(max_length=255, verbose_name='Display name')),
-                ('icon', models.CharField(max_length=1, verbose_name='Icon')),
                 (
-                    'sensitivity',
+                    "display_name",
+                    models.CharField(max_length=255, verbose_name="Display name"),
+                ),
+                ("icon", models.CharField(max_length=1, verbose_name="Icon")),
+                (
+                    "sensitivity",
                     models.CharField(
-                        choices=[('SENSITIVE', 'Sensitive'), ('NON_SENSITIVE', 'Non-Sensitive')],
-                        default='NON_SENSITIVE',
+                        choices=[
+                            ("SENSITIVE", "Sensitive"),
+                            ("NON_SENSITIVE", "Non-Sensitive"),
+                        ],
+                        default="NON_SENSITIVE",
                         max_length=25,
-                        verbose_name='Sensitivity',
+                        verbose_name="Sensitivity",
                     ),
                 ),
                 (
-                    'parent',
+                    "parent",
                     models.ForeignKey(
                         blank=True,
                         null=True,
                         on_delete=django.db.models.deletion.CASCADE,
-                        related_name='children',
-                        to='community.topic',
+                        related_name="children",
+                        to="community.topic",
                     ),
                 ),
             ],
         ),
         migrations.AddField(
-            model_name='community',
-            name='topics',
-            field=models.ManyToManyField(to='community.topic', verbose_name='Topics'),
+            model_name="community",
+            name="topics",
+            field=models.ManyToManyField(to="community.topic", verbose_name="Topics"),
         ),
     ]

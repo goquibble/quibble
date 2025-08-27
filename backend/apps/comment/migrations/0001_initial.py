@@ -12,30 +12,30 @@ class Migration(migrations.Migration):
     dependencies = []
 
     operations = [
-        CreateExtension('ltree'),
+        CreateExtension("ltree"),
         migrations.CreateModel(
-            name='Comment',
+            name="Comment",
             fields=[
                 (
-                    'id',
+                    "id",
                     models.BigAutoField(
                         auto_created=True,
                         primary_key=True,
                         serialize=False,
-                        verbose_name='ID',
+                        verbose_name="ID",
                     ),
                 ),
-                ('path', django_ltree.fields.PathField(unique=True)),
+                ("path", django_ltree.fields.PathField(unique=True)),
                 (
-                    'created_at',
-                    models.DateTimeField(auto_now_add=True, verbose_name='create at'),
+                    "created_at",
+                    models.DateTimeField(auto_now_add=True, verbose_name="create at"),
                 ),
-                ('content', models.TextField(verbose_name='content')),
-                ('deleted', models.BooleanField(default=False)),
+                ("content", models.TextField(verbose_name="content")),
+                ("deleted", models.BooleanField(default=False)),
             ],
             options={
-                'verbose_name': 'Comment',
-                'verbose_name_plural': 'Comments',
+                "verbose_name": "Comment",
+                "verbose_name_plural": "Comments",
             },
         ),
     ]

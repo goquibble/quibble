@@ -20,24 +20,24 @@ from apps.community.filters import CommunityFilter
 from apps.community.models import Community
 
 
-@extend_schema(tags=['communities & topics'])
+@extend_schema(tags=["communities & topics"])
 class CommunityViewSet(viewsets.ModelViewSet):
     queryset = Community.objects.all()
     # default serializer
     serializer_class = CommunitySerializer
-    lookup_field = 'name'
+    lookup_field = "name"
     # filter
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = CommunityFilter
 
     # extra custom serializers
     serializer_classes = {
-        'list': CommunityBasicSerializer,
-        'retrieve': CommunityDetailedSerializer,
+        "list": CommunityBasicSerializer,
+        "retrieve": CommunityDetailedSerializer,
         # extra actions
-        'exists': CommunityExistsSerializer,
-        'posts': PostSerializer,
-        'highlighted_posts': PostHighlightedSerializer,
+        "exists": CommunityExistsSerializer,
+        "posts": PostSerializer,
+        "highlighted_posts": PostHighlightedSerializer,
     }
 
     def get_queryset(self) -> QuerySet[Community]:  # pyright: ignore
@@ -45,12 +45,12 @@ class CommunityViewSet(viewsets.ModelViewSet):
 
     def get_object(self) -> Community:  # pyright: ignore
         qs = self.get_queryset()
-        filter_kwargs = {f'{self.lookup_field}__iexact': self.kwargs[self.lookup_field]}
+        filter_kwargs = {f"{self.lookup_field}__iexact": self.kwargs[self.lookup_field]}
         obj = qs.filter(**filter_kwargs).first()
 
         if not obj:
             raise exceptions.NotFound(
-                f'Community with name q/{self.kwargs[self.lookup_field]} not found.'
+                f"Community with name q/{self.kwargs[self.lookup_field]} not found."
             )
         return obj
 
@@ -65,8 +65,8 @@ class CommunityViewSet(viewsets.ModelViewSet):
 
         community = self.get_queryset().filter(name__iexact=name).first()
         if community is not None:
-            res['exists'] = True
-            res['name'] = community.name
+            res["exists"] = True
+            res["name"] = community.name
 
         return response.Response(res)
 
@@ -74,15 +74,17 @@ class CommunityViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=[HTTPMethod.GET])
     def posts(self, request, name=None):
         posts = self.get_object().posts.all()  # pyright: ignore
-        serializer = PostSerializer(posts, many=True, context={'request': request})
+        serializer = PostSerializer(posts, many=True, context={"request": request})
 
         return response.Response(serializer.data)
 
     @extend_schema(responses=PostHighlightedSerializer(many=True))
-    @action(detail=True, methods=[HTTPMethod.GET], url_path='highlighted-posts')
+    @action(detail=True, methods=[HTTPMethod.GET], url_path="highlighted-posts")
     def highlighted_posts(self, request, name=None):
         posts = self.get_object().posts.filter(highlighted=True)  # pyright: ignore
-        serializer = PostHighlightedSerializer(posts, many=True, context={'request': request})
+        serializer = PostHighlightedSerializer(
+            posts, many=True, context={"request": request}
+        )
 
         return response.Response(serializer.data)
 

@@ -34,7 +34,7 @@ class ProfileViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = ProfileSerializer
     filter_backends = (filters.SearchFilter,)
     search_fields = ("username",)
-    lookup_field = 'username'
+    lookup_field = "username"
 
     serializer_classes = {
         "overview": OverviewSerializer,
@@ -69,11 +69,15 @@ class ProfileViewSet(viewsets.ReadOnlyModelViewSet):
         """Returns a mixed list of posts and comments by the user, ordered by date."""
         profile = self.get_object()
         posts = profile.posts.all().annotate(content_type=Value("post", CharField()))
-        comments = profile.comments.all().annotate(content_type=Value("comment", CharField()))
+        comments = profile.comments.all().annotate(
+            content_type=Value("comment", CharField())
+        )
 
-        combined_data = sorted(chain(posts, comments), key=lambda obj: obj.created_at, reverse=True)
+        combined_data = sorted(
+            chain(posts, comments), key=lambda obj: obj.created_at, reverse=True
+        )
         serialized_data = self.get_serializer(
-            combined_data, context={'request': request}, many=True
+            combined_data, context={"request": request}, many=True
         ).data
         return Response(serialized_data)
 
@@ -83,7 +87,9 @@ class ProfileViewSet(viewsets.ReadOnlyModelViewSet):
         """Returns a list of posts by the user, ordered by date."""
         profile = self.get_object()
         posts = profile.posts.all().order_by("-created_at")
-        serialized_data = self.get_serializer(posts, context={"request": request}, many=True).data
+        serialized_data = self.get_serializer(
+            posts, context={"request": request}, many=True
+        ).data
         return Response(serialized_data)
 
     @extend_schema(responses=CommentOverviewSerializer(many=True))
@@ -102,12 +108,16 @@ class ProfileViewSet(viewsets.ReadOnlyModelViewSet):
     def upvoted(self, request, username=None):
         """Returns a mixed list of upvoted posts and comments by the user, ordered by date."""
         profile = self.get_object()
-        posts = profile.upvoted_posts.all().annotate(content_type=Value("post", CharField()))
+        posts = profile.upvoted_posts.all().annotate(
+            content_type=Value("post", CharField())
+        )
         comments = profile.upvoted_comments.all().annotate(
             content_type=Value("comment", CharField())
         )
 
-        combined_data = sorted(chain(posts, comments), key=lambda obj: obj.created_at, reverse=True)
+        combined_data = sorted(
+            chain(posts, comments), key=lambda obj: obj.created_at, reverse=True
+        )
         serialized_data = self.get_serializer(
             combined_data, context={"request": request}, many=True
         ).data
@@ -118,12 +128,16 @@ class ProfileViewSet(viewsets.ReadOnlyModelViewSet):
     def downvoted(self, request, username=None):
         """Returns a mixed list of downvoted posts and comments by the user, ordered by date."""
         profile = self.get_object()
-        posts = profile.downvoted_posts.all().annotate(content_type=Value("post", CharField()))
+        posts = profile.downvoted_posts.all().annotate(
+            content_type=Value("post", CharField())
+        )
         comments = profile.downvoted_comments.all().annotate(
             content_type=Value("comment", CharField())
         )
 
-        combined_data = sorted(chain(posts, comments), key=lambda obj: obj.created_at, reverse=True)
+        combined_data = sorted(
+            chain(posts, comments), key=lambda obj: obj.created_at, reverse=True
+        )
         serialized_data = self.get_serializer(
             combined_data, context={"request": request}, many=True
         ).data
@@ -175,7 +189,7 @@ class MyProfilesViewSet(viewsets.ModelViewSet):
         return response
 
     @extend_schema(responses=ProfileTotalCountSerializer)
-    @action(detail=False, methods=[HTTPMethod.GET], url_path='total-count')
+    @action(detail=False, methods=[HTTPMethod.GET], url_path="total-count")
     def total_count(self, request):
         count = request.user.profiles.all().count()
-        return Response({'total_count': count})
+        return Response({"total_count": count})
