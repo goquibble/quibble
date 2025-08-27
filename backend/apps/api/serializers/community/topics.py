@@ -1,5 +1,6 @@
-from apps.community.models import Topic
 from rest_framework import serializers
+
+from apps.community.models import Topic
 
 
 class TopicSerializer(serializers.ModelSerializer):

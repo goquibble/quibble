@@ -1,6 +1,7 @@
 import pytest
-from apps.user.models import Profile, User
 from rest_framework.authtoken.models import Token
+
+from apps.user.models import Profile, User
 
 
 @pytest.fixture

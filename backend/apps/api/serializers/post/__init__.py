@@ -1,10 +1,11 @@
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import extend_schema_field
+from rest_framework import serializers
+
 from apps.api.bases.serializers import BaseRatioModelSerializer
 from apps.api.serializers.community import CommunityBasicSerializer
 from apps.api.serializers.user.profile import ProfileBasicSerializer
 from apps.post.models import Post
-from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import extend_schema_field
-from rest_framework import serializers
 
 
 class PostSerializer(BaseRatioModelSerializer):

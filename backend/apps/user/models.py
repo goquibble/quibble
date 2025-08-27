@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from dynamic_filenames import FilePattern
+
 from shared.mixins.models.avatar import AvatarMixin
 from shared.mixins.models.created_at import CreatedAtMixin
 from shared.validators.unique_name import UniqueNameValidator

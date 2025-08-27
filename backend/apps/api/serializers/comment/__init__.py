@@ -1,9 +1,10 @@
+from django.shortcuts import get_object_or_404
+from rest_framework import serializers
+
 from apps.api.bases.serializers import BaseRatioModelSerializer
 from apps.api.serializers.user.profile import ProfileBasicSerializer
 from apps.comment.models import Comment
 from apps.post.models import Post
-from django.shortcuts import get_object_or_404
-from rest_framework import serializers
 
 
 class CommentSerializer(BaseRatioModelSerializer):

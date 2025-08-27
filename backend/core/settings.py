@@ -12,7 +12,6 @@ load_dotenv(env_file)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
@@ -22,15 +21,10 @@ SECRET_KEY = os.getenv("SECRET_KEY", "ilovequibble")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "True").lower() == "true"
 
-ALLOWED_HOSTS = ["localhost"]
-
-if hosts := os.getenv("DJANGO_ALLOWED_HOSTS"):
-    host = hosts.split(" ")
-    ALLOWED_HOSTS += host
-
+_env_hosts = os.getenv("DJANGO_ALLOWED_HOSTS", "").split()
+ALLOWED_HOSTS = ["localhost", *_env_hosts]
 
 # Application definition
-
 DEFAULT_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -85,12 +79,11 @@ INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_APPS + SELF_APPS
 
 SITE_ID = 1
 
-DEFAULT_RENDERER_CLASSES = ("rest_framework.renderers.JSONRenderer",)
-
+_default_renderer_classes = ("rest_framework.renderers.JSONRenderer",)
 if DEBUG:
-    DEFAULT_RENDERER_CLASSES = DEFAULT_RENDERER_CLASSES + (
-        "rest_framework.renderers.BrowsableAPIRenderer",
-    )
+    _default_renderer_classes += ("rest_framework.renderers.BrowsableAPIRenderer",)
+
+DEFAULT_RENDERER_CLASSES = _default_renderer_classes
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
@@ -318,28 +311,19 @@ CSRF_COOKIE_SAMESITE = "None" if not DEBUG else "Lax"
 CSRF_COOKIE_DOMAIN = os.getenv("DJANGO_COOKIE_DOMAIN")
 
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = []
-CSRF_TRUSTED_ORIGINS = []
 
-if origins := os.getenv("DJANGO_ALLOWED_ORIGINS"):
-    origin = origins.split(" ")
-    CORS_ALLOWED_ORIGINS += origin
-    CSRF_TRUSTED_ORIGINS += origin
+_origins = os.getenv("DJANGO_ALLOWED_ORIGINS", "").split()
+CORS_ALLOWED_ORIGINS = _origins
+CSRF_TRUSTED_ORIGINS = _origins
 
 # max no:of profiles a user can create
 PROFILE_LIMIT = 3
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
-
-STATIC_URL = "static/"
 
 # Media files ( Images, Videos )
 # https://docs.djangoproject.com/en/4.2/howto/static-files/#serving-uploaded-files-in-development
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
-
 
 # storage and cloudinary config
 # https://pypi.org/project/django-cloudinary-storage/

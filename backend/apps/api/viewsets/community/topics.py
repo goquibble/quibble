@@ -1,7 +1,8 @@
-from apps.api.serializers.community.topics import TopicSerializer
-from apps.community.models import Topic
 from drf_spectacular.utils import extend_schema
 from rest_framework import viewsets
+
+from apps.api.serializers.community.topics import TopicSerializer
+from apps.community.models import Topic
 
 
 @extend_schema(tags=["communities & topics"])

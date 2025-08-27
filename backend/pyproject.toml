@@ -65,5 +65,36 @@ dev = [
     "pytest-django>=4.11.1",
 ]
 
+[tool.poe.tasks]
+# run dev server
+dev = "python ./manage.py runserver"
+# migrations
+sync = "python ./manage.py migrate"
+mksync = "python ./manage.py makemigrations"
+createsuperuser = "python ./manage.py createsuperuser"
+# static files
+collectstatic = "python ./manage.py collectstatic --no-input"
+# test and coverage
+test = "pytest --cov-config=./.coveragerc --cov=./ ./tests/"
+# django extentions
+graph = "python ./manage.py graph_models --pydot -a --hide-edge-labels -o graph_models.png"
+reset_db = "python ./manage.py reset_db"
+# sort imports
+isort = "isort ./"
+# format codes
+black = "black ./"
+# run format with isort and black
+format = ["isort", "black"]
+# lint codes
+lint = "flake8"
+
+[tool.isort]
+profile = "black"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "core.settings"
+pythonpath = ["."]
+python_files = ["test_*.py"]
+
 [tool.pyright]
 reportUnusedCallResult = "none"

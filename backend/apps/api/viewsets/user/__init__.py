@@ -1,6 +1,13 @@
 from http import HTTPMethod
 from itertools import chain
 
+from django.conf import settings
+from django.db.models import CharField, QuerySet, Value
+from drf_spectacular.utils import extend_schema
+from rest_framework import exceptions, filters, permissions, viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
+
 from apps.api.serializers.comment import CommentOverviewSerializer
 from apps.api.serializers.post import PostSerializer
 from apps.api.serializers.user.profile import (
@@ -12,12 +19,6 @@ from apps.api.serializers.user.profile.overview import OverviewSerializer
 from apps.api.serializers.user.profile.upvoted import UpvotedSerializer
 from apps.api.utils import unset_jwt_cookies_with_profile_id
 from apps.user.models import Profile
-from django.conf import settings
-from django.db.models import CharField, QuerySet, Value
-from drf_spectacular.utils import extend_schema
-from rest_framework import exceptions, filters, permissions, viewsets
-from rest_framework.decorators import action
-from rest_framework.response import Response
 
 
 @extend_schema(tags=["user & profiles"])

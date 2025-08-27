@@ -1,14 +1,15 @@
 import os
 
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
-from apps.user.models import Profile
-from core.clients import CustomOAuth2Client
 from dj_rest_auth.registration.views import SocialLoginView
 from dj_rest_auth.views import LogoutView as RestAuthLogoutAPIView
 from django.conf import settings
 from django.utils import timezone
 from rest_framework import generics, permissions, views
 from rest_framework.response import Response
+
+from apps.user.models import Profile
+from core.clients import CustomOAuth2Client
 
 
 class SelectProfileAPIView(views.APIView):

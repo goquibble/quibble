@@ -2,9 +2,10 @@
 
 import django.db.models.deletion
 import dynamic_filenames
-import shared.validators.unique_name
 from django.conf import settings
 from django.db import migrations, models
+
+import shared.validators.unique_name
 
 
 class Migration(migrations.Migration):

@@ -1,8 +1,9 @@
 from typing import Optional, Union
 
-from apps.user.models import Profile, User
 from django.contrib.auth.models import AnonymousUser
 from django.http import HttpRequest as DjangoHttpRequest
+
+from apps.user.models import Profile, User
 
 
 class HttpRequest(DjangoHttpRequest):
