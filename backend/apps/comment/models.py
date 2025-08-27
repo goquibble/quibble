@@ -14,25 +14,25 @@ class Comment(CreatedAtMixin, TreeModel):
     post = models.ForeignKey(
         Post,
         on_delete=models.CASCADE,
-        related_name='comments',
-        verbose_name=_('Post'),
+        related_name="comments",
+        verbose_name=_("Post"),
     )
     commenter = models.ForeignKey(
         Profile,
         on_delete=models.SET_NULL,
         null=True,
-        verbose_name=_('Commenter'),
-        related_name='comments',
+        verbose_name=_("Commenter"),
+        related_name="comments",
     )
-    content = models.TextField(_('content'))
+    content = models.TextField(_("content"))
     upvotes = models.ManyToManyField(
-        Profile, blank=True, verbose_name=_('Upvotes'), related_name='upvoted_comments'
+        Profile, blank=True, verbose_name=_("Upvotes"), related_name="upvoted_comments"
     )
     downvotes = models.ManyToManyField(
         Profile,
         blank=True,
-        verbose_name=_('Downvotes'),
-        related_name='downvoted_comments',
+        verbose_name=_("Downvotes"),
+        related_name="downvoted_comments",
     )
     # flag
     deleted = models.BooleanField(default=False)
@@ -47,6 +47,6 @@ class Comment(CreatedAtMixin, TreeModel):
         return f"Comment by {self.commenter}"
 
     class Meta:  # pyright: ignore
-        indexes = [idx.GistIndex(fields=['path'])]
-        verbose_name = _('Comment')
-        verbose_name_plural = _('Comments')
+        indexes = [idx.GistIndex(fields=["path"])]
+        verbose_name = _("Comment")
+        verbose_name_plural = _("Comments")

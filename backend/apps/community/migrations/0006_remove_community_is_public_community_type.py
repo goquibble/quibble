@@ -6,24 +6,24 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('community', '0005_community_nsfw_community_topics'),
+        ("community", "0005_community_nsfw_community_topics"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='community',
-            name='is_public',
+            model_name="community",
+            name="is_public",
         ),
         migrations.AddField(
-            model_name='community',
-            name='type',
+            model_name="community",
+            name="type",
             field=models.CharField(
                 choices=[
-                    ('PUBLIC', 'Public'),
-                    ('RESTRICTED', 'Restricted'),
-                    ('PRIVATE', 'Private'),
+                    ("PUBLIC", "Public"),
+                    ("RESTRICTED", "Restricted"),
+                    ("PRIVATE", "Private"),
                 ],
-                default='PUBLIC',
+                default="PUBLIC",
             ),
         ),
     ]

@@ -10,46 +10,46 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('comment', '0001_initial'),
-        ('user', '0001_initial'),
+        ("comment", "0001_initial"),
+        ("user", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='comment',
-            name='commenter',
+            model_name="comment",
+            name="commenter",
             field=models.ForeignKey(
                 null=True,
                 on_delete=django.db.models.deletion.SET_NULL,
-                related_name='comments',
-                to='user.profile',
-                verbose_name='commenter',
+                related_name="comments",
+                to="user.profile",
+                verbose_name="commenter",
             ),
         ),
         migrations.AddField(
-            model_name='comment',
-            name='downvotes',
+            model_name="comment",
+            name="downvotes",
             field=models.ManyToManyField(
                 blank=True,
-                related_name='downvoted_comments',
-                to='user.profile',
-                verbose_name='downvotes',
+                related_name="downvoted_comments",
+                to="user.profile",
+                verbose_name="downvotes",
             ),
         ),
         migrations.AddField(
-            model_name='comment',
-            name='upvotes',
+            model_name="comment",
+            name="upvotes",
             field=models.ManyToManyField(
                 blank=True,
-                related_name='upvoted_comments',
-                to='user.profile',
-                verbose_name='upvotes',
+                related_name="upvoted_comments",
+                to="user.profile",
+                verbose_name="upvotes",
             ),
         ),
         migrations.AddIndex(
-            model_name='comment',
+            model_name="comment",
             index=django.contrib.postgres.indexes.GistIndex(
-                fields=['path'], name='comment_com_path_d1388c_gist'
+                fields=["path"], name="comment_com_path_d1388c_gist"
             ),
         ),
     ]

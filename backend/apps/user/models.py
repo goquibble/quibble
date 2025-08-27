@@ -11,8 +11,8 @@ from .managers import CustomUserManager
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(_('Email address'), unique=True)
-    date_joined = models.DateTimeField(_('Date joined'), auto_now_add=True)
+    email = models.EmailField(_("Email address"), unique=True)
+    date_joined = models.DateTimeField(_("Date joined"), auto_now_add=True)
     is_staff = models.BooleanField(
         _("Staff status"),
         default=False,
@@ -28,23 +28,23 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     objects = CustomUserManager()
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
     class Meta:  # pyright: ignore
-        verbose_name = _('User')
-        verbose_name_plural = _('Users')
-        ordering = ['-date_joined']
+        verbose_name = _("User")
+        verbose_name_plural = _("Users")
+        ordering = ["-date_joined"]
 
 
 class Profile(CreatedAtMixin, AvatarMixin):
     username_validator = UniqueNameValidator()
 
     user = models.ForeignKey(
-        User, related_name='profiles', on_delete=models.CASCADE, verbose_name=_('User')
+        User, related_name="profiles", on_delete=models.CASCADE, verbose_name=_("User")
     )
     username = models.CharField(
-        _('Username'),
+        _("Username"),
         unique=True,
         max_length=25,
         validators=[username_validator],
@@ -53,10 +53,10 @@ class Profile(CreatedAtMixin, AvatarMixin):
             "unique": _("A profile with that username already exists."),
         },
     )
-    name = models.CharField(_('Name'), max_length=255, blank=True, null=True)
-    bio = models.TextField(_('Bio'), blank=True, null=True)
+    name = models.CharField(_("Name"), max_length=255, blank=True, null=True)
+    bio = models.TextField(_("Bio"), blank=True, null=True)
     banner = models.ImageField(
-        _('Banner'),
+        _("Banner"),
         upload_to=FilePattern(filename_pattern="banner/{uuid:s}{ext}"),
         blank=True,
         null=True,
@@ -66,6 +66,6 @@ class Profile(CreatedAtMixin, AvatarMixin):
         return f"u/{self.username}"
 
     class Meta:  # pyright: ignore
-        verbose_name = _('Profile')
-        verbose_name_plural = _('Profiles')
-        ordering = ['-created_at']
+        verbose_name = _("Profile")
+        verbose_name_plural = _("Profiles")
+        ordering = ["-created_at"]

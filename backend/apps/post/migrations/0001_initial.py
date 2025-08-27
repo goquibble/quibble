@@ -11,73 +11,79 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('comment', '0001_initial'),
-        ('community', '0001_initial'),
+        ("comment", "0001_initial"),
+        ("community", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Post',
+            name="Post",
             fields=[
                 (
-                    'created_at',
-                    models.DateTimeField(auto_now_add=True, verbose_name='create at'),
+                    "created_at",
+                    models.DateTimeField(auto_now_add=True, verbose_name="create at"),
                 ),
-                ('is_public', models.BooleanField(default=True, verbose_name='is public')),
                 (
-                    'id',
+                    "is_public",
+                    models.BooleanField(default=True, verbose_name="is public"),
+                ),
+                (
+                    "id",
                     shortuuid.django_fields.ShortUUIDField(
-                        alphabet='abcdefghijklmnopqrstuvwxyz0123456789',
+                        alphabet="abcdefghijklmnopqrstuvwxyz0123456789",
                         editable=False,
                         length=7,
                         max_length=7,
-                        prefix='',
+                        prefix="",
                         primary_key=True,
                         serialize=False,
-                        verbose_name='id',
+                        verbose_name="id",
                     ),
                 ),
                 (
-                    'highlighted',
-                    models.BooleanField(default=False, verbose_name='highlighted'),
+                    "highlighted",
+                    models.BooleanField(default=False, verbose_name="highlighted"),
                 ),
-                ('title', models.CharField(max_length=255, verbose_name='title')),
-                ('slug', models.SlugField(blank=True, max_length=25, verbose_name='slug')),
-                ('content', models.TextField(blank=True, verbose_name='content')),
+                ("title", models.CharField(max_length=255, verbose_name="title")),
                 (
-                    'cover',
+                    "slug",
+                    models.SlugField(blank=True, max_length=25, verbose_name="slug"),
+                ),
+                ("content", models.TextField(blank=True, verbose_name="content")),
+                (
+                    "cover",
                     models.ImageField(
                         blank=True,
                         null=True,
                         upload_to=dynamic_filenames.FilePattern(
-                            filename_pattern='cover/{uuid:s}{ext}'
+                            filename_pattern="cover/{uuid:s}{ext}"
                         ),
-                        verbose_name='cover',
+                        verbose_name="cover",
                     ),
                 ),
                 (
-                    'comments',
+                    "comments",
                     models.ManyToManyField(
                         blank=True,
-                        related_name='comments',
-                        to='comment.comment',
-                        verbose_name='comments',
+                        related_name="comments",
+                        to="comment.comment",
+                        verbose_name="comments",
                     ),
                 ),
                 (
-                    'community',
+                    "community",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        related_name='posts',
-                        to='community.community',
-                        verbose_name='community',
+                        related_name="posts",
+                        to="community.community",
+                        verbose_name="community",
                     ),
                 ),
             ],
             options={
-                'verbose_name': 'Post',
-                'verbose_name_plural': 'Posts',
-                'ordering': ['-created_at'],
+                "verbose_name": "Post",
+                "verbose_name_plural": "Posts",
+                "ordering": ["-created_at"],
             },
         ),
     ]

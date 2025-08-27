@@ -30,8 +30,8 @@ class ReactionSerializer(serializers.Serializer):
     action = serializers.CharField()
 
     def validate_action(self, value):
-        if value not in ['upvote', 'downvote']:
-            raise serializers.ValidationError(f'Invalid action: {value}')
+        if value not in ["upvote", "downvote"]:
+            raise serializers.ValidationError(f"Invalid action: {value}")
         return value
 
 
@@ -45,6 +45,6 @@ class BaseRatioModelSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(OpenApiTypes.INT)
     def get_ratio(self, obj):
-        if hasattr(obj, 'ratio'):
+        if hasattr(obj, "ratio"):
             return obj.ratio
         return 0  # default value for new instances

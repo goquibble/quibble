@@ -8,7 +8,9 @@ class EmailAuthBackend(ModelBackend):
     Custom Auth backend with email instead username
     """
 
-    def authenticate(self, request, email=None, password=None, **kwargs):  # pyright: ignore
+    def authenticate(
+        self, request, email=None, password=None, **kwargs
+    ):  # pyright: ignore
         try:
             user = User.objects.get(email=email)
             if password and user.check_password(password):

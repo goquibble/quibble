@@ -17,9 +17,9 @@ class PostViewSet(ReactionMixin, viewsets.ModelViewSet):
     serializer_class = PostSerializer
 
     serializer_mapping = {
-        'create': PostCreateSerializer,
-        'comments': CommentCreateSerializer,
-        'reaction': ReactionSerializer,
+        "create": PostCreateSerializer,
+        "comments": CommentCreateSerializer,
+        "reaction": ReactionSerializer,
     }
 
     def get_serializer_class(self):  # pyright: ignore
@@ -27,15 +27,15 @@ class PostViewSet(ReactionMixin, viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        sort_param = self.request.query_params.get('sort')
+        sort_param = self.request.query_params.get("sort")
 
-        if sort_param == 'hot':
+        if sort_param == "hot":
             return Post.objects.hot()
-        elif sort_param == 'best':
+        elif sort_param == "best":
             return Post.objects.best()
-        elif sort_param == 'new':
+        elif sort_param == "new":
             return Post.objects.new()
-        elif sort_param == 'top':
+        elif sort_param == "top":
             return Post.objects.top()
 
         return queryset
@@ -43,11 +43,11 @@ class PostViewSet(ReactionMixin, viewsets.ModelViewSet):
     @extend_schema(
         parameters=[
             OpenApiParameter(
-                name='sort',
+                name="sort",
                 type=OpenApiTypes.STR,
                 location=OpenApiParameter.QUERY,
-                description='Sort posts by: hot, best, new, top',
-                enum=['hot', 'best', 'new', 'top'],
+                description="Sort posts by: hot, best, new, top",
+                enum=["hot", "best", "new", "top"],
                 required=False,
             )
         ]
@@ -57,21 +57,23 @@ class PostViewSet(ReactionMixin, viewsets.ModelViewSet):
 
     @extend_schema(responses=PostSerializer)
     def create(self, request):
-        context = {'request': request}
+        context = {"request": request}
 
         serializer = PostCreateSerializer(data=request.data, context=context)
         serializer.is_valid(raise_exception=True)
         post_instance = serializer.save()
 
         response_serializer = PostSerializer(post_instance, context=context)
-        return response.Response(response_serializer.data, status=status.HTTP_201_CREATED)
+        return response.Response(
+            response_serializer.data, status=status.HTTP_201_CREATED
+        )
 
     @extend_schema(
-        methods=['GET'],
+        methods=["GET"],
         responses=CommentSerializer(many=True),
     )
     @extend_schema(
-        methods=['POST'],
+        methods=["POST"],
         responses=CommentSerializer,
     )
     @action(detail=True, methods=[HTTPMethod.GET, HTTPMethod.POST])
@@ -81,7 +83,7 @@ class PostViewSet(ReactionMixin, viewsets.ModelViewSet):
 
         post_instance = self.get_object()
 
-        context = {'request': request}
+        context = {"request": request}
 
         if request.method == HTTPMethod.GET:
             comments = post_instance.comments.all()  # pyright: ignore
@@ -90,11 +92,13 @@ class PostViewSet(ReactionMixin, viewsets.ModelViewSet):
             return response.Response(serializer.data, status=status.HTTP_200_OK)
 
         # POST request
-        request.data['post'] = post_instance.id
+        request.data["post"] = post_instance.id
         serializer = CommentCreateSerializer(data=request.data, context=context)
         serializer.is_valid(raise_exception=True)
 
         comment_instance = serializer.save()
 
         response_serializer = CommentSerializer(comment_instance, context=context)
-        return response.Response(response_serializer.data, status=status.HTTP_201_CREATED)
+        return response.Response(
+            response_serializer.data, status=status.HTTP_201_CREATED
+        )

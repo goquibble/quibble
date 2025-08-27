@@ -11,85 +11,93 @@ import shared.validators.unique_name
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('user', '0001_initial'),
+        ("user", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='profile',
-            name='avatar',
+            model_name="profile",
+            name="avatar",
             field=models.ImageField(
                 blank=True,
                 null=True,
-                upload_to=dynamic_filenames.FilePattern(filename_pattern='avatar/{uuid:s}{ext}'),
-                verbose_name='Avatar',
+                upload_to=dynamic_filenames.FilePattern(
+                    filename_pattern="avatar/{uuid:s}{ext}"
+                ),
+                verbose_name="Avatar",
             ),
         ),
         migrations.AlterField(
-            model_name='profile',
-            name='created_at',
-            field=models.DateTimeField(auto_now_add=True, verbose_name='Create at'),
+            model_name="profile",
+            name="created_at",
+            field=models.DateTimeField(auto_now_add=True, verbose_name="Create at"),
         ),
         migrations.AlterField(
-            model_name='profile',
-            name='first_name',
+            model_name="profile",
+            name="first_name",
             field=models.CharField(
-                blank=True, max_length=255, null=True, verbose_name='First name'
+                blank=True, max_length=255, null=True, verbose_name="First name"
             ),
         ),
         migrations.AlterField(
-            model_name='profile',
-            name='last_name',
-            field=models.CharField(blank=True, max_length=255, null=True, verbose_name='Last name'),
+            model_name="profile",
+            name="last_name",
+            field=models.CharField(
+                blank=True, max_length=255, null=True, verbose_name="Last name"
+            ),
         ),
         migrations.AlterField(
-            model_name='profile',
-            name='user',
+            model_name="profile",
+            name="user",
             field=models.ForeignKey(
                 on_delete=django.db.models.deletion.CASCADE,
-                related_name='profiles',
+                related_name="profiles",
                 to=settings.AUTH_USER_MODEL,
-                verbose_name='User',
+                verbose_name="User",
             ),
         ),
         migrations.AlterField(
-            model_name='profile',
-            name='username',
+            model_name="profile",
+            name="username",
             field=models.CharField(
-                error_messages={'unique': 'A profile with that username already exists.'},
-                help_text='Required. 25 characters or fewer. Letters, digits and ./_ only.',
+                error_messages={
+                    "unique": "A profile with that username already exists."
+                },
+                help_text="Required. 25 characters or fewer. Letters, digits and ./_ only.",
                 max_length=25,
                 unique=True,
                 validators=[shared.validators.unique_name.UniqueNameValidator()],
-                verbose_name='Username',
+                verbose_name="Username",
             ),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='date_joined',
-            field=models.DateTimeField(auto_now_add=True, verbose_name='Date joined'),
+            model_name="user",
+            name="date_joined",
+            field=models.DateTimeField(auto_now_add=True, verbose_name="Date joined"),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='email',
-            field=models.EmailField(max_length=254, unique=True, verbose_name='Email address'),
+            model_name="user",
+            name="email",
+            field=models.EmailField(
+                max_length=254, unique=True, verbose_name="Email address"
+            ),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='is_active',
+            model_name="user",
+            name="is_active",
             field=models.BooleanField(
                 default=True,
-                help_text='Designates whether this user should be treated as active. Unselect this instead of deleting accounts.',
-                verbose_name='Active',
+                help_text="Designates whether this user should be treated as active. Unselect this instead of deleting accounts.",
+                verbose_name="Active",
             ),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='is_staff',
+            model_name="user",
+            name="is_staff",
             field=models.BooleanField(
                 default=False,
-                help_text='Designates whether the user can log into this admin site.',
-                verbose_name='Staff status',
+                help_text="Designates whether the user can log into this admin site.",
+                verbose_name="Staff status",
             ),
         ),
     ]

@@ -7,7 +7,7 @@ class ShortUUIDMixin(models.Model):
     """Adds an `id` field as primary key and a shortuuid generated one."""
 
     id = ShortUUIDField(  # pyright: ignore
-        _('Id'),
+        _("Id"),
         editable=False,
         length=7,
         alphabet="abcdefghijklmnopqrstuvwxyz0123456789",

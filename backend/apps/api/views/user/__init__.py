@@ -8,49 +8,53 @@ from apps.api.serializers.user.profile import ProfileSerializer
 from apps.api.utils import unset_jwt_cookies_with_profile_id
 
 
-@extend_schema(tags=['user & profiles'])
+@extend_schema(tags=["user & profiles"])
 class MeAPIView(views.APIView):
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = UserSerializer
 
     def get(self, request):
-        serializer = self.serializer_class(request.user, context={'request': request})
+        serializer = self.serializer_class(request.user, context={"request": request})
         return Response(serializer.data)
 
     def delete(self, request):
         try:
             request.user.delete()
             response = Response(
-                {'detail': 'User account deleted successfully!'}, status=status.HTTP_204_NO_CONTENT
+                {"detail": "User account deleted successfully!"},
+                status=status.HTTP_204_NO_CONTENT,
             )
             unset_jwt_cookies_with_profile_id(response)
 
             return response
         except Exception as e:
-            raise ValidationError(f'An unexpected error occured: {str(e)}')
+            raise ValidationError(f"An unexpected error occured: {str(e)}")
 
 
-@extend_schema(tags=['user & profiles'])
+@extend_schema(tags=["user & profiles"])
 class MeProfileAPIView(views.APIView):
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = ProfileSerializer
 
     def get(self, request):
-        serializer = self.serializer_class(request.user_profile, context={'request': request})
+        serializer = self.serializer_class(
+            request.user_profile, context={"request": request}
+        )
         return Response(serializer.data)
 
     def delete(self, request):
         user_profile = request.user_profile
         if user_profile is None:
-            raise ValidationError('No profile is selected for deletion.')
+            raise ValidationError("No profile is selected for deletion.")
 
         try:
             user_profile.delete()
             response = Response(
-                {'detail': 'Profile deleted successfully!'}, status=status.HTTP_204_NO_CONTENT
+                {"detail": "Profile deleted successfully!"},
+                status=status.HTTP_204_NO_CONTENT,
             )
             unset_jwt_cookies_with_profile_id(response)
 
             return response
         except Exception as e:
-            raise ValidationError(f'An unexpected error occured: {str(e)}')
+            raise ValidationError(f"An unexpected error occured: {str(e)}")

@@ -22,13 +22,13 @@ class SelectProfileAPIView(views.APIView):
 
         response = Response({})
         response.set_cookie(
-            'profile-id',
+            "profile-id",
             value=str(profile.pk),
             expires=timezone.now() + timezone.timedelta(days=7),
             httponly=True,
             secure=False if settings.DEBUG else True,
-            samesite='Lax',
-            domain=os.getenv('DJANGO_COOKIE_DOMAIN'),
+            samesite="Lax",
+            domain=os.getenv("DJANGO_COOKIE_DOMAIN"),
         )
 
         return response
@@ -43,12 +43,12 @@ class LogoutAPIView(RestAuthLogoutAPIView):
     """
 
     # POST requests only
-    http_method_names = ['post']
+    http_method_names = ["post"]
 
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
         # clear profile-id cookie
-        response.delete_cookie('profile-id')
+        response.delete_cookie("profile-id")
 
         return response
 

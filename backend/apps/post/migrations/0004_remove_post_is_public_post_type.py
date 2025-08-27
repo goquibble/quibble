@@ -6,25 +6,25 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('post', '0003_alter_post_comments_alter_post_community_and_more'),
+        ("post", "0003_alter_post_comments_alter_post_community_and_more"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='post',
-            name='is_public',
+            model_name="post",
+            name="is_public",
         ),
         migrations.AddField(
-            model_name='post',
-            name='type',
+            model_name="post",
+            name="type",
             field=models.CharField(
                 choices=[
-                    ('PUBLIC', 'Public'),
-                    ('RESTRICTED', 'Restricted'),
-                    ('PRIVATE', 'Private'),
+                    ("PUBLIC", "Public"),
+                    ("RESTRICTED", "Restricted"),
+                    ("PRIVATE", "Private"),
                 ],
-                default='PUBLIC',
-                verbose_name='Type',
+                default="PUBLIC",
+                verbose_name="Type",
             ),
         ),
     ]

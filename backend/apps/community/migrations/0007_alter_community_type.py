@@ -6,21 +6,21 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('community', '0006_remove_community_is_public_community_type'),
+        ("community", "0006_remove_community_is_public_community_type"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='community',
-            name='type',
+            model_name="community",
+            name="type",
             field=models.CharField(
                 choices=[
-                    ('PUBLIC', 'Public'),
-                    ('RESTRICTED', 'Restricted'),
-                    ('PRIVATE', 'Private'),
+                    ("PUBLIC", "Public"),
+                    ("RESTRICTED", "Restricted"),
+                    ("PRIVATE", "Private"),
                 ],
-                default='PUBLIC',
-                verbose_name='Type',
+                default="PUBLIC",
+                verbose_name="Type",
             ),
         ),
     ]

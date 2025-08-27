@@ -10,14 +10,14 @@ from .viewsets.post import PostViewSet
 from .viewsets.user import MyProfilesViewSet, ProfileViewSet
 
 main_router = routers.DefaultRouter()
-main_router.register(r'comments', CommentViewSet, basename='comments')
-main_router.register(r'posts', PostViewSet, basename='posts')
-main_router.register(r'q/communities', CommunityViewSet, basename='communities')
-main_router.register(r'q/topics', TopicViewSet, basename='topics')
+main_router.register(r"comments", CommentViewSet, basename="comments")
+main_router.register(r"posts", PostViewSet, basename="posts")
+main_router.register(r"q/communities", CommunityViewSet, basename="communities")
+main_router.register(r"q/topics", TopicViewSet, basename="topics")
 # user routes
 user_router = routers.DefaultRouter()
-user_router.register(r'u/profiles', ProfileViewSet, basename='profiles')
-user_router.register(r'u/me/profiles', MyProfilesViewSet, basename='me-profiles')
+user_router.register(r"u/profiles", ProfileViewSet, basename="profiles")
+user_router.register(r"u/me/profiles", MyProfilesViewSet, basename="me-profiles")
 
 # https://stackoverflow.com/a/65186703
 main_router.registry.extend(user_router.registry)

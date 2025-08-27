@@ -40,10 +40,10 @@ class RegisterSerializer(RestAuthRegisterSerializer):
                     == allauth_account_settings.EmailVerificationMethod.MANDATORY
                 ):
                     raise serializers.ValidationError(
-                        _('This email is already in use but has not been verified.')
+                        _("This email is already in use but has not been verified.")
                     )
                 raise serializers.ValidationError(
-                    _('A user is already registered with this email address.')
+                    _("A user is already registered with this email address.")
                 )
 
         return email
@@ -54,13 +54,15 @@ class UserDetailsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'email', 'date_joined', 'profile')
+        fields = ("id", "email", "date_joined", "profile")
 
     @extend_schema_field(ProfileBasicSerializer)
     def get_profile(self, obj):
-        request = self.context.get('request')
-        user_profile = getattr(request, 'user_profile', None)
+        request = self.context.get("request")
+        user_profile = getattr(request, "user_profile", None)
 
         if user_profile:
-            return ProfileBasicSerializer(user_profile, context={'request': request}).data
+            return ProfileBasicSerializer(
+                user_profile, context={"request": request}
+            ).data
         return None

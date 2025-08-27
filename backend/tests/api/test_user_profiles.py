@@ -3,10 +3,10 @@ import pytest
 
 @pytest.mark.django_db
 class TestProfiles:
-    api_endpoint = '/api/v1/users/profiles/'
+    api_endpoint = "/api/v1/users/profiles/"
 
     def get_api_endpoint_with_id(self, id):
-        return f'{self.api_endpoint}{id}/'
+        return f"{self.api_endpoint}{id}/"
 
     def test_get_profiles(self, api_client):
         response = api_client.get(self.api_endpoint)

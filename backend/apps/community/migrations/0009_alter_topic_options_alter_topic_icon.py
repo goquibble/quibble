@@ -6,17 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('community', '0008_remove_community_topics_topic_community_topics'),
+        ("community", "0008_remove_community_topics_topic_community_topics"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='topic',
-            options={'ordering': ('display_name',)},
+            name="topic",
+            options={"ordering": ("display_name",)},
         ),
         migrations.AlterField(
-            model_name='topic',
-            name='icon',
-            field=models.CharField(max_length=10, verbose_name='Icon'),
+            model_name="topic",
+            name="icon",
+            field=models.CharField(max_length=10, verbose_name="Icon"),
         ),
     ]

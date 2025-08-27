@@ -7,13 +7,13 @@ from apps.community.models import Community
 class CommunitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Community
-        fields = '__all__'
+        fields = "__all__"
 
 
 class CommunityBasicSerializer(serializers.ModelSerializer):
     class Meta:
         model = Community
-        fields = ('id', 'name', 'avatar')
+        fields = ("id", "name", "avatar")
 
 
 class CommunityDetailedSerializer(serializers.ModelSerializer):
@@ -22,7 +22,7 @@ class CommunityDetailedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Community
-        fields = '__all__'
+        fields = "__all__"
 
     def get_posts_count(self, obj) -> int:
         return obj.posts.count()

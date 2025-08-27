@@ -7,7 +7,7 @@ class AvatarMixin(models.Model):
     """Adds an `avatar` field with file upload pattern."""
 
     avatar = models.ImageField(
-        _('Avatar'),
+        _("Avatar"),
         upload_to=FilePattern(filename_pattern="avatar/{uuid:s}{ext}"),
         blank=True,
         null=True,

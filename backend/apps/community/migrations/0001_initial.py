@@ -12,63 +12,70 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Community',
+            name="Community",
             fields=[
                 (
-                    'id',
+                    "id",
                     models.BigAutoField(
                         auto_created=True,
                         primary_key=True,
                         serialize=False,
-                        verbose_name='ID',
+                        verbose_name="ID",
                     ),
                 ),
                 (
-                    'avatar',
+                    "avatar",
                     models.ImageField(
                         blank=True,
                         null=True,
                         upload_to=dynamic_filenames.FilePattern(
-                            filename_pattern='avatar/{uuid:s}{ext}'
+                            filename_pattern="avatar/{uuid:s}{ext}"
                         ),
-                        verbose_name='avatar',
+                        verbose_name="avatar",
                     ),
                 ),
                 (
-                    'created_at',
-                    models.DateTimeField(auto_now_add=True, verbose_name='create at'),
+                    "created_at",
+                    models.DateTimeField(auto_now_add=True, verbose_name="create at"),
                 ),
-                ('is_public', models.BooleanField(default=True, verbose_name='is public')),
                 (
-                    'name',
+                    "is_public",
+                    models.BooleanField(default=True, verbose_name="is public"),
+                ),
+                (
+                    "name",
                     models.CharField(
-                        error_messages={'unique': 'Community with this name already exists.'},
+                        error_messages={
+                            "unique": "Community with this name already exists."
+                        },
                         max_length=25,
                         unique=True,
-                        verbose_name='name',
+                        verbose_name="name",
                     ),
                 ),
-                ('description', models.TextField(verbose_name='description')),
+                ("description", models.TextField(verbose_name="description")),
                 (
-                    'title',
-                    models.CharField(blank=True, max_length=50, null=True, verbose_name='title'),
+                    "title",
+                    models.CharField(
+                        blank=True, max_length=50, null=True, verbose_name="title"
+                    ),
                 ),
                 (
-                    'banner',
+                    "banner",
                     models.ImageField(
                         blank=True,
                         null=True,
                         upload_to=dynamic_filenames.FilePattern(
-                            filename_pattern='banner/{uuid:s}{ext}'
+                            filename_pattern="banner/{uuid:s}{ext}"
                         ),
-                        verbose_name='banner',
+                        verbose_name="banner",
                     ),
                 ),
             ],
             options={
-                'verbose_name': 'Community',
-                'verbose_name_plural': 'Communities',
-                'ordering': ['-created_at'],
+                "verbose_name": "Community",
+                "verbose_name_plural": "Communities",
+                "ordering": ["-created_at"],
             },
         ),
     ]

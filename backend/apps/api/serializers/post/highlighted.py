@@ -6,4 +6,4 @@ from apps.post.models import Post
 class PostHighlightedSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ('cover', 'title', 'id', 'slug', 'created_at')
+        fields = ("cover", "title", "id", "slug", "created_at")

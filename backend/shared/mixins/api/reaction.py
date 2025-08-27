@@ -30,7 +30,7 @@ class ReactionMixin:
         """
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        action = serializer.validated_data['action']
+        action = serializer.validated_data["action"]
 
         obj = self.get_object()
         req_user = cast(HttpRequest, self.request).user_profile
@@ -38,19 +38,19 @@ class ReactionMixin:
         if not req_user:
             raise exceptions.NotAuthenticated()
 
-        if action == 'upvote':
+        if action == "upvote":
             if req_user and obj.upvotes.filter(pk=req_user.pk).exists():
                 obj.upvotes.remove(req_user)
-                return response.Response({'success': True})
+                return response.Response({"success": True})
 
             obj.downvotes.remove(req_user)
             obj.upvotes.add(req_user)
-        elif action == 'downvote':
+        elif action == "downvote":
             if obj.downvotes.filter(pk=req_user.pk).exists():
                 obj.downvotes.remove(req_user)
-                return response.Response({'success': True})
+                return response.Response({"success": True})
 
             obj.upvotes.remove(req_user)
             obj.downvotes.add(req_user)
 
-        return response.Response({'success': True})
+        return response.Response({"success": True})

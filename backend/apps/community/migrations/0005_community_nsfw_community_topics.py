@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('community', '0004_alter_community_avatar_alter_community_banner_and_more'),
+        ("community", "0004_alter_community_avatar_alter_community_banner_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='community',
-            name='nsfw',
-            field=models.BooleanField(default=False, verbose_name='Nsfw'),
+            model_name="community",
+            name="nsfw",
+            field=models.BooleanField(default=False, verbose_name="Nsfw"),
         ),
         migrations.AddField(
-            model_name='community',
-            name='topics',
-            field=models.JSONField(blank=True, default=list, verbose_name='Topics'),
+            model_name="community",
+            name="topics",
+            field=models.JSONField(blank=True, default=list, verbose_name="Topics"),
         ),
     ]

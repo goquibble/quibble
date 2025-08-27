@@ -4,8 +4,8 @@ from .models import Community
 
 
 class CommunityFilter(filters.FilterSet):
-    name = filters.CharFilter(lookup_expr='istartswith')
+    name = filters.CharFilter(lookup_expr="istartswith")
 
     class Meta:
         model = Community
-        fields = ('name',)
+        fields = ("name",)
