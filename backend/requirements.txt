@@ -72,5 +72,5 @@ types-psycopg2==2.9.21.20250516 ; python_version >= "3.12" and python_version < 
 typing-extensions==4.13.2 ; python_version >= "3.12" and python_version < "4.0"
 tzdata==2025.1 ; python_version >= "3.12" and python_version < "4.0" and sys_platform == "win32"
 uritemplate==4.1.1 ; python_version >= "3.12" and python_version < "4.0"
-urllib3==2.4.0 ; python_version >= "3.12" and python_version < "4.0"
+urllib3==2.5.0 ; python_version >= "3.12" and python_version < "4.0"
 whitenoise==6.9.0 ; python_version >= "3.12" and python_version < "4.0"
