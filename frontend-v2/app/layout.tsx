@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import "./globals.css";
 import { redditMono, redditSans } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
+import "@/styles/globals.css";
 
 export const metadata: Metadata = {
   title: "Quibble - Delve into real conversations.",
@@ -21,7 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          "dark antialiased",
+          "dark font-sans antialiased",
           redditSans.variable,
           redditMono.variable,
         )}
