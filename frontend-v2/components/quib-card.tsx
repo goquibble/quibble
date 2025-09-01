@@ -5,6 +5,7 @@ import {
   MoreHorizontal,
   Share2,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
@@ -29,6 +30,20 @@ export default function QuibCard() {
       <h2 className="font-bold text-xl group-hover:underline dark:text-white/90">
         Just finished my first side project!
       </h2>
+      <div
+        hidden
+        className="relative aspect-video overflow-hidden rounded-md bg-cover bg-no-repeat"
+        style={{ backgroundImage: "url(/_mock/img-1-small.jpg)" }}
+      >
+        <div className="absolute inset-0 z-1 bg-background/50 backdrop-blur-md"></div>
+        <div className="pointer-events-none absolute inset-0 z-3 rounded-md border border-foreground/15"></div>
+        <Image
+          src={"/_mock/img-1.jpg"}
+          alt="img-1"
+          fill
+          className="z-2 object-contain"
+        />
+      </div>
       <p className="text-sm">
         I'm excited to share that I've completed my first side project! It was a
         great learning experience that challenged me to apply new skills and
@@ -39,10 +54,10 @@ export default function QuibCard() {
         continuing to grow my skills and knowledge through hands-on experience.
       </p>
       <div className="relative flex w-max items-center gap-2">
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-2 rounded-lg bg-muted p-1">
           <Button
             size={"icon-sm"}
-            variant={"ghost"}
+            variant={"default"}
             className="hover:text-primary"
           >
             <ArrowBigUp />
