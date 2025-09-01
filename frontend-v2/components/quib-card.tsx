@@ -12,7 +12,7 @@ import { Button } from "./ui/button";
 
 export default function QuibCard() {
   return (
-    <div className="group relative flex flex-col gap-2 rounded-md border bg-muted/25 p-4 transition-colors hover:bg-muted/50">
+    <div className="group relative flex flex-col gap-2 rounded-lg border bg-muted/25 p-4 transition-colors hover:bg-muted/50">
       <Link href={`/q/quibble-dev/sxd2sh`} className="absolute inset-0" />
       <div className="flex items-center gap-2">
         <Link
@@ -32,11 +32,11 @@ export default function QuibCard() {
       </h2>
       <div
         hidden
-        className="relative aspect-video overflow-hidden rounded-md bg-cover bg-no-repeat"
+        className="relative aspect-video overflow-hidden rounded-lg bg-cover bg-no-repeat"
         style={{ backgroundImage: "url(/_mock/img-1-small.jpg)" }}
       >
         <div className="absolute inset-0 z-1 bg-background/50 backdrop-blur-md"></div>
-        <div className="pointer-events-none absolute inset-0 z-3 rounded-md border border-foreground/15"></div>
+        <div className="pointer-events-none absolute inset-0 z-3 rounded-lg border border-foreground/15"></div>
         <Image
           src={"/_mock/img-1.jpg"}
           alt="img-1"
@@ -54,7 +54,7 @@ export default function QuibCard() {
         continuing to grow my skills and knowledge through hands-on experience.
       </p>
       <div className="relative flex w-max items-center gap-2">
-        <div className="flex items-center gap-2 rounded-lg bg-muted p-1">
+        <div className="flex items-center gap-2 rounded-lg border border-accent/50 bg-muted p-1">
           <Button
             size={"icon-sm"}
             variant={"default"}

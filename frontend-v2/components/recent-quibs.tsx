@@ -24,7 +24,7 @@ const recentQuibs = [
 
 export default function RecentQuibs() {
   return (
-    <aside className="flex h-[calc(100vh-var(--spacing)*14)] w-75 flex-col gap-4 border-l p-4">
+    <aside className="flex h-[calc(100vh-var(--spacing)*14)] w-75 flex-col gap-4 p-4 pl-2">
       <div className="flex items-center justify-between gap-2">
         <h4 className="font-medium text-secondary">Recent Quibs</h4>
         <Button size={"sm"} variant={"ghost"} disabled>
