@@ -1,6 +1,6 @@
 export const recentQuiblets = [
   {
-    name: "quibble",
+    name: "quibble-dev",
     avatar: "https://github.com/quibble-dev.png",
     isStarred: true,
   },
