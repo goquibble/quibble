@@ -1,0 +1,83 @@
+"use client";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Mail, ShieldEllipsis } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Button } from "../ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "../ui/form";
+import IconInput from "../ui/icon-input";
+
+const formSchema = z.object({
+  email: z.email(),
+  password: z
+    .string()
+    .min(8, "Password must be at least 8 characters long")
+    .regex(/[a-z]/, "Password must contain at least one lowercase letter")
+    .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
+    .regex(/[0-9]/, "Password must contain at least one number")
+    .regex(
+      /[^a-zA-Z0-9]/,
+      "Password must contain at least one special character",
+    ),
+});
+
+export default function AuthForm() {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = (_values: z.infer<typeof formSchema>) => {
+    console.log(onSubmit);
+  };
+
+  return (
+    <Form {...form}>
+      <form
+        className="flex flex-col gap-2.5"
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem className="gap-1">
+              <FormControl>
+                <IconInput Icon={Mail} placeholder="Email address" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem className="gap-1">
+              <FormControl>
+                <IconInput
+                  Icon={ShieldEllipsis}
+                  type="password"
+                  placeholder="Password"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit">Start Quibbling</Button>
+      </form>
+    </Form>
+  );
+}

@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useAuthDialog } from "@/context/auth-dialog-context";
 import { cn } from "@/lib/utils";
 import { Icons } from "./icons";
 import { Button } from "./ui/button";
@@ -37,6 +38,7 @@ const navLinkMapping = [
 
 export default function Header() {
   const pathname = usePathname();
+  const { showDialog } = useAuthDialog();
 
   return (
     <header className="flex h-14 items-center justify-between border-b px-4">
@@ -71,8 +73,10 @@ export default function Header() {
         />
       </nav>
       <nav className="flex items-center gap-2">
-        <Button variant={"ghost"}>Sign up</Button>
-        <Button>
+        <Button variant={"ghost"} onClick={showDialog}>
+          Sign up
+        </Button>
+        <Button onClick={showDialog}>
           Log in <LogIn />
         </Button>
       </nav>
