@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Mail, ShieldEllipsis } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useAuthDialog } from "@/context/auth-dialog-context";
 import { Button } from "../ui/button";
 import {
   Form,
@@ -14,7 +15,7 @@ import {
 } from "../ui/form";
 import IconInput from "../ui/icon-input";
 
-const formSchema = z.object({
+const FormSchema = z.object({
   email: z.email(),
   password: z
     .string()
@@ -29,17 +30,16 @@ const formSchema = z.object({
 });
 
 export default function AuthForm() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const { setAuthType } = useAuthDialog();
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = (_values: z.infer<typeof formSchema>) => {
-    console.log(onSubmit);
-  };
+  const onSubmit = () => setAuthType("verification");
 
   return (
     <Form {...form}>
