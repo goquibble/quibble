@@ -5,6 +5,7 @@ description = "Add your description here"
 requires-python = ">=3.13"
 dependencies = [
     "django>=5.2.6",
+    "django-ninja>=1.4.3",
 ]
 
 [dependency-groups]
@@ -13,6 +14,7 @@ dev = [
 ]
 
 [tool.pyright]
-reportAny = "none"
+# reportAny = "none"
 reportUnusedCallResult = "none"
 reportUnknownVariableType = "none"
+reportUnannotatedClassAttribute = "none"
