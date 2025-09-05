@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import z from "zod";
+import { useAuthDialog } from "@/context/auth-dialog-context";
 import { Button } from "../ui/button";
 import {
   Form,
@@ -20,6 +21,7 @@ const FormSchema = z.object({
 });
 
 export default function VerificationForm() {
+  const { nextStep } = useAuthDialog();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -27,15 +29,11 @@ export default function VerificationForm() {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof FormSchema>) => {
-    console.log(data);
-  };
-
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col gap-2.5"
+        onSubmit={form.handleSubmit(nextStep)}
       >
         <FormField
           control={form.control}

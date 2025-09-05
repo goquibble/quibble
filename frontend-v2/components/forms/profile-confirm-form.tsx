@@ -1,41 +1,29 @@
-"use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Mail, ShieldEllipsis } from "lucide-react";
+import { AtSign } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { useAuthDialog } from "@/context/auth-dialog-context";
+import z from "zod";
 import { Button } from "../ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormMessage,
 } from "../ui/form";
 import IconInput from "../ui/icon-input";
+import { Textarea } from "../ui/textarea";
 
 const FormSchema = z.object({
-  email: z.email(),
-  password: z
-    .string()
-    .min(8, "Password must be at least 8 characters long")
-    .regex(/[a-z]/, "Password must contain at least one lowercase letter")
-    .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
-    .regex(/[0-9]/, "Password must contain at least one number")
-    .regex(
-      /[^a-zA-Z0-9]/,
-      "Password must contain at least one special character",
-    ),
+  username: z.string().min(6, "Username must be at least 6 characters."),
+  bio: z.string().optional(),
 });
 
-export default function AuthForm() {
-  const { nextStep } = useAuthDialog();
+export default function ProfileConfirmForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      username: "",
     },
   });
 
@@ -43,15 +31,15 @@ export default function AuthForm() {
     <Form {...form}>
       <form
         className="flex flex-col gap-2.5"
-        onSubmit={form.handleSubmit(nextStep)}
+        onSubmit={form.handleSubmit(console.log)}
       >
         <FormField
           control={form.control}
-          name="email"
+          name="username"
           render={({ field }) => (
             <FormItem className="gap-1">
               <FormControl>
-                <IconInput Icon={Mail} placeholder="Email address" {...field} />
+                <IconInput Icon={AtSign} placeholder="Username" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -59,22 +47,25 @@ export default function AuthForm() {
         />
         <FormField
           control={form.control}
-          name="password"
+          name="bio"
           render={({ field }) => (
             <FormItem className="gap-1">
               <FormControl>
-                <IconInput
-                  Icon={ShieldEllipsis}
-                  type="password"
-                  placeholder="Password"
+                <Textarea
+                  placeholder="Bio (optional)"
+                  className="resize-none"
                   {...field}
                 />
               </FormControl>
+              <FormDescription className="flex items-center justify-between">
+                <span>You can always change this!</span>
+                <span>0/200</span>
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit">Continue</Button>
+        <Button type="submit">Start Quibbling</Button>
       </form>
     </Form>
   );

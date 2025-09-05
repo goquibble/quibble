@@ -8,12 +8,16 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useAuthDialog } from "@/context/auth-dialog-context";
+import ProfileConfirmForm from "../forms/profile-confirm-form";
 import VerificationForm from "../forms/verification-form";
 import { Icons } from "../icons";
 import Auth from "./auth";
 
+const forms = [Auth, VerificationForm, ProfileConfirmForm];
+
 export default function AuthDialog() {
-  const { open, setOpen, authType } = useAuthDialog();
+  const { open, setOpen, currentStep } = useAuthDialog();
+  const Form = forms[currentStep];
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -28,11 +32,7 @@ export default function AuthDialog() {
           <h5 className="text-center font-bold text-2xl dark:text-white/90">
             Welcome to <br /> Quibble
           </h5>
-          {authType === "auth" ? (
-            <Auth />
-          ) : authType === "verification" ? (
-            <VerificationForm />
-          ) : null}
+          <Form />
         </div>
       </DialogContent>
     </Dialog>
