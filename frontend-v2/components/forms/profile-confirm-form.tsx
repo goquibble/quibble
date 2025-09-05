@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AtSign } from "lucide-react";
+import { type ChangeEvent, useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { Button } from "../ui/button";
@@ -14,18 +15,30 @@ import {
 import IconInput from "../ui/icon-input";
 import { Textarea } from "../ui/textarea";
 
+const MAX_BIO_LENGTH = 200;
+
 const FormSchema = z.object({
   username: z.string().min(6, "Username must be at least 6 characters."),
   bio: z.string().optional(),
 });
 
 export default function ProfileConfirmForm() {
+  const [bioContentLength, setBioContentLength] = useState(0);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       username: "",
     },
   });
+
+  const handleBioChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    setBioContentLength(
+      value.length <= MAX_BIO_LENGTH
+        ? value.length
+        : value.slice(0, MAX_BIO_LENGTH).length,
+    );
+  };
 
   return (
     <Form {...form}>
@@ -39,7 +52,7 @@ export default function ProfileConfirmForm() {
           render={({ field }) => (
             <FormItem className="gap-1">
               <FormControl>
-                <IconInput Icon={AtSign} placeholder="Username" {...field} />
+                <IconInput {...field} Icon={AtSign} placeholder="Username" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -52,14 +65,18 @@ export default function ProfileConfirmForm() {
             <FormItem className="gap-1">
               <FormControl>
                 <Textarea
+                  {...field}
                   placeholder="Bio (optional)"
                   className="resize-none"
-                  {...field}
+                  onChange={handleBioChange}
+                  maxLength={MAX_BIO_LENGTH}
                 />
               </FormControl>
               <FormDescription className="flex items-center justify-between">
                 <span>You can always change this!</span>
-                <span>0/200</span>
+                <span>
+                  {bioContentLength}/{MAX_BIO_LENGTH}
+                </span>
               </FormDescription>
               <FormMessage />
             </FormItem>
