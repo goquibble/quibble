@@ -1,0 +1,27 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+.Python
+.venv/
+
+# Django-specific files
+*.log
+local_settings.py
+db.sqlite3
+
+# Operating System and Editor files
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*~
+.directory
+.project
+.settings/
+
+# Environment variables
+.env
