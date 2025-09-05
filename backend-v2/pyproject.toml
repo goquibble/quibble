@@ -14,7 +14,9 @@ dev = [
 ]
 
 [tool.pyright]
-# reportAny = "none"
+reportAny = "none"
+ reportExplicitAny = "none"
 reportUnusedCallResult = "none"
 reportUnknownVariableType = "none"
+# reportUnknownMemberType = "none"
 reportUnannotatedClassAttribute = "none"
