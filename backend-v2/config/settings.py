@@ -34,7 +34,7 @@ INSTALLED_APPS = [
     "allauth.headless",
     # "allauth.socialaccount",
     # custom apps
-    "user"
+    "user",
 ]
 
 MIDDLEWARE = [
