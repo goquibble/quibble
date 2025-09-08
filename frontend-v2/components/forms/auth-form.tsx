@@ -5,6 +5,7 @@ import { Mail, ShieldEllipsis } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useAuthDialog } from "@/context/auth-dialog-context";
+import { useCsrfToken } from "@/hooks/use-csrf-token";
 import { Button } from "../ui/button";
 import {
   Form,
@@ -30,6 +31,7 @@ const FormSchema = z.object({
 });
 
 export default function AuthForm() {
+  const csrfToken = useCsrfToken();
   const { nextStep } = useAuthDialog();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -39,11 +41,32 @@ export default function AuthForm() {
     },
   });
 
+  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+    try {
+      const res = await fetch(
+        "http://localhost:8000/_allauth/browser/v1/auth/login",
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": csrfToken ?? "",
+          },
+          body: JSON.stringify({ ...data }),
+        },
+      );
+      const resjson = await res.json();
+      console.log(resjson);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <Form {...form}>
       <form
         className="flex flex-col gap-2.5"
-        onSubmit={form.handleSubmit(nextStep)}
+        onSubmit={form.handleSubmit(onSubmit)}
       >
         <FormField
           control={form.control}

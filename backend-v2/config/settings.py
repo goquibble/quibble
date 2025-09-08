@@ -132,6 +132,9 @@ AUTH_USER_MODEL = "user.CustomUser"
 HEADLESS_CLIENTS = ("browser",)
 HEADLESS_ONLY = True
 
+ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*"]
+ACCOUNT_LOGIN_METHODS = {"email"}
+
 # django-cors-headers settings
 # https://pypi.org/project/django-cors-headers/
 CORS_ALLOW_CREDENTIALS = True
