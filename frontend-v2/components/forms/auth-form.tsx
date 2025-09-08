@@ -1,7 +1,8 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Mail, ShieldEllipsis } from "lucide-react";
+import { Loader2, Mail, ShieldEllipsis } from "lucide-react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useAuthDialog } from "@/context/auth-dialog-context";
@@ -31,6 +32,7 @@ const FormSchema = z.object({
 });
 
 export default function AuthForm() {
+  const [loading, setLoading] = useState(false);
   const csrfToken = useCsrfToken();
   const { nextStep } = useAuthDialog();
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -41,7 +43,8 @@ export default function AuthForm() {
     },
   });
 
-  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+  const onSubmit = async (values: z.infer<typeof FormSchema>) => {
+    setLoading(true);
     try {
       const res = await fetch(
         "http://localhost:8000/_allauth/browser/v1/auth/login",
@@ -52,13 +55,30 @@ export default function AuthForm() {
             "Content-Type": "application/json",
             "X-CSRFToken": csrfToken ?? "",
           },
-          body: JSON.stringify({ ...data }),
+          body: JSON.stringify({ ...values }),
         },
       );
-      const resjson = await res.json();
-      console.log(resjson);
-    } catch (err) {
-      console.error(err);
+
+      if (!res.ok) {
+        const data = await res.json();
+        const error = data.errors?.[0];
+
+        if (error?.param) {
+          form.setError(error.param, {
+            type: error.code,
+            message: error.message,
+          });
+        } else {
+          form.setError("password", {
+            type: "server",
+            message: error.message,
+          });
+        }
+      } else {
+        nextStep();
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -97,7 +117,10 @@ export default function AuthForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Continue</Button>
+        <Button type="submit" disabled={loading}>
+          {loading && <Loader2 className="animate-spin" />}
+          Continue
+        </Button>
       </form>
     </Form>
   );
