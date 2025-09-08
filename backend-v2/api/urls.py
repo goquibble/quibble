@@ -1,9 +1,12 @@
 from django.http import HttpRequest
+from django.views.decorators.csrf import ensure_csrf_cookie
 from ninja import NinjaAPI
+from ninja.responses import Response
 
 api_v1 = NinjaAPI(version="v1")
 
 
-@api_v1.get("/healthcheck")
-def healthcheck(request: HttpRequest):  # pyright: ignore[reportUnusedParameter]
-    return True
+@api_v1.get("/csrf-token")
+@ensure_csrf_cookie
+def healthcheck(request: HttpRequest): # pyright: ignore[reportUnusedParameter]
+    return Response({"success": True})

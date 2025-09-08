@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import cast
 import environ  # pyright: ignore [reportMissingTypeStubs]
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -28,6 +29,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # cors
+    "corsheaders",
     # auth apps
     "allauth",
     "allauth.account",
@@ -40,6 +43,8 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    # handle cors (must be placed before common middleware)
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -126,3 +131,18 @@ AUTH_USER_MODEL = "user.CustomUser"
 # https://docs.allauth.org/en/dev/headless/configuration.html
 HEADLESS_CLIENTS = ("browser",)
 HEADLESS_ONLY = True
+
+# django-cors-headers settings
+# https://pypi.org/project/django-cors-headers/
+CORS_ALLOW_CREDENTIALS = True
+
+SESSION_COOKIE_SECURE = not DEBUG
+SESSION_COOKIE_SAMESITE = "None" if not DEBUG else "Lax"
+SESSION_COOKIE_DOMAIN = env("COOKIE_DOMAIN")
+CSRF_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SAMESITE = "None" if not DEBUG else "Lax"
+CSRF_COOKIE_DOMAIN = env("COOKIE_DOMAIN")
+
+_origins = cast(str, env("ALLOWED_ORIGINS")).split(",")
+CSRF_TRUSTED_ORIGINS = _origins
+CORS_ALLOWED_ORIGINS = _origins
