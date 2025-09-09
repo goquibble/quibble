@@ -1,4 +1,4 @@
-import { Check } from "lucide-react";
+import { Check, Plus } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -11,7 +11,7 @@ export default function ProfileSelection() {
     <>
       <span className="font-medium text-sm">Who's Quibbling?</span>
       <div className="grid grid-cols-3 gap-4">
-        {Array.from({ length: 3 }).map((_, idx) => {
+        {Array.from({ length: 1 }).map((_, idx) => {
           const isSelected = selected === idx;
 
           return (
@@ -20,7 +20,7 @@ export default function ProfileSelection() {
               className="relative flex flex-col items-center gap-2"
             >
               <Avatar
-                className="aspect-square h-auto w-full cursor-pointer rounded-md"
+                className="-outline-offset-1 aspect-square h-auto w-full cursor-pointer rounded-md outline outline-foreground/15"
                 onClick={() => setSelected(idx)}
               >
                 <AvatarImage src="https://github.com/stabldev.png" />
@@ -42,6 +42,12 @@ export default function ProfileSelection() {
             </div>
           );
         })}
+        <button
+          type="button"
+          className="grid aspect-square w-full place-items-center rounded-md border bg-muted/50 text-muted-foreground transition-colors hover:bg-muted/75"
+        >
+          <Plus className="size-8" />
+        </button>
       </div>
       <Button>Start Quibbling</Button>
     </>
