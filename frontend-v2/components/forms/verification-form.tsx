@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { useAuthDialog } from "@/context/auth-dialog-context";
+import { useCsrfToken } from "@/hooks/use-csrf-token";
 import { Button } from "../ui/button";
 import {
   Form,
@@ -15,29 +16,55 @@ import {
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
 
 const FormSchema = z.object({
-  code: z.string().min(6, {
+  key: z.string().min(6, {
     message: "Your one-time password must be 6 characters.",
   }),
 });
 
 export default function VerificationForm() {
+  const csrfToken = useCsrfToken();
   const { nextStep } = useAuthDialog();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      code: "",
+      key: "",
     },
   });
+
+  const onSubmit = async (values: z.infer<typeof FormSchema>) => {
+    const url = "http://localhost:8000/_allauth/browser/v1/auth/email/verify";
+    const res = await fetch(url, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrfToken ?? "",
+      },
+      body: JSON.stringify({ ...values }),
+    });
+
+    if (!res.ok) {
+      const data = await res.json();
+      const error = data.errors?.[0];
+
+      if (error) {
+        form.setError(error.param || "key", {
+          type: error.code || "server",
+          message: error.message,
+        });
+      }
+    }
+  };
 
   return (
     <Form {...form}>
       <form
         className="flex flex-col gap-2.5"
-        onSubmit={form.handleSubmit(nextStep)}
+        onSubmit={form.handleSubmit(onSubmit)}
       >
         <FormField
           control={form.control}
-          name="code"
+          name="key"
           render={({ field }) => (
             <FormItem>
               <FormLabel>One-Time Password</FormLabel>
