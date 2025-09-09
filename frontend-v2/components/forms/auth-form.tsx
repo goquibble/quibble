@@ -17,6 +17,10 @@ import {
 } from "../ui/form";
 import IconInput from "../ui/icon-input";
 
+interface AuthFormProps {
+  mode: "login" | "signup";
+}
+
 const FormSchema = z.object({
   email: z.email(),
   password: z
@@ -31,7 +35,7 @@ const FormSchema = z.object({
     ),
 });
 
-export default function AuthForm() {
+export default function AuthForm({ mode }: AuthFormProps) {
   const [loading, setLoading] = useState(false);
   const csrfToken = useCsrfToken();
   const { nextStep } = useAuthDialog();
@@ -46,36 +50,40 @@ export default function AuthForm() {
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
     setLoading(true);
     try {
-      const res = await fetch(
-        "http://localhost:8000/_allauth/browser/v1/auth/login",
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": csrfToken ?? "",
-          },
-          body: JSON.stringify({ ...values }),
+      const url = `http://localhost:8000/_allauth/browser/v1/auth/${mode}`;
+      const body: Record<typeof mode, Record<string, string>> = {
+        login: { ...values },
+        signup: {
+          email: values.email,
+          password: values.password,
         },
-      );
+      };
+
+      const res = await fetch(url, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": csrfToken ?? "",
+        },
+        body: JSON.stringify(body[mode]),
+      });
 
       if (!res.ok) {
+        // if account is already ready to verify
+        if (res.status === 401 && mode === "signup") {
+          nextStep();
+        }
+
         const data = await res.json();
         const error = data.errors?.[0];
 
-        if (error?.param) {
-          form.setError(error.param, {
-            type: error.code,
-            message: error.message,
-          });
-        } else {
-          form.setError("password", {
-            type: "server",
+        if (error) {
+          form.setError(error.param || "password", {
+            type: error.code || "server",
             message: error.message,
           });
         }
-      } else {
-        nextStep();
       }
     } finally {
       setLoading(false);
@@ -119,7 +127,7 @@ export default function AuthForm() {
         />
         <Button type="submit" disabled={loading}>
           {loading && <Loader2 className="animate-spin" />}
-          Continue
+          {mode === "login" ? "Log in" : "Sign up"}
         </Button>
       </form>
     </Form>

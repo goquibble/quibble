@@ -1,9 +1,12 @@
+import { useState } from "react";
 import AuthForm from "../forms/auth-form";
 import { Icons } from "../icons";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 
 export default function Auth() {
+  const [mode, setMode] = useState<"login" | "signup">("login");
+
   return (
     <>
       <div className="flex flex-col gap-2">
@@ -24,27 +27,33 @@ export default function Auth() {
         <span className="font-medium text-sm">
           Or continue with email address
         </span>
-        <AuthForm />
+        <AuthForm mode={mode} />
+        <span className="inline-flex gap-1 self-center font-medium text-muted-foreground text-sm">
+          {mode === "login" ? (
+            <>
+              Don't have an account?
+              <button
+                type="button"
+                className="underline"
+                onClick={() => setMode("signup")}
+              >
+                Signup!
+              </button>
+            </>
+          ) : (
+            <>
+              Already have an account?
+              <button
+                type="button"
+                className="underline"
+                onClick={() => setMode("login")}
+              >
+                Login!
+              </button>
+            </>
+          )}
+        </span>
       </div>
-      <div className="flex items-center gap-2">
-        <Separator className="flex-1" />
-        <span className="font-medium text-xs">NOTE</span>
-        <Separator className="flex-1" />
-      </div>
-      <span className="text-center text-xs">
-        Project is in development.
-        <br />
-        If you see any issues- please raise a ticket{" "}
-        <a
-          href="https://github.com/quibble-dev/Quibble/issues/new?template=bug_report.yml"
-          target="_blank"
-          rel="noreferrer"
-          className="underline"
-        >
-          here
-        </a>
-        .
-      </span>
     </>
   );
 }

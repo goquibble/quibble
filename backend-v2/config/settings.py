@@ -127,13 +127,23 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Custom user model
 AUTH_USER_MODEL = "user.CustomUser"
 
+# Email configs
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
 # Django-allauth configs
 # https://docs.allauth.org/en/dev/headless/configuration.html
 HEADLESS_CLIENTS = ("browser",)
 HEADLESS_ONLY = True
+HEADLESS_FRONTEND_URLS = {
+    "account_signup": "http://localhost:3000",
+    "account_reset_password": "http://localhost:3000/account/password/reset",
+}
 
 ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*"]
 ACCOUNT_LOGIN_METHODS = {"email"}
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_EMAIL_VERIFICATION_BY_CODE_ENABLED = True
 
 # django-cors-headers settings
 # https://pypi.org/project/django-cors-headers/
