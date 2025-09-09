@@ -22,7 +22,7 @@ const AuthDialogContext = createContext<AuthDialogContextType | undefined>(
 
 export function AuthDialogProvider({ children }: AuthDialogProviderProps) {
   const [open, setOpen] = useState(false);
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(2);
 
   const showDialog = () => setOpen(true);
   const closeDialog = () => setOpen(false);

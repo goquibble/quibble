@@ -8,12 +8,12 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useAuthDialog } from "@/context/auth-dialog-context";
-import ProfileConfirmForm from "../forms/profile-confirm-form";
 import VerificationForm from "../forms/verification-form";
 import { Icons } from "../icons";
 import Auth from "./auth";
+import ProfileSelection from "./profile-selection";
 
-const forms = [Auth, VerificationForm, ProfileConfirmForm];
+const forms = [Auth, VerificationForm, ProfileSelection];
 
 export default function AuthDialog() {
   const { open, setOpen, currentStep } = useAuthDialog();
