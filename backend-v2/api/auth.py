@@ -1,8 +1,9 @@
-from typing import Any, override
-from django.http import HttpRequest
+from typing import Any, cast, override
 from ninja.errors import HttpError
 from ninja.security import SessionAuth
+from django.http import HttpRequest
 
+from api.http import CustomHttpRequest
 from user.models import Profile
 
 class ProfileAuth(SessionAuth):
@@ -21,5 +22,5 @@ class ProfileAuth(SessionAuth):
         except Profile.DoesNotExist:
             raise HttpError(403, "The selected profile is invalid. Please try again.")
 
-        request.user_p = user_p # pyright: ignore[reportAttributeAccessIssue]
+        cast(CustomHttpRequest, request).user_p = user_p
         return user

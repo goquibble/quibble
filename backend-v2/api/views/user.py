@@ -1,12 +1,11 @@
-from django.http import HttpRequest
 from ninja import Router
 
 from api.auth import ProfileAuth
+from api.http import CustomHttpRequest
 
 router = Router()
 
-@router.get("/pfs", auth=ProfileAuth())
-def get_requested_user_profiles(request: HttpRequest):
-    print(request.user)
-    # print(request.headers.get(""))
+@router.get("/profiles", auth=ProfileAuth())
+def get_requested_user_profiles(request: CustomHttpRequest):
+    print(request.user_p)
     return {"success": True}
