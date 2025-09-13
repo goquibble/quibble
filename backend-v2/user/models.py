@@ -1,4 +1,4 @@
-from typing import override
+from typing import TYPE_CHECKING, override
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 
@@ -8,6 +8,11 @@ from user.managers import CustomUserManager
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
+    if TYPE_CHECKING:
+        profiles: models.Manager[
+            "Profile"
+        ]  # pyright: ignore[reportUninitializedInstanceVariable]
+
     email = models.EmailField(unique=True)
     date_joined = models.DateTimeField(auto_now_add=True)
     is_staff = models.BooleanField(

@@ -11,5 +11,5 @@ api_v1.add_router("/user", user_router)
 
 @api_v1.get("/csrf-token")
 @ensure_csrf_cookie
-def healthcheck(request: HttpRequest): # pyright: ignore[reportUnusedParameter]
+def healthcheck(request: HttpRequest):  # pyright: ignore[reportUnusedParameter]
     return Response({"success": True})

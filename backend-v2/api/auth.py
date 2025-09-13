@@ -6,6 +6,7 @@ from django.http import HttpRequest
 from api.http import CustomHttpRequest
 from user.models import Profile
 
+
 class ProfileAuth(SessionAuth):
     @override
     def authenticate(self, request: HttpRequest, key: str | None) -> Any:
