@@ -1,9 +1,9 @@
+import { getApiUrl } from "@/lib/api-client";
 import { getAuthHeaders } from "@/lib/auth";
 import type { Nullable } from "@/types/nullable";
 
 export async function getUserProfiles(csrfToken: Nullable<string>) {
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/v1/user/profiles`;
-  const res = await fetch(url, {
+  const res = await fetch(getApiUrl("api/v1/user/profiles"), {
     credentials: "include",
     headers: getAuthHeaders({ csrfToken }),
   });
