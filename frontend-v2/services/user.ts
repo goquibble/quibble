@@ -1,6 +1,6 @@
 import { getApiUrl } from "@/lib/api-client";
 import { getAuthHeaders } from "@/lib/auth";
-import type { Nullable } from "@/types/nullable";
+import type { Nullable } from "@/types/generics";
 
 export async function getUserProfiles(csrfToken: Nullable<string>) {
   const res = await fetch(getApiUrl("api/v1/user/profiles"), {

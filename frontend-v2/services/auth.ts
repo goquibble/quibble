@@ -2,7 +2,7 @@ import type { z } from "zod";
 import { getApiUrl } from "@/lib/api-client";
 import { getAuthHeaders } from "@/lib/auth";
 import type { AuthFormSchema } from "@/schemas/auth";
-import type { Nullable } from "@/types/nullable";
+import type { Nullable } from "@/types/generics";
 
 export async function authenticate(
   mode: "login" | "signup",

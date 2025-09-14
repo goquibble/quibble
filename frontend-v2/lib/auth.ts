@@ -1,4 +1,4 @@
-import type { Nullable } from "@/types/nullable";
+import type { Nullable } from "@/types/generics";
 
 export function getAuthHeaders({ csrfToken }: { csrfToken: Nullable<string> }) {
   return {
