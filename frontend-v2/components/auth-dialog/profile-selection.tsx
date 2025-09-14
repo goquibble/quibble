@@ -36,7 +36,7 @@ export default function ProfileSelection() {
               >
                 {/* TODO: add cover field */}
                 <AvatarImage src="" />
-                <AvatarFallback className="rounded-md font-black text-4xl uppercase">
+                <AvatarFallback className="rounded-md font-black text-4xl">
                   {item.username.slice(0, 2)}
                 </AvatarFallback>
               </Avatar>

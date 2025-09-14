@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
 import AppSidebar from "@/components/app-sidebar/app-sidebar";
 import Header from "@/components/header";
-import { AuthDialogProvider } from "@/context/auth-dialog-context";
+import AuthDialogProvider from "@/providers/auth-dialog-provider";
 import AuthProvider from "@/providers/auth-provider";
 import QueryClientProvider from "@/providers/query-client-provider";
 

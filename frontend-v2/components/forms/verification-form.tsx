@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import z from "zod";
-import { useAuthDialog } from "@/context/auth-dialog-context";
+import { useAuthDialog } from "@/hooks/use-auth-dialog";
 import { useCsrfToken } from "@/hooks/use-csrf-token";
 import { Button } from "../ui/button";
 import {
@@ -23,7 +23,7 @@ const FormSchema = z.object({
 
 export default function VerificationForm() {
   const csrfToken = useCsrfToken();
-  const { nextStep } = useAuthDialog();
+  const { nextStep: _ } = useAuthDialog();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {

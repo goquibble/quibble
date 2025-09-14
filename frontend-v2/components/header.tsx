@@ -5,13 +5,16 @@ import {
   ChartNoAxesColumnIncreasing,
   Home,
   LogIn,
+  Plus,
   Search,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useAuthDialog } from "@/context/auth-dialog-context";
+import { useAuthDialog } from "@/hooks/use-auth-dialog";
 import { cn } from "@/lib/utils";
+import { useAuthStore } from "@/stores/auth";
 import { Icons } from "./icons";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import IconInput from "./ui/icon-input";
 
@@ -39,6 +42,7 @@ const navLinkMapping = [
 export default function Header() {
   const pathname = usePathname();
   const { showDialog } = useAuthDialog();
+  const userProfile = useAuthStore((state) => state.userProfile);
 
   return (
     <header className="flex h-14 items-center justify-between border-b px-4">
@@ -73,12 +77,29 @@ export default function Header() {
         />
       </nav>
       <nav className="flex items-center gap-2">
-        <Button variant={"ghost"} onClick={showDialog}>
-          Sign up
-        </Button>
-        <Button onClick={showDialog}>
-          Log in <LogIn />
-        </Button>
+        {userProfile ? (
+          <>
+            <Button>
+              <Plus />
+              Create Quib
+            </Button>
+            <Avatar className="size-10 rounded-md">
+              <AvatarImage src="" />
+              <AvatarFallback>
+                {userProfile.username.slice(0, 2)}
+              </AvatarFallback>
+            </Avatar>
+          </>
+        ) : (
+          <>
+            <Button variant={"ghost"} onClick={showDialog}>
+              Sign up
+            </Button>
+            <Button onClick={showDialog}>
+              Log in <LogIn />
+            </Button>
+          </>
+        )}
       </nav>
     </header>
   );

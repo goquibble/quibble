@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2, Mail, ShieldEllipsis } from "lucide-react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-import { useAuthDialog } from "@/context/auth-dialog-context";
+import { useAuthDialog } from "@/hooks/use-auth-dialog";
 import { useCsrfToken } from "@/hooks/use-csrf-token";
 import { setProfileIdCookie } from "@/lib/cookies";
 import { AuthFormSchema } from "@/schemas/auth";

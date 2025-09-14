@@ -7,7 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useAuthDialog } from "@/context/auth-dialog-context";
+import { useAuthDialog } from "@/hooks/use-auth-dialog";
 import VerificationForm from "../forms/verification-form";
 import { Icons } from "../icons";
 import Auth from "./auth";
