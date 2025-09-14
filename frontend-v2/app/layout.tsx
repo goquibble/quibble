@@ -1,16 +1,15 @@
-import type { Metadata } from "next";
+"use client";
+
 import { redditMono, redditSans } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import AppSidebar from "@/components/app-sidebar/app-sidebar";
+import Header from "@/components/header";
+import { AuthDialogProvider } from "@/context/auth-dialog-context";
 
-export const metadata: Metadata = {
-  title: "Quibble - Delve into real conversations.",
-  description:
-    "A respectful social platform for real conversations. Celebrate diversity, connect authentically, and join Quibble’s ad-free community.",
-  icons: {
-    icon: "/favicon.svg",
-  },
-};
+// query client instance
+const queryClient = new QueryClient();
 
 export default function RootLayout({
   children,
@@ -26,7 +25,15 @@ export default function RootLayout({
           redditMono.variable,
         )}
       >
-        {children}
+        <QueryClientProvider client={queryClient}>
+          <AuthDialogProvider>
+            <Header />
+            <main className="flex">
+              <AppSidebar />
+              {children}
+            </main>
+          </AuthDialogProvider>
+        </QueryClientProvider>
       </body>
     </html>
   );

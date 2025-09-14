@@ -5,10 +5,11 @@ import AuthDialog from "@/components/auth-dialog/auth-dialog";
 
 interface AuthDialogContextType {
   open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpen: (open: boolean) => void;
   showDialog: () => void;
   closeDialog: () => void;
   currentStep: number;
+  setCurrentStep: (step: number) => void;
   nextStep: () => void;
 }
 
@@ -36,6 +37,7 @@ export function AuthDialogProvider({ children }: AuthDialogProviderProps) {
         showDialog,
         closeDialog,
         currentStep,
+        setCurrentStep,
         nextStep,
       }}
     >

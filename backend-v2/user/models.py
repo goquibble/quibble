@@ -7,11 +7,10 @@ from core.validators import UsernameValidator
 from user.managers import CustomUserManager
 
 
+# pyright: reportUninitializedInstanceVariable=false
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     if TYPE_CHECKING:
-        profiles: models.Manager[
-            "Profile"
-        ]  # pyright: ignore[reportUninitializedInstanceVariable]
+        profiles: models.Manager["Profile"]
 
     email = models.EmailField(unique=True)
     date_joined = models.DateTimeField(auto_now_add=True)

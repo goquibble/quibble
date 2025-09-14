@@ -1,12 +1,16 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2, Mail, ShieldEllipsis } from "lucide-react";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import type { z } from "zod";
 import { useAuthDialog } from "@/context/auth-dialog-context";
 import { useCsrfToken } from "@/hooks/use-csrf-token";
+import { setProfileIdCookie } from "@/lib/cookies";
+import { AuthFormSchema } from "@/schemas/auth";
+import { authenticate } from "@/services/auth";
+import { getUserProfiles } from "@/services/user";
 import { Button } from "../ui/button";
 import {
   Form,
@@ -21,73 +25,58 @@ interface AuthFormProps {
   mode: "login" | "signup";
 }
 
-const FormSchema = z.object({
-  email: z.email(),
-  password: z
-    .string()
-    .min(8, "Password must be at least 8 characters long")
-    .regex(/[a-z]/, "Password must contain at least one lowercase letter")
-    .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
-    .regex(/[0-9]/, "Password must contain at least one number")
-    .regex(
-      /[^a-zA-Z0-9]/,
-      "Password must contain at least one special character",
-    ),
-});
-
 export default function AuthForm({ mode }: AuthFormProps) {
-  const [loading, setLoading] = useState(false);
   const csrfToken = useCsrfToken();
-  const { nextStep } = useAuthDialog();
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const queryClient = useQueryClient();
+  const { nextStep, setCurrentStep } = useAuthDialog();
+  const form = useForm<z.infer<typeof AuthFormSchema>>({
+    resolver: zodResolver(AuthFormSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof FormSchema>) => {
-    setLoading(true);
-    try {
-      const url = `http://localhost:8000/_allauth/browser/v1/auth/${mode}`;
-      const body: Record<typeof mode, Record<string, string>> = {
-        login: { ...values },
-        signup: {
-          email: values.email,
-          password: values.password,
-        },
-      };
-
-      const res = await fetch(url, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRFToken": csrfToken ?? "",
-        },
-        body: JSON.stringify(body[mode]),
-      });
-
-      if (!res.ok) {
-        // if account is already ready to verify
-        if (res.status === 401 && mode === "signup") {
-          nextStep();
-        }
-
-        const data = await res.json();
-        const error = data.errors?.[0];
-
-        if (error) {
-          form.setError(error.param || "password", {
-            type: error.code || "server",
-            message: error.message,
+  const mutation = useMutation({
+    mutationFn: (values: z.infer<typeof AuthFormSchema>) =>
+      authenticate(mode, values, csrfToken),
+    onSuccess: async ({ status }) => {
+      if (status === 401 && mode === "signup") {
+        nextStep();
+      } else {
+        try {
+          const userProfiles = await queryClient.fetchQuery({
+            queryKey: ["user-profiles"],
+            queryFn: () => getUserProfiles(csrfToken),
+          });
+          if (userProfiles.length > 1) {
+            setCurrentStep(2);
+          } else {
+            const profileId = userProfiles[0].id;
+            setProfileIdCookie(profileId);
+          }
+        } catch {
+          form.setError("password", {
+            type: "server",
+            message: "Something went wrong! Please try again.",
           });
         }
       }
-    } finally {
-      setLoading(false);
-    }
+    },
+    onError: (err) => {
+      // @ts-expect-error: type doesn't matter here
+      const error = err.errors?.[0];
+      if (error) {
+        form.setError(error.param || "password", {
+          type: error.code || "server",
+          message: error.message,
+        });
+      }
+    },
+  });
+
+  const onSubmit = async (values: z.infer<typeof AuthFormSchema>) => {
+    mutation.mutate(values);
   };
 
   return (
@@ -125,8 +114,8 @@ export default function AuthForm({ mode }: AuthFormProps) {
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={loading}>
-          {loading && <Loader2 className="animate-spin" />}
+        <Button type="submit" disabled={mutation.isPending}>
+          {mutation.isPending && <Loader2 className="animate-spin" />}
           {mode === "login" ? "Log in" : "Sign up"}
         </Button>
       </form>
