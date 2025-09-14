@@ -14,7 +14,7 @@ class ProfileAuth(SessionAuth):
         if not user:
             return None
 
-        profile_id = request.headers.get("X-Profile-Id")
+        profile_id = request.COOKIES.get("profile_id")
         if not profile_id:
             raise HttpError(400, "Please select a profile to continue.")
 
