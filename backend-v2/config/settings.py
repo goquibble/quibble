@@ -138,6 +138,7 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 # https://docs.allauth.org/en/dev/headless/configuration.html
 HEADLESS_CLIENTS = ("browser",)
 HEADLESS_ONLY = True
+HEADLESS_SERVE_SPECIFICATION = True
 HEADLESS_FRONTEND_URLS = {
     "account_signup": "http://localhost:3000",
     "account_reset_password": "http://localhost:3000/account/password/reset",
