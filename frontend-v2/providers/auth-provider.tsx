@@ -16,6 +16,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
   const { data: userProfile } = useQuery<UserProfile>({
     queryKey: ["user-profile"],
     queryFn: () => getUserProfile(csrfToken),
+    refetchOnWindowFocus: false,
   });
 
   useEffect(() => {
