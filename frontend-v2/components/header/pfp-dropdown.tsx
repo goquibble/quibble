@@ -7,7 +7,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useCsrfToken } from "@/hooks/use-csrf-token";
 import { cn } from "@/lib/utils";
+import { logOutSession } from "@/services/auth";
 
 interface PfpDropdownProps {
   children: React.ReactNode;
@@ -15,6 +17,13 @@ interface PfpDropdownProps {
 }
 
 export default function PfpDropdown({ children, username }: PfpDropdownProps) {
+  const csrfToken = useCsrfToken();
+
+  const handleLogOut = async () => {
+    await logOutSession(csrfToken);
+    window.location.reload();
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
@@ -34,7 +43,7 @@ export default function PfpDropdown({ children, username }: PfpDropdownProps) {
           <Settings className="ml-auto" />
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem variant="destructive">
+        <DropdownMenuItem variant="destructive" onClick={handleLogOut}>
           Log out
           <LogOut className="ml-auto" />
         </DropdownMenuItem>

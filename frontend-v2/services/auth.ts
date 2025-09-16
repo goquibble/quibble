@@ -26,3 +26,11 @@ export async function authenticate(
     return { status: res.status };
   }
 }
+
+export async function logOutSession(csrfToken: Nullable<string>) {
+  await fetch(getApiUrl("_allauth/browser/v1/auth/session"), {
+    method: "DELETE",
+    credentials: "include",
+    headers: getAuthHeaders({ csrfToken }),
+  });
+}
