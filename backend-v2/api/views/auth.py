@@ -1,10 +1,9 @@
 # pyright: reportMissingTypeStubs=false
-from typing import Any, override
 from allauth.headless.account.views import SessionView
-from allauth.headless.adapter import get_adapter as get_account_adapter
+from allauth.account.adapter import get_adapter as get_account_adapter
 from allauth.headless.base.response import AuthenticationResponse
 from django.http import HttpRequest
-
+from typing import Any, override
 
 class CustomSessionView(SessionView):
     @override
@@ -14,4 +13,5 @@ class CustomSessionView(SessionView):
 
         response = AuthenticationResponse(request)
         response.delete_cookie("profile_id")
+
         return response
