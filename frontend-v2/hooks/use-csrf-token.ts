@@ -1,24 +1,29 @@
+import { useQuery } from "@tanstack/react-query";
 import Cookies from "js-cookie";
-import { useEffect, useState } from "react";
 import { getApiUrl } from "@/lib/api-client";
+import type { Nullable } from "@/types/generics";
+
+async function fetchCsrftoken(): Promise<Nullable<string>> {
+  // first check if token already in cookie
+  const token = Cookies.get("csrftoken");
+  if (token) {
+    return token;
+  }
+  // fetch, so server can set new one in cookie
+  await fetch(getApiUrl("api/v1/csrf-token"), {
+    method: "GET",
+    credentials: "include",
+  });
+  // after fetch, token should be set in cookie by server
+  return Cookies.get("csrftoken") || null;
+}
 
 export function useCsrfToken() {
-  const [csrfToken, setCsrfToken] = useState<string | null>(null);
+  const { data: csrfToken } = useQuery<Nullable<string>>({
+    queryKey: ["csrftoken"],
+    queryFn: fetchCsrftoken,
+  });
 
-  useEffect(() => {
-    let token = Cookies.get("csrftoken");
-    if (token) {
-      setCsrfToken(token);
-    } else {
-      fetch(getApiUrl("api/v1/csrf-token"), {
-        method: "GET",
-        credentials: "include",
-      }).then(() => {
-        token = Cookies.get("csrftoken");
-        setCsrfToken(token || null);
-      });
-    }
-  }, []);
-
+  // return cached version
   return csrfToken;
 }
