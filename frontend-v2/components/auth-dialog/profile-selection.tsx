@@ -18,6 +18,14 @@ export default function ProfileSelection() {
     queryFn: () => getUserProfiles(csrfToken),
   });
 
+  const handleSelect = () => {
+    if (!data) return;
+
+    const profileId = data[selected].id;
+    setProfileIdCookie(profileId.toString());
+    window.location.reload();
+  };
+
   return (
     <>
       <span className="font-medium text-sm">Who's Quibbling?</span>
@@ -64,15 +72,7 @@ export default function ProfileSelection() {
           <Plus className="size-8" />
         </button>
       </div>
-      <Button
-        onClick={() => {
-          if (!data) return;
-          const profileId = data[selected].id;
-          setProfileIdCookie(profileId.toString());
-        }}
-      >
-        Start Quibbling
-      </Button>
+      <Button onClick={handleSelect}>Start Quibbling</Button>
     </>
   );
 }
