@@ -20,11 +20,11 @@ export default function QuibLayoutSelector() {
       <DropdownMenuContent align="end">
         <DropdownMenuItem>
           <Rows2 />
-          <span className="font-medium">Card</span>
+          Card
         </DropdownMenuItem>
         <DropdownMenuItem>
           <Rows3 />
-          <span className="font-medium">Compact</span>
+          Compact
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

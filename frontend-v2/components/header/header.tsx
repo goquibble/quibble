@@ -13,10 +13,11 @@ import { usePathname } from "next/navigation";
 import { useAuthDialog } from "@/hooks/use-auth-dialog";
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/stores/auth";
-import { Icons } from "./icons";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Button } from "./ui/button";
-import IconInput from "./ui/icon-input";
+import { Icons } from "../icons";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Button } from "../ui/button";
+import IconInput from "../ui/icon-input";
+import PfpDropdown from "./pfp-dropdown";
 
 const navLinkMapping = [
   {
@@ -83,12 +84,14 @@ export default function Header() {
               <Plus />
               Create Quib
             </Button>
-            <Avatar className="size-10 rounded-md">
-              <AvatarImage src="" />
-              <AvatarFallback>
-                {userProfile.username.slice(0, 2)}
-              </AvatarFallback>
-            </Avatar>
+            <PfpDropdown username={userProfile.username}>
+              <Avatar className="size-9 rounded-md">
+                <AvatarImage src="" />
+                <AvatarFallback className="font-medium">
+                  {userProfile.username.slice(0, 2)}
+                </AvatarFallback>
+              </Avatar>
+            </PfpDropdown>
           </>
         ) : (
           <>
