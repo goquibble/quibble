@@ -29,12 +29,14 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.humanize",
     # cors
     "corsheaders",
     # auth apps
     "allauth",
     "allauth.account",
     "allauth.headless",
+    "allauth.usersessions",
     # "allauth.socialaccount",
     # custom apps
     "user",
@@ -153,10 +155,10 @@ CORS_ALLOW_CREDENTIALS = True
 
 SESSION_COOKIE_SECURE = not DEBUG
 SESSION_COOKIE_SAMESITE = "None" if not DEBUG else "Lax"
-SESSION_COOKIE_DOMAIN = env("COOKIE_DOMAIN")
+SESSION_COOKIE_DOMAIN = None if DEBUG else env("COOKIE_DOMAIN")
 CSRF_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SAMESITE = "None" if not DEBUG else "Lax"
-CSRF_COOKIE_DOMAIN = env("COOKIE_DOMAIN")
+CSRF_COOKIE_DOMAIN = None if DEBUG else env("COOKIE_DOMAIN")
 
 _origins = cast(str, env("ALLOWED_ORIGINS")).split(",")
 CSRF_TRUSTED_ORIGINS = _origins
