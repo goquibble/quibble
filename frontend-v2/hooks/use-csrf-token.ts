@@ -18,12 +18,12 @@ async function fetchCsrftoken(): Promise<Nullable<string>> {
   return Cookies.get("csrftoken") || null;
 }
 
-export function useCsrfToken() {
+export function useCsrfToken(): Nullable<string> {
   const { data: csrfToken } = useQuery<Nullable<string>>({
     queryKey: ["csrftoken"],
-    queryFn: fetchCsrftoken,
+    queryFn: () => fetchCsrftoken(),
   });
 
   // return cached version
-  return csrfToken;
+  return csrfToken || null;
 }

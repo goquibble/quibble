@@ -47,7 +47,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
         try {
           const userProfiles = await queryClient.fetchQuery({
             queryKey: ["user-profiles"],
-            queryFn: () => getUserProfiles(csrfToken),
+            queryFn: () => getUserProfiles(),
           });
           if (userProfiles.length > 1) {
             setCurrentStep(2);

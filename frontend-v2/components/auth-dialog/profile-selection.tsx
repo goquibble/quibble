@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Check, Plus } from "lucide-react";
 import { useState } from "react";
-import { useCsrfToken } from "@/hooks/use-csrf-token";
 import { setProfileIdCookie } from "@/lib/cookies";
 import { cn } from "@/lib/utils";
 import { getUserProfiles } from "@/services/user";
@@ -10,12 +9,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 
 export default function ProfileSelection() {
-  const csrfToken = useCsrfToken();
   const [selected, setSelected] = useState(0);
 
   const { data } = useQuery<UserProfile[]>({
     queryKey: ["user-profiles"],
-    queryFn: () => getUserProfiles(csrfToken),
+    queryFn: () => getUserProfiles(),
   });
 
   const handleSelect = () => {

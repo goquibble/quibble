@@ -13,7 +13,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
   const setUserProfile = useAuthStore((state) => state.setUserProfile);
   const { data: userProfile } = useQuery<UserProfile>({
     queryKey: ["user-profile"],
-    queryFn: getUserProfile,
+    queryFn: () => getUserProfile(),
     refetchOnWindowFocus: false,
   });
 
