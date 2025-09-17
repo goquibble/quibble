@@ -48,11 +48,13 @@ export default function AuthForm({ mode }: AuthFormProps) {
             queryKey: ["user-profiles"],
             queryFn: () => getUserProfiles(),
           });
+
           if (userProfiles.length > 1) {
             setCurrentStep(2);
           } else {
             const profileId = userProfiles[0].id;
             setProfileIdCookie(profileId);
+            window.location.reload();
           }
         } catch {
           form.setError("password", {
