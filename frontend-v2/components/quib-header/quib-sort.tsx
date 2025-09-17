@@ -1,5 +1,4 @@
 "use client";
-
 import { CircleArrowOutUpRight, Flame, Rocket, Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useInstantSearchParams } from "@/hooks/use-instant-search-params";
