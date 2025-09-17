@@ -10,7 +10,6 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuthDialog } from "@/hooks/use-auth-dialog";
-import { getApiUrl } from "@/lib/api-client";
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/stores/auth";
 import { Icons } from "../icons";
@@ -86,7 +85,7 @@ export default function Header() {
             </Button>
             <PfpDropdown username={userProfile.username}>
               <Avatar className="size-9 rounded-md">
-                <AvatarImage src={getApiUrl(userProfile.avatar ?? "")} />
+                <AvatarImage src={userProfile.avatar ?? ""} />
                 <AvatarFallback className="font-medium">
                   {userProfile.username.slice(0, 2)}
                 </AvatarFallback>
