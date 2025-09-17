@@ -6,9 +6,10 @@ from user.models import Profile
 class ProfileOutSchema(Schema):
     id: int
     username: str
+    avatar: str
 
 
 class ProfileSchema(ModelSchema):
     class Meta:
         model = Profile
-        fields = ["id", "username"]
+        fields = ["id", "username", "avatar"]

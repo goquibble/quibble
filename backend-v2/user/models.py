@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING, override
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 
-from core.mixins import CreatedAtMixin
+from core.mixins import AvatarMixin, CreatedAtMixin
 from core.validators import UsernameValidator
 from user.managers import CustomUserManager
 
@@ -34,7 +34,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         ordering = ["-date_joined"]
 
 
-class Profile(CreatedAtMixin):
+class Profile(CreatedAtMixin, AvatarMixin):
     user = models.ForeignKey(
         CustomUser, related_name="profiles", on_delete=models.CASCADE
     )

@@ -10,6 +10,8 @@ dependencies = [
     "django-cors-headers>=4.7.0",
     "django-environ>=0.12.0",
     "django-ninja>=1.4.3",
+    "django-resized>=1.0.3",
+    "pillow>=11.3.0",
     "psycopg2-binary>=2.9.10",
 ]
 
@@ -25,3 +27,4 @@ reportUnusedCallResult = "none"
 reportUnknownVariableType = "none"
 reportUnknownMemberType = "none"
 reportUnannotatedClassAttribute = "none"
+reportMissingTypeStubs = "none"
