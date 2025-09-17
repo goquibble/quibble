@@ -3,9 +3,7 @@ import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
 import AppSidebar from "@/components/app-sidebar/app-sidebar";
 import Header from "@/components/header/header";
-import AuthDialogProvider from "@/providers/auth-dialog-provider";
-import AuthProvider from "@/providers/auth-provider";
-import QueryClientProvider from "@/providers/query-client-provider";
+import Providers from "@/providers/providers";
 
 export default function RootLayout({
   children,
@@ -21,17 +19,13 @@ export default function RootLayout({
           redditMono.variable,
         )}
       >
-        <QueryClientProvider>
-          <AuthProvider>
-            <AuthDialogProvider>
-              <Header />
-              <main className="flex">
-                <AppSidebar />
-                {children}
-              </main>
-            </AuthDialogProvider>
-          </AuthProvider>
-        </QueryClientProvider>
+        <Providers>
+          <Header />
+          <main className="flex">
+            <AppSidebar />
+            {children}
+          </main>
+        </Providers>
       </body>
     </html>
   );
