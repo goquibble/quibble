@@ -21,6 +21,11 @@ interface CreateQuibletDialogProps {
   children: React.ReactNode;
 }
 
+export interface StepProps {
+  onUpdate: (key: string, value: string) => void;
+  onValidityChange: (valid: boolean) => void;
+}
+
 interface Data
   extends Partial<{
     name: string;

@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import type { StepProps } from "./create-quiblet-dialog";
 
 const MAX_NAME_LENGTH = 20;
 const MAX_BIO_LENGTH = 150;
@@ -26,12 +27,7 @@ const StepOneSchema = z.object({
     .max(MAX_BIO_LENGTH, "Description too long"),
 });
 
-interface StepOneProps {
-  onUpdate: (key: string, value: string) => void;
-  onValidityChange: (valid: boolean) => void;
-}
-
-export default function StepOne({ onUpdate, onValidityChange }: StepOneProps) {
+export default function StepOne({ onUpdate, onValidityChange }: StepProps) {
   const form = useForm<z.infer<typeof StepOneSchema>>({
     resolver: zodResolver(StepOneSchema),
     mode: "onChange",
