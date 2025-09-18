@@ -1,5 +1,7 @@
 "use client";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import VerificationForm from "@/components/forms/verification-form";
+import { Icons } from "@/components/icons";
 import {
   Dialog,
   DialogContent,
@@ -7,8 +9,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useAuthDialog } from "@/hooks/use-auth-dialog";
-import VerificationForm from "../forms/verification-form";
-import { Icons } from "../icons";
 import Auth from "./auth";
 import ProfileSelection from "./profile-selection";
 

@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import AuthDialog from "@/components/auth-dialog/auth-dialog";
+import AuthDialog from "@/components/dialogs/auth-dialog/auth-dialog";
 import { AuthDialogContext } from "@/context/auth-dialog-context";
 
 interface AuthDialogProviderProps {

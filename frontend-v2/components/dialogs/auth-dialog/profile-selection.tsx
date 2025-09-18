@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { Check, Plus } from "lucide-react";
 import { useState } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { setProfileIdCookie } from "@/lib/cookies";
 import { cn } from "@/lib/utils";
 import { getUserProfiles } from "@/services/user";
 import type { UserProfile } from "@/types/user";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Button } from "../ui/button";
 
 export default function ProfileSelection() {
   const [selected, setSelected] = useState(0);

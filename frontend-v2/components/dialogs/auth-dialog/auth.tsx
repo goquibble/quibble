@@ -1,8 +1,8 @@
 import { useState } from "react";
-import AuthForm from "../forms/auth-form";
-import { Icons } from "../icons";
-import { Button } from "../ui/button";
-import { Separator } from "../ui/separator";
+import AuthForm from "@/components/forms/auth-form";
+import { Icons } from "@/components/icons";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 
 export default function Auth() {
   const [mode, setMode] = useState<"login" | "signup">("login");
