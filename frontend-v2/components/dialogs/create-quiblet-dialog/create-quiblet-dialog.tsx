@@ -19,11 +19,19 @@ interface CreateQuibletDialogProps {
   children: React.ReactNode;
 }
 
+interface Data
+  extends Partial<{
+    name: string;
+    bio: string;
+    avatar: string;
+    banner: string;
+  }> {}
+
 export default function CreateQuibletDialog({
   children,
 }: CreateQuibletDialogProps) {
   const [currentStep] = useState(0);
-  const [data, setData] = useState<{ name?: string; bio?: string }>({});
+  const [data, setData] = useState<Data>({});
   const [isCurrentStepValid, setIsCurrentStepValid] = useState(false);
   const CurrentStep = steps[currentStep];
 
