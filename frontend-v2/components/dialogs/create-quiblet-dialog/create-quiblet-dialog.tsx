@@ -1,5 +1,6 @@
 "use client";
 import { useCallback, useState } from "react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -11,6 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 import StepOne from "./step-one";
 
 const steps = [StepOne];
@@ -61,10 +63,14 @@ export default function CreateQuibletDialog({
             />
           </div>
           <div className="h-max w-60">
-            <div className="h-10 rounded-t-md bg-secondary"></div>
+            <div className="h-10 rounded-t-md bg-primary"></div>
             <div className="flex flex-col rounded-b-md border border-t-0 p-4">
               <div className="flex gap-4">
-                <div className="size-10 shrink-0 rounded-md bg-secondary"></div>
+                <Avatar className="size-10 rounded-md">
+                  <AvatarFallback>
+                    {data.name ? data.name.slice(0, 2) : "QN"}
+                  </AvatarFallback>
+                </Avatar>
                 <div className="flex flex-col">
                   <span className="break-all font-medium">
                     q/{data.name || "quibletname"}
@@ -81,6 +87,17 @@ export default function CreateQuibletDialog({
           </div>
         </div>
         <DialogFooter>
+          <div className="mr-auto flex items-center gap-1">
+            {Array.from({ length: steps.length }).map((_, idx) => (
+              <span
+                key={`step-indicator-${idx.toString()}`}
+                className={cn(
+                  "size-2 rounded-full",
+                  currentStep === idx ? "bg-primary" : "bg-accent",
+                )}
+              ></span>
+            ))}
+          </div>
           <DialogClose asChild>
             <Button variant={"outline"}>Cancel</Button>
           </DialogClose>
