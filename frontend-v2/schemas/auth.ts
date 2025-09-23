@@ -13,3 +13,9 @@ export const AuthFormSchema = z.object({
       "Password must contain at least one special character",
     ),
 });
+
+export const VerificationFormSchema = z.object({
+  key: z.string().min(6, {
+    message: "Your one-time password must be 6 characters.",
+  }),
+});

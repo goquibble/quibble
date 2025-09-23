@@ -1,7 +1,7 @@
 import type { z } from "zod";
 import { getApiUrl } from "@/lib/api-client";
 import { getAuthHeaders } from "@/lib/auth";
-import type { AuthFormSchema } from "@/schemas/auth";
+import type { AuthFormSchema, VerificationFormSchema } from "@/schemas/auth";
 import type { Nullable } from "@/types/generics";
 
 export async function authenticate(
@@ -13,10 +13,7 @@ export async function authenticate(
     method: "POST",
     credentials: "include",
     headers: getAuthHeaders({ csrfToken }),
-    body: JSON.stringify({
-      email: values.email,
-      password: values.password,
-    }),
+    body: JSON.stringify({ ...values }),
   });
 
   if (!res.ok) {
@@ -33,4 +30,21 @@ export async function logOutSession(csrfToken: Nullable<string>) {
     credentials: "include",
     headers: getAuthHeaders({ csrfToken }),
   });
+}
+
+export async function verifySession(
+  values: z.infer<typeof VerificationFormSchema>,
+  csrfToken: Nullable<string>,
+) {
+  const res = await fetch(getApiUrl("_allauth/browser/v1/auth/email/verify"), {
+    method: "POST",
+    credentials: "include",
+    headers: getAuthHeaders({ csrfToken }),
+    body: JSON.stringify({ ...values }),
+  });
+
+  if (!res.ok) {
+    const errData = await res.json();
+    throw errData;
+  }
 }

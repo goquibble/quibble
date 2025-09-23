@@ -3,12 +3,12 @@ from ninja.security import SessionAuth
 
 from api.auth import ProfileAuth
 from api.http import CustomHttpRequest
-from api.schemas.user import ProfileOutSchema, ProfileSchema
+from api.schemas.user import ProfileSchema
 
 router = Router()
 
 
-@router.get("/me/profiles", auth=SessionAuth(), response=list[ProfileOutSchema])
+@router.get("/me/profiles", auth=SessionAuth(), response=list[ProfileSchema])
 def get_my_profiles(request: CustomHttpRequest):
     return request.custom_user.profiles.all()
 

@@ -1,13 +1,7 @@
 from typing import Any
-from ninja import ModelSchema, Schema
+from ninja import ModelSchema
 
 from user.models import Profile
-
-
-class ProfileOutSchema(Schema):
-    id: int
-    username: str
-    avatar: str
 
 
 class ProfileSchema(ModelSchema):

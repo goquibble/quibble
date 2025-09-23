@@ -40,6 +40,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
     mutationFn: (values: z.infer<typeof AuthFormSchema>) =>
       authenticate(mode, values, csrfToken),
     onSuccess: async ({ status }) => {
+      console.log(status);
       if (status === 401 && mode === "signup") {
         nextStep();
       } else {
@@ -64,14 +65,19 @@ export default function AuthForm({ mode }: AuthFormProps) {
         }
       }
     },
-    onError: (err) => {
-      // @ts-expect-error: type doesn't matter here
-      const error = err.errors?.[0];
-      if (error) {
-        form.setError(error.param || "password", {
-          type: error.code || "server",
-          message: error.message,
-        });
+    onError: (err: Error & { status: number }) => {
+      // 401 happens after signup and needs verification
+      if (err.status === 401) {
+        nextStep(); // show verification step
+      } else {
+        // @ts-expect-error: type doesn't matter here
+        const error = err.errors?.[0];
+        if (error) {
+          form.setError(error.param || "password", {
+            type: error.code || "server",
+            message: error.message,
+          });
+        }
       }
     },
   });
