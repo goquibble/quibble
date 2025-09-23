@@ -1,5 +1,4 @@
 from pathlib import Path
-from typing import cast
 import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -13,12 +12,12 @@ environ.Env.read_env(BASE_DIR / ".env")
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-%%39)mmx&9x)r@8*7!!&7ueyz1(e-q@(xmnu%9jll%et46j58q"
+SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("DEBUG")
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
 # Application definition
 INSTALLED_APPS = [
@@ -166,6 +165,5 @@ CSRF_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SAMESITE = "None" if not DEBUG else "Lax"
 CSRF_COOKIE_DOMAIN = None if DEBUG else env("COOKIE_DOMAIN")
 
-_origins = cast(str, env("ALLOWED_ORIGINS")).split(",")
-CSRF_TRUSTED_ORIGINS = _origins
-CORS_ALLOWED_ORIGINS = _origins
+CSRF_TRUSTED_ORIGINS = env.list("ALLOWED_ORIGINS")
+CORS_ALLOWED_ORIGINS = env.list("ALLOWED_ORIGINS")
