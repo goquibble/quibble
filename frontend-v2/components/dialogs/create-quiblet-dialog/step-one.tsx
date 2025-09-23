@@ -5,8 +5,10 @@ import z from "zod";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -66,19 +68,20 @@ export default function StepOne({
         name="name"
         render={({ field }) => (
           <FormItem className="gap-1">
+            <div className="flex items-center justify-between">
+              <FormLabel>Name*</FormLabel>
+              <FormDescription>
+                {field.value.length}/{MAX_BIO_LENGTH}
+              </FormDescription>
+            </div>
             <FormControl>
               <Input
-                placeholder="Quiblet name*"
+                placeholder="Quiblet name"
                 maxLength={MAX_NAME_LENGTH}
                 {...field}
               />
             </FormControl>
-            <div className="flex items-center gap-2">
-              <FormMessage />
-              <span className="ml-auto text-muted-foreground text-sm">
-                {field.value.length}/{MAX_NAME_LENGTH}
-              </span>
-            </div>
+            <FormMessage />
           </FormItem>
         )}
       />
@@ -87,20 +90,21 @@ export default function StepOne({
         name="bio"
         render={({ field }) => (
           <FormItem className="gap-1">
+            <div className="flex items-center justify-between">
+              <FormLabel>Description*</FormLabel>
+              <FormDescription>
+                {field.value.length}/{MAX_BIO_LENGTH}
+              </FormDescription>
+            </div>
             <FormControl>
               <Textarea
-                placeholder="Description*"
+                placeholder="Something about your quiblet..."
                 maxLength={MAX_BIO_LENGTH}
                 className="h-40"
                 {...field}
               />
             </FormControl>
-            <div className="flex items-center gap-2">
-              <FormMessage />
-              <span className="ml-auto text-muted-foreground text-sm">
-                {field.value.length}/{MAX_BIO_LENGTH}
-              </span>
-            </div>
+            <FormMessage />
           </FormItem>
         )}
       />
