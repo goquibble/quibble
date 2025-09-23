@@ -13,6 +13,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
+import type { Nullable } from "@/types/generics";
 import StepOne from "./step-one";
 import StepTwo from "./step-two";
 
@@ -22,8 +23,9 @@ interface CreateQuibletDialogProps {
   children: React.ReactNode;
 }
 
+type UpdateValue = Nullable<string | File | undefined>;
 export interface StepProps {
-  onUpdate: (key: string, value: string) => void;
+  onUpdate: (key: string, value: UpdateValue) => void;
   onValidityChange: (valid: boolean) => void;
 }
 
@@ -43,7 +45,7 @@ export default function CreateQuibletDialog({
   const [isCurrentStepValid, setIsCurrentStepValid] = useState(false);
   const CurrentStep = steps[currentStep];
 
-  const handleUpdate = useCallback((key: string, value: string) => {
+  const handleUpdate = useCallback((key: string, value: UpdateValue) => {
     setData((prev) => ({ ...prev, [key]: value }));
   }, []);
 

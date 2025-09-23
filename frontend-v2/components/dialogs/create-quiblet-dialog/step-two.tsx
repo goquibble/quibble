@@ -28,7 +28,7 @@ const StepTwoSchema = z.object({
   banner: fileSchema.optional().nullable(),
 });
 
-export default function StepTwo({ onValidityChange }: StepProps) {
+export default function StepTwo({ onUpdate, onValidityChange }: StepProps) {
   const form = useForm<z.infer<typeof StepTwoSchema>>({
     resolver: zodResolver(StepTwoSchema),
     mode: "onChange",
@@ -37,6 +37,18 @@ export default function StepTwo({ onValidityChange }: StepProps) {
       banner: null,
     },
   });
+
+  // watch values for storing values
+  const avatar = form.watch("avatar");
+  const banner = form.watch("banner");
+
+  useEffect(() => {
+    onUpdate("avatar", avatar);
+  }, [avatar, onUpdate]);
+
+  useEffect(() => {
+    onUpdate("banner", banner);
+  }, [banner, onUpdate]);
 
   useEffect(() => {
     onValidityChange(form.formState.isValid);
