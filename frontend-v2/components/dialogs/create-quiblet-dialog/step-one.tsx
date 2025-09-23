@@ -43,7 +43,6 @@ export default function StepOne({
     },
   });
 
-  // watch values for storing values
   const name = form.watch("name");
   const bio = form.watch("bio");
 

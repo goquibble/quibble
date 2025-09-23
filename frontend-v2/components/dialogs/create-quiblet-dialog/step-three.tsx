@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Ban, Globe, Lock, type LucideProps, ScanEye } from "lucide-react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import {
@@ -14,6 +15,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
+import type { StepProps } from "./create-quiblet-dialog";
 
 const FormSchema = z.object({
   type: z.enum(["public", "restricted", "private"]),
@@ -47,14 +49,25 @@ const typeMapping: Record<
   },
 };
 
-export default function StepThree() {
+export default function StepThree({ data, onUpdate }: StepProps) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      type: "public",
-      nsfw: false,
+      type: (data?.type as z.infer<typeof FormSchema>["type"]) || "public",
+      nsfw: data?.nsfw || false,
     },
   });
+
+  const type = form.watch("type");
+  const nsfw = form.watch("nsfw");
+
+  useEffect(() => {
+    onUpdate("type", type);
+  }, [type, onUpdate]);
+
+  useEffect(() => {
+    onUpdate("nsfw", nsfw);
+  }, [nsfw, onUpdate]);
 
   return (
     <Form {...form}>

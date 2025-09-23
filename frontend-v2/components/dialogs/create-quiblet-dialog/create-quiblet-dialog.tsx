@@ -30,9 +30,11 @@ export interface Data
     bio: string;
     avatar: Nullable<File>;
     banner: Nullable<File>;
+    type: string;
+    nsfw: boolean;
   }> {}
 
-type UpdateValue = Nullable<string | File | undefined>;
+type UpdateValue = Nullable<string | File | boolean | undefined>;
 export interface StepProps {
   data?: Data;
   onUpdate: (key: string, value: UpdateValue) => void;

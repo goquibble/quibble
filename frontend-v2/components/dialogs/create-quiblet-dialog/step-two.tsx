@@ -43,7 +43,6 @@ export default function StepTwo({
     },
   });
 
-  // watch values for storing values
   const avatar = form.watch("avatar");
   const banner = form.watch("banner");
 
