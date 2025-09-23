@@ -86,7 +86,7 @@ export default function CreateQuibletDialog({
           <PreviewCard data={data} />
         </div>
         <DialogFooter>
-          <div className="mr-auto flex items-center gap-1">
+          <div className="mr-auto flex items-center gap-2">
             {Array.from({ length: steps.length }).map((_, idx) => (
               <span
                 key={`step-indicator-${idx.toString()}`}

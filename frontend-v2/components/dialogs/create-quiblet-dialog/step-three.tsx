@@ -117,7 +117,9 @@ export default function StepThree({ data, onUpdate }: StepProps) {
         render={({ field }) => (
           <FormItem className="flex items-center justify-between p-2">
             <div className="flex items-center gap-2">
-              <Ban className={"size-5"} />
+              <Ban
+                className={cn("size-5", field.value === true && "text-primary")}
+              />
               <div className="flex flex-col">
                 <FormLabel>Mature (18+)</FormLabel>
                 <FormDescription>Users must be over 18</FormDescription>
