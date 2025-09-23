@@ -5,6 +5,7 @@ import z from "zod";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -65,7 +66,7 @@ export default function StepTwo({
           control={form.control}
           name="avatar"
           render={({ field: { onChange, value, ...field } }) => (
-            <FormItem className="gap-1">
+            <FormItem className="h-max gap-1">
               <div className="flex items-center justify-between">
                 <FormLabel>Avatar</FormLabel>
                 <FormMessage>
@@ -82,6 +83,9 @@ export default function StepTwo({
                   onChange={(e) => onChange(e.target.files?.[0] ?? null)}
                 />
               </FormControl>
+              {data?.avatar && (
+                <FormDescription>{data.avatar.name}</FormDescription>
+              )}
             </FormItem>
           )}
         />
@@ -89,7 +93,7 @@ export default function StepTwo({
           control={form.control}
           name="banner"
           render={({ field: { onChange, value, ...field } }) => (
-            <FormItem className="gap-1">
+            <FormItem className="h-max gap-1">
               <div className="flex items-center justify-between">
                 <FormLabel>Banner</FormLabel>
                 <FormMessage>
@@ -106,6 +110,9 @@ export default function StepTwo({
                   onChange={(e) => onChange(e.target.files?.[0] ?? null)}
                 />
               </FormControl>
+              {data?.banner && (
+                <FormDescription>{data.banner.name}</FormDescription>
+              )}
             </FormItem>
           )}
         />
