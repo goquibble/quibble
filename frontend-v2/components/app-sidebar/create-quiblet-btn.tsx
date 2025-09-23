@@ -8,7 +8,7 @@ import { Button } from "../ui/button";
 const CreateBtn = (props: React.ComponentProps<typeof Button>) => {
   return (
     <Button size={"sm"} variant={"outline"} {...props}>
-      <PlusCircle className="size-3" />
+      <PlusCircle />
       Create Quiblet
     </Button>
   );
