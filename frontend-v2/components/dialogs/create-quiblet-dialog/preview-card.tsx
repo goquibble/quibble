@@ -39,7 +39,7 @@ export default function PreviewCard({ data }: PreviewCardProps) {
         }}
       ></div>
       <div className="flex flex-col rounded-b-md border border-t-0 p-4">
-        <div className="flex gap-4">
+        <div className="flex gap-2">
           <Avatar className="size-10 rounded-md">
             <AvatarImage src={avatarPreview} />
             <AvatarFallback>

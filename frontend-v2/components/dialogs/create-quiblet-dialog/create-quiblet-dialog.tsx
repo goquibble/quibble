@@ -84,9 +84,18 @@ export default function CreateQuibletDialog({
               ></span>
             ))}
           </div>
-          <DialogClose asChild>
-            <Button variant={"outline"}>Cancel</Button>
-          </DialogClose>
+          {currentStep > 0 ? (
+            <Button
+              variant={"outline"}
+              onClick={() => setCurrentStep((prev) => prev - 1)}
+            >
+              Back
+            </Button>
+          ) : (
+            <DialogClose asChild>
+              <Button variant={"outline"}>Cancel</Button>
+            </DialogClose>
+          )}
           <Button
             disabled={!isCurrentStepValid}
             onClick={() => setCurrentStep((prev) => prev + 1)}
