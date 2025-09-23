@@ -1,7 +1,6 @@
-import { Filter, PlusCircle } from "lucide-react";
-import CreateQuibletDialog from "../dialogs/create-quiblet-dialog/create-quiblet-dialog";
-import { Button } from "../ui/button";
+import { Filter } from "lucide-react";
 import IconInput from "../ui/icon-input";
+import CreateQuibletBtn from "./create-quiblet-btn";
 import Misc from "./misc";
 import RecentQuiblets from "./recent-quiblets";
 import YourQuiblets from "./your-quiblets";
@@ -17,12 +16,7 @@ export default function AppSidebar() {
           className="h-8 pl-9"
           disabled
         />
-        <CreateQuibletDialog>
-          <Button size={"sm"} variant={"outline"}>
-            <PlusCircle className="size-4" />
-            Create Quiblet
-          </Button>
-        </CreateQuibletDialog>
+        <CreateQuibletBtn />
       </div>
       <div className="flex flex-col gap-2">
         <RecentQuiblets />
