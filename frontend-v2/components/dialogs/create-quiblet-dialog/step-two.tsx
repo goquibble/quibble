@@ -7,6 +7,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -29,6 +30,7 @@ const StepTwoSchema = z.object({
 export default function StepTwo({ onValidityChange }: StepProps) {
   const form = useForm<z.infer<typeof StepTwoSchema>>({
     resolver: zodResolver(StepTwoSchema),
+    mode: "onChange",
     defaultValues: {
       avatar: null,
       banner: null,
@@ -46,6 +48,10 @@ export default function StepTwo({ onValidityChange }: StepProps) {
         name="avatar"
         render={({ field: { onChange, value, ...field } }) => (
           <FormItem className="gap-1">
+            <div className="flex items-center justify-between">
+              <FormLabel>Avatar</FormLabel>
+              <FormMessage>Max file size is 5MB</FormMessage>
+            </div>
             <FormControl>
               <Input
                 type="file"
@@ -54,7 +60,6 @@ export default function StepTwo({ onValidityChange }: StepProps) {
                 onChange={(e) => onChange(e.target.files?.[0] ?? null)}
               />
             </FormControl>
-            <FormMessage />
           </FormItem>
         )}
       />
@@ -63,6 +68,10 @@ export default function StepTwo({ onValidityChange }: StepProps) {
         name="banner"
         render={({ field: { onChange, value, ...field } }) => (
           <FormItem className="gap-1">
+            <div className="flex items-center justify-between">
+              <FormLabel>Banner</FormLabel>
+              <FormMessage>Max file size is 5MB</FormMessage>
+            </div>
             <FormControl>
               <Input
                 type="file"
@@ -71,7 +80,6 @@ export default function StepTwo({ onValidityChange }: StepProps) {
                 onChange={(e) => onChange(e.target.files?.[0] ?? null)}
               />
             </FormControl>
-            <FormMessage />
           </FormItem>
         )}
       />
