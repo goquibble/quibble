@@ -14,13 +14,13 @@ import { Input } from "@/components/ui/input";
 import { formatBytes } from "@/lib/utils";
 import type { StepProps } from "./create-quiblet-dialog";
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+const MAX_FILE_SIZE = 1 * 1024 * 1024; // 1MB
 
 const fileSchema = z
   .instanceof(File)
   .refine(
     (file) => file.size < MAX_FILE_SIZE,
-    "File size must be less than 5MB",
+    `Max Size is ${formatBytes(MAX_FILE_SIZE)}`,
   );
 
 const StepTwoSchema = z.object({
@@ -60,7 +60,7 @@ export default function StepTwo({
 
   return (
     <Form {...form}>
-      <div className="flex gap-4">
+      <div className="grid grid-cols-2 gap-4">
         <FormField
           control={form.control}
           name="avatar"
@@ -70,7 +70,7 @@ export default function StepTwo({
                 <FormLabel>Avatar</FormLabel>
                 <FormMessage>
                   {form.getValues("avatar")
-                    ? `${formatBytes((form.getValues("avatar") as File).size)} (max ${formatBytes(MAX_FILE_SIZE)})`
+                    ? `${formatBytes((form.getValues("avatar") as File).size)}`
                     : `(max ${formatBytes(MAX_FILE_SIZE)})`}
                 </FormMessage>
               </div>
@@ -94,7 +94,7 @@ export default function StepTwo({
                 <FormLabel>Banner</FormLabel>
                 <FormMessage>
                   {form.getValues("banner")
-                    ? `${formatBytes((form.getValues("banner") as File).size)} (max ${formatBytes(MAX_FILE_SIZE)})`
+                    ? `${formatBytes((form.getValues("banner") as File).size)}`
                     : `(max ${formatBytes(MAX_FILE_SIZE)})`}
                 </FormMessage>
               </div>
