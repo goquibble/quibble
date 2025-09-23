@@ -54,6 +54,14 @@ export default function CreateQuibletDialog({
     setIsCurrentStepValid(valid);
   }, []);
 
+  const handleNextOrSubmit = () => {
+    if (currentStep !== steps.length - 1) {
+      setCurrentStep((prev) => prev + 1);
+    } else {
+      // handle submission
+    }
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -98,11 +106,8 @@ export default function CreateQuibletDialog({
               <Button variant={"outline"}>Cancel</Button>
             </DialogClose>
           )}
-          <Button
-            disabled={!isCurrentStepValid}
-            onClick={() => setCurrentStep((prev) => prev + 1)}
-          >
-            Next
+          <Button disabled={!isCurrentStepValid} onClick={handleNextOrSubmit}>
+            {currentStep === steps.length - 1 ? "Create Quiblet" : "Next"}
           </Button>
         </DialogFooter>
       </DialogContent>
