@@ -28,13 +28,17 @@ const StepTwoSchema = z.object({
   banner: fileSchema.optional().nullable(),
 });
 
-export default function StepTwo({ onUpdate, onValidityChange }: StepProps) {
+export default function StepTwo({
+  data,
+  onUpdate,
+  onValidityChange,
+}: StepProps) {
   const form = useForm<z.infer<typeof StepTwoSchema>>({
     resolver: zodResolver(StepTwoSchema),
     mode: "onChange",
     defaultValues: {
-      avatar: null,
-      banner: null,
+      avatar: data?.avatar,
+      banner: data?.banner,
     },
   });
 
@@ -56,54 +60,56 @@ export default function StepTwo({ onUpdate, onValidityChange }: StepProps) {
 
   return (
     <Form {...form}>
-      <FormField
-        control={form.control}
-        name="avatar"
-        render={({ field: { onChange, value, ...field } }) => (
-          <FormItem className="gap-1">
-            <div className="flex items-center justify-between">
-              <FormLabel>Avatar</FormLabel>
-              <FormMessage>
-                {form.getValues("avatar")
-                  ? `${formatBytes((form.getValues("avatar") as File).size)} (max ${formatBytes(MAX_FILE_SIZE)})`
-                  : `(max ${formatBytes(MAX_FILE_SIZE)})`}
-              </FormMessage>
-            </div>
-            <FormControl>
-              <Input
-                type="file"
-                accept="image/*"
-                {...field}
-                onChange={(e) => onChange(e.target.files?.[0] ?? null)}
-              />
-            </FormControl>
-          </FormItem>
-        )}
-      />
-      <FormField
-        control={form.control}
-        name="banner"
-        render={({ field: { onChange, value, ...field } }) => (
-          <FormItem className="gap-1">
-            <div className="flex items-center justify-between">
-              <FormLabel>Banner</FormLabel>
-              <FormMessage>
-                {form.getValues("banner")
-                  ? `${formatBytes((form.getValues("banner") as File).size)} (max ${formatBytes(MAX_FILE_SIZE)})`
-                  : `(max ${formatBytes(MAX_FILE_SIZE)})`}
-              </FormMessage>
-            </div>
-            <FormControl>
-              <Input
-                type="file"
-                accept="image/*"
-                {...field}
-                onChange={(e) => onChange(e.target.files?.[0] ?? null)}
-              />
-            </FormControl>
-          </FormItem>
-        )}
-      />
+      <div className="flex gap-4">
+        <FormField
+          control={form.control}
+          name="avatar"
+          render={({ field: { onChange, value, ...field } }) => (
+            <FormItem className="gap-1">
+              <div className="flex items-center justify-between">
+                <FormLabel>Avatar</FormLabel>
+                <FormMessage>
+                  {form.getValues("avatar")
+                    ? `${formatBytes((form.getValues("avatar") as File).size)} (max ${formatBytes(MAX_FILE_SIZE)})`
+                    : `(max ${formatBytes(MAX_FILE_SIZE)})`}
+                </FormMessage>
+              </div>
+              <FormControl>
+                <Input
+                  type="file"
+                  accept="image/*"
+                  {...field}
+                  onChange={(e) => onChange(e.target.files?.[0] ?? null)}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="banner"
+          render={({ field: { onChange, value, ...field } }) => (
+            <FormItem className="gap-1">
+              <div className="flex items-center justify-between">
+                <FormLabel>Banner</FormLabel>
+                <FormMessage>
+                  {form.getValues("banner")
+                    ? `${formatBytes((form.getValues("banner") as File).size)} (max ${formatBytes(MAX_FILE_SIZE)})`
+                    : `(max ${formatBytes(MAX_FILE_SIZE)})`}
+                </FormMessage>
+              </div>
+              <FormControl>
+                <Input
+                  type="file"
+                  accept="image/*"
+                  {...field}
+                  onChange={(e) => onChange(e.target.files?.[0] ?? null)}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+      </div>
     </Form>
   );
 }

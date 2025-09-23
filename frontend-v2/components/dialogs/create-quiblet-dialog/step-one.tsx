@@ -27,13 +27,17 @@ const StepOneSchema = z.object({
     .max(MAX_BIO_LENGTH, "Description too long"),
 });
 
-export default function StepOne({ onUpdate, onValidityChange }: StepProps) {
+export default function StepOne({
+  data,
+  onUpdate,
+  onValidityChange,
+}: StepProps) {
   const form = useForm<z.infer<typeof StepOneSchema>>({
     resolver: zodResolver(StepOneSchema),
     mode: "onChange",
     defaultValues: {
-      name: "",
-      bio: "",
+      name: data?.name || "",
+      bio: data?.bio || "",
     },
   });
 

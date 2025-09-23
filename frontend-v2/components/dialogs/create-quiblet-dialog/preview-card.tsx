@@ -33,7 +33,7 @@ export default function PreviewCard({ data }: PreviewCardProps) {
   return (
     <div className="h-max w-60">
       <div
-        className="h-10 rounded-t-md bg-center bg-cover bg-primary"
+        className="h-10 rounded-t-md bg-center bg-cover bg-secondary"
         style={{
           backgroundImage: bannerPreview ? `url(${bannerPreview})` : undefined,
         }}

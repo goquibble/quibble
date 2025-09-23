@@ -23,12 +23,6 @@ interface CreateQuibletDialogProps {
   children: React.ReactNode;
 }
 
-type UpdateValue = Nullable<string | File | undefined>;
-export interface StepProps {
-  onUpdate: (key: string, value: UpdateValue) => void;
-  onValidityChange: (valid: boolean) => void;
-}
-
 export interface Data
   extends Partial<{
     name: string;
@@ -36,6 +30,13 @@ export interface Data
     avatar: Nullable<File>;
     banner: Nullable<File>;
   }> {}
+
+type UpdateValue = Nullable<string | File | undefined>;
+export interface StepProps {
+  data?: Data;
+  onUpdate: (key: string, value: UpdateValue) => void;
+  onValidityChange: (valid: boolean) => void;
+}
 
 export default function CreateQuibletDialog({
   children,
@@ -66,6 +67,7 @@ export default function CreateQuibletDialog({
         <div className="flex gap-4">
           <div className="flex flex-1 flex-col gap-2">
             <CurrentStep
+              data={data}
               onUpdate={handleUpdate}
               onValidityChange={handleValidityChange}
             />
