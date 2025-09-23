@@ -14,8 +14,9 @@ import {
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import StepOne from "./step-one";
+import StepTwo from "./step-two";
 
-const steps = [StepOne];
+const steps = [StepOne, StepTwo];
 
 interface CreateQuibletDialogProps {
   children: React.ReactNode;
@@ -37,7 +38,7 @@ interface Data
 export default function CreateQuibletDialog({
   children,
 }: CreateQuibletDialogProps) {
-  const [currentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(0);
   const [data, setData] = useState<Data>({});
   const [isCurrentStepValid, setIsCurrentStepValid] = useState(false);
   const CurrentStep = steps[currentStep];
@@ -106,7 +107,12 @@ export default function CreateQuibletDialog({
           <DialogClose asChild>
             <Button variant={"outline"}>Cancel</Button>
           </DialogClose>
-          <Button disabled={!isCurrentStepValid}>Next</Button>
+          <Button
+            disabled={!isCurrentStepValid}
+            onClick={() => setCurrentStep((prev) => prev + 1)}
+          >
+            Next
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
