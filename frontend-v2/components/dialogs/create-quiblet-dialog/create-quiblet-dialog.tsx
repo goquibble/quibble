@@ -1,6 +1,5 @@
 "use client";
 import { useCallback, useState } from "react";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -14,6 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import type { Nullable } from "@/types/generics";
+import PreviewCard from "./preview-card";
 import StepOne from "./step-one";
 import StepTwo from "./step-two";
 
@@ -29,12 +29,12 @@ export interface StepProps {
   onValidityChange: (valid: boolean) => void;
 }
 
-interface Data
+export interface Data
   extends Partial<{
     name: string;
     bio: string;
-    avatar: string;
-    banner: string;
+    avatar: Nullable<File>;
+    banner: Nullable<File>;
   }> {}
 
 export default function CreateQuibletDialog({
@@ -70,29 +70,7 @@ export default function CreateQuibletDialog({
               onValidityChange={handleValidityChange}
             />
           </div>
-          <div className="h-max w-60">
-            <div className="h-10 rounded-t-md bg-primary"></div>
-            <div className="flex flex-col rounded-b-md border border-t-0 p-4">
-              <div className="flex gap-4">
-                <Avatar className="size-10 rounded-md">
-                  <AvatarFallback>
-                    {data.name ? data.name.slice(0, 2) : "QN"}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="flex flex-col">
-                  <span className="break-all font-medium">
-                    q/{data.name || "quibletname"}
-                  </span>
-                  <span className="text-muted-foreground text-xs">
-                    1 member — 1 online
-                  </span>
-                </div>
-              </div>
-              <p className="mt-2 text-muted-foreground text-sm">
-                {data.bio || "Your quiblet description"}
-              </p>
-            </div>
-          </div>
+          <PreviewCard data={data} />
         </div>
         <DialogFooter>
           <div className="mr-auto flex items-center gap-1">
