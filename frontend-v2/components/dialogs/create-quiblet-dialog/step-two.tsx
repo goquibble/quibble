@@ -11,6 +11,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { formatBytes } from "@/lib/utils";
 import type { StepProps } from "./create-quiblet-dialog";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
@@ -50,7 +51,11 @@ export default function StepTwo({ onValidityChange }: StepProps) {
           <FormItem className="gap-1">
             <div className="flex items-center justify-between">
               <FormLabel>Avatar</FormLabel>
-              <FormMessage>Max file size is 5MB</FormMessage>
+              <FormMessage>
+                {form.getValues("avatar")
+                  ? `${formatBytes((form.getValues("avatar") as File).size)} (max ${formatBytes(MAX_FILE_SIZE)})`
+                  : `(max ${formatBytes(MAX_FILE_SIZE)})`}
+              </FormMessage>
             </div>
             <FormControl>
               <Input
@@ -70,7 +75,11 @@ export default function StepTwo({ onValidityChange }: StepProps) {
           <FormItem className="gap-1">
             <div className="flex items-center justify-between">
               <FormLabel>Banner</FormLabel>
-              <FormMessage>Max file size is 5MB</FormMessage>
+              <FormMessage>
+                {form.getValues("banner")
+                  ? `${formatBytes((form.getValues("banner") as File).size)} (max ${formatBytes(MAX_FILE_SIZE)})`
+                  : `(max ${formatBytes(MAX_FILE_SIZE)})`}
+              </FormMessage>
             </div>
             <FormControl>
               <Input
