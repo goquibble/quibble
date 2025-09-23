@@ -32,6 +32,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     class Meta:
         ordering = ["-date_joined"]
+        verbose_name = "User"
+        verbose_name_plural = "Users"
 
 
 class Profile(CreatedAtMixin, AvatarMixin):
