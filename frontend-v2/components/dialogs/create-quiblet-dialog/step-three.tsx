@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Globe, Lock, type LucideProps, ScanEye } from "lucide-react";
+import { Ban, Globe, Lock, type LucideProps, ScanEye } from "lucide-react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import {
@@ -11,10 +11,13 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Separator } from "@/components/ui/separator";
+import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 
 const FormSchema = z.object({
   type: z.enum(["public", "restricted", "private"]),
+  nsfw: z.boolean(),
 });
 
 const typeMapping: Record<
@@ -49,6 +52,7 @@ export default function StepThree() {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       type: "public",
+      nsfw: false,
     },
   });
 
@@ -59,38 +63,55 @@ export default function StepThree() {
         name="type"
         render={({ field }) => (
           <FormItem>
-            <FormControl>
-              <RadioGroup
-                onValueChange={field.onChange}
-                defaultValue={field.value}
-                className="gap-0"
-              >
-                {Object.entries(typeMapping).map(([key, item]) => (
-                  <FormItem
-                    key={key}
-                    className={cn(
-                      "flex items-center justify-between rounded-md border border-transparent p-2",
-                      field.value === key && "border-border bg-input/30",
-                    )}
-                  >
-                    <div className="flex items-center gap-2">
-                      <item.Icon
-                        className={cn(
-                          "size-5",
-                          field.value === key && "text-primary",
-                        )}
-                      />
-                      <div className="flex flex-col">
-                        <FormLabel>{item.label}</FormLabel>
-                        <FormDescription>{item.description}</FormDescription>
-                      </div>
+            <RadioGroup
+              onValueChange={field.onChange}
+              defaultValue={field.value}
+              className="gap-0"
+            >
+              {Object.entries(typeMapping).map(([key, item]) => (
+                <FormItem
+                  key={key}
+                  className={cn(
+                    "flex items-center justify-between rounded-md border border-transparent p-2",
+                    field.value === key && "border-border bg-input/30",
+                  )}
+                >
+                  <div className="flex items-center gap-2">
+                    <item.Icon
+                      className={cn(
+                        "size-5",
+                        field.value === key && "text-primary",
+                      )}
+                    />
+                    <div className="flex flex-col">
+                      <FormLabel>{item.label}</FormLabel>
+                      <FormDescription>{item.description}</FormDescription>
                     </div>
-                    <FormControl>
-                      <RadioGroupItem value={key} />
-                    </FormControl>
-                  </FormItem>
-                ))}
-              </RadioGroup>
+                  </div>
+                  <FormControl>
+                    <RadioGroupItem value={key} />
+                  </FormControl>
+                </FormItem>
+              ))}
+            </RadioGroup>
+          </FormItem>
+        )}
+      />
+      <Separator />
+      <FormField
+        control={form.control}
+        name="nsfw"
+        render={({ field }) => (
+          <FormItem className="flex items-center justify-between p-2">
+            <div className="flex items-center gap-2">
+              <Ban className={"size-5"} />
+              <div className="flex flex-col">
+                <FormLabel>Mature (18+)</FormLabel>
+                <FormDescription>Users must be over 18</FormDescription>
+              </div>
+            </div>
+            <FormControl>
+              <Switch checked={field.value} onCheckedChange={field.onChange} />
             </FormControl>
           </FormItem>
         )}
