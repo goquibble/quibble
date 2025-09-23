@@ -15,9 +15,10 @@ import { cn } from "@/lib/utils";
 import type { Nullable } from "@/types/generics";
 import PreviewCard from "./preview-card";
 import StepOne from "./step-one";
+import StepThree from "./step-three";
 import StepTwo from "./step-two";
 
-const steps = [StepOne, StepTwo];
+const steps = [StepOne, StepTwo, StepThree];
 
 interface CreateQuibletDialogProps {
   children: React.ReactNode;

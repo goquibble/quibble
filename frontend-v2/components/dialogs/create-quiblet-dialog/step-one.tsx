@@ -18,7 +18,7 @@ import type { StepProps } from "./create-quiblet-dialog";
 const MAX_NAME_LENGTH = 20;
 const MAX_BIO_LENGTH = 150;
 
-const StepOneSchema = z.object({
+const FormSchema = z.object({
   name: z
     .string()
     .min(3, "Name must be at least 3 characters long")
@@ -34,8 +34,8 @@ export default function StepOne({
   onUpdate,
   onValidityChange,
 }: StepProps) {
-  const form = useForm<z.infer<typeof StepOneSchema>>({
-    resolver: zodResolver(StepOneSchema),
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
     mode: "onChange",
     defaultValues: {
       name: data?.name || "",

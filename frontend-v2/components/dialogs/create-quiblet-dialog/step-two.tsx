@@ -24,7 +24,7 @@ const fileSchema = z
     `Max Size is ${formatBytes(MAX_FILE_SIZE)}`,
   );
 
-const StepTwoSchema = z.object({
+const FormSchema = z.object({
   avatar: fileSchema.optional().nullable(),
   banner: fileSchema.optional().nullable(),
 });
@@ -34,8 +34,8 @@ export default function StepTwo({
   onUpdate,
   onValidityChange,
 }: StepProps) {
-  const form = useForm<z.infer<typeof StepTwoSchema>>({
-    resolver: zodResolver(StepTwoSchema),
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
     mode: "onChange",
     defaultValues: {
       avatar: data?.avatar,
