@@ -8,12 +8,12 @@ import { Icons } from "../icons";
 
 const misc = [
   {
-    href: "https://github.com/quibble-dev/quibble",
+    href: "https://github.com/quibblespace/quibble",
     icon: Icons.icon,
     label: "About Quibble",
   },
   {
-    href: "https://github.com/quibble-dev/quibble/discussions",
+    href: "https://github.com/quibblespace/quibble/discussions",
     icon: HelpCircle,
     label: "Help",
   },

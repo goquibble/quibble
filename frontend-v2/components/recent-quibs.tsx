@@ -14,7 +14,7 @@ const recentQuibs = [
   },
   {
     id: 2,
-    quiblet: "quibble-dev",
+    quiblet: "quibblespace",
     title: "Just finished my first side project!",
     cover: null,
     upvotes: 15,

@@ -13,17 +13,17 @@ import { Button } from "./ui/button";
 export default function QuibCard() {
   return (
     <div className="group relative flex flex-col gap-2 rounded-lg border bg-muted/25 p-4 transition-colors hover:bg-muted/50">
-      <Link href={`/q/quibble-dev/sxd2sh`} className="absolute inset-0" />
+      <Link href={`/q/quibblespace/sxd2sh`} className="absolute inset-0" />
       <div className="flex items-center gap-2">
         <Link
-          href={`/q/quibble-dev`}
+          href={`/q/quibblespace`}
           className="relative flex items-center gap-2 hover:underline"
         >
           <Avatar className="size-6">
-            <AvatarImage src={`https://github.com/quibble-dev.png`} />
+            <AvatarImage src={`https://github.com/quibblespace.png`} />
             <AvatarFallback>QD</AvatarFallback>
           </Avatar>
-          <span className="font-medium text-sm">q/quibble-dev</span>
+          <span className="font-medium text-sm">q/quibblespace</span>
         </Link>
         <span className="text-muted-foreground text-xs">— 1hr ago</span>
       </div>

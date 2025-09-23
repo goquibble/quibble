@@ -1,7 +1,7 @@
 export const recentQuiblets = [
   {
-    name: "quibble-dev",
-    avatar: "https://github.com/quibble-dev.png",
+    name: "quibblespace",
+    avatar: "https://github.com/quibblespace.png",
     isStarred: true,
   },
   {
