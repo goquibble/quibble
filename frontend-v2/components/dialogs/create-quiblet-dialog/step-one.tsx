@@ -18,8 +18,8 @@ import { getApiUrl } from "@/lib/api-client";
 import type { StepProps } from "./create-quiblet-dialog";
 
 const MAX_NAME_LENGTH = 20;
-const MAX_BIO_LENGTH = 150;
 const MIN_NAME_LENGTH = 3;
+const MAX_BIO_LENGTH = 150;
 
 const FormSchema = z.object({
   name: z
@@ -118,7 +118,7 @@ export default function StepOne({
             <div className="flex items-center justify-between">
               <FormLabel>Name*</FormLabel>
               <FormDescription>
-                {field.value.length}/{MAX_BIO_LENGTH}
+                {field.value.length}/{MAX_NAME_LENGTH}
               </FormDescription>
             </div>
             <FormControl>
