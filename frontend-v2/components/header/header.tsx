@@ -1,5 +1,6 @@
 "use client";
 import {
+  Bell,
   ChartNoAxesColumn,
   ChartNoAxesColumnIncreasing,
   Home,
@@ -82,6 +83,9 @@ export default function Header() {
             <Button>
               <Plus />
               Create Quib
+            </Button>
+            <Button variant={"outline"} size={"icon"}>
+              <Bell />
             </Button>
             <PfpDropdown username={userProfile.username}>
               <Avatar className="size-9 rounded-md">
