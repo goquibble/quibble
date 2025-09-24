@@ -28,7 +28,7 @@ export default async function Quiblet({ params }: PageProps<"/q/[name]">) {
           <Plus />
           Create Quib
         </Button>
-        <Button variant={"secondary"}>Joined</Button>
+        <Button variant={"outline"}>Joined</Button>
         <Button variant={"outline"} size={"icon"}>
           <Ellipsis />
         </Button>
