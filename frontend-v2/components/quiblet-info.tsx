@@ -1,4 +1,5 @@
 import { Book, CakeSlice, Globe } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 
 export default function QuibletInfo() {
@@ -31,6 +32,22 @@ export default function QuibletInfo() {
         <div className="flex flex-col">
           <span className="font-bold text-sm">256</span>
           <span className="text-muted-foreground text-sm">Quibs</span>
+        </div>
+      </div>
+      <div className="flex flex-col gap-2">
+        <span className="font-medium text-sm">Moderators</span>
+        <div className="flex items-center gap-2">
+          <Avatar>
+            <AvatarImage
+              src={"https://github.com/stabldev.png"}
+              alt="stabldev"
+            />
+            <AvatarFallback>SD</AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col">
+            <span className="font-medium text-sm">u/stabldev</span>
+            <span className="text-muted-foreground text-sm/none">Stabldev</span>
+          </div>
         </div>
       </div>
     </aside>
