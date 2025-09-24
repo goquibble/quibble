@@ -4,12 +4,15 @@ from ninja import NinjaAPI
 from ninja.responses import Response
 
 from .views.user import router as user_router
+from .views.quiblet import router as quiblet_router
 
 api_v1 = NinjaAPI(version="v1")
 api_v1.add_router("/user", user_router)
+api_v1.add_router("/quiblet", quiblet_router)
 
 
 @api_v1.get("/csrf-token")
 @ensure_csrf_cookie
-def healthcheck(request: HttpRequest):  # pyright: ignore[reportUnusedParameter]
+def healthcheck(request: HttpRequest):
+    _ = request
     return Response({"success": True})
