@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useDebouncedCallback } from "use-debounce";
 import z from "zod";
 import {
   Form,
@@ -13,15 +14,17 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { getApiUrl } from "@/lib/api-client";
 import type { StepProps } from "./create-quiblet-dialog";
 
 const MAX_NAME_LENGTH = 20;
 const MAX_BIO_LENGTH = 150;
+const MIN_NAME_LENGTH = 3;
 
 const FormSchema = z.object({
   name: z
     .string()
-    .min(3, "Name must be at least 3 characters long")
+    .min(MIN_NAME_LENGTH, "Name must be at least 3 characters long")
     .max(MAX_NAME_LENGTH),
   bio: z
     .string()
@@ -29,11 +32,21 @@ const FormSchema = z.object({
     .max(MAX_BIO_LENGTH, "Description too long"),
 });
 
+async function checkIsUniqueName(name: string): Promise<boolean> {
+  const url = getApiUrl(`api/v1/quiblet/is-unique-name?name=${name}`);
+  const res = await fetch(url);
+
+  if (!res.ok) return false;
+  return await res.json();
+}
+
 export default function StepOne({
   data,
   onUpdate,
   onValidityChange,
 }: StepProps) {
+  const [isUniqueName, setIsUniqueName] = useState(false);
+  const [isCheckingUniqueName, setIsCheckingUniqueName] = useState(false);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     mode: "onChange",
@@ -46,6 +59,35 @@ export default function StepOne({
   const name = form.watch("name");
   const bio = form.watch("bio");
 
+  const debouncedUniqueNameCheck = useDebouncedCallback(
+    async (name: string) => {
+      const isUnique = await checkIsUniqueName(name);
+      setIsUniqueName(isUnique);
+      setIsCheckingUniqueName(false);
+
+      if (!isUnique) {
+        form.setError("name", {
+          type: "unique",
+          message: "This name is already taken",
+        });
+      } else if (form.getFieldState("name").error?.type === "unique") {
+        form.clearErrors("name");
+      }
+    },
+    1000,
+  );
+
+  useEffect(() => {
+    const nameError = form.formState.errors.name;
+    if (nameError || name.length < MIN_NAME_LENGTH) {
+      setIsUniqueName(false);
+      return;
+    }
+    // only call unique checker if there are no zod errors
+    setIsCheckingUniqueName(true);
+    debouncedUniqueNameCheck(name);
+  }, [name, form.formState.errors.name, debouncedUniqueNameCheck]);
+
   useEffect(() => {
     onUpdate("name", name);
   }, [name, onUpdate]);
@@ -56,9 +98,15 @@ export default function StepOne({
 
   // update parent component valid state
   useEffect(() => {
-    console.log(form.formState.isValid);
-    onValidityChange(form.formState.isValid);
-  }, [form.formState.isValid, onValidityChange]);
+    const isValid =
+      form.formState.isValid && isUniqueName && !isCheckingUniqueName;
+    onValidityChange(isValid);
+  }, [
+    form.formState.isValid,
+    isUniqueName,
+    isCheckingUniqueName,
+    onValidityChange,
+  ]);
 
   return (
     <Form {...form}>
