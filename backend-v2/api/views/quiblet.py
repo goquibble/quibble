@@ -1,3 +1,4 @@
+from django.core.cache import cache
 from django.http import HttpRequest
 from django.shortcuts import get_object_or_404
 from ninja import Router
@@ -12,7 +13,11 @@ router = Router()
 @router.get("/", response=QuibletSchema)
 def get_quiblet(request: HttpRequest, name: str):
     _ = request
-    quiblet = get_object_or_404(Quiblet, name=name)
+    cache_key = f"quiblet:{name}"
+    quiblet = cache.get(cache_key)
+    if not quiblet:  # cache miss
+        quiblet = get_object_or_404(Quiblet, name=name)
+        cache.set(cache_key, quiblet, timeout=5 * 60)  # 5 mins
     return quiblet
 
 

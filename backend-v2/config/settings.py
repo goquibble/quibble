@@ -86,10 +86,14 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
 DATABASES = {
-    # auto-detect database and return config object
-    "default": env.db()
+    "default": env.db()  # auto-detect database
+}
+
+# Cache Backend
+# https://docs.djangoproject.com/en/5.2/topics/cache/
+CACHES = {
+    "default": env.cache()  # auto-detect cache backend
 }
 
 # Password validation
