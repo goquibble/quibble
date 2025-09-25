@@ -1,7 +1,13 @@
-import { Ellipsis, Plus } from "lucide-react";
+import { BellOff, Ellipsis, Plus, Star } from "lucide-react";
 import type { Metadata } from "next";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export async function generateMetadata({
   params,
@@ -29,9 +35,23 @@ export default async function Quiblet({ params }: PageProps<"/q/[name]">) {
           Create Quib
         </Button>
         <Button variant={"outline"}>Joined</Button>
-        <Button variant={"outline"} size={"icon"}>
-          <Ellipsis />
-        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant={"outline"} size={"icon"}>
+              <Ellipsis />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem>
+              <Star />
+              Add to favorities
+            </DropdownMenuItem>
+            <DropdownMenuItem disabled>
+              <BellOff />
+              Mute q/{name}
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </div>
   );
