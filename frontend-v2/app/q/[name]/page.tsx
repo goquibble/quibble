@@ -1,5 +1,7 @@
 import { BellOff, Ellipsis, Plus, Star } from "lucide-react";
 import type { Metadata } from "next";
+import QuibCard from "@/components/quib-card";
+import QuibHeader from "@/components/quib-header/quib-header";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -52,6 +54,10 @@ export default async function Quiblet({ params }: PageProps<"/q/[name]">) {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+      </div>
+      <div className="mt-5">
+        <QuibHeader />
+        <QuibCard />
       </div>
     </div>
   );
