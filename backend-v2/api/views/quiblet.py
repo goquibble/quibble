@@ -14,10 +14,11 @@ router = Router()
 def get_quiblet(request: HttpRequest, name: str):
     _ = request
     cache_key = f"quiblet:{name}"
-    quiblet = cache.get(cache_key)
-    if not quiblet:  # cache miss
-        quiblet = get_object_or_404(Quiblet, name=name)
-        cache.set(cache_key, quiblet, timeout=5 * 60)  # 5 mins
+    if cached_data := cache.get(cache_key):
+        return cached_data
+
+    quiblet = get_object_or_404(Quiblet, name=name)
+    cache.set(cache_key, quiblet, timeout=5 * 60)  # 5 mins
     return quiblet
 
 
