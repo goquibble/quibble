@@ -1,3 +1,4 @@
+# pyright: reportUninitializedInstanceVariable=false
 from typing import TYPE_CHECKING, override
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
@@ -7,7 +8,6 @@ from core.validators import UsernameValidator
 from user.managers import CustomUserManager
 
 
-# pyright: reportUninitializedInstanceVariable=false
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     if TYPE_CHECKING:
         profiles: models.Manager["Profile"]
@@ -37,6 +37,10 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
 
 class Profile(CreatedAtMixin, AvatarMixin):
+    if TYPE_CHECKING:
+        joined_communities: models.Manager["Profile"]
+        moderated_communities: models.Manager["Profile"]
+
     user = models.ForeignKey(
         CustomUser, related_name="profiles", on_delete=models.CASCADE
     )
