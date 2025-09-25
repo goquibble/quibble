@@ -55,7 +55,7 @@ export default async function Quiblet({ params }: PageProps<"/q/[name]">) {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="mt-5">
+      <div className="mt-2">
         <QuibHeader />
         <QuibCard />
       </div>
