@@ -18,14 +18,8 @@ class Quiblet(CreatedAtMixin, AvatarMixin, BannerMixin, TypeMixin):
     description = models.TextField()
     title = models.CharField(max_length=50, null=True, blank=True)
     nsfw = models.BooleanField(default=False)
-    members = models.ManyToManyField(
-        Profile,
-        related_name="joined_communities",
-    )
-    moderators = models.ManyToManyField(
-        Profile,
-        related_name="moderated_communities",
-    )
+    members = models.ManyToManyField(Profile, related_name="joined_quiblets")
+    moderators = models.ManyToManyField(Profile, related_name="moderated_quiblets")
 
     @override
     def __str__(self) -> str:

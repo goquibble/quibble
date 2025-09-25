@@ -38,8 +38,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
 class Profile(CreatedAtMixin, AvatarMixin):
     if TYPE_CHECKING:
-        joined_communities: models.Manager["Profile"]
-        moderated_communities: models.Manager["Profile"]
+        joined_quiblets: models.Manager["Profile"]
+        moderated_quiblets: models.Manager["Profile"]
 
     user = models.ForeignKey(
         CustomUser, related_name="profiles", on_delete=models.CASCADE
