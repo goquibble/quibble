@@ -8,7 +8,7 @@ from quiblet.models import Quiblet
 router = Router()
 
 
-@router.get("/{name}", response=QuibletSchema)
+@router.get("/", response=QuibletSchema)
 def get_quiblet(request: HttpRequest, name: str):
     _ = request
     quiblet = get_object_or_404(Quiblet, name=name)
