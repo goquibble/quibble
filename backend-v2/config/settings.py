@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     # "allauth.socialaccount",
     # custom apps
     "user",
+    "quiblet",
 ]
 
 MIDDLEWARE = [
