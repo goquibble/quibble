@@ -39,7 +39,7 @@ class BannerMixin(models.Model):
     Reduces quality to 75% and resizes to 1200x300 ratio.
     """
 
-    avatar = ResizedImageField(
+    banner = ResizedImageField(
         upload_to=get_banner_upload_path,
         size=[1200, 300],
         crop=["middle", "center"],
