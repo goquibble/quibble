@@ -46,11 +46,11 @@ export default function QuibletInfo() {
       <div className="grid grid-cols-2 gap-4">
         <div className="flex flex-col">
           <span className="font-bold text-sm">{quiblet.members_count}</span>
-          <span className="text-muted-foreground text-sm">Members</span>
+          <span className="text-muted-foreground text-sm">Member(s)</span>
         </div>
         <div className="flex flex-col">
           <span className="font-bold text-sm">256</span>
-          <span className="text-muted-foreground text-sm">Quibs</span>
+          <span className="text-muted-foreground text-sm">Quib(s)</span>
         </div>
       </div>
       <div className="flex flex-col gap-2">

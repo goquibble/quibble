@@ -20,7 +20,7 @@ export default function QuibletItem({
       <Link href={`/q/${name}`} className="flex flex-1 items-center gap-2">
         <Avatar className="size-6">
           <AvatarImage src={avatar} />
-          <AvatarFallback>{name}</AvatarFallback>
+          <AvatarFallback>{name[0]}</AvatarFallback>
         </Avatar>
         <span className="font-medium text-sm">q/{name}</span>
       </Link>

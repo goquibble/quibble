@@ -21,7 +21,7 @@ export default function QuibCard() {
         >
           <Avatar className="size-6">
             <AvatarImage src={`https://github.com/quibblespace.png`} />
-            <AvatarFallback>QD</AvatarFallback>
+            <AvatarFallback>Q</AvatarFallback>
           </Avatar>
           <span className="font-medium text-sm">q/quibblespace</span>
         </Link>
