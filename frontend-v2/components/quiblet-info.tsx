@@ -2,6 +2,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Book, CakeSlice, Globe } from "lucide-react";
 import { useParams } from "next/navigation";
+import { formatDate } from "@/lib/utils";
 import { getQuiblet } from "@/services/quiblet";
 import type { Quiblet } from "@/types/quiblet";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
@@ -27,11 +28,15 @@ export default function QuibletInfo() {
         </p>
         <div className="flex items-center gap-2 text-muted-foreground">
           <CakeSlice className="size-4" />
-          <span className="text-sm">Created {quiblet.created_at}</span>
+          <span className="text-sm">
+            Created {formatDate(quiblet.created_at)}
+          </span>
         </div>
         <div className="flex items-center gap-2 text-muted-foreground">
           <Globe className="size-4" />
-          <span className="text-sm">{quiblet.type}</span>
+          <span className="text-sm capitalize">
+            {quiblet.type.toLowerCase()}
+          </span>
         </div>
       </div>
       <Button variant={"outline"} size={"sm"}>
