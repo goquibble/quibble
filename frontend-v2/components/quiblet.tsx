@@ -19,10 +19,22 @@ interface QuibletProps {
 }
 
 export default function Quiblet({ name }: QuibletProps) {
-  const { data: quiblet } = useQuery<IQuiblet>({
+  const {
+    data: quiblet,
+    error,
+    isLoading,
+  } = useQuery<IQuiblet>({
     queryKey: ["quiblet", name],
     queryFn: () => getQuiblet(name),
   });
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Quiblet not found (404)</div>;
+  }
 
   if (!quiblet) {
     return null;

@@ -14,7 +14,6 @@ export default function AuthProvider({ children }: AuthProviderProps) {
   const { data: userProfile } = useQuery<UserProfile>({
     queryKey: ["user-profile"],
     queryFn: () => getUserProfile(),
-    refetchOnWindowFocus: false,
   });
 
   useEffect(() => {
