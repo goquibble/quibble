@@ -1,6 +1,7 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import { BellOff, Ellipsis, Plus, Star } from "lucide-react";
+import { BellOff, Ellipsis, Home, Plus, Star } from "lucide-react";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import QuibCard from "@/components/quib-card";
 import QuibHeader from "@/components/quib-header/quib-header";
@@ -17,21 +18,24 @@ import type { Quiblet as IQuiblet } from "@/types/quiblet";
 
 export default function Quiblet() {
   const { name } = useParams<{ name: string }>();
-  const {
-    data: quiblet,
-    error,
-    isLoading,
-  } = useQuery<IQuiblet>({
+  const { data: quiblet, error } = useQuery<IQuiblet>({
     queryKey: ["quiblet", name],
     queryFn: () => getQuiblet(name),
   });
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
   if (error) {
-    return <div>Quiblet not found (404)</div>;
+    return (
+      <div className="mx-auto flex flex-col items-center gap-1">
+        <span className="font-medium text-destructive">q/{name}</span>
+        <span className="font-medium">404: Quiblet not found!</span>
+        <Link href={"/"}>
+          <Button variant={"link"}>
+            <Home />
+            Go Home
+          </Button>
+        </Link>
+      </div>
+    );
   }
 
   if (!quiblet) {
