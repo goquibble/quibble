@@ -1,25 +1,32 @@
 from typing import Any
 from ninja import ModelSchema
 
+from api.schemas.user import ProfileSchema
 from quiblet.models import Quiblet
 
 
 class QuibletSchema(ModelSchema):
+    members_count: int
+    moderators: list[ProfileSchema]
+
     class Meta:
         model = Quiblet
         fields = [
             "id",
             "name",
-            "description",
             "title",
             "avatar",
             "banner",
+            "description",
             "type",
             "nsfw",
-            "members",
             "moderators",
             "created_at",
         ]
+
+    @staticmethod
+    def resolve_members_count(obj: Quiblet):
+        return obj.members.count()
 
     @staticmethod
     def resolve_avatar(obj: Quiblet, context: Any):

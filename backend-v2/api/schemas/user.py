@@ -7,7 +7,7 @@ from user.models import Profile
 class ProfileSchema(ModelSchema):
     class Meta:
         model = Profile
-        fields = ["id", "username", "avatar"]
+        fields = ["id", "username", "name", "avatar"]
 
     @staticmethod
     def resolve_avatar(obj: Profile, context: Any):
