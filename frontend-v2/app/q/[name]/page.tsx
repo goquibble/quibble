@@ -4,6 +4,7 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 import type { Metadata } from "next";
+import QuibletLayout from "@/components/layouts/quiblet-layout";
 import Quiblet from "@/components/quiblet";
 import { getQuiblet } from "@/services/quiblet";
 
@@ -28,7 +29,9 @@ export default async function QuibletPage({ params }: PageProps<"/q/[name]">) {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Quiblet name={name} />
+      <QuibletLayout>
+        <Quiblet />
+      </QuibletLayout>
     </HydrationBoundary>
   );
 }

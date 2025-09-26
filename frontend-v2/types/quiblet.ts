@@ -10,4 +10,11 @@ export interface Quiblet {
   type: "PUBLIC" | "RESTRICTED" | "PRIVATE";
   nfsw: boolean;
   created_at: string;
+  members_count: number;
+  moderators: Array<{
+    id: number;
+    username: string;
+    name: Nullable<string>;
+    avatar: Nullable<string>;
+  }>;
 }

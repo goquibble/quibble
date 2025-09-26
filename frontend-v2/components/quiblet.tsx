@@ -1,6 +1,7 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import { BellOff, Ellipsis, Plus, Star } from "lucide-react";
+import { useParams } from "next/navigation";
 import QuibCard from "@/components/quib-card";
 import QuibHeader from "@/components/quib-header/quib-header";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -14,11 +15,8 @@ import {
 import { getQuiblet } from "@/services/quiblet";
 import type { Quiblet as IQuiblet } from "@/types/quiblet";
 
-interface QuibletProps {
-  name: string;
-}
-
-export default function Quiblet({ name }: QuibletProps) {
+export default function Quiblet() {
+  const { name } = useParams<{ name: string }>();
   const {
     data: quiblet,
     error,

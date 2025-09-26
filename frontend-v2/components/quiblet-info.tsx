@@ -1,23 +1,37 @@
+"use client";
+import { useQuery } from "@tanstack/react-query";
 import { Book, CakeSlice, Globe } from "lucide-react";
+import { useParams } from "next/navigation";
+import { getQuiblet } from "@/services/quiblet";
+import type { Quiblet } from "@/types/quiblet";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 
 export default function QuibletInfo() {
+  const { name } = useParams<{ name: string }>();
+  const { data: quiblet } = useQuery<Quiblet>({
+    queryKey: ["quiblet", name],
+    queryFn: () => getQuiblet(name),
+  });
+
+  if (!quiblet) {
+    return null;
+  }
+
   return (
     <aside className="flex h-[calc(100vh-var(--spacing)*14)] w-75 flex-col gap-4 p-4 pl-2">
       <div className="flex flex-col gap-1">
-        <span className="font-bold">q/headcn</span>
+        <span className="font-bold">q/{quiblet.name}</span>
         <p className="font-medium text-muted-foreground text-sm">
-          A wholesome community made by & for software & tech folks. Have a
-          doubt? Ask it out.
+          {quiblet.description}
         </p>
         <div className="flex items-center gap-2 text-muted-foreground">
           <CakeSlice className="size-4" />
-          <span className="text-sm">Created Jan 21, 2020</span>
+          <span className="text-sm">Created {quiblet.created_at}</span>
         </div>
         <div className="flex items-center gap-2 text-muted-foreground">
           <Globe className="size-4" />
-          <span className="text-sm">Public</span>
+          <span className="text-sm">{quiblet.type}</span>
         </div>
       </div>
       <Button variant={"outline"} size={"sm"}>
@@ -26,7 +40,7 @@ export default function QuibletInfo() {
       </Button>
       <div className="grid grid-cols-2 gap-4">
         <div className="flex flex-col">
-          <span className="font-bold text-sm">1.25K</span>
+          <span className="font-bold text-sm">{quiblet.members_count}</span>
           <span className="text-muted-foreground text-sm">Members</span>
         </div>
         <div className="flex flex-col">
@@ -36,19 +50,20 @@ export default function QuibletInfo() {
       </div>
       <div className="flex flex-col gap-2">
         <span className="font-medium text-sm">Moderators</span>
-        <div className="flex items-center gap-2">
-          <Avatar>
-            <AvatarImage
-              src={"https://github.com/stabldev.png"}
-              alt="stabldev"
-            />
-            <AvatarFallback>SD</AvatarFallback>
-          </Avatar>
-          <div className="flex flex-col">
-            <span className="font-medium text-sm">u/stabldev</span>
-            <span className="text-muted-foreground text-sm/none">Stabldev</span>
+        {quiblet.moderators.map((mod) => (
+          <div key={mod.id} className="flex items-center gap-2">
+            <Avatar>
+              <AvatarImage src={mod.avatar ?? ""} alt={mod.username} />
+              <AvatarFallback>{mod.username.slice(0, 2)}</AvatarFallback>
+            </Avatar>
+            <div className="flex flex-col">
+              <span className="font-medium text-sm">u/{mod.username}</span>
+              <span className="text-muted-foreground text-sm/none">
+                {mod.name ?? mod.username}
+              </span>
+            </div>
           </div>
-        </div>
+        ))}
       </div>
     </aside>
   );
