@@ -22,7 +22,7 @@ export default function SearchBar() {
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverAnchor>
+      <PopoverAnchor asChild>
         <IconInput
           Icon={Search}
           placeholder="Search..."
@@ -31,7 +31,9 @@ export default function SearchBar() {
           onChange={debouncedOnChange}
         />
       </PopoverAnchor>
-      <PopoverContent>Place content for the popover here.</PopoverContent>
+      <PopoverContent className="w-[var(--radix-popover-trigger-width)]">
+        Place content for the popover here.
+      </PopoverContent>
     </Popover>
   );
 }
