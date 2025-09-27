@@ -6,7 +6,6 @@ import {
   Home,
   LogIn,
   Plus,
-  Search,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -16,8 +15,8 @@ import { useAuthStore } from "@/stores/auth";
 import { Icons } from "../icons";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
-import IconInput from "../ui/icon-input";
 import PfpDropdown from "./pfp-dropdown";
+import SearchBar from "./search-bar";
 
 const navLinkMapping = [
   {
@@ -70,12 +69,7 @@ export default function Header() {
             </Link>
           );
         })}
-        <IconInput
-          Icon={Search}
-          placeholder="Search..."
-          wrapperClassName="ml-2"
-          className="w-100"
-        />
+        <SearchBar />
       </nav>
       <nav className="flex items-center gap-2">
         {userProfile ? (
