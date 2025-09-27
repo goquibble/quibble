@@ -6,7 +6,10 @@ import { Button } from "./ui/button";
 const recentQuibs = [
   {
     id: 1,
-    quiblet: "headcn",
+    quiblet: {
+      name: "headcn",
+      avatar: "https://github.com/headcn.png",
+    },
     title: "Why is work-from-home still so controversial?",
     cover: "/_mock/img-1.jpg",
     upvotes: 34,
@@ -14,7 +17,10 @@ const recentQuibs = [
   },
   {
     id: 2,
-    quiblet: "quibblespace",
+    quiblet: {
+      name: "quibble",
+      avatar: "https://github.com/quibblespace.png",
+    },
     title: "Just finished my first side project!",
     cover: null,
     upvotes: 15,
@@ -35,17 +41,17 @@ export default function RecentQuibs() {
         <div key={quib.id} className="flex gap-2">
           <div className="flex flex-col gap-2">
             <Link
-              href={`/q/${quib.quiblet}`}
+              href={`/q/${quib.quiblet.name}`}
               className="flex flex-1 items-center gap-2"
             >
               <Avatar className="size-6">
-                <AvatarImage src={`https://github.com/${quib.quiblet}.png`} />
-                <AvatarFallback>{quib.quiblet}</AvatarFallback>
+                <AvatarImage src={quib.quiblet.avatar} />
+                <AvatarFallback>{quib.quiblet.name[0]}</AvatarFallback>
               </Avatar>
-              <span className="font-medium text-sm">q/{quib.quiblet}</span>
+              <span className="font-medium text-sm">q/{quib.quiblet.name}</span>
             </Link>
             <Link
-              href={`/q/${quib.quiblet}/${quib.id}`}
+              href={`/q/${quib.quiblet.name}/${quib.id}`}
               className="font-semibold hover:underline"
             >
               {quib.title}
