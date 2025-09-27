@@ -19,17 +19,17 @@ import type { StepProps } from "./create-quiblet-dialog";
 
 const MAX_NAME_LENGTH = 20;
 const MIN_NAME_LENGTH = 3;
-const MAX_BIO_LENGTH = 150;
+const MAX_DESCRIPTION_LENGTH = 150;
 
 const FormSchema = z.object({
   name: z
     .string()
     .min(MIN_NAME_LENGTH, "Name must be at least 3 characters long")
     .max(MAX_NAME_LENGTH),
-  bio: z
+  description: z
     .string()
     .min(1, "Description too short")
-    .max(MAX_BIO_LENGTH, "Description too long"),
+    .max(MAX_DESCRIPTION_LENGTH, "Description too long"),
 });
 
 async function checkIsUniqueName(name: string): Promise<boolean> {
@@ -52,12 +52,12 @@ export default function StepOne({
     mode: "onChange",
     defaultValues: {
       name: data?.name || "",
-      bio: data?.bio || "",
+      description: data?.description || "",
     },
   });
 
   const name = form.watch("name");
-  const bio = form.watch("bio");
+  const description = form.watch("description");
 
   const debouncedUniqueNameCheck = useDebouncedCallback(
     async (name: string) => {
@@ -93,8 +93,8 @@ export default function StepOne({
   }, [name, onUpdate]);
 
   useEffect(() => {
-    onUpdate("bio", bio);
-  }, [bio, onUpdate]);
+    onUpdate("description", description);
+  }, [description, onUpdate]);
 
   // update parent component valid state
   useEffect(() => {
@@ -134,19 +134,19 @@ export default function StepOne({
       />
       <FormField
         control={form.control}
-        name="bio"
+        name="description"
         render={({ field }) => (
           <FormItem className="gap-1">
             <div className="flex items-center justify-between">
               <FormLabel>Description*</FormLabel>
               <FormDescription>
-                {field.value.length}/{MAX_BIO_LENGTH}
+                {field.value.length}/{MAX_DESCRIPTION_LENGTH}
               </FormDescription>
             </div>
             <FormControl>
               <Textarea
                 placeholder="Something about your quiblet..."
-                maxLength={MAX_BIO_LENGTH}
+                maxLength={MAX_DESCRIPTION_LENGTH}
                 className="h-40"
                 {...field}
               />

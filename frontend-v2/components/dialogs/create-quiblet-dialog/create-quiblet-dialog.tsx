@@ -27,7 +27,7 @@ interface CreateQuibletDialogProps {
 export interface Data
   extends Partial<{
     name: string;
-    bio: string;
+    description: string;
     avatar: Nullable<File>;
     banner: Nullable<File>;
     type: string;

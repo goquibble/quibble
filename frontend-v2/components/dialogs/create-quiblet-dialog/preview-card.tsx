@@ -56,7 +56,7 @@ export default function PreviewCard({ data }: PreviewCardProps) {
           </div>
         </div>
         <p className="mt-2 text-muted-foreground text-sm">
-          {data.bio || DEFAULT_DESCRIPTION}
+          {data.description || DEFAULT_DESCRIPTION}
         </p>
       </div>
     </div>
