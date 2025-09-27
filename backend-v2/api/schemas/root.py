@@ -4,10 +4,10 @@ from ninja import Schema
 from quiblet.models import Quiblet
 
 
-class SearchQuibletsSchema(Schema):
+class SearchQuibletSchema(Schema):
     id: int
     name: str
-    avatar: str
+    avatar: str | None
     members_count: int
 
     @staticmethod
@@ -22,5 +22,20 @@ class SearchQuibletsSchema(Schema):
         return None
 
 
+class SearchProfileSchema(Schema):
+    id: int
+    username: str
+    name: str | None
+    avatar: str | None
+
+    @staticmethod
+    def resolve_avatar(obj: Quiblet, context: Any):
+        request = context["request"]
+        if obj.avatar:
+            return request.build_absolute_uri(obj.avatar.url)
+        return None
+
+
 class SearchSchema(Schema):
-    quiblets: list[SearchQuibletsSchema]
+    quiblets: list[SearchQuibletSchema]
+    profiles: list[SearchProfileSchema]

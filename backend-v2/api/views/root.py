@@ -4,6 +4,7 @@ from ninja import Router
 
 from api.schemas.root import SearchSchema
 from quiblet.models import Quiblet
+from user.models import Profile
 
 router = Router()
 
@@ -16,7 +17,9 @@ def healthcheck(request: HttpRequest):
 
 
 @router.get("/search", response=SearchSchema)
-def search(request: HttpRequest, name: str):
+def search(request: HttpRequest, query: str):
     _ = request
-    quiblets = Quiblet.objects.filter(name__istartswith=name)
-    return {"quiblets": quiblets}
+    quiblets = Quiblet.objects.filter(name__istartswith=query)
+    profiles = Profile.objects.filter(username__istartswith=query)
+
+    return {"quiblets": quiblets, "profiles": profiles}
