@@ -1,9 +1,9 @@
 from django.core.cache import cache
 from django.http import HttpRequest
 from django.shortcuts import get_object_or_404
-from ninja import Router
+from ninja import File, Form, Router, UploadedFile
 
-from api.schemas.quiblet import QuibletSchema
+from api.schemas.quiblet import QuibletCreateSchema, QuibletSchema
 from api.shared.schemas import UniqueNameResponseSchema
 from quiblet.models import Quiblet
 
@@ -19,6 +19,25 @@ def get_quiblet(request: HttpRequest, name: str):
 
     quiblet = get_object_or_404(Quiblet, name=name)
     cache.set(cache_key, quiblet, timeout=5 * 60)  # 5 mins
+    return quiblet
+
+
+@router.post("/", response=QuibletSchema)
+def create_quiblet(
+    request: HttpRequest,
+    data: Form[QuibletCreateSchema],
+    avatar: File[UploadedFile | None] = None,
+    banner: File[UploadedFile | None] = None,
+):
+    _ = request
+    quiblet = Quiblet(**data.model_dump())
+
+    if avatar is not None:
+        quiblet.avatar.save(avatar.name, avatar)
+    if banner is not None:
+        quiblet.banner.save(banner.name, banner)
+
+    quiblet.save()
     return quiblet
 
 

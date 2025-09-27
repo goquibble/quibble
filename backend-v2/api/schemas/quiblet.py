@@ -1,5 +1,6 @@
+from enum import Enum
 from typing import Any
-from ninja import ModelSchema
+from ninja import ModelSchema, Schema
 
 from api.schemas.user import ProfileSchema
 from quiblet.models import Quiblet
@@ -41,3 +42,16 @@ class QuibletSchema(ModelSchema):
         if obj.banner:
             return request.build_absolute_uri(obj.banner.url)
         return None
+
+
+class QuibletType(str, Enum):
+    PUBLIC = "PUBLIC"
+    RESTRICTED = "RESTRICTED"
+    PRIVATE = "PRIVATE"
+
+
+class QuibletCreateSchema(Schema):
+    name: str
+    description: str
+    type: QuibletType
+    nsfw: bool
