@@ -1,16 +1,20 @@
+from typing import cast
 from django.core.cache import cache
 from django.http import HttpRequest
 from django.shortcuts import get_object_or_404
 from ninja import File, Form, Router, UploadedFile
 from ninja.errors import HttpError
 
+from api.auth import ProfileAuth
+from api.http import CustomHttpRequest
 from api.schemas.quiblet import (
-    QuibletCreateResponseSchema,
-    QuibletCreateSchema,
+    QuibletCreateInSchema,
+    QuibletCreateOutSchema,
     QuibletSchema,
 )
 from api.shared.schemas import UniqueNameResponseSchema
 from quiblet.models import Quiblet
+from user.models import Profile
 
 router = Router()
 
@@ -27,25 +31,29 @@ def get_quiblet(request: HttpRequest, name: str):
     return quiblet
 
 
-@router.post("/", response=QuibletCreateResponseSchema)
+@router.post("/", auth=ProfileAuth(), response=QuibletCreateOutSchema)
 def create_quiblet(
-    request: HttpRequest,
-    data: Form[QuibletCreateSchema],
+    request: CustomHttpRequest,
+    data: Form[QuibletCreateInSchema],
     avatar: File[UploadedFile | None] = None,
     banner: File[UploadedFile | None] = None,
 ):
-    _ = request
     if Quiblet.objects.filter(name__iexact=data.name).exists():
         raise HttpError(400, f"Quiblet with name {data.name} already exists.")
+
+    user_p = cast(Profile, request.user_p)
     quiblet = Quiblet(**data.model_dump())
+    quiblet.save()
+
+    quiblet.members.add(user_p)
+    quiblet.moderators.add(user_p)
 
     if avatar is not None:
         quiblet.avatar.save(avatar.name, avatar)
     if banner is not None:
         quiblet.banner.save(banner.name, banner)
 
-    quiblet.save()
-    return {"name": quiblet.name}
+    return {"name": data.name}
 
 
 @router.get("/is-unique-name", response=UniqueNameResponseSchema)

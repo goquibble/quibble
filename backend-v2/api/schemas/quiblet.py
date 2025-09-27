@@ -50,12 +50,12 @@ class QuibletType(str, Enum):
     PRIVATE = "PRIVATE"
 
 
-class QuibletCreateSchema(Schema):
+class QuibletCreateInSchema(Schema):
     name: str
     description: str
     type: QuibletType
     nsfw: bool
 
 
-class QuibletCreateResponseSchema(Schema):
+class QuibletCreateOutSchema(Schema):
     name: str

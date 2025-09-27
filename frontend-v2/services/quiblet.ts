@@ -35,6 +35,7 @@ export async function createQuiblet(
 
   const res = await fetch(getApiUrl("api/v1/quiblet/"), {
     method: "POST",
+    credentials: "include",
     headers: headersWithoutContentType,
     body: formData,
   });
