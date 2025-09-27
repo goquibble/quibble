@@ -2,7 +2,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { ChevronRight, Search } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import {
   Popover,
@@ -22,7 +22,6 @@ export default function SearchBar() {
     useDebouncedCallback((e) => {
       const value = e.target.value.trim();
       setQuery(value);
-      setOpen(true);
     }, 500);
 
   const { data } = useQuery({
@@ -30,6 +29,12 @@ export default function SearchBar() {
     queryFn: () => search(query),
     enabled: !!query,
   });
+
+  useEffect(() => {
+    if (!data) return;
+    const hasResults = Object.values(data).some((item) => item.length > 0);
+    setOpen(hasResults);
+  }, [data]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
