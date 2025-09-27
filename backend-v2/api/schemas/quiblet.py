@@ -55,3 +55,7 @@ class QuibletCreateSchema(Schema):
     description: str
     type: QuibletType
     nsfw: bool
+
+
+class QuibletCreateResponseSchema(Schema):
+    name: str

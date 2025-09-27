@@ -4,7 +4,11 @@ from django.shortcuts import get_object_or_404
 from ninja import File, Form, Router, UploadedFile
 from ninja.errors import HttpError
 
-from api.schemas.quiblet import QuibletCreateSchema, QuibletSchema
+from api.schemas.quiblet import (
+    QuibletCreateResponseSchema,
+    QuibletCreateSchema,
+    QuibletSchema,
+)
 from api.shared.schemas import UniqueNameResponseSchema
 from quiblet.models import Quiblet
 
@@ -23,7 +27,7 @@ def get_quiblet(request: HttpRequest, name: str):
     return quiblet
 
 
-@router.post("/", response=QuibletSchema)
+@router.post("/", response=QuibletCreateResponseSchema)
 def create_quiblet(
     request: HttpRequest,
     data: Form[QuibletCreateSchema],
@@ -41,7 +45,7 @@ def create_quiblet(
         quiblet.banner.save(banner.name, banner)
 
     quiblet.save()
-    return quiblet
+    return {"name": quiblet.name}
 
 
 @router.get("/is-unique-name", response=UniqueNameResponseSchema)

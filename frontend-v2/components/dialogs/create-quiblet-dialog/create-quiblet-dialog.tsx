@@ -1,4 +1,7 @@
 "use client";
+import { useMutation } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,7 +14,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useCsrfToken } from "@/hooks/use-csrf-token";
 import { cn } from "@/lib/utils";
+import { createQuiblet } from "@/services/quiblet";
 import type { Nullable } from "@/types/generics";
 import PreviewCard from "./preview-card";
 import StepOne from "./step-one";
@@ -28,10 +33,10 @@ export interface Data
   extends Partial<{
     name: string;
     description: string;
-    avatar: Nullable<File>;
-    banner: Nullable<File>;
     type: string;
     nsfw: boolean;
+    avatar: Nullable<File>;
+    banner: Nullable<File>;
   }> {}
 
 type UpdateValue = Nullable<string | File | boolean | undefined>;
@@ -44,10 +49,22 @@ export interface StepProps {
 export default function CreateQuibletDialog({
   children,
 }: CreateQuibletDialogProps) {
+  const csrfToken = useCsrfToken();
+  const router = useRouter();
+
+  const [open, setOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [data, setData] = useState<Data>({});
   const [isCurrentStepValid, setIsCurrentStepValid] = useState(false);
   const CurrentStep = steps[currentStep];
+
+  const mutation = useMutation({
+    mutationFn: () => createQuiblet(data, csrfToken),
+    onSuccess: ({ name }) => {
+      router.push(`/q/${name}`);
+      setOpen(false);
+    },
+  });
 
   const handleUpdate = useCallback((key: string, value: UpdateValue) => {
     setData((prev) => ({ ...prev, [key]: value }));
@@ -61,12 +78,12 @@ export default function CreateQuibletDialog({
     if (currentStep !== steps.length - 1) {
       setCurrentStep((prev) => prev + 1);
     } else {
-      // handle submission
+      mutation.mutate();
     }
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-2xl">
         <DialogHeader>
@@ -109,7 +126,11 @@ export default function CreateQuibletDialog({
               <Button variant={"outline"}>Cancel</Button>
             </DialogClose>
           )}
-          <Button disabled={!isCurrentStepValid} onClick={handleNextOrSubmit}>
+          <Button
+            disabled={!isCurrentStepValid || mutation.isPending}
+            onClick={handleNextOrSubmit}
+          >
+            {mutation.isPending && <Loader2 className="animate-spin" />}
             {currentStep === steps.length - 1 ? "Create Quiblet" : "Next"}
           </Button>
         </DialogFooter>
