@@ -17,9 +17,9 @@ def healthcheck(request: HttpRequest):
 
 
 @router.get("/search", response=SearchSchema)
-def search(request: HttpRequest, query: str):
+def search(request: HttpRequest, q: str):
     _ = request
-    quiblets = Quiblet.objects.filter(name__istartswith=query)
-    profiles = Profile.objects.filter(username__istartswith=query)
+    quiblets = Quiblet.objects.filter(name__istartswith=q)
+    profiles = Profile.objects.filter(username__istartswith=q)
 
     return {"quiblets": quiblets, "profiles": profiles}

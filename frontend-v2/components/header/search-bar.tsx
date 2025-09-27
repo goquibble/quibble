@@ -1,7 +1,6 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import { ChevronRight, Search } from "lucide-react";
-import Link from "next/link";
+import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import {
@@ -9,10 +8,9 @@ import {
   PopoverAnchor,
   PopoverContent,
 } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
 import { search } from "@/services/search";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import IconInput from "../ui/icon-input";
+import SearchQuibletItem from "./search-quiblet-item";
 
 export default function SearchBar() {
   const [open, setOpen] = useState(false);
@@ -48,32 +46,14 @@ export default function SearchBar() {
         />
       </PopoverAnchor>
       <PopoverContent className="flex w-[var(--radix-popover-trigger-width)] flex-col gap-2">
-        <span className="font-semibold text-muted-foreground text-sm">
+        <span
+          hidden={data?.quiblets.length === 0}
+          className="font-semibold text-muted-foreground text-sm"
+        >
           Quiblets
         </span>
         {data?.quiblets.map((quiblet) => (
-          <Link
-            key={quiblet.id}
-            href={`/q/${quiblet.name}`}
-            className="group flex items-center gap-2"
-          >
-            <Avatar>
-              <AvatarImage src={quiblet.avatar ?? ""} alt={quiblet.name} />
-              <AvatarFallback>Q</AvatarFallback>
-            </Avatar>
-            <div className="flex flex-col">
-              <span className="font-medium text-sm">q/{quiblet.name}</span>
-              <span className="text-muted-foreground text-sm/none">
-                {quiblet.members_count} member(s)
-              </span>
-            </div>
-            <ChevronRight
-              className={cn(
-                "ml-auto size-5 text-muted-foreground opacity-0 duration-250",
-                "group-hover:slide-in-from-left-25 group-hover:animate-in group-hover:opacity-100",
-              )}
-            />
-          </Link>
+          <SearchQuibletItem key={quiblet.id} quiblet={quiblet} />
         ))}
       </PopoverContent>
     </Popover>
