@@ -1,5 +1,7 @@
 "use client";
+import { useQuery } from "@tanstack/react-query";
 import { ChevronRight, Search } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import {
@@ -8,19 +10,26 @@ import {
   PopoverContent,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import { search } from "@/services/search";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import IconInput from "../ui/icon-input";
 
 export default function SearchBar() {
   const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
 
   const debouncedOnChange: React.ChangeEventHandler<HTMLInputElement> =
     useDebouncedCallback((e) => {
-      const value = e.target.value;
-      if (!value.trim()) return;
-
+      const value = e.target.value.trim();
+      setQuery(value);
       setOpen(true);
     }, 500);
+
+  const { data } = useQuery({
+    queryKey: ["search", query],
+    queryFn: () => search(query),
+    enabled: !!query,
+  });
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -37,24 +46,30 @@ export default function SearchBar() {
         <span className="font-semibold text-muted-foreground text-sm">
           Quiblets
         </span>
-        <div className="group flex items-center gap-2">
-          <Avatar>
-            <AvatarImage src={""} alt="" />
-            <AvatarFallback>Q</AvatarFallback>
-          </Avatar>
-          <div className="flex flex-col">
-            <span className="font-medium text-sm">q/something</span>
-            <span className="text-muted-foreground text-sm/none">
-              1 member(s)
-            </span>
-          </div>
-          <ChevronRight
-            className={cn(
-              "ml-auto size-5 text-muted-foreground opacity-0 duration-250",
-              "group-hover:slide-in-from-left-25 group-hover:animate-in group-hover:opacity-100",
-            )}
-          />
-        </div>
+        {data?.quiblets.map((quiblet) => (
+          <Link
+            key={quiblet.id}
+            href={`/q/${quiblet.name}`}
+            className="group flex items-center gap-2"
+          >
+            <Avatar>
+              <AvatarImage src={quiblet.avatar ?? ""} alt={quiblet.name} />
+              <AvatarFallback>Q</AvatarFallback>
+            </Avatar>
+            <div className="flex flex-col">
+              <span className="font-medium text-sm">q/{quiblet.name}</span>
+              <span className="text-muted-foreground text-sm/none">
+                {quiblet.members_count} member(s)
+              </span>
+            </div>
+            <ChevronRight
+              className={cn(
+                "ml-auto size-5 text-muted-foreground opacity-0 duration-250",
+                "group-hover:slide-in-from-left-25 group-hover:animate-in group-hover:opacity-100",
+              )}
+            />
+          </Link>
+        ))}
       </PopoverContent>
     </Popover>
   );
