@@ -2,6 +2,7 @@ from django.core.cache import cache
 from django.http import HttpRequest
 from django.shortcuts import get_object_or_404
 from ninja import File, Form, Router, UploadedFile
+from ninja.errors import HttpError
 
 from api.schemas.quiblet import QuibletCreateSchema, QuibletSchema
 from api.shared.schemas import UniqueNameResponseSchema
@@ -30,6 +31,8 @@ def create_quiblet(
     banner: File[UploadedFile | None] = None,
 ):
     _ = request
+    if Quiblet.objects.filter(name__iexact=data.name).exists():
+        raise HttpError(400, f"Quiblet with name {data.name} already exists.")
     quiblet = Quiblet(**data.model_dump())
 
     if avatar is not None:
