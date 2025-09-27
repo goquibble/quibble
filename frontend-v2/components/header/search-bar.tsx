@@ -8,6 +8,7 @@ import {
   PopoverAnchor,
   PopoverContent,
 } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 import { search } from "@/services/search";
 import IconInput from "../ui/icon-input";
 import SearchItem from "./search-item";
@@ -63,7 +64,10 @@ export default function SearchBar() {
         ))}
         <span
           hidden={data?.profiles.length === 0}
-          className="font-semibold text-muted-foreground text-sm"
+          className={cn(
+            "font-semibold text-muted-foreground text-sm",
+            data?.quiblets.length && "mt-2",
+          )}
         >
           Profiles
         </span>
