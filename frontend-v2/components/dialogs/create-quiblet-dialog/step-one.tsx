@@ -37,7 +37,7 @@ async function checkIsUniqueName(name: string): Promise<boolean> {
   const res = await fetch(url);
 
   if (!res.ok) return false;
-  return await res.json();
+  return (await res.json()).unique;
 }
 
 export default function StepOne({
