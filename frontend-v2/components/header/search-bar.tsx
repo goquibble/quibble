@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/popover";
 import { search } from "@/services/search";
 import IconInput from "../ui/icon-input";
-import SearchQuibletItem from "./search-quiblet-item";
+import SearchItem from "./search-item";
 
 export default function SearchBar() {
   const [open, setOpen] = useState(false);
@@ -53,7 +53,28 @@ export default function SearchBar() {
           Quiblets
         </span>
         {data?.quiblets.map((quiblet) => (
-          <SearchQuibletItem key={quiblet.id} quiblet={quiblet} />
+          <SearchItem
+            key={quiblet.id}
+            href={`/q/${quiblet.name}`}
+            avatar={quiblet.avatar}
+            mainText={`q/${quiblet.name}`}
+            subText={`${quiblet.members_count} member(s)`}
+          />
+        ))}
+        <span
+          hidden={data?.profiles.length === 0}
+          className="font-semibold text-muted-foreground text-sm"
+        >
+          Profiles
+        </span>
+        {data?.profiles.map((profile) => (
+          <SearchItem
+            key={profile.id}
+            href={`/u/${profile.username}`}
+            avatar={profile.avatar}
+            mainText={`u/${profile.username}`}
+            subText={profile.name ?? profile.username}
+          />
         ))}
       </PopoverContent>
     </Popover>
