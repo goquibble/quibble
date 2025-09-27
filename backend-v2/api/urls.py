@@ -3,6 +3,9 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from ninja import NinjaAPI
 from ninja.responses import Response
 
+from api.schemas.root import SearchSchema
+from quiblet.models import Quiblet
+
 from .views.user import router as user_router
 from .views.quiblet import router as quiblet_router
 
@@ -16,3 +19,10 @@ api_v1.add_router("/quiblet", quiblet_router)
 def healthcheck(request: HttpRequest):
     _ = request
     return Response({"success": True})
+
+
+@api_v1.get("/search", response=SearchSchema)
+def search(request: HttpRequest, name: str):
+    _ = request
+    quiblets = Quiblet.objects.filter(name__istartswith=name)
+    return {"quiblets": quiblets}
