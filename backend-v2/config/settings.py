@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # custom apps
     "user",
     "quiblet",
+    "quib",
 ]
 
 MIDDLEWARE = [
