@@ -1,3 +1,38 @@
+from django.db import DataError, IntegrityError
 from django.test import TestCase
 
-# Create your tests here.
+from quiblet.models import Quiblet
+from user.models import CustomUser, Profile
+
+
+class QuibletModelTestCase(TestCase):
+    def test_quiblet_creation(self):
+        user = CustomUser.objects.create(email="test@test.com", password="test")
+        user_p1 = Profile.objects.create(user=user, username="user1")
+        user_p2 = Profile.objects.create(user=user, username="user2")
+
+        quiblet = Quiblet.objects.create(
+            name="TestQuiblet",
+            description="desc",
+        )
+
+        quiblet.members.add(user_p1)
+        quiblet.moderators.add(user_p2)
+
+        self.assertEqual(quiblet.name, "TestQuiblet")
+        self.assertEqual(quiblet.__str__(), "q/TestQuiblet")
+        self.assertIn(user_p1, quiblet.members.all())
+        self.assertIn(user_p2, quiblet.moderators.all())
+
+    def test_quiblet_unique_name_case_insensitive(self):
+        Quiblet.objects.create(name="UniqueName", description="desc")
+
+        with self.assertRaises(IntegrityError):
+            Quiblet.objects.create(name="uniquename", description="desc")
+
+    def test_quiblet_max_length(self):
+        with self.assertRaises(DataError):
+            Quiblet.objects.create(
+                name="Q" * 26,  # exceed max-length of 25
+                description="desc",
+            )
