@@ -48,19 +48,12 @@ class Quib(CreatedAtMixin, IdMixin):
 
     @override
     def save(self, *args: Any, **kwargs: Any) -> None:
-        if not self.slug:
+        old = Quib.objects.filter(pk=self.pk).first()
+        if not self.slug or (old and old.title != self.title):
             self.slug = slugify(cast(str, self.title)[:50]).replace("-", "_")
 
-        if self.cover and (not self.cover_small or self._has_cover_changed()):
+        if self.cover and (
+            not self.cover_small or (not old or old.cover != self.cover)
+        ):
             self.cover_small = self.cover
-
         return super().save(*args, **kwargs)
-
-    def _has_cover_changed(self) -> bool:
-        if not self.pk:
-            return True
-
-        old = Quib.objects.filter(pk=self.pk).first()
-        if not old:
-            return True
-        return old.cover != self.cover
