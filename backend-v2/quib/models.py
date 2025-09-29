@@ -3,12 +3,12 @@ from django.db import models
 from django.utils.text import slugify
 from django_resized.forms import ResizedImageField
 
-from core.mixins import CreatedAtMixin
+from core.mixins import CreatedAtMixin, IdMixin
 from quiblet.models import Quiblet
 from user.models import Profile
 
 
-class Quib(CreatedAtMixin):
+class Quib(CreatedAtMixin, IdMixin):
     def cover_upload_path(self, _filename: str):
         return f"covers/{self.slug}.webp"
 
@@ -37,6 +37,9 @@ class Quib(CreatedAtMixin):
         null=True,
         blank=True,
     )
+
+    class Meta:  # pyright: ignore[reportIncompatibleVariableOverride]
+        ordering = ["-created_at"]
 
     @override
     def __str__(self) -> str:

@@ -33,6 +33,7 @@ dependencies = [
     { name = "django-ninja" },
     { name = "django-redis" },
     { name = "django-resized" },
+    { name = "django-shortuuid" },
     { name = "pillow" },
     { name = "psycopg2-binary" },
 ]
@@ -52,6 +53,7 @@ requires-dist = [
     { name = "django-ninja", specifier = ">=1.4.3" },
     { name = "django-redis", specifier = ">=6.0.0" },
     { name = "django-resized", specifier = ">=1.0.3" },
+    { name = "django-shortuuid", specifier = ">=0.1.1" },
     { name = "pillow", specifier = ">=11.3.0" },
     { name = "psycopg2-binary", specifier = ">=2.9.10" },
 ]
@@ -257,6 +259,19 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/fc/aa/5e83b3dec9c1ec7d336c86e83bbc93674cd4fc125879a827b932a0ec25c3/django_resized-1.0.3.tar.gz", hash = "sha256:c199f2b6e315816753df3a7a3889b923d3b73ce89fa16af93761cf2ea9bac4f7", size = 4948, upload-time = "2024-10-14T06:08:58.726Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/38/ac/3495743e9923a3b79a929782f63db7acd606dc94c15c296487ef6d015717/django_resized-1.0.3-py3-none-any.whl", hash = "sha256:b5b0cf0d1db4f8db43362eef121d94d63487e2bff7a59c45046a1420788db353", size = 5149, upload-time = "2024-10-14T06:08:55.665Z" },
+]
+
+[[package]]
+name = "django-shortuuid"
+version = "0.1.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django" },
+    { name = "shortuuid" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/09/d5/e9fd57ebb03f959fb3f7fd9f3fadc72e134a63fbdfada85b5b5f74e0edeb/django_shortuuid-0.1.1.tar.gz", hash = "sha256:9cc995fecdf0c183d3d81afe17998f439174e70f2f199d4349774a921c8989f0", size = 2917, upload-time = "2025-09-29T03:07:35.026Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/17/a8/6879381f6b0d0245d8f294a8c26031ce7d610fd25ca6162e5ea3ea837e93/django_shortuuid-0.1.1-py3-none-any.whl", hash = "sha256:cbead6d931e4ee9777104dbbe87ceeada44debfb254d8624c93690414cfb3417", size = 3798, upload-time = "2025-09-29T03:07:33.737Z" },
 ]
 
 [[package]]
@@ -484,6 +499,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/c9/74/b3ff8e6c8446842c3f5c837e9c3dfcfe2018ea6ecef224c710c85ef728f4/requests-2.32.5.tar.gz", hash = "sha256:dbba0bac56e100853db0ea71b82b4dfd5fe2bf6d3754a8893c3af500cec7d7cf", size = 134517, upload-time = "2025-08-18T20:46:02.573Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/1e/db/4254e3eabe8020b458f1a747140d32277ec7a271daf1d235b70dc0b4e6e3/requests-2.32.5-py3-none-any.whl", hash = "sha256:2462f94637a34fd532264295e186976db0f5d453d1cdd31473c85a6a161affb6", size = 64738, upload-time = "2025-08-18T20:46:00.542Z" },
+]
+
+[[package]]
+name = "shortuuid"
+version = "1.0.13"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/8c/e2/bcf761f3bff95856203f9559baf3741c416071dd200c0fc19fad7f078f86/shortuuid-1.0.13.tar.gz", hash = "sha256:3bb9cf07f606260584b1df46399c0b87dd84773e7b25912b7e391e30797c5e72", size = 9662, upload-time = "2024-03-11T20:11:06.879Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c0/44/21d6bf170bf40b41396480d8d49ad640bca3f2b02139cd52aa1e272830a5/shortuuid-1.0.13-py3-none-any.whl", hash = "sha256:a482a497300b49b4953e15108a7913244e1bb0d41f9d332f5e9925dba33a3c5a", size = 10529, upload-time = "2024-03-11T20:11:04.807Z" },
 ]
 
 [[package]]

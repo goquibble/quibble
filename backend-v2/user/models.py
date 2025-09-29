@@ -53,9 +53,9 @@ class Profile(CreatedAtMixin, AvatarMixin):
     name = models.CharField(max_length=255, blank=True, null=True)
     bio = models.TextField(blank=True, null=True)
 
+    class Meta:  # pyright: ignore[reportIncompatibleVariableOverride]
+        ordering = ["-created_at"]
+
     @override
     def __str__(self) -> str:
         return f"u/{self.username}"
-
-    class Meta:  # pyright: ignore[reportIncompatibleVariableOverride]
-        ordering = ["-created_at"]

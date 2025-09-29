@@ -21,12 +21,12 @@ class Quiblet(CreatedAtMixin, AvatarMixin, BannerMixin, TypeMixin):
     members = models.ManyToManyField(Profile, related_name="joined_quiblets")
     moderators = models.ManyToManyField(Profile, related_name="moderated_quiblets")
 
-    @override
-    def __str__(self) -> str:
-        return f"q/{self.name}"
-
     class Meta:  # pyright: ignore[reportIncompatibleVariableOverride]
         ordering = ["-created_at"]
         constraints = [
             UniqueConstraint(Lower("name"), name="unique_quiblet_name_case_insensitive")
         ]
+
+    @override
+    def __str__(self) -> str:
+        return f"q/{self.name}"
