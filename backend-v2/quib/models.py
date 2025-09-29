@@ -19,10 +19,11 @@ class Quib(CreatedAtMixin, IdMixin):
     poster = models.ForeignKey(
         Profile, related_name="quibs", on_delete=models.SET_NULL, null=True
     )
-    highlighted = models.BooleanField(default=False)
     title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=50, blank=True)
     content = models.TextField(null=True, blank=True)
+    is_highlighted = models.BooleanField(default=False)
+    is_published = models.BooleanField(default=False)
     cover = ResizedImageField(
         upload_to=cover_upload_path,
         quality=75,
