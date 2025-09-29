@@ -10,10 +10,10 @@ from user.models import Profile
 
 class Quib(CreatedAtMixin, IdMixin):
     def cover_upload_path(self, _filename: str):
-        return f"covers/{self.slug}.webp"
+        return f"covers/q__{self.pk}.webp"
 
     def cover_small_upload_path(self, _filename: str):
-        return f"covers/{self.slug}-small.webp"
+        return f"covers/q__{self.pk}__small.webp"
 
     quiblet = models.ForeignKey(Quiblet, related_name="quibs", on_delete=models.CASCADE)
     poster = models.ForeignKey(
@@ -35,6 +35,7 @@ class Quib(CreatedAtMixin, IdMixin):
         upload_to=cover_small_upload_path,
         quality=1,
         force_format="WEBP",
+        size=[300, None],
         null=True,
         blank=True,
     )
