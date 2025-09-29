@@ -20,7 +20,7 @@ class Quib(CreatedAtMixin, IdMixin):
         Profile, related_name="quibs", on_delete=models.SET_NULL, null=True
     )
     title = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=50, blank=True)
+    slug = models.SlugField(max_length=50, editable=False, blank=True)
     content = models.TextField(null=True, blank=True)
     is_highlighted = models.BooleanField(default=False)
     is_published = models.BooleanField(default=False)
@@ -49,7 +49,7 @@ class Quib(CreatedAtMixin, IdMixin):
     @override
     def save(self, *args: Any, **kwargs: Any) -> None:
         if not self.slug:
-            self.slug = slugify(cast(str, self.title)[:50])
+            self.slug = slugify(cast(str, self.title)[:50]).replace("-", "_")
 
         if self.cover and (not self.cover_small or self._has_cover_changed()):
             self.cover_small = self.cover
