@@ -35,7 +35,8 @@ class Quib(CreatedAtMixin, IdMixin):
         upload_to=cover_small_upload_path,
         quality=1,
         force_format="WEBP",
-        size=[300, None],
+        size=[100, 100],
+        crop=["middle", "center"],
         null=True,
         blank=True,
     )
