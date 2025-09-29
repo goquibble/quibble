@@ -53,9 +53,10 @@ class Quib(CreatedAtMixin, IdMixin):
             slug_base = slugify(cast(str, self.title)).replace("-", "_")
             self.slug = slug_base[:50]
 
+        super().save(*args, **kwargs)
+
         if self.cover and (
             not self.cover_small or (not old or old.cover != self.cover)
         ):
-            self.cover_small = self.cover
-
-        super().save(*args, **kwargs)
+            self.cover_small = self.cover.file
+            super().save(update_fields=["cover_small"])
