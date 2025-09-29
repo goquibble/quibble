@@ -23,7 +23,7 @@ class Quib(CreatedAtMixin, IdMixin):
     slug = models.SlugField(max_length=50, editable=False, blank=True)
     content = models.TextField(null=True, blank=True)
     is_highlighted = models.BooleanField(default=False)
-    is_published = models.BooleanField(default=False)
+    is_published = models.BooleanField(default=True)
     cover = ResizedImageField(
         upload_to=cover_upload_path,
         quality=75,
@@ -50,10 +50,12 @@ class Quib(CreatedAtMixin, IdMixin):
     def save(self, *args: Any, **kwargs: Any) -> None:
         old = Quib.objects.filter(pk=self.pk).first()
         if not self.slug or (old and old.title != self.title):
-            self.slug = slugify(cast(str, self.title)[:50]).replace("-", "_")
+            slug_base = slugify(cast(str, self.title)).replace("-", "_")
+            self.slug = slug_base[:50]
 
         if self.cover and (
             not self.cover_small or (not old or old.cover != self.cover)
         ):
             self.cover_small = self.cover
-        return super().save(*args, **kwargs)
+
+        super().save(*args, **kwargs)
