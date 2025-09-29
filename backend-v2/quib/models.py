@@ -50,15 +50,20 @@ class Quib(CreatedAtMixin, IdMixin):
 
     @override
     def save(self, *args: Any, **kwargs: Any) -> None:
-        old = Quib.objects.filter(pk=self.pk).first()
+        old: Quib | None = None
+        if self.pk:
+            old = (
+                Quib.objects.filter(pk=self.pk)
+                .only("title", "cover", "cover_small")
+                .first()
+            )
+
         if not self.slug or (old and old.title != self.title):
             slug_base = slugify(cast(str, self.title)).replace("-", "_")
             self.slug = slug_base[:50]
 
-        super().save(*args, **kwargs)
-
-        if self.cover and (
-            not self.cover_small or (not old or old.cover != self.cover)
-        ):
+        cover_changed = old is None or old.cover != self.cover
+        if self.cover and (not self.cover_small or cover_changed):
             self.cover_small = self.cover.file
-            super().save(update_fields=["cover_small"])
+
+        super().save(*args, **kwargs)
