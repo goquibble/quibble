@@ -1,5 +1,3 @@
-from typing import Any
-from django.http import HttpRequest
 from ninja import ModelSchema
 
 from quib.models import Quib
@@ -29,17 +27,3 @@ class QuibSchema(ModelSchema):
             "cover_small",
             "content",
         ]
-
-    @staticmethod
-    def resolve_cover(obj: Quib, context: Any):
-        request: HttpRequest = context["request"]
-        if obj.cover and isinstance(obj.cover.url, str):
-            return request.build_absolute_uri(obj.cover.url)
-        return None
-
-    @staticmethod
-    def resolve_cover_small(obj: Quib, context: Any):
-        request: HttpRequest = context["request"]
-        if obj.cover_small and isinstance(obj.cover_small.url, str):
-            return request.build_absolute_uri(obj.cover_small.url)
-        return None
