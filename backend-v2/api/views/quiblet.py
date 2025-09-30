@@ -35,8 +35,8 @@ def get_quiblet(request: HttpRequest, name: str):
 def create_quiblet(
     request: CustomHttpRequest,
     data: Form[QuibletCreateInSchema],
-    avatar: File[UploadedFile | None] = None,
-    banner: File[UploadedFile | None] = None,
+    avatar: File[UploadedFile] | None = None,
+    banner: File[UploadedFile] | None = None,
 ):
     if Quiblet.objects.filter(name__iexact=data.name).exists():
         raise HttpError(400, f"Quiblet with name {data.name} already exists.")
