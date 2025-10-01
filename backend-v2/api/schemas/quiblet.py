@@ -1,5 +1,4 @@
 from enum import Enum
-from typing import Any
 from ninja import ModelSchema, Schema
 
 from api.schemas.user import ProfileSchema
@@ -28,20 +27,6 @@ class QuibletSchema(ModelSchema):
     @staticmethod
     def resolve_members_count(obj: Quiblet):
         return obj.members.count()
-
-    @staticmethod
-    def resolve_avatar(obj: Quiblet, context: Any):
-        request = context["request"]
-        if obj.avatar:
-            return request.build_absolute_uri(obj.avatar.url)
-        return None
-
-    @staticmethod
-    def resolve_banner(obj: Quiblet, context: Any):
-        request = context["request"]
-        if obj.banner:
-            return request.build_absolute_uri(obj.banner.url)
-        return None
 
 
 class QuibletType(str, Enum):
