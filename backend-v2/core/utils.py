@@ -22,4 +22,4 @@ def get_upload_path(instance: Any, folder: str) -> str:
         unique_file_name = instance.name
 
     extension = "webp"
-    return f"{folder}/{identifier}_{unique_file_name}.{extension}"
+    return f"{folder}/{identifier}-{unique_file_name}.{extension}"
