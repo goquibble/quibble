@@ -23,9 +23,19 @@ services:
     ports:
       - "9000:9000"
       - "9001:9001"
+    command: server /data --console-address ":9001"
     volumes:
       - minio_data:/data
-    command: server /data --console-address ":9001"
+
+  minio-mc:
+    image: minio/mc
+    depends_on:
+      - minio
+    env_file:
+      - ./backend-v2/.env
+    volumes:
+      - ./init-minio.sh:/init-minio.sh:ro
+    entrypoint: ["/bin/sh", "/init-minio.sh"]
 
 volumes:
   db_data:
