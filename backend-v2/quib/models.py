@@ -1,5 +1,6 @@
 from typing import Any, cast, override
 from django.db import models
+from django.db.models.deletion import SET_NULL
 from django.utils.text import slugify
 from django_resized.forms import ResizedImageField
 
@@ -67,3 +68,17 @@ class Quib(CreatedAtMixin, IdMixin):
             self.cover_small = self.cover.file
 
         super().save(*args, **kwargs)
+
+
+class QuibVote(models.Model):
+    quib = models.ForeignKey(Quib, related_name="votes", on_delete=models.CASCADE)
+    voter = models.ForeignKey(
+        Profile, related_name="quib_votes", on_delete=SET_NULL, null=True
+    )
+    # voting logic: +1 for upvote and -1 for downvote
+    value = models.SmallIntegerField()
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["quib", "voter"], name="unique_quib_voter")
+        ]
