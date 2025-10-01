@@ -27,7 +27,7 @@ services:
     volumes:
       - minio_data:/data
 
-  minio-mc:
+  mc:
     image: minio/mc
     depends_on:
       - minio

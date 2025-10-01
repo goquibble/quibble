@@ -145,14 +145,9 @@ AWS_S3_USE_SSL = not DEBUG
 # Storages
 # https://docs.djangoproject.com/en/5.2/ref/files/storage/
 STORAGES = {
-    "default": {
-        "BACKEND": "storages.backends.s3.S3Storage",
-        "OPTIONS": {
-            "location": "media",
-        },
-    },
+    "default": {"BACKEND": "storages.backends.s3.S3Storage"},
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"
     },
 }
 
