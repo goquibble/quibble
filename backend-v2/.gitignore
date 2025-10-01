@@ -13,6 +13,7 @@ wheels/
 local_settings.py
 db.sqlite3
 media/
+staticfiles/
 
 # Operating System and Editor files
 .DS_Store

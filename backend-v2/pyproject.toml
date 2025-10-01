@@ -16,6 +16,7 @@ dependencies = [
     "django-storages[s3]>=1.14.6",
     "pillow>=11.3.0",
     "psycopg2-binary>=2.9.10",
+    "whitenoise[brotli]>=6.11.0",
 ]
 
 [dependency-groups]

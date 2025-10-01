@@ -27,6 +27,8 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    # use whitenoise features for dev
+    "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
     "django.contrib.humanize",
     # cors
@@ -46,6 +48,8 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    # serve static files
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     # handle cors (must be placed before common middleware)
     "corsheaders.middleware.CorsMiddleware",
@@ -126,10 +130,13 @@ USE_I18N = True
 
 USE_TZ = True
 
-# AWS
+# AWS & S3
 AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY")
 AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME")
+AWS_QUERYSTRING_AUTH = False
+AWS_DEFAULT_ACL = "public-read"
+
 AWS_S3_ENDPOINT_URL = env("AWS_S3_ENDPOINT_URL")
 AWS_S3_REGION_NAME = env("AWS_S3_REGION_NAME")
 AWS_S3_ADDRESSING_STYLE = "path"
@@ -146,16 +153,14 @@ STORAGES = {
         },
     },
     "staticfiles": {
-        "BACKEND": "storages.backends.s3.S3Storage",
-        "OPTIONS": {
-            "location": "static",
-        },
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
-STATIC_URL = f"{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_URL = "/static/"
 
 # Media files
 # https://docs.djangoproject.com/en/5.2/topics/files/
