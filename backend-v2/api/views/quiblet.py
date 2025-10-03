@@ -24,7 +24,7 @@ router = Router()
 # --------------------
 
 
-@router.get("/", response=QuibletSchema)
+@router.get("/{name}", response=QuibletSchema)
 def get_quiblet(request: HttpRequest, name: str):
     _ = request
     cache_key = f"quiblet:{name}"
@@ -73,7 +73,7 @@ def is_unique_name(request: HttpRequest, name: str):
 # --------------------
 
 
-@router.get("/{name}/quib", response=QuibSchema)
+@router.get("/{name}/quib/{id}/{slug}", response=QuibSchema)
 def get_quib(request: HttpRequest, name: str, id: str, slug: str):
     _ = request
     cache_key = f"quib:{id}:{slug}"
