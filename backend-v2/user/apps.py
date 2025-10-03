@@ -1,3 +1,4 @@
+# pyright: reportUnusedImport=false
 from typing import override
 from django.apps import AppConfig
 
@@ -8,4 +9,4 @@ class UserConfig(AppConfig):
 
     @override
     def ready(self) -> None:
-        import user.signals  # pyright: ignore[reportUnusedImport]
+        import user.signals  # NOQA: F401

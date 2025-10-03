@@ -3,11 +3,20 @@ from django.contrib import admin
 
 from quiblet.models import Quib, QuibVote, Quiblet
 
+# --------------------
+# Quiblet Admin
+# --------------------
+
 
 @admin.register(Quiblet)
 class QuibletAdmin(admin.ModelAdmin):
     list_display = ["name", "type", "nsfw", "created_at"]
     search_fields = ["name"]
+
+
+# --------------------
+# Quib Admin
+# --------------------
 
 
 @admin.register(Quib)

@@ -5,6 +5,10 @@ from api.schemas.user import ProfileSchema
 from quiblet.models import Quib, Quiblet
 from user.models import Profile
 
+# --------------------
+# Quiblet Schemas
+# --------------------
+
 
 class QuibletSchema(ModelSchema):
     members_count: int
@@ -47,6 +51,9 @@ class QuibletCreateOutSchema(Schema):
     name: str
 
 
+# --------------------
+# Quib Schemas
+# --------------------
 class QuibQuibletSchema(ModelSchema):
     class Meta:
         model = Quiblet

@@ -7,6 +7,10 @@ from core.mixins import AvatarMixin, CreatedAtMixin
 from core.validators import UsernameValidator
 from user.managers import CustomUserManager
 
+# --------------------
+# User Models
+# --------------------
+
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     if TYPE_CHECKING:
@@ -34,6 +38,11 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         ordering = ["-date_joined"]
         verbose_name = "User"
         verbose_name_plural = "Users"
+
+
+# --------------------
+# Profile Models
+# --------------------
 
 
 class Profile(CreatedAtMixin, AvatarMixin):

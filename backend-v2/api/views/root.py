@@ -9,11 +9,21 @@ from user.models import Profile
 router = Router()
 
 
+# --------------------
+# Auth Related Routes
+# --------------------
+
+
 @router.get("/csrf-token")
 @ensure_csrf_cookie
 def healthcheck(request: HttpRequest):
     _ = request
     return {"success": True}
+
+
+# --------------------
+# Search Routes
+# --------------------
 
 
 @router.get("/search", response=SearchSchema)

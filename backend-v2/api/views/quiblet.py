@@ -19,6 +19,10 @@ from user.models import Profile
 
 router = Router()
 
+# --------------------
+# Quiblet Routes
+# --------------------
+
 
 @router.get("/", response=QuibletSchema)
 def get_quiblet(request: HttpRequest, name: str):
@@ -62,6 +66,11 @@ def is_unique_name(request: HttpRequest, name: str):
     _ = request
     exists = Quiblet.objects.filter(name=name).exists()
     return {"unique": not exists}
+
+
+# --------------------
+# Quib Routes
+# --------------------
 
 
 @router.get("/quib", response=QuibSchema)

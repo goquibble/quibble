@@ -10,6 +10,10 @@ from core.mixins import AvatarMixin, BannerMixin, CreatedAtMixin, IdMixin, TypeM
 from core.validators import UsernameValidator
 from user.models import Profile
 
+# --------------------
+# Quiblet Models
+# --------------------
+
 
 class Quiblet(CreatedAtMixin, AvatarMixin, BannerMixin, TypeMixin):
     name = models.CharField(
@@ -33,6 +37,11 @@ class Quiblet(CreatedAtMixin, AvatarMixin, BannerMixin, TypeMixin):
     @override
     def __str__(self) -> str:
         return f"q/{self.name}"
+
+
+# --------------------
+# Quib Models
+# --------------------
 
 
 class Quib(CreatedAtMixin, IdMixin):
