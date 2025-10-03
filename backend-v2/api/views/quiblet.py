@@ -73,13 +73,13 @@ def is_unique_name(request: HttpRequest, name: str):
 # --------------------
 
 
-@router.get("/quib", response=QuibSchema)
-def get_quib(request: HttpRequest, id: str, slug: str):
+@router.get("/{name}/quib", response=QuibSchema)
+def get_quib(request: HttpRequest, name: str, id: str, slug: str):
     _ = request
     cache_key = f"quib:{id}:{slug}"
     if cached_data := cache.get(cache_key):
         return cached_data
 
-    quib = get_object_or_404(Quib, id=id, slug=slug)
+    quib = get_object_or_404(Quib, quiblet__name=name, id=id, slug=slug)
     cache.set(cache_key, quib, 5 * 60)  # 5 mins
     return quib
