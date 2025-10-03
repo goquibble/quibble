@@ -36,11 +36,13 @@ class Quiblet(CreatedAtMixin, AvatarMixin, BannerMixin, TypeMixin):
 
 
 class Quib(CreatedAtMixin, IdMixin):
-    def cover_upload_path(self, _filename: str):
-        return f"covers/q-{self.pk}.webp"
+    def cover_upload_path(self, filename: str):
+        extension = filename.split(".")[-1]
+        return f"covers/q-{self.pk}.{extension}"
 
-    def cover_small_upload_path(self, _filename: str):
-        return f"covers/q-{self.pk}-small.webp"
+    def cover_small_upload_path(self, filename: str):
+        extension = filename.split(".")[-1]
+        return f"covers/q-{self.pk}-small.{extension}"
 
     quiblet = models.ForeignKey(Quiblet, related_name="quibs", on_delete=models.CASCADE)
     poster = models.ForeignKey(
