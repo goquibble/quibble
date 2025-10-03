@@ -66,6 +66,7 @@ class Quib(CreatedAtMixin, IdMixin):
         crop=["middle", "center"],
         null=True,
         blank=True,
+        editable=False,
     )
 
     class Meta:
