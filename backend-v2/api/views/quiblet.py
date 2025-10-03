@@ -8,12 +8,13 @@ from ninja.errors import HttpError
 from api.auth import ProfileAuth
 from api.http import CustomHttpRequest
 from api.schemas.quiblet import (
+    QuibSchema,
     QuibletCreateInSchema,
     QuibletCreateOutSchema,
     QuibletSchema,
 )
 from api.shared.schemas import UniqueNameResponseSchema
-from quiblet.models import Quiblet
+from quiblet.models import Quib, Quiblet
 from user.models import Profile
 
 router = Router()
@@ -61,3 +62,15 @@ def is_unique_name(request: HttpRequest, name: str):
     _ = request
     exists = Quiblet.objects.filter(name=name).exists()
     return {"unique": not exists}
+
+
+@router.get("/quib", response=QuibSchema)
+def get_quib(request: HttpRequest, id: str, slug: str):
+    _ = request
+    cache_key = f"quib:{id}:{slug}"
+    if cached_data := cache.get(cache_key):
+        return cached_data
+
+    quib = get_object_or_404(Quib, id=id, slug=slug)
+    cache.set(cache_key, quib, 5 * 60)  # 5 mins
+    return quib
