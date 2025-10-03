@@ -21,6 +21,7 @@ ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
 # Application definition
 INSTALLED_APPS = [
+    "base16_admin",
     # default django apps
     "django.contrib.admin",
     "django.contrib.auth",
@@ -83,6 +84,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "base16_admin.context_processors.base16_theme",
             ],
         },
     },
@@ -153,6 +155,7 @@ STORAGES = {
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
+STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = "/static/"
 

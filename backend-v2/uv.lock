@@ -28,6 +28,7 @@ dependencies = [
     { name = "dj-database-url" },
     { name = "django" },
     { name = "django-allauth", extra = ["headless-spec", "socialaccount"] },
+    { name = "django-base16-admin" },
     { name = "django-cors-headers" },
     { name = "django-environ" },
     { name = "django-ninja" },
@@ -50,6 +51,7 @@ requires-dist = [
     { name = "dj-database-url", specifier = ">=3.0.1" },
     { name = "django", specifier = ">=5.2.6" },
     { name = "django-allauth", extras = ["headless-spec", "socialaccount"], specifier = ">=65.11.1" },
+    { name = "django-base16-admin", specifier = ">=0.1.4" },
     { name = "django-cors-headers", specifier = ">=4.7.0" },
     { name = "django-environ", specifier = ">=0.12.0" },
     { name = "django-ninja", specifier = ">=1.4.3" },
@@ -224,16 +226,16 @@ wheels = [
 
 [[package]]
 name = "django"
-version = "5.2.6"
+version = "5.2.7"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "asgiref" },
     { name = "sqlparse" },
     { name = "tzdata", marker = "sys_platform == 'win32'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/4c/8c/2a21594337250a171d45dda926caa96309d5136becd1f48017247f9cdea0/django-5.2.6.tar.gz", hash = "sha256:da5e00372763193d73cecbf71084a3848458cecf4cee36b9a1e8d318d114a87b", size = 10858861, upload-time = "2025-09-03T13:04:03.23Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/b1/96/bd84e2bb997994de8bcda47ae4560991084e86536541d7214393880f01a8/django-5.2.7.tar.gz", hash = "sha256:e0f6f12e2551b1716a95a63a1366ca91bbcd7be059862c1b18f989b1da356cdd", size = 10865812, upload-time = "2025-10-01T14:22:12.081Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f5/af/6593f6d21404e842007b40fdeb81e73c20b6649b82d020bb0801b270174c/django-5.2.6-py3-none-any.whl", hash = "sha256:60549579b1174a304b77e24a93d8d9fafe6b6c03ac16311f3e25918ea5a20058", size = 8303111, upload-time = "2025-09-03T13:03:47.808Z" },
+    { url = "https://files.pythonhosted.org/packages/8f/ef/81f3372b5dd35d8d354321155d1a38894b2b766f576d0abffac4d8ae78d9/django-5.2.7-py3-none-any.whl", hash = "sha256:59a13a6515f787dec9d97a0438cd2efac78c8aca1c80025244b0fe507fe0754b", size = 8307145, upload-time = "2025-10-01T14:22:49.476Z" },
 ]
 
 [[package]]
@@ -254,6 +256,18 @@ socialaccount = [
     { name = "oauthlib" },
     { name = "pyjwt", extra = ["crypto"] },
     { name = "requests" },
+]
+
+[[package]]
+name = "django-base16-admin"
+version = "0.1.4"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/9e/a4/8c2f929039bcc758496042081291939f0741577ada8d26b6d2916a5cd12a/django_base16_admin-0.1.4.tar.gz", hash = "sha256:41532c90274046ae78e7d05ef60e47e31819cc3a58f81545d3e29841e86faba5", size = 9941, upload-time = "2025-10-03T06:00:42.849Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/65/ae/ba9a71ca15ff3fa55ce69a8fd154131f9df68fee0f1fa5ba33ceb87b4ae6/django_base16_admin-0.1.4-py3-none-any.whl", hash = "sha256:ff8786500eb49ee0612e7b65c90a59a4cb76d27de42eee43ace68435a8ef2a61", size = 14433, upload-time = "2025-10-03T06:00:41.99Z" },
 ]
 
 [[package]]

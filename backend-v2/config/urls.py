@@ -8,6 +8,11 @@ from django.conf.urls.static import static
 from api.urls import api_v1
 from api.views.auth import CustomSessionView
 
+admin.site.site_title = "Quibble Admin Portal"
+admin.site.site_header = "Quibble Administration"
+admin.site.index_title = "Welcome to Admin Dashboard"
+
+
 def get_custom_session_view() -> Callable[[HttpRequest], HttpResponse]:
     # prevent circular import
     from allauth.headless.constants import Client
@@ -16,6 +21,7 @@ def get_custom_session_view() -> Callable[[HttpRequest], HttpResponse]:
         Callable[[HttpRequest], HttpResponse],
         CustomSessionView.as_api_view(client=Client.BROWSER),
     )
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
