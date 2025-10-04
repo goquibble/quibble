@@ -57,7 +57,7 @@ requires-dist = [
     { name = "django-ninja", specifier = ">=1.4.3" },
     { name = "django-redis", specifier = ">=6.0.0" },
     { name = "django-resized", specifier = ">=1.0.3" },
-    { name = "django-shortuuid", specifier = ">=0.1.1" },
+    { name = "django-shortuuid", specifier = ">=0.1.2" },
     { name = "django-storages", extras = ["s3"], specifier = ">=1.14.6" },
     { name = "pillow", specifier = ">=11.3.0" },
     { name = "psycopg2-binary", specifier = ">=2.9.10" },
@@ -329,15 +329,15 @@ wheels = [
 
 [[package]]
 name = "django-shortuuid"
-version = "0.1.1"
+version = "0.1.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "django" },
     { name = "shortuuid" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/09/d5/e9fd57ebb03f959fb3f7fd9f3fadc72e134a63fbdfada85b5b5f74e0edeb/django_shortuuid-0.1.1.tar.gz", hash = "sha256:9cc995fecdf0c183d3d81afe17998f439174e70f2f199d4349774a921c8989f0", size = 2917, upload-time = "2025-09-29T03:07:35.026Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/74/22/24c4e9f64a1255cdd132c51e604894ee99295cda3231a0b269dc81b08142/django_shortuuid-0.1.2.tar.gz", hash = "sha256:8038af51e614dfd8f870343787a274fe4570897bb64261efba6f751e173c629c", size = 2871, upload-time = "2025-10-04T03:30:38.264Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/17/a8/6879381f6b0d0245d8f294a8c26031ce7d610fd25ca6162e5ea3ea837e93/django_shortuuid-0.1.1-py3-none-any.whl", hash = "sha256:cbead6d931e4ee9777104dbbe87ceeada44debfb254d8624c93690414cfb3417", size = 3798, upload-time = "2025-09-29T03:07:33.737Z" },
+    { url = "https://files.pythonhosted.org/packages/c0/61/59af2881cab219437b3913fbf77f11d299cbdf1a05faeb7b71cf86a86236/django_shortuuid-0.1.2-py3-none-any.whl", hash = "sha256:623e7607133d3fbf1031af0944f2cdf3a62af723fb0f5250c508876205be0aaf", size = 3752, upload-time = "2025-10-04T03:30:37.027Z" },
 ]
 
 [[package]]
