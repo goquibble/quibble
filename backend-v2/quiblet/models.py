@@ -5,6 +5,7 @@ from django.db.models.constraints import UniqueConstraint
 from django.db.models.functions import Lower
 from django.utils.text import slugify
 from django_resized.forms import ResizedImageField
+from django_shortuuid.fields import ShortUUIDField
 
 from core.mixins import AvatarMixin, BannerMixin, CreatedAtMixin, IdMixin, TypeMixin
 from core.validators import UsernameValidator
@@ -46,12 +47,12 @@ class Quiblet(CreatedAtMixin, AvatarMixin, BannerMixin, TypeMixin):
 
 class Quib(CreatedAtMixin, IdMixin):
     def cover_upload_path(self, filename: str):
-        extension = filename.split(".")[-1]
-        return f"covers/q-{self.pk}.{extension}"
+        ext = filename.split(".")[-1]
+        return f"covers/q-{self.pk}.{ext}"
 
     def cover_small_upload_path(self, filename: str):
-        extension = filename.split(".")[-1]
-        return f"covers/q-{self.pk}-small.{extension}"
+        ext = filename.split(".")[-1]
+        return f"covers/q-{self.pk}-small.{ext}"
 
     quiblet = models.ForeignKey(Quiblet, related_name="quibs", on_delete=models.CASCADE)
     poster = models.ForeignKey(
@@ -87,8 +88,16 @@ class Quib(CreatedAtMixin, IdMixin):
     def __str__(self) -> str:
         return f"{self.pk}/{self.slug}"
 
+    def _ensure_id(self):
+        if self.pk:
+            return
+        # set ID before save for file files
+        id_field = cast(ShortUUIDField, self._meta.get_field("id"))
+        self.pk = id_field.generate_unique_uuid(self)
+
     @override
     def save(self, *args: Any, **kwargs: Any) -> None:
+        self._ensure_id()
         old: Quib | None = None
         if self.pk:
             old = (
