@@ -93,7 +93,7 @@ class Quib(CreatedAtMixin, IdMixin):
             return
         # set ID before save for file files
         id_field = cast(ShortUUIDField, self._meta.get_field("id"))
-        self.pk = id_field.generate_unique_uuid(self)
+        self.pk = id_field.generate_unique_shortuuid(self)
 
     @override
     def save(self, *args: Any, **kwargs: Any) -> None:
