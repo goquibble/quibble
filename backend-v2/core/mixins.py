@@ -1,6 +1,5 @@
 from django.db import models
 from django_resized.forms import ResizedImageField
-from django_shortuuid.fields import ShortUUIDField
 
 from core.utils import get_avatar_upload_path, get_banner_upload_path
 
@@ -66,20 +65,6 @@ class TypeMixin(models.Model):
         PRIVATE = "PRIVATE", "Private"
 
     type = models.CharField(choices=Type.choices, default=Type.PUBLIC)
-
-    class Meta:
-        abstract = True
-
-
-class IdMixin(models.Model):
-    """Abstract model mixin that provides a primary key field `id` using a
-    short, URL-safe UUID string."""
-
-    id = ShortUUIDField(
-        primary_key=True,
-        length=7,
-        alphabet="abcdefghijklmnopqrstuvwxyz0123456789",
-    )
 
     class Meta:
         abstract = True

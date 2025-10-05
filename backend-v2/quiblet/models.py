@@ -7,7 +7,7 @@ from django.utils.text import slugify
 from django_resized.forms import ResizedImageField
 from django_shortuuid.fields import ShortUUIDField
 
-from core.mixins import AvatarMixin, BannerMixin, CreatedAtMixin, IdMixin, TypeMixin
+from core.mixins import AvatarMixin, BannerMixin, CreatedAtMixin, TypeMixin
 from core.validators import UsernameValidator
 from user.models import Profile
 
@@ -45,7 +45,7 @@ class Quiblet(CreatedAtMixin, AvatarMixin, BannerMixin, TypeMixin):
 # --------------------
 
 
-class Quib(CreatedAtMixin, IdMixin):
+class Quib(CreatedAtMixin):
     def cover_upload_path(self, filename: str):
         ext = filename.split(".")[-1]
         return f"covers/q-{self.pk}.{ext}"
@@ -54,6 +54,12 @@ class Quib(CreatedAtMixin, IdMixin):
         ext = filename.split(".")[-1]
         return f"covers/q-{self.pk}-small.{ext}"
 
+    id = ShortUUIDField(
+        length=7,
+        primary_key=True,
+        alphabet="abcdefghijklmnopqrstuvwxyz0123456789",
+        collision_check=False,  # no need, because we're using both id and slug for query
+    )
     quiblet = models.ForeignKey(Quiblet, related_name="quibs", on_delete=models.CASCADE)
     poster = models.ForeignKey(
         Profile, related_name="quibs", on_delete=models.SET_NULL, null=True
