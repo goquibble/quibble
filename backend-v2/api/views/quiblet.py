@@ -1,5 +1,6 @@
 from typing import cast
 from django.core.cache import cache
+from django.db.models import Q, Count
 from django.http import HttpRequest
 from django.shortcuts import get_object_or_404
 from ninja import File, Form, Router, UploadedFile
@@ -80,7 +81,15 @@ def get_quib(request: HttpRequest, name: str, id: str, slug: str):
     if cached_data := cache.get(cache_key):
         return cached_data
 
-    quib = get_object_or_404(Quib, quiblet__name=name, id=id, slug=slug)
+    quib = get_object_or_404(
+        Quib.objects.annotate(
+            upvotes=Count("votes", filter=Q(votes__value=1)),
+            downvotes=Count("votes", filter=Q(votes__value=-1)),
+        ),
+        quiblet__name=name,
+        id=id,
+        slug=slug,
+    )
     cache.set(cache_key, quib, 5 * 60)  # 5 mins
     return quib
 

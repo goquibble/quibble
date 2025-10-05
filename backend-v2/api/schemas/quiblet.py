@@ -69,6 +69,8 @@ class QuibPosterSchema(ModelSchema):
 class QuibSchema(ModelSchema):
     quiblet: QuibQuibletSchema
     poster: QuibPosterSchema
+    upvotes: int
+    downvotes: int
 
     class Meta:
         model = Quib
