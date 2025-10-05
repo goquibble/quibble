@@ -1,9 +1,8 @@
-from django.http import HttpRequest, JsonResponse
+from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 from ninja import Router
 
 from api.schemas.root import SearchSchema
-from api.shared.schemas import SuccessResponseSchema
 from quiblet.models import Quiblet
 from user.models import Profile
 
@@ -15,11 +14,11 @@ router = Router()
 # --------------------
 
 
-@router.get("/csrftoken", response=SuccessResponseSchema)
+@router.get("/csrftoken", response={204: None})
 @ensure_csrf_cookie
 def set_csrftoken(request: HttpRequest):
     _ = request
-    return JsonResponse({"success": True})
+    return HttpResponse(status=204)
 
 
 # --------------------
