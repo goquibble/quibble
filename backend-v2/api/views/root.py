@@ -1,10 +1,9 @@
-from django.db.models import Q, Count
 from django.http import HttpRequest, HttpResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 from ninja import Router
+from ninja.pagination import paginate
 
-from api.schemas.quiblet import QuibSchema
-from api.schemas.root import SearchSchema
+from api.schemas.root import FeedQuibSchema, SearchSchema
 from quiblet.models import Quib, Quiblet
 from user.models import Profile
 
@@ -42,8 +41,12 @@ def search(request: HttpRequest, q: str):
 # --------------------
 
 
-@router.get("/feed", response=list[QuibSchema])
+@router.get("/feed", response=list[FeedQuibSchema])
+@paginate
 def get_feed(request: HttpRequest):
     _ = request
-    quibs = Quib.objects.filter(is_published=True).select_related("quiblet", "poster")
-    return quibs
+    return (
+        Quib.objects.filter(is_published=True)
+        .select_related("quiblet")
+        .defer("poster", "is_highlighted")
+    )

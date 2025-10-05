@@ -1,9 +1,9 @@
 from enum import Enum
 from ninja import ModelSchema, Schema
 
-from api.schemas.user import ProfileSchema
+from api.schemas.user import ProfilePreviewSchema, ProfileSchema
+from api.shared.schemas import VoteSchema
 from quiblet.models import Quib, Quiblet
-from user.models import Profile
 
 # --------------------
 # Quiblet Schemas
@@ -34,6 +34,12 @@ class QuibletSchema(ModelSchema):
         return obj.members.count()
 
 
+class QuibletPreviewSchema(ModelSchema):
+    class Meta:
+        model = Quiblet
+        fields = ["id", "name", "avatar"]
+
+
 class QuibletType(str, Enum):
     PUBLIC = "PUBLIC"
     RESTRICTED = "RESTRICTED"
@@ -54,23 +60,11 @@ class QuibletCreateOutSchema(Schema):
 # --------------------
 # Quib Schemas
 # --------------------
-class QuibQuibletSchema(ModelSchema):
-    class Meta:
-        model = Quiblet
-        fields = ["id", "name", "avatar"]
 
 
-class QuibPosterSchema(ModelSchema):
-    class Meta:
-        model = Profile
-        fields = ["id", "username", "avatar"]
-
-
-class QuibSchema(ModelSchema):
-    quiblet: QuibQuibletSchema
-    poster: QuibPosterSchema
-    upvotes: int
-    downvotes: int
+class QuibSchema(ModelSchema, VoteSchema):
+    quiblet: QuibletPreviewSchema
+    poster: ProfilePreviewSchema
 
     class Meta:
         model = Quib
@@ -78,10 +72,7 @@ class QuibSchema(ModelSchema):
             "id",
             "slug",
             "title",
-            "quiblet",
-            "poster",
             "is_highlighted",
-            "is_published",
             "cover",
             "cover_small",
             "content",
