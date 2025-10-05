@@ -85,9 +85,10 @@ def get_quib(request: HttpRequest, name: str, id: str, slug: str):
     return quib
 
 
-@router.post("/{name}/quib/{id}/{slug}/vote", auth=ProfileAuth(), response=QuibSchema)
+@router.post("/{name}/quib/{id}/{slug}/vote", auth=ProfileAuth(), response={204: None})
 def vote_quib(request: CustomHttpRequest, name: str, id: str, slug: str, value: int):
     quib = get_object_or_404(Quib, quiblet__name=name, id=id, slug=slug)
     QuibVote.objects.update_or_create(
         quib=quib, voter=request.user_p, defaults={"value": value}
     )
+    return 204, None
