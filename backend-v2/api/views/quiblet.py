@@ -24,6 +24,13 @@ router = Router()
 # --------------------
 
 
+@router.get("/is-unique", response=UniqueNameResponseSchema)
+def is_unique_name(request: HttpRequest, name: str):
+    _ = request
+    exists = Quiblet.objects.filter(name__iexact=name).exists()
+    return {"unique": not exists}
+
+
 @router.get("/{name}", response=QuibletSchema)
 def get_quiblet(request: HttpRequest, name: str):
     _ = request
@@ -59,13 +66,6 @@ def create_quiblet(
         quiblet.banner.save(banner.name, banner)
 
     return {"name": data.name}
-
-
-@router.get("/is-unique-name", response=UniqueNameResponseSchema)
-def is_unique_name(request: HttpRequest, name: str):
-    _ = request
-    exists = Quiblet.objects.filter(name=name).exists()
-    return {"unique": not exists}
 
 
 # --------------------
