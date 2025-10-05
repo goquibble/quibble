@@ -135,3 +135,7 @@ class QuibVote(models.Model):
         constraints = [
             models.UniqueConstraint(fields=["quib", "voter"], name="unique_quib_voter")
         ]
+
+    @override
+    def __str__(self) -> str:
+        return f"Vote by {self.voter} for {self.quib}"
