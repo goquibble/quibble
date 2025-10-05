@@ -9,6 +9,7 @@ from django_shortuuid.fields import ShortUUIDField
 
 from core.mixins import AvatarMixin, BannerMixin, CreatedAtMixin, TypeMixin
 from core.validators import UsernameValidator
+from quiblet.managers import QuibManager
 from user.models import Profile
 
 # --------------------
@@ -86,6 +87,8 @@ class Quib(CreatedAtMixin):
         blank=True,
         editable=False,
     )
+
+    objects = QuibManager()
 
     class Meta:
         ordering = ["-created_at"]
