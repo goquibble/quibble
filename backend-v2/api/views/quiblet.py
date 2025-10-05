@@ -14,7 +14,7 @@ from api.schemas.quiblet import (
     QuibletSchema,
 )
 from api.shared.schemas import UniqueNameResponseSchema
-from quiblet.models import Quib, Quiblet
+from quiblet.models import Quib, QuibVote, Quiblet
 from user.models import Profile
 
 router = Router()
@@ -83,3 +83,11 @@ def get_quib(request: HttpRequest, name: str, id: str, slug: str):
     quib = get_object_or_404(Quib, quiblet__name=name, id=id, slug=slug)
     cache.set(cache_key, quib, 5 * 60)  # 5 mins
     return quib
+
+
+@router.post("/{name}/quib/{id}/{slug}/vote", auth=ProfileAuth(), response=QuibSchema)
+def vote_quib(request: CustomHttpRequest, name: str, id: str, slug: str, value: int):
+    quib = get_object_or_404(Quib, quiblet__name=name, id=id, slug=slug)
+    QuibVote.objects.update_or_create(
+        quib=quib, voter=request.user_p, defaults={"value": value}
+    )
