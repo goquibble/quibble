@@ -45,7 +45,7 @@ export default function Header() {
   const userProfile = useAuthStore((state) => state.userProfile);
 
   return (
-    <header className="flex h-14 items-center justify-between border-b px-4">
+    <header className="sticky top-0 flex h-14 items-center justify-between border-b px-4">
       <Link href={"/"} className="flex items-center gap-2">
         <Icons.icon className="size-6" />
         <Icons.logo className="h-6 w-max" />

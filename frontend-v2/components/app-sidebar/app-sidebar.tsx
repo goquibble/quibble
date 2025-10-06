@@ -7,7 +7,7 @@ import YourQuiblets from "./your-quiblets";
 
 export default function AppSidebar() {
   return (
-    <aside className="flex h-[calc(100vh-var(--spacing)*14)] w-75 flex-col gap-4 border-r p-4">
+    <aside className="sticky top-14 flex h-[calc(100vh-var(--spacing)*14)] w-75 flex-col gap-4 border-r p-4">
       <div className="flex flex-col gap-2">
         <IconInput
           Icon={Filter}
