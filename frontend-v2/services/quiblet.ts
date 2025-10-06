@@ -5,7 +5,7 @@ import type { Nullable } from "@/types/generics";
 import type { Quiblet } from "@/types/quiblet";
 
 export async function getQuiblet(name: string): Promise<Quiblet> {
-  const res = await fetch(getApiUrl(`api/v1/quiblet?name=${name}`));
+  const res = await fetch(getApiUrl(`api/v1/quiblet/${name}`));
 
   if (!res.ok) {
     const errData = await res.json();

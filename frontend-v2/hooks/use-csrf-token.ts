@@ -10,7 +10,7 @@ async function fetchCsrftoken(): Promise<Nullable<string>> {
     return token;
   }
   // fetch, so server can set new one in cookie
-  await fetch(getApiUrl("api/v1/csrf-token"), {
+  await fetch(getApiUrl("api/v1/csrftoken"), {
     method: "GET",
     credentials: "include",
   });

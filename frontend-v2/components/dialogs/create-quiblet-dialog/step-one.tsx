@@ -33,7 +33,7 @@ const FormSchema = z.object({
 });
 
 async function checkIsUniqueName(name: string): Promise<boolean> {
-  const url = getApiUrl(`api/v1/quiblet/is-unique-name?name=${name}`);
+  const url = getApiUrl(`api/v1/quiblet/is-unique?name=${name}`);
   const res = await fetch(url);
 
   if (!res.ok) return false;
