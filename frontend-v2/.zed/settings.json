@@ -1,10 +1,4 @@
 {
-  "language_servers": [
-    "!eslint",
-    "!typescript-language-server",
-    "!discord_presence",
-    "..."
-  ],
   "formatter": {
     "external": {
       "command": "./node_modules/@biomejs/biome/bin/biome",
