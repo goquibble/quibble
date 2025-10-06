@@ -14,6 +14,7 @@ export interface FeedQuib {
   cover: Nullable<string>;
   cover_small: Nullable<string>;
   content: Nullable<string>;
+  created_at: string;
 }
 
 export interface Feed {

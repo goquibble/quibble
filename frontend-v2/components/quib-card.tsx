@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { timeAgo } from "@/lib/utils";
 import type { FeedQuib } from "@/types/feed";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
@@ -25,6 +26,7 @@ export default function QuibCard({
   cover,
   cover_small,
   content,
+  created_at,
 }: QuibCardProps) {
   return (
     <div className="group relative flex flex-col gap-2 rounded-lg border p-4 pb-2">
@@ -43,7 +45,9 @@ export default function QuibCard({
           </Avatar>
           <span className="font-medium text-sm">q/{quiblet.name}</span>
         </Link>
-        <span className="text-muted-foreground text-xs">— 1hr ago</span>
+        <span className="text-muted-foreground text-xs">
+          — {timeAgo(created_at)}
+        </span>
       </div>
       <h2 className="font-bold text-xl decoration-2 decoration-muted-foreground group-hover:underline dark:text-white/90">
         {title}

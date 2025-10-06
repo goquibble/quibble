@@ -49,4 +49,5 @@ class FeedQuibSchema(ModelSchema, VoteSchema):
             "cover",
             "cover_small",
             "content",
+            "created_at",
         ]
