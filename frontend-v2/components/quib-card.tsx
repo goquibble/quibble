@@ -27,7 +27,7 @@ export default function QuibCard({
   content,
 }: QuibCardProps) {
   return (
-    <div className="group relative flex flex-col gap-2 rounded-lg border bg-muted/25 p-4 transition-colors hover:bg-muted/50">
+    <div className="group relative flex flex-col gap-2 rounded-lg border p-4 pb-2">
       <Link
         href={`/q/${quiblet.name}/quib/${id}/${slug}`}
         className="absolute inset-0"
@@ -45,7 +45,7 @@ export default function QuibCard({
         </Link>
         <span className="text-muted-foreground text-xs">— 1hr ago</span>
       </div>
-      <h2 className="font-bold text-xl group-hover:underline dark:text-white/90">
+      <h2 className="font-bold text-xl decoration-2 decoration-muted-foreground group-hover:underline dark:text-white/90">
         {title}
       </h2>
       {content ? (
@@ -66,10 +66,10 @@ export default function QuibCard({
         </div>
       )}
       <div className="relative flex w-max items-center gap-2">
-        <div className="flex items-center gap-2 rounded-lg border border-accent/50 bg-muted p-1">
+        <div className="flex items-center gap-1 rounded-lg border bg-input/30">
           <Button
             size={"icon-sm"}
-            variant={"default"}
+            variant={"ghost"}
             className="hover:text-primary"
           >
             <ArrowBigUp />
@@ -83,11 +83,11 @@ export default function QuibCard({
             <ArrowBigDown />
           </Button>
         </div>
-        <Button size={"sm"} variant={"ghost"}>
+        <Button size={"sm"} variant={"outline"}>
           <MessagesSquare />
           <span className="font-medium text-sm">4</span>
         </Button>
-        <Button size={"sm"} variant={"ghost"}>
+        <Button size={"sm"} variant={"outline"}>
           <Share2 />
           <span className="font-medium text-sm">Share</span>
         </Button>
