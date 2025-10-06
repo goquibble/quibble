@@ -1,5 +1,5 @@
 import type { z } from "zod";
-import { getApiUrl } from "@/lib/api-client";
+import { getApiUrl } from "@/lib/api";
 import { getAuthHeaders } from "@/lib/auth";
 import type { AuthFormSchema, VerificationFormSchema } from "@/schemas/auth";
 import type { Nullable } from "@/types/generics";

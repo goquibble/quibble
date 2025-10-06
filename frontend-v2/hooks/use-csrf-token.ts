@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import Cookies from "js-cookie";
-import { getApiUrl } from "@/lib/api-client";
+import { getApiUrl } from "@/lib/api";
 import type { Nullable } from "@/types/generics";
 
 async function fetchCsrftoken(): Promise<Nullable<string>> {

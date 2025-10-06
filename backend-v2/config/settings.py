@@ -21,7 +21,7 @@ ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
 # Application definition
 INSTALLED_APPS = [
-    "base16_admin",
+    # "base16_admin",
     # default django apps
     "django.contrib.admin",
     "django.contrib.auth",
@@ -83,7 +83,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "base16_admin.context_processors.base16_theme",
+                # "base16_admin.context_processors.base16_theme",
             ],
         },
     },

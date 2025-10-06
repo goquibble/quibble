@@ -1,4 +1,4 @@
-import { getApiUrl } from "@/lib/api-client";
+import { getApiUrl } from "@/lib/api";
 import type { Search } from "@/types/search";
 
 export async function search(query: string): Promise<Search> {

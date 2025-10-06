@@ -1,4 +1,4 @@
-import { getApiUrl } from "@/lib/api-client";
+import { getApiUrl } from "@/lib/api";
 
 export async function getUserProfiles() {
   const res = await fetch(getApiUrl("api/v1/user/me/profiles"), {

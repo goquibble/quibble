@@ -1,5 +1,5 @@
 import type { Data } from "@/components/dialogs/create-quiblet-dialog/create-quiblet-dialog";
-import { getApiUrl } from "@/lib/api-client";
+import { getApiUrl } from "@/lib/api";
 import { getAuthHeaders } from "@/lib/auth";
 import type { Nullable } from "@/types/generics";
 import type { Quiblet } from "@/types/quiblet";
