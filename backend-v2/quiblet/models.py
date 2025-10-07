@@ -1,5 +1,6 @@
+# pyright: reportUninitializedInstanceVariable=false
 # pyright: reportIncompatibleVariableOverride=false
-from typing import Any, cast, override
+from typing import TYPE_CHECKING, Any, cast, override
 from django.db import models
 from django.db.models.constraints import UniqueConstraint
 from django.db.models.functions import Lower
@@ -47,6 +48,9 @@ class Quiblet(CreatedAtMixin, AvatarMixin, BannerMixin, TypeMixin):
 
 
 class Quib(CreatedAtMixin):
+    if TYPE_CHECKING:
+        user_vote: list["QuibVote"]
+
     def cover_upload_path(self, filename: str):
         ext = filename.split(".")[-1]
         return f"covers/q-{self.pk}.{ext}"

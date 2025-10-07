@@ -1,10 +1,12 @@
+from django.db.models import Prefetch
 from django.http import HttpRequest, HttpResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 from ninja import Router
 from ninja.pagination import paginate
 
+from api.http import CustomHttpRequest
 from api.schemas.root import FeedQuibSchema, SearchSchema
-from quiblet.models import Quib, Quiblet
+from quiblet.models import Quib, QuibVote, Quiblet
 from user.models import Profile
 
 router = Router()
@@ -43,10 +45,21 @@ def search(request: HttpRequest, q: str):
 
 @router.get("/feed", response=list[FeedQuibSchema])
 @paginate
-def get_feed(request: HttpRequest):
-    _ = request
-    return (
+def get_feed(request: CustomHttpRequest):
+    quibs = (
         Quib.objects.filter(is_published=True)
         .select_related("quiblet")
         .defer("poster", "is_highlighted")
     )
+
+    if request.user and request.user.is_authenticated:
+        voter = Profile.objects.get(user=request.user)
+        quibs = quibs.prefetch_related(
+            Prefetch(
+                "votes",
+                queryset=QuibVote.objects.filter(voter=voter),
+                to_attr="user_vote",
+            )
+        )
+
+    return quibs
