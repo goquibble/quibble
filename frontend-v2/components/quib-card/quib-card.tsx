@@ -1,16 +1,9 @@
-import {
-  ArrowBigDown,
-  ArrowBigUp,
-  MessagesSquare,
-  MoreHorizontal,
-  Share2,
-} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { timeAgo } from "@/lib/utils";
 import type { FeedQuib } from "@/types/feed";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Button } from "./ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import QuibActions from "./quib-actions";
 
 interface QuibCardProps extends FeedQuib {
   // add props later for quiblet page
@@ -69,36 +62,7 @@ export default function QuibCard({
           />
         </div>
       )}
-      <div className="relative flex w-max items-center gap-2">
-        <div className="flex items-center gap-1 rounded-lg border bg-input/30">
-          <Button
-            size={"icon-sm"}
-            variant={"ghost"}
-            className="hover:text-primary"
-          >
-            <ArrowBigUp />
-          </Button>
-          <span className="font-medium text-sm">{upvotes}</span>
-          <Button
-            size={"icon-sm"}
-            variant={"ghost"}
-            className="hover:text-secondary"
-          >
-            <ArrowBigDown />
-          </Button>
-        </div>
-        <Button size={"sm"} variant={"outline"}>
-          <MessagesSquare />
-          <span className="font-medium text-sm">4</span>
-        </Button>
-        <Button size={"sm"} variant={"outline"}>
-          <Share2 />
-          <span className="font-medium text-sm">Share</span>
-        </Button>
-        <Button size={"icon-sm"} variant={"ghost"}>
-          <MoreHorizontal />
-        </Button>
-      </div>
+      <QuibActions upvotes={upvotes} downvotes={downvotes} />
     </div>
   );
 }
