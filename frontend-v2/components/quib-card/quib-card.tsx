@@ -12,6 +12,7 @@ interface QuibCardProps extends FeedQuib {
 export default function QuibCard({
   upvotes,
   downvotes,
+  user_vote_value,
   quiblet,
   id,
   slug,
@@ -62,7 +63,11 @@ export default function QuibCard({
           />
         </div>
       )}
-      <QuibActions upvotes={upvotes} downvotes={downvotes} />
+      <QuibActions
+        upvotes={upvotes}
+        downvotes={downvotes}
+        user_vote_value={user_vote_value}
+      />
     </div>
   );
 }

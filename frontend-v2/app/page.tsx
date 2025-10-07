@@ -6,13 +6,13 @@ import {
 import Feed from "@/components/feed";
 import QuibHeader from "@/components/quib-header/quib-header";
 import RecentQuibs from "@/components/recent-quibs";
-import { getFeed } from "@/services/feed";
+import { getFeedSSR } from "@/services/feed.server";
 
 export default async function Home() {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: ["feed"],
-    queryFn: () => getFeed(),
+    queryFn: () => getFeedSSR(),
   });
 
   return (

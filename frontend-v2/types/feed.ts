@@ -3,6 +3,7 @@ import type { Nullable } from "./generics";
 export interface FeedQuib {
   upvotes: number;
   downvotes: number;
+  user_vote_value: Nullable<number>;
   quiblet: {
     id: number;
     name: string;

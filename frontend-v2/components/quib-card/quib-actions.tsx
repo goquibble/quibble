@@ -9,21 +9,27 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import type { FeedQuib } from "@/types/feed";
 import type { Nullable } from "@/types/generics";
 import { Button } from "../ui/button";
 
 type Vote = "up" | "down";
 type VoteState = { voteCount: number; myVote: Vote | null };
 
-interface QuibActionsProps {
-  upvotes: number;
-  downvotes: number;
-}
+type QuibActionsProps = Pick<
+  FeedQuib,
+  "upvotes" | "downvotes" | "user_vote_value"
+>;
 
-export default function QuibActions({ upvotes, downvotes }: QuibActionsProps) {
+export default function QuibActions({
+  upvotes,
+  downvotes,
+  user_vote_value,
+}: QuibActionsProps) {
   const [voteState, setVoteState] = useState<VoteState>({
     voteCount: upvotes - downvotes,
-    myVote: null,
+    myVote:
+      user_vote_value === 1 ? "up" : user_vote_value === -1 ? "down" : null,
   });
 
   const handleVote = (vote: Vote) => {
