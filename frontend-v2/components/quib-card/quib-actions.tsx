@@ -9,7 +9,11 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import type { Nullable } from "@/types/generics";
 import { Button } from "../ui/button";
+
+type Vote = "up" | "down";
+type VoteState = { voteCount: number; myVote: Vote | null };
 
 interface QuibActionsProps {
   upvotes: number;
@@ -17,11 +21,30 @@ interface QuibActionsProps {
 }
 
 export default function QuibActions({ upvotes, downvotes }: QuibActionsProps) {
-  const [voteCount, _setVoteCount] = useState(upvotes - downvotes);
-  const [myVote, setMyVote] = useState<"up" | "down" | null>(null);
+  const [voteState, setVoteState] = useState<VoteState>({
+    voteCount: upvotes - downvotes,
+    myVote: null,
+  });
 
-  const handleVote = (vote: typeof myVote) => {
-    setMyVote((prev) => (prev === vote ? null : vote));
+  const handleVote = (vote: Vote) => {
+    setVoteState(({ voteCount, myVote }) => {
+      let newVote: Nullable<Vote> = vote;
+      let voteDiff = 0;
+
+      if (myVote === vote) {
+        newVote = null;
+        voteDiff = vote === "up" ? -1 : 1;
+      } else if (myVote === null) {
+        voteDiff = vote === "up" ? 1 : -1;
+      } else {
+        voteDiff = vote === "up" ? 2 : -2;
+      }
+
+      return {
+        voteCount: voteCount + voteDiff,
+        myVote: newVote,
+      };
+    });
   };
 
   return (
@@ -29,17 +52,17 @@ export default function QuibActions({ upvotes, downvotes }: QuibActionsProps) {
       <div className="flex items-center gap-1 rounded-lg border bg-input/30">
         <Button
           size={"icon-sm"}
-          variant={myVote === "up" ? "default" : "ghost"}
-          className={cn(myVote !== "up" && "hover:text-primary")}
+          variant={voteState.myVote === "up" ? "default" : "ghost"}
+          className={cn(voteState.myVote !== "up" && "hover:text-primary")}
           onClick={() => handleVote("up")}
         >
           <ArrowBigUp />
         </Button>
-        <span className="font-medium text-sm">{voteCount}</span>
+        <span className="font-medium text-sm">{voteState.voteCount}</span>
         <Button
           size={"icon-sm"}
-          variant={myVote === "down" ? "secondary" : "ghost"}
-          className={cn(myVote !== "down" && "hover:text-secondary")}
+          variant={voteState.myVote === "down" ? "secondary" : "ghost"}
+          className={cn(voteState.myVote !== "down" && "hover:text-secondary")}
           onClick={() => handleVote("down")}
         >
           <ArrowBigDown />
