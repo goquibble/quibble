@@ -1,49 +1,28 @@
 import type { Data } from "@/components/dialogs/create-quiblet-dialog/create-quiblet-dialog";
-import { getApiUrl } from "@/lib/api";
-import { getAuthHeaders } from "@/lib/auth";
-import type { Nullable } from "@/types/generics";
+import { API_ENDPOINTS } from "@/constants/api-endpoints";
+import api from "@/lib/api";
 import type { Quiblet } from "@/types/quiblet";
 
 export async function getQuiblet(name: string): Promise<Quiblet> {
-  const res = await fetch(getApiUrl(`api/v1/quiblet/${name}`));
-
-  if (!res.ok) {
-    const errData = await res.json();
-    throw errData;
-  } else {
-    return res.json();
-  }
+  const res = await api.get<Quiblet>(API_ENDPOINTS.QUIBLET(name));
+  return res.data;
 }
 
-export async function createQuiblet(
-  data: Data,
-  csrfToken: Nullable<string>,
-): Promise<{ name: string }> {
+export async function createQuiblet(data: Data): Promise<{ name: string }> {
+  if (!data.name || !data.description || !data.type) {
+    throw new Error();
+  }
+
+  // formdata for including files
   const formData = new FormData();
 
-  if (data.name) formData.append("name", data.name);
-  if (data.description) formData.append("description", data.description);
-  if (data.type) formData.append("type", data.type.toUpperCase());
+  formData.append("name", data.name);
+  formData.append("description", data.description);
+  formData.append("type", data.type.toUpperCase());
   if (data.nsfw !== undefined) formData.append("nsfw", String(data.nsfw));
   if (data.avatar) formData.append("avatar", data.avatar);
   if (data.banner) formData.append("banner", data.banner);
 
-  // let browser auto-set headers
-  const { "Content-Type": _, ...headersWithoutContentType } = getAuthHeaders({
-    csrfToken,
-  });
-
-  const res = await fetch(getApiUrl("api/v1/quiblet/"), {
-    method: "POST",
-    credentials: "include",
-    headers: headersWithoutContentType,
-    body: formData,
-  });
-
-  if (!res.ok) {
-    const errData = await res.json();
-    throw errData;
-  } else {
-    return res.json();
-  }
+  const res = await api.post(API_ENDPOINTS.QUIBLET(), formData);
+  return res.data;
 }
