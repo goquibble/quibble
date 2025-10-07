@@ -7,7 +7,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useCsrfToken } from "@/hooks/use-csrf-token";
 import { cn } from "@/lib/utils";
 import { logOutSession } from "@/services/auth";
 
@@ -17,10 +16,8 @@ interface PfpDropdownProps {
 }
 
 export default function PfpDropdown({ children, username }: PfpDropdownProps) {
-  const csrfToken = useCsrfToken();
-
   const handleLogOut = async () => {
-    await logOutSession(csrfToken);
+    await logOutSession();
     window.location.reload();
   };
 

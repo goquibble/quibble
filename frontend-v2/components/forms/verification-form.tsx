@@ -4,7 +4,6 @@ import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import type z from "zod";
 import { useAuthDialog } from "@/hooks/use-auth-dialog";
-import { useCsrfToken } from "@/hooks/use-csrf-token";
 import { setProfileIdCookie } from "@/lib/cookies";
 import { VerificationFormSchema } from "@/schemas/auth";
 import { verifySession } from "@/services/auth";
@@ -22,7 +21,6 @@ import {
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
 
 export default function VerificationForm() {
-  const csrfToken = useCsrfToken();
   const queryClient = useQueryClient();
   const { setCurrentStep } = useAuthDialog();
   const form = useForm<z.infer<typeof VerificationFormSchema>>({
@@ -34,7 +32,7 @@ export default function VerificationForm() {
 
   const mutation = useMutation({
     mutationFn: (values: z.infer<typeof VerificationFormSchema>) =>
-      verifySession(values, csrfToken),
+      verifySession(values),
     onSuccess: async () => {
       const userProfiles = await queryClient.fetchQuery({
         queryKey: ["user-profiles"],

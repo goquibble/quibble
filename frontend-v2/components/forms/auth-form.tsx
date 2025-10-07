@@ -5,7 +5,6 @@ import { Loader2, Mail, ShieldEllipsis } from "lucide-react";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import { useAuthDialog } from "@/hooks/use-auth-dialog";
-import { useCsrfToken } from "@/hooks/use-csrf-token";
 import { setProfileIdCookie } from "@/lib/cookies";
 import { AuthFormSchema } from "@/schemas/auth";
 import { authenticate } from "@/services/auth";
@@ -25,7 +24,6 @@ interface AuthFormProps {
 }
 
 export default function AuthForm({ mode }: AuthFormProps) {
-  const csrfToken = useCsrfToken();
   const queryClient = useQueryClient();
   const { nextStep, setCurrentStep } = useAuthDialog();
   const form = useForm<z.infer<typeof AuthFormSchema>>({
@@ -38,7 +36,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
 
   const mutation = useMutation({
     mutationFn: (values: z.infer<typeof AuthFormSchema>) =>
-      authenticate(mode, values, csrfToken),
+      authenticate(mode, values),
     onSuccess: async ({ status }) => {
       console.log(status);
       if (status === 401 && mode === "signup") {
