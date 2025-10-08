@@ -64,9 +64,12 @@ export default function QuibCard({
         </div>
       )}
       <QuibActions
+        id={id}
+        slug={slug}
         upvotes={upvotes}
         downvotes={downvotes}
         user_vote_value={user_vote_value}
+        quiblet_name={quiblet.name}
       />
     </div>
   );

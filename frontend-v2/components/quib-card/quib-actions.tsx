@@ -6,7 +6,10 @@ import {
   MoreHorizontal,
   Share2,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDebouncedCallback } from "use-debounce";
+import { API_ENDPOINTS } from "@/constants/api-endpoints";
+import api from "@/lib/api";
 import { cn } from "@/lib/utils";
 import type { FeedQuib } from "@/types/feed";
 import type { Nullable } from "@/types/generics";
@@ -15,15 +18,21 @@ import { Button } from "../ui/button";
 type Vote = "up" | "down";
 type VoteState = { voteCount: number; myVote: Vote | null };
 
-type QuibActionsProps = Pick<
-  FeedQuib,
-  "upvotes" | "downvotes" | "user_vote_value"
->;
+interface QuibActionsProps
+  extends Pick<
+    FeedQuib,
+    "upvotes" | "downvotes" | "user_vote_value" | "id" | "slug"
+  > {
+  quiblet_name: string;
+}
 
 export default function QuibActions({
+  id,
+  slug,
   upvotes,
   downvotes,
   user_vote_value,
+  quiblet_name,
 }: QuibActionsProps) {
   const [voteState, setVoteState] = useState<VoteState>({
     voteCount: upvotes - downvotes,
@@ -51,6 +60,20 @@ export default function QuibActions({
       };
     });
   };
+
+  const debouncedVote = useDebouncedCallback(
+    async (vote: VoteState["myVote"]) => {
+      const value = vote === "up" ? 1 : vote === "down" ? -1 : 0;
+      await api.post(
+        API_ENDPOINTS.QUIBLET_QUIB_VOTE(quiblet_name, id, slug, value),
+      );
+    },
+    500,
+  );
+
+  useEffect(() => {
+    debouncedVote(voteState.myVote);
+  }, [voteState.myVote, debouncedVote]);
 
   return (
     <div className="relative flex w-max items-center gap-2">
