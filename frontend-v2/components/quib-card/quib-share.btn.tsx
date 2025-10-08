@@ -9,9 +9,23 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 
-export default function QuibShareBtn() {
+interface QuibShareBtnProps {
+  id: string;
+  slug: string;
+  quiblet_name: string;
+}
+
+export default function QuibShareBtn({
+  id,
+  slug,
+  quiblet_name,
+}: QuibShareBtnProps) {
   const handleCopyLink = () => {
-    toast.success("Link copied!");
+    const link = `${window.location.origin}/q/${quiblet_name}/quib/${id}/${slug}`;
+    window.navigator.clipboard
+      .writeText(link)
+      .then(() => toast.success("Link copied!"))
+      .catch(() => toast.error("Oops! Something went wrong."));
   };
 
   return (

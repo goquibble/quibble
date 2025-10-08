@@ -120,7 +120,7 @@ export default function QuibActions({
         <MessagesSquare />
         <span className="font-medium text-sm">4</span>
       </Button>
-      <QuibShareBtn />
+      <QuibShareBtn id={id} slug={slug} quiblet_name={quiblet_name} />
       <Button size={"icon-sm"} variant={"ghost"} disabled>
         <MoreHorizontal />
       </Button>
