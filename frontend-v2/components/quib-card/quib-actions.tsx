@@ -34,12 +34,13 @@ export default function QuibActions({
   user_vote_value,
   quiblet_name,
 }: QuibActionsProps) {
-  const isFirstRender = useRef(true);
   const [voteState, setVoteState] = useState<VoteState>({
     voteCount: upvotes - downvotes,
     myVote:
       user_vote_value === 1 ? "up" : user_vote_value === -1 ? "down" : null,
   });
+  const isFirstRender = useRef(true);
+  const prevVote = useRef(voteState.myVote);
 
   const handleVote = (vote: Vote) => {
     setVoteState(({ voteCount, myVote }) => {
@@ -64,6 +65,11 @@ export default function QuibActions({
 
   const debouncedVote = useDebouncedCallback(
     async (vote: VoteState["myVote"]) => {
+      if (vote === prevVote.current) {
+        return;
+      }
+
+      prevVote.current = vote;
       const value = vote === "up" ? 1 : vote === "down" ? -1 : 0;
       await api.post(
         API_ENDPOINTS.QUIBLET_QUIB_VOTE(quiblet_name, id, slug, value),
