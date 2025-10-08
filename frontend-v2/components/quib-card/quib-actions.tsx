@@ -6,7 +6,7 @@ import {
   MoreHorizontal,
   Share2,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import api from "@/lib/api";
@@ -34,6 +34,7 @@ export default function QuibActions({
   user_vote_value,
   quiblet_name,
 }: QuibActionsProps) {
+  const isFirstRender = useRef(true);
   const [voteState, setVoteState] = useState<VoteState>({
     voteCount: upvotes - downvotes,
     myVote:
@@ -72,6 +73,10 @@ export default function QuibActions({
   );
 
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    } // prevent running this on first render
     debouncedVote(voteState.myVote);
   }, [voteState.myVote, debouncedVote]);
 
