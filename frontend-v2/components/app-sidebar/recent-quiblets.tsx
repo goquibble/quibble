@@ -14,7 +14,7 @@ export default function RecentQuiblets() {
         <span className="text-muted-foreground">Recent</span>
         <ChevronUp className="size-4 text-muted-foreground transition-transform group-data-[state=closed]:rotate-180" />
       </CollapsibleTrigger>
-      <CollapsibleContent className="slide-in-from-top-5 fade-in animate-in">
+      <CollapsibleContent>
         {recentQuiblets.map((quiblet) => (
           <QuibletItem key={quiblet.name} {...quiblet} />
         ))}

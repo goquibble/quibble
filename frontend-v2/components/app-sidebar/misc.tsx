@@ -26,7 +26,7 @@ export default function Misc() {
         <span className="text-muted-foreground">Misc</span>
         <ChevronUp className="size-4 text-muted-foreground transition-transform group-data-[state=closed]:rotate-180" />
       </CollapsibleTrigger>
-      <CollapsibleContent className="slide-in-from-top-5 fade-in animate-in">
+      <CollapsibleContent>
         {misc.map((item) => (
           <a
             key={item.href}
