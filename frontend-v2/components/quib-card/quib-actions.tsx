@@ -54,7 +54,16 @@ export default function QuibActions({
 
   return (
     <div className="relative flex w-max items-center gap-2">
-      <div className="flex items-center gap-1 rounded-lg border bg-input/30">
+      <div
+        className={cn(
+          "flex items-center gap-1 rounded-lg border",
+          voteState.myVote === "up"
+            ? "border-primary bg-primary/30"
+            : voteState.myVote === "down"
+              ? "border-secondary bg-secondary/30"
+              : "border-border bg-input/30",
+        )}
+      >
         <Button
           size={"icon-sm"}
           variant={voteState.myVote === "up" ? "default" : "ghost"}
