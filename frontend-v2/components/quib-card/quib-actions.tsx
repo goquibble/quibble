@@ -4,7 +4,6 @@ import {
   ArrowBigUp,
   MessagesSquare,
   MoreHorizontal,
-  Share2,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
@@ -14,6 +13,7 @@ import { cn } from "@/lib/utils";
 import type { FeedQuib } from "@/types/feed";
 import type { Nullable } from "@/types/generics";
 import { Button } from "../ui/button";
+import QuibShareBtn from "./quib-share.btn";
 
 type Vote = "up" | "down";
 type VoteState = { voteCount: number; myVote: Vote | null };
@@ -87,10 +87,10 @@ export default function QuibActions({
   }, [voteState.myVote, debouncedVote]);
 
   return (
-    <div className="relative flex w-max items-center gap-2">
+    <div className="flex w-max items-center gap-2">
       <div
         className={cn(
-          "flex items-center gap-1 rounded-lg border",
+          "relative flex items-center gap-1 rounded-lg border",
           voteState.myVote === "up"
             ? "border-primary bg-primary/30"
             : voteState.myVote === "down"
@@ -120,11 +120,8 @@ export default function QuibActions({
         <MessagesSquare />
         <span className="font-medium text-sm">4</span>
       </Button>
-      <Button size={"sm"} variant={"outline"}>
-        <Share2 />
-        <span className="font-medium text-sm">Share</span>
-      </Button>
-      <Button size={"icon-sm"} variant={"ghost"}>
+      <QuibShareBtn />
+      <Button size={"icon-sm"} variant={"ghost"} disabled>
         <MoreHorizontal />
       </Button>
     </div>

@@ -4,6 +4,7 @@ import "@/styles/globals.css";
 import type { Metadata } from "next";
 import AppSidebar from "@/components/app-sidebar/app-sidebar";
 import Header from "@/components/header/header";
+import { Toaster } from "@/components/ui/sonner";
 import Providers from "@/providers/providers";
 
 export const metadata: Metadata = {
@@ -36,6 +37,13 @@ export default function RootLayout({
             {children}
           </main>
         </Providers>
+        <Toaster
+          position="bottom-center"
+          closeButton={true}
+          offset={10}
+          mobileOffset={10}
+          gap={10}
+        />
       </body>
     </html>
   );
