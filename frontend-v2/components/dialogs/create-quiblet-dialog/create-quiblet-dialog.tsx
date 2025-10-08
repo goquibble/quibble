@@ -49,7 +49,7 @@ export interface StepProps {
 export default function CreateQuibletDialog({
   children,
 }: CreateQuibletDialogProps) {
-  const csrfToken = useCsrfToken();
+  const _csrfToken = useCsrfToken();
   const router = useRouter();
 
   const [open, setOpen] = useState(false);
@@ -59,7 +59,7 @@ export default function CreateQuibletDialog({
   const CurrentStep = steps[currentStep];
 
   const mutation = useMutation({
-    mutationFn: () => createQuiblet(data, csrfToken),
+    mutationFn: () => createQuiblet(data),
     onSuccess: ({ name }) => {
       router.push(`/q/${name}`);
       setOpen(false);
