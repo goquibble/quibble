@@ -16,7 +16,13 @@ export default function QuibletQuibs({ name }: QuibletQuibsProps) {
   });
 
   if (isLoading) return <Loading />;
-  if (!data || !data.length) return null;
+  if (!data || !data.length)
+    return (
+      <div className="flex flex-col items-center justify-center gap-1">
+        <span className="font-bold text-primary text-xl">OoPs!</span>
+        <span className="font-medium text-sm">No Quibs Found — q/{name}</span>
+      </div>
+    );
 
   return (
     <div className="mt-2">
