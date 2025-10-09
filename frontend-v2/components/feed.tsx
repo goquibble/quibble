@@ -9,5 +9,6 @@ export default function Feed() {
     queryFn: () => getFeed(),
   });
 
-  return data?.items.map((quib) => <QuibCard key={quib.id} {...quib} />);
+  if (!data) return "Nothing found!";
+  return data.items.map((quib) => <QuibCard key={quib.id} {...quib} />);
 }

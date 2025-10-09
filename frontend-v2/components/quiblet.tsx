@@ -2,7 +2,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { BellOff, Ellipsis, Plus, Star } from "lucide-react";
 import { useParams } from "next/navigation";
-import QuibCard from "@/components/quib-card";
 import QuibHeader from "@/components/quib-header/quib-header";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -15,6 +14,7 @@ import {
 import { getQuiblet } from "@/services/quiblet";
 import type { Quiblet as IQuiblet } from "@/types/quiblet";
 import Quiblet404 from "./quiblet-404";
+import QuibletQuibs from "./quiblet-quibs";
 
 export default function Quiblet() {
   const { name } = useParams<{ name: string }>();
@@ -62,7 +62,7 @@ export default function Quiblet() {
       </div>
       <div className="mt-2">
         <QuibHeader />
-        <QuibCard />
+        <QuibletQuibs name={name} />
       </div>
     </div>
   );

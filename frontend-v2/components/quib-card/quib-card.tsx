@@ -1,13 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { timeAgo } from "@/lib/utils";
-import type { FeedQuib } from "@/types/feed";
+import type { Quib } from "@/types/quib";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import QuibActions from "./quib-actions";
-
-interface QuibCardProps extends FeedQuib {
-  // add props later for quiblet page
-}
 
 export default function QuibCard({
   upvotes,
@@ -21,7 +17,7 @@ export default function QuibCard({
   cover_small,
   content,
   created_at,
-}: QuibCardProps) {
+}: Quib) {
   return (
     <div className="group relative flex flex-col gap-2 rounded-lg border p-4 pb-2">
       <Link
