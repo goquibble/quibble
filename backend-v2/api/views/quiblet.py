@@ -11,10 +11,12 @@ from api.schemas.quiblet import (
     QuibSchema,
     QuibletCreateInSchema,
     QuibletCreateOutSchema,
+    QuibletQuibSchema,
     QuibletSchema,
 )
 from api.shared.schemas import UniqueNameResponseSchema
 from quiblet.models import Quib, QuibVote, Quiblet
+from quiblet.querysets import QuibQuerySet
 from user.models import Profile
 
 router = Router()
@@ -29,6 +31,18 @@ def is_unique_name(request: HttpRequest, name: str):
     _ = request
     exists = Quiblet.objects.filter(name__iexact=name).exists()
     return {"unique": not exists}
+
+
+@router.get("/{name}/quibs", response=list[QuibletQuibSchema])
+def get_quiblet_quibs(request: HttpRequest, name: str):
+    quibs_qs = cast(QuibQuerySet, cast(object, Quib.objects))
+    return (
+        quibs_qs.published()
+        .for_quiblet(name)
+        .for_request(request)
+        .select_related("poster")
+        .defer("quiblet", "is_published")
+    )
 
 
 @router.get("/{name}", response=QuibletSchema)
@@ -80,7 +94,8 @@ def get_quib(request: HttpRequest, name: str, id: str, slug: str):
     if cached_data := cache.get(cache_key):
         return cached_data
 
-    quib = get_object_or_404(Quib, quiblet__name=name, id=id, slug=slug)
+    quib_qs = cast(QuibQuerySet, cast(object, Quib.objects))
+    quib = get_object_or_404(quib_qs.published().for_quiblet(name), id=id, slug=slug)
     cache.set(cache_key, quib, 5 * 60)  # 5 mins
     return quib
 

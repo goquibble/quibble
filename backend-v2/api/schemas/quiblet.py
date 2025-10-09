@@ -57,6 +57,22 @@ class QuibletCreateOutSchema(Schema):
     name: str
 
 
+class QuibletQuibSchema(ModelSchema, VoteSchema):
+    poster: ProfilePreviewSchema
+
+    class Meta:
+        model = Quib
+        fields = [
+            "id",
+            "slug",
+            "title",
+            "is_highlighted",
+            "cover",
+            "cover_small",
+            "content",
+        ]
+
+
 # --------------------
 # Quib Schemas
 # --------------------
