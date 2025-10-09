@@ -1,10 +1,15 @@
-import Image from "next/image";
+import { cn } from "@/lib/utils";
+import { Spinner } from "./ui/spinner";
 
-export default function Loading() {
+interface LoadingProps {
+  className?: string;
+}
+
+export default function Loading({ className }: LoadingProps) {
   return (
-    <div className="relative mx-auto grid w-max place-items-center">
-      <span className="-z-1 absolute aspect-square w-1/2 animate-ping rounded-full bg-primary"></span>
-      <Image src="/favicon.svg" alt="Loading..." width={50} height={50} />
+    <div className={cn("mx-auto flex flex-col items-center gap-2", className)}>
+      <Spinner variant="bars" className="text-primary" />
+      <span className="font-medium text-sm">Loading...</span>
     </div>
   );
 }
