@@ -1,7 +1,9 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import { getQuibletQuibs } from "@/services/quiblet";
+import Loading from "./loading";
 import QuibCard from "./quib-card/quib-card";
+import QuibHeader from "./quib-header/quib-header";
 
 interface QuibletQuibsProps {
   name: string;
@@ -13,8 +15,15 @@ export default function QuibletQuibs({ name }: QuibletQuibsProps) {
     queryFn: () => getQuibletQuibs(name),
   });
 
-  if (isLoading) return "Loading...";
-  if (!data) return null;
+  if (isLoading) return <Loading />;
+  if (!data || !data.length) return null;
 
-  return data.map((quib) => <QuibCard key={quib.id} {...quib} />);
+  return (
+    <div className="mt-2">
+      <QuibHeader />
+      {data.map((quib) => (
+        <QuibCard key={quib.id} {...quib} />
+      ))}
+    </div>
+  );
 }

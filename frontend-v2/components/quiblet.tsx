@@ -2,7 +2,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { BellOff, Ellipsis, Plus, Star } from "lucide-react";
 import { useParams } from "next/navigation";
-import QuibHeader from "@/components/quib-header/quib-header";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -60,10 +59,7 @@ export default function Quiblet() {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="mt-2">
-        <QuibHeader />
-        <QuibletQuibs name={name} />
-      </div>
+      <QuibletQuibs name={name} />
     </div>
   );
 }
