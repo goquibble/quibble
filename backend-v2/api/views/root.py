@@ -5,7 +5,8 @@ from ninja import Router
 from ninja.pagination import paginate
 
 from api.http import CustomHttpRequest
-from api.schemas.root import FeedQuibSchema, SearchSchema
+from api.schemas.quiblet import QuibSchema
+from api.schemas.root import SearchSchema
 from quiblet.models import Quib, Quiblet
 from quiblet.querysets import QuibQuerySet
 from user.models import Profile
@@ -44,13 +45,8 @@ def search(request: HttpRequest, q: str):
 # --------------------
 
 
-@router.get("/feed", response=list[FeedQuibSchema])
+@router.get("/feed", response=list[QuibSchema])
 @paginate
 def get_feed(request: CustomHttpRequest):
     quibs_qs = cast(QuibQuerySet, cast(object, Quib.objects))
-    return (
-        quibs_qs.published()
-        .for_request(request)
-        .select_related("quiblet")
-        .defer("poster", "is_highlighted", "is_published")
-    )
+    return quibs_qs.published().for_request(request).select_related("quiblet", "poster")

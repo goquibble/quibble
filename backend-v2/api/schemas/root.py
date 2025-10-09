@@ -1,8 +1,6 @@
-from ninja import ModelSchema, Schema
+from ninja import Schema
 
-from api.schemas.quiblet import QuibletPreviewSchema
-from api.shared.schemas import VoteSchema
-from quiblet.models import Quib, Quiblet
+from quiblet.models import Quiblet
 
 # --------------------
 # Search Schemas
@@ -30,24 +28,3 @@ class SearchProfileSchema(Schema):
 class SearchSchema(Schema):
     quiblets: list[SearchQuibletSchema]
     profiles: list[SearchProfileSchema]
-
-
-# --------------------
-# Feed Schemas
-# --------------------
-
-
-class FeedQuibSchema(ModelSchema, VoteSchema):
-    quiblet: QuibletPreviewSchema
-
-    class Meta:
-        model = Quib
-        fields = [
-            "id",
-            "slug",
-            "title",
-            "cover",
-            "cover_small",
-            "content",
-            "created_at",
-        ]

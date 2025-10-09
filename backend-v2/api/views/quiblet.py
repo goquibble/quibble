@@ -11,7 +11,6 @@ from api.schemas.quiblet import (
     QuibSchema,
     QuibletCreateInSchema,
     QuibletCreateOutSchema,
-    QuibletQuibSchema,
     QuibletSchema,
 )
 from api.shared.schemas import UniqueNameResponseSchema
@@ -45,15 +44,14 @@ def get_quiblet(request: HttpRequest, name: str):
     return quiblet
 
 
-@router.get("/{name}/quibs", response=list[QuibletQuibSchema])
+@router.get("/{name}/quibs", response=list[QuibSchema])
 def get_quiblet_quibs(request: HttpRequest, name: str):
     quibs_qs = cast(QuibQuerySet, cast(object, Quib.objects))
     return (
         quibs_qs.published()
         .for_quiblet(name)
         .for_request(request)
-        .select_related("poster")
-        .defer("quiblet", "is_published")
+        .select_related("quiblet", "poster")
     )
 
 

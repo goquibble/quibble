@@ -8,8 +8,6 @@ if TYPE_CHECKING:
 
 
 class QuibQuerySet(models.QuerySet["Quib"]):
-    """Custom QuerySet for Quib model providing reusable filters and annotations."""
-
     def with_votes(self):
         return self.annotate(
             upvotes=Count("votes", filter=Q(votes__value=1)),
