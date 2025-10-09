@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import cast
 from ninja import ModelSchema, Schema
 
 from api.schemas.user import ProfileBasicSchema
@@ -77,3 +78,8 @@ class QuibSchema(ModelSchema, VoteSchema):
             "cover_small",
             "content",
         ]
+
+    @staticmethod
+    def resolve_content(obj: Quib) -> str | None:
+        content = cast(str, obj.content)
+        return content if content.strip() else None
