@@ -11,7 +11,8 @@ export interface Quib {
   };
   poster: {
     id: number;
-    name: string;
+    username: string;
+    name: Nullable<string>;
     avatar: Nullable<string>;
   };
   id: string;

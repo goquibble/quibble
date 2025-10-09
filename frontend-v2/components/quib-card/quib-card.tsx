@@ -2,14 +2,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { timeAgo } from "@/lib/utils";
 import type { Quib } from "@/types/quib";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import QuibActions from "./quib-actions";
+import QuibSource from "./quib-source";
 
 export default function QuibCard({
   upvotes,
   downvotes,
   user_vote_value,
   quiblet,
+  poster,
   id,
   slug,
   title,
@@ -25,16 +26,7 @@ export default function QuibCard({
         className="absolute inset-0"
       />
       <div className="flex items-center gap-2">
-        <Link
-          href={`/q/${quiblet.name}`}
-          className="relative flex items-center gap-2 hover:underline"
-        >
-          <Avatar className="size-6">
-            <AvatarImage src={quiblet.avatar ?? ""} />
-            <AvatarFallback>{quiblet.name[0]}</AvatarFallback>
-          </Avatar>
-          <span className="font-medium text-sm">q/{quiblet.name}</span>
-        </Link>
+        <QuibSource quiblet={quiblet} poster={poster} />
         <span className="text-muted-foreground text-xs">
           — {timeAgo(created_at)}
         </span>
