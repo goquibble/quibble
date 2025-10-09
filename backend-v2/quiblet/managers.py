@@ -1,15 +1,12 @@
 # pyright: reportImportCycles=false
 # no worries, models are only imported for typing
-from typing import override, TYPE_CHECKING
+from typing import cast, override
 from django.db import models
 
 from quiblet.querysets import QuibQuerySet
 
-if TYPE_CHECKING:
-    from quiblet.models import Quib
 
-
-class QuibManager(models.Manager["Quib"]):
+class QuibManager(models.Manager.from_queryset(QuibQuerySet)):
     @override
-    def get_queryset(self) -> models.QuerySet["Quib"]:
-        return QuibQuerySet(self.model, using=self._db).with_votes()
+    def get_queryset(self):
+        return cast(QuibQuerySet, super().get_queryset()).with_votes()

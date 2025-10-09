@@ -33,18 +33,6 @@ def is_unique_name(request: HttpRequest, name: str):
     return {"unique": not exists}
 
 
-@router.get("/{name}/quibs", response=list[QuibletQuibSchema])
-def get_quiblet_quibs(request: HttpRequest, name: str):
-    quibs_qs = cast(QuibQuerySet, cast(object, Quib.objects))
-    return (
-        quibs_qs.published()
-        .for_quiblet(name)
-        .for_request(request)
-        .select_related("poster")
-        .defer("quiblet", "is_published")
-    )
-
-
 @router.get("/{name}", response=QuibletSchema)
 def get_quiblet(request: HttpRequest, name: str):
     _ = request
@@ -55,6 +43,18 @@ def get_quiblet(request: HttpRequest, name: str):
     quiblet = get_object_or_404(Quiblet, name=name)
     cache.set(cache_key, quiblet, timeout=5 * 60)  # 5 mins
     return quiblet
+
+
+@router.get("/{name}/quibs", response=list[QuibletQuibSchema])
+def get_quiblet_quibs(request: HttpRequest, name: str):
+    quibs_qs = cast(QuibQuerySet, cast(object, Quib.objects))
+    return (
+        quibs_qs.published()
+        .for_quiblet(name)
+        .for_request(request)
+        .select_related("poster")
+        .defer("quiblet", "is_published")
+    )
 
 
 @router.post("/", auth=ProfileAuth(), response=QuibletCreateOutSchema)
