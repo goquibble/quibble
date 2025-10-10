@@ -14,7 +14,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { getApiUrl } from "@/lib/api";
+import { API_ENDPOINTS } from "@/constants/api-endpoints";
+import api from "@/lib/api";
 import type { StepProps } from "./create-quiblet-dialog";
 
 const MAX_NAME_LENGTH = 20;
@@ -33,11 +34,8 @@ const FormSchema = z.object({
 });
 
 async function checkIsUniqueName(name: string): Promise<boolean> {
-  const url = getApiUrl(`api/v1/quiblet/is-unique?name=${name}`);
-  const res = await fetch(url);
-
-  if (!res.ok) return false;
-  return (await res.json()).unique;
+  const { data } = await api.get(API_ENDPOINTS.QUIBLET_IS_UNIQUE_NAME(name));
+  return data.unique;
 }
 
 export default function StepOne({

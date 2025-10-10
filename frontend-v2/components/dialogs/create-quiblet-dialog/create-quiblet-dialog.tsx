@@ -14,7 +14,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useCsrfToken } from "@/hooks/use-csrf-token";
 import { cn } from "@/lib/utils";
 import { createQuiblet } from "@/services/quiblet";
 import type { Nullable } from "@/types/generics";
@@ -49,7 +48,6 @@ export interface StepProps {
 export default function CreateQuibletDialog({
   children,
 }: CreateQuibletDialogProps) {
-  const _csrfToken = useCsrfToken();
   const router = useRouter();
 
   const [open, setOpen] = useState(false);
