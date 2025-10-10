@@ -13,6 +13,7 @@ import {
 import { getQuiblet } from "@/services/quiblet";
 import type { Quiblet as IQuiblet } from "@/types/quiblet";
 import Quiblet404 from "./quiblet-404";
+import QuibletHighlights from "./quiblet-highlights";
 import QuibletQuibs from "./quiblet-quibs";
 
 export default function Quiblet() {
@@ -59,6 +60,7 @@ export default function Quiblet() {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
+      <QuibletHighlights />
       <QuibletQuibs name={name} />
     </div>
   );
