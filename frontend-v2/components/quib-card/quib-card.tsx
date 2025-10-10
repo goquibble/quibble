@@ -31,7 +31,7 @@ export default function QuibCard({
           — {timeAgo(created_at)}
         </span>
       </div>
-      <h2 className="font-bold text-xl decoration-2 decoration-muted-foreground group-hover:underline dark:text-white/90">
+      <h2 className="font-bold text-xl decoration-2 decoration-primary group-hover:underline dark:text-white/90">
         {title}
       </h2>
       {content?.trim() ? (

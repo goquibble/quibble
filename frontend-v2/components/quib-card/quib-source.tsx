@@ -24,13 +24,13 @@ export default function QuibSource({ quiblet, poster }: QuibSourceProps) {
   return (
     <Link
       href={href}
-      className="relative z-5 flex items-center gap-2 hover:underline"
+      className="relative z-5 flex items-center gap-2 hover:text-primary"
     >
       <Avatar className="size-6">
         <AvatarImage src={avatarImage ?? ""} />
         <AvatarFallback>{fallbackText}</AvatarFallback>
       </Avatar>
-      <span className="font-medium text-sm">{sourceText}</span>
+      <span className="font-semibold text-sm">{sourceText}</span>
     </Link>
   );
 }

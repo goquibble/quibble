@@ -42,13 +42,15 @@ export default function RecentQuibs() {
           <div className="flex flex-col gap-2">
             <Link
               href={`/q/${quib.quiblet.name}`}
-              className="flex flex-1 items-center gap-2"
+              className="flex flex-1 items-center gap-2 hover:text-primary"
             >
               <Avatar className="size-6">
                 <AvatarImage src={quib.quiblet.avatar} />
                 <AvatarFallback>{quib.quiblet.name[0]}</AvatarFallback>
               </Avatar>
-              <span className="font-medium text-sm">q/{quib.quiblet.name}</span>
+              <span className="font-semibold text-sm">
+                q/{quib.quiblet.name}
+              </span>
             </Link>
             <Link
               href={`/q/${quib.quiblet.name}/${quib.id}`}
