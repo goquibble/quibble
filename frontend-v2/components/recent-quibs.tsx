@@ -54,7 +54,7 @@ export default function RecentQuibs() {
             </Link>
             <Link
               href={`/q/${quib.quiblet.name}/${quib.id}`}
-              className="font-semibold hover:underline"
+              className="font-semibold decoration-primary hover:underline"
             >
               {quib.title}
             </Link>
