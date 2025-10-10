@@ -90,7 +90,7 @@ export default function QuibActions({
     <div className="flex w-max items-center gap-2">
       <div
         className={cn(
-          "relative flex items-center gap-1 rounded-lg border",
+          "relative z-5 flex items-center gap-1 rounded-lg border",
           voteState.myVote === "up"
             ? "border-primary bg-primary/30"
             : voteState.myVote === "down"

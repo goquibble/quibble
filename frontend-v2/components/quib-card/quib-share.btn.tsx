@@ -31,7 +31,7 @@ export default function QuibShareBtn({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button size={"sm"} variant={"outline"} className="relative">
+        <Button size={"sm"} variant={"outline"} className="relative z-5">
           <Share2 />
           <span className="font-medium text-sm">Share</span>
         </Button>

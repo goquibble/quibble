@@ -24,7 +24,7 @@ export default function QuibSource({ quiblet, poster }: QuibSourceProps) {
   return (
     <Link
       href={href}
-      className="relative flex items-center gap-2 hover:underline"
+      className="relative z-5 flex items-center gap-2 hover:underline"
     >
       <Avatar className="size-6">
         <AvatarImage src={avatarImage ?? ""} />
