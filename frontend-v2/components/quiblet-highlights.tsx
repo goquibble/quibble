@@ -15,11 +15,11 @@ export default function QuibletHighlights() {
         <ChevronUp className="size-4 text-muted-foreground transition-transform group-data-[state=closed]:rotate-180" />
       </CollapsibleTrigger>
 
-      <CollapsibleContent className="scrollbar-hide mt-2 flex gap-3 overflow-x-auto">
+      <CollapsibleContent className="scrollbar-hide mt-2 flex snap-x gap-3 overflow-x-auto">
         {Array.from({ length: 3 }).map((_, idx) => (
           <div
             key={idx.toString()}
-            className="flex w-75 flex-shrink-0 gap-2 rounded border p-2 hover:bg-input/30"
+            className="flex w-75 flex-shrink-0 snap-start gap-2 rounded border p-2 hover:bg-input/30"
           >
             <Image
               src="http://localhost:9000/quibble-media-dev-ap-south-1/covers/q-vcacj57-small.webp"
