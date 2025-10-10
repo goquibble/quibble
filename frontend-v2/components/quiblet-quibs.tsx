@@ -4,6 +4,7 @@ import { getQuibletQuibs } from "@/services/quiblet";
 import Loading from "./loading";
 import QuibCard from "./quib-card/quib-card";
 import QuibHeader from "./quib-header/quib-header";
+import Quibs404 from "./quibs-404";
 
 interface QuibletQuibsProps {
   name: string;
@@ -16,13 +17,7 @@ export default function QuibletQuibs({ name }: QuibletQuibsProps) {
   });
 
   if (isLoading) return <Loading />;
-  if (!data || !data.length)
-    return (
-      <div className="flex flex-col items-center justify-center gap-1">
-        <span className="font-bold text-primary text-xl">OoPs!</span>
-        <span className="font-medium text-sm">No Quibs Found — q/{name}</span>
-      </div>
-    );
+  if (!data || !data.length) return <Quibs404 name={name} className="mt-2" />;
 
   return (
     <div className="mt-2">

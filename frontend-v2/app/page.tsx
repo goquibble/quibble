@@ -4,7 +4,6 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 import Feed from "@/components/feed";
-import QuibHeader from "@/components/quib-header/quib-header";
 import RecentQuibs from "@/components/recent-quibs";
 import { getFeedSSR } from "@/services/feed.server";
 
@@ -17,12 +16,9 @@ export default async function Home() {
 
   return (
     <div className="mx-auto flex max-w-300 flex-1">
-      <div className="flex flex-1 flex-col p-4 pr-2">
-        <QuibHeader />
-        <HydrationBoundary state={dehydrate(queryClient)}>
-          <Feed />
-        </HydrationBoundary>
-      </div>
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <Feed />
+      </HydrationBoundary>
       <RecentQuibs />
     </div>
   );
