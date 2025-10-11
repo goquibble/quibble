@@ -92,7 +92,7 @@ class Quib(CreatedAtMixin):
         editable=False,
     )
 
-    objects = QuibManager()
+    objects: QuibManager = QuibManager()
 
     class Meta:
         ordering = ["-created_at"]

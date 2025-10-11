@@ -17,6 +17,9 @@ class QuibQuerySet(models.QuerySet["Quib"]):
     def published(self):
         return self.filter(is_published=True)
 
+    def highlighted(self):
+        return self.filter(is_highlighted=True)
+
     def for_quiblet(self, name: str):
         return self.filter(quiblet__name=name)
 

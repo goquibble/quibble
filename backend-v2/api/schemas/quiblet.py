@@ -84,3 +84,11 @@ class QuibSchema(ModelSchema, VoteSchema):
     def resolve_content(obj: Quib) -> str | None:
         content = cast(str, obj.content)
         return content if content.strip() else None
+
+
+class HighlightedQuib(ModelSchema):
+    upvotes: int
+
+    class Meta:
+        model = Quib
+        fields = ["id", "slug", "title", "cover_small"]

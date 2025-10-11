@@ -8,6 +8,7 @@ from ninja.errors import HttpError
 from api.auth import ProfileAuth
 from api.http import CustomHttpRequest
 from api.schemas.quiblet import (
+    HighlightedQuib,
     QuibSchema,
     QuibletCreateInSchema,
     QuibletCreateOutSchema,
@@ -42,6 +43,13 @@ def get_quiblet(request: HttpRequest, name: str):
     quiblet = get_object_or_404(Quiblet, name=name)
     cache.set(cache_key, quiblet, timeout=5 * 60)  # 5 mins
     return quiblet
+
+
+@router.get("/{name}/highlights", response=list[HighlightedQuib])
+def get_quiblet_highlights(request: HttpRequest, name: str):
+    _ = request
+    quibs = Quib.objects.published().highlighted().for_quiblet(name)
+    return HighlightedQuib(**quibs)
 
 
 @router.get("/{name}/quibs", response=list[QuibSchema])

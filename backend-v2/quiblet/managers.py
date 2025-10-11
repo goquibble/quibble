@@ -8,5 +8,5 @@ from quiblet.querysets import QuibQuerySet
 
 class QuibManager(models.Manager.from_queryset(QuibQuerySet)):
     @override
-    def get_queryset(self):
+    def get_queryset(self) -> QuibQuerySet:
         return cast(QuibQuerySet, super().get_queryset()).with_votes()
