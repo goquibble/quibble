@@ -1,6 +1,14 @@
 import type { Nullable } from "./generics";
 
 export interface Quiblet {
+  members_count: number;
+  quibs_count: number;
+  moderators: Array<{
+    id: number;
+    username: string;
+    name: Nullable<string>;
+    avatar: Nullable<string>;
+  }>;
   id: number;
   name: string;
   title: Nullable<string>;
@@ -10,11 +18,4 @@ export interface Quiblet {
   type: "PUBLIC" | "RESTRICTED" | "PRIVATE";
   nfsw: boolean;
   created_at: string;
-  members_count: number;
-  moderators: Array<{
-    id: number;
-    username: string;
-    name: Nullable<string>;
-    avatar: Nullable<string>;
-  }>;
 }

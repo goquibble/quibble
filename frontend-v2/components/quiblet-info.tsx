@@ -49,7 +49,7 @@ export default function QuibletInfo() {
           <span className="text-muted-foreground text-sm">Member(s)</span>
         </div>
         <div className="flex flex-col">
-          <span className="font-bold text-sm">256</span>
+          <span className="font-bold text-sm">{quiblet.quibs_count}</span>
           <span className="text-muted-foreground text-sm">Quib(s)</span>
         </div>
       </div>
