@@ -16,7 +16,6 @@ from api.schemas.quiblet import (
 )
 from api.shared.schemas import UniqueNameResponseSchema
 from quiblet.models import Quib, QuibVote, Quiblet
-from quiblet.querysets import QuibQuerySet
 from user.models import Profile
 
 router = Router()
@@ -49,14 +48,13 @@ def get_quiblet(request: HttpRequest, name: str):
 def get_quiblet_highlights(request: HttpRequest, name: str):
     _ = request
     quibs = Quib.objects.published().highlighted().for_quiblet(name)
-    return HighlightedQuib(**quibs)
+    return quibs
 
 
 @router.get("/{name}/quibs", response=list[QuibSchema])
 def get_quiblet_quibs(request: HttpRequest, name: str):
-    quibs_qs = cast(QuibQuerySet, cast(object, Quib.objects))
     return (
-        quibs_qs.published()
+        Quib.objects.published()
         .for_quiblet(name)
         .for_request(request)
         .select_related("quiblet", "poster")
@@ -100,15 +98,16 @@ def get_quib(request: HttpRequest, name: str, id: str, slug: str):
     if cached_data := cache.get(cache_key):
         return cached_data
 
-    quib_qs = cast(QuibQuerySet, cast(object, Quib.objects))
-    quib = get_object_or_404(quib_qs.published().for_quiblet(name), id=id, slug=slug)
+    quib_qs = Quib.objects.published().for_quiblet(name)
+    quib = get_object_or_404(quib_qs, id=id, slug=slug)
+
     cache.set(cache_key, quib, 5 * 60)  # 5 mins
     return quib
 
 
 @router.post("/{name}/quib/{id}/{slug}/vote", auth=ProfileAuth(), response={204: None})
 def vote_quib(request: CustomHttpRequest, name: str, id: str, slug: str, value: int):
-    quib = get_object_or_404(Quib, quiblet__name=name, id=id, slug=slug)
+    quib = get_object_or_404(Quib.objects.for_quiblet(name), id=id, slug=slug)
     QuibVote.objects.update_or_create(
         quib=quib, voter=request.user_p, defaults={"value": value}
     )
