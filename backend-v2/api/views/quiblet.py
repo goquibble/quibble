@@ -47,7 +47,12 @@ def get_quiblet(request: HttpRequest, name: str):
 @router.get("/{name}/highlights", response=list[HighlightedQuib])
 def get_quiblet_highlights(request: HttpRequest, name: str):
     _ = request
+    cache_key = f"quiblet:{name}:highlights"
+    if cached_data := cache.get(cache_key):
+        return cached_data
+
     quibs = Quib.objects.published().highlighted().for_quiblet(name)
+    cache.set(cache_key, quibs, timeout=5 * 60)  # 5 mins
     return quibs
 
 
