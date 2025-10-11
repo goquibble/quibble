@@ -60,7 +60,7 @@ export default function Quiblet() {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <QuibletHighlights />
+      <QuibletHighlights name={name} />
       <QuibletQuibs name={name} />
     </div>
   );

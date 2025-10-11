@@ -1,11 +1,18 @@
 import type { Data } from "@/components/dialogs/create-quiblet-dialog/create-quiblet-dialog";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import api from "@/lib/api";
-import type { Quib } from "@/types/quib";
+import type { HighlightedQuib, Quib } from "@/types/quib";
 import type { Quiblet } from "@/types/quiblet";
 
 export async function getQuiblet(name: string) {
   const res = await api.get<Quiblet>(API_ENDPOINTS.QUIBLET(name));
+  return res.data;
+}
+
+export async function getQuibletHighlights(name: string) {
+  const res = await api.get<Array<HighlightedQuib>>(
+    API_ENDPOINTS.QUIBLET_HIGHLIGHTS(name),
+  );
   return res.data;
 }
 

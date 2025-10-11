@@ -23,3 +23,11 @@ export interface Quib {
   content: Nullable<string>;
   created_at: string;
 }
+
+export interface HighlightedQuib {
+  upvotes: number;
+  id: string;
+  slug: string;
+  title: string;
+  cover_small: Nullable<string>;
+}

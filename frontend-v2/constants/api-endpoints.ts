@@ -13,6 +13,7 @@ export const API_ENDPOINTS = {
   QUIBLET: (name?: string) => `api/v1/quiblet/${name || ""}`,
   QUIBLET_IS_UNIQUE_NAME: (name: string) =>
     `api/v1/quiblet/is-unique?name=${name}`,
+  QUIBLET_HIGHLIGHTS: (name: string) => `api/v1/quiblet/${name}/highlights`,
   QUIBLET_QUIBS: (name: string) => `api/v1/quiblet/${name}/quibs`,
   QUIBLET_QUIB_VOTE: (name: string, id: string, slug: string, value: number) =>
     `api/v1/quiblet/${name}/quib/${id}/${slug}/vote?value=${value}`,

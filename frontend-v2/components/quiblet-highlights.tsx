@@ -1,13 +1,29 @@
+import { useQuery } from "@tanstack/react-query";
 import { ChevronUp, Pin } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import { getQuibletHighlights } from "@/services/quiblet";
 import Scrollable from "./scrollable";
 
-export default function QuibletHighlights() {
+interface QuibletHighlightsProps {
+  name: string;
+}
+
+export default function QuibletHighlights({ name }: QuibletHighlightsProps) {
+  const { data: quibs } = useQuery({
+    queryKey: ["quiblet", name, "highlights"],
+    queryFn: () => getQuibletHighlights(name),
+  });
+
+  if (!quibs || !quibs.length) {
+    return null;
+  }
+
   return (
     <Collapsible className="mt-4" defaultOpen>
       <CollapsibleTrigger className="group flex w-full items-center justify-between gap-2 rounded-md px-2.5 py-1.5 hover:bg-muted">
@@ -18,24 +34,26 @@ export default function QuibletHighlights() {
 
       <CollapsibleContent className="mt-2">
         <Scrollable className="flex gap-2">
-          {Array.from({ length: 3 }).map((_, idx) => (
+          {quibs.map((quib) => (
             <div
-              key={idx.toString()}
-              className="flex w-75 flex-shrink-0 snap-start gap-2 rounded border p-2 hover:bg-input/30"
+              key={quib.id}
+              className="relative flex w-75 flex-shrink-0 snap-start gap-2 rounded border p-2 hover:bg-input/30"
             >
+              <Link
+                href={`/q/${name}/quib/${quib.id}/${quib.slug}`}
+                className="absolute inset-0"
+              />
               <Image
-                src="http://localhost:9000/quibble-media-dev-ap-south-1/covers/q-vcacj57-small.webp"
-                alt="cover"
+                src={quib.cover_small ?? ""}
+                alt={`cover-${quib.cover_small}`}
                 width={75}
                 height={75}
                 className="rounded-sm"
               />
               <div className="flex flex-col">
-                <span className="line-clamp-2 font-bold">
-                  Which design is your favorite? Let me know below!
-                </span>
+                <span className="line-clamp-2 font-bold">{quib.title}</span>
                 <span className="text-muted-foreground text-xs">
-                  34 upvotes — 12 comments
+                  {quib.upvotes} upvote(s) — 12 comment(s)
                 </span>
               </div>
             </div>
