@@ -13,6 +13,7 @@ from quiblet.models import Quib, Quiblet
 
 class QuibletSchema(ModelSchema):
     members_count: int
+    quibs_count: int
     moderators: list[ProfileBasicSchema]
 
     class Meta:
@@ -33,6 +34,10 @@ class QuibletSchema(ModelSchema):
     @staticmethod
     def resolve_members_count(obj: Quiblet):
         return obj.members.count()
+
+    @staticmethod
+    def resolve_quibs_count(obj: Quiblet) -> int:
+        return obj.quibs.count()  # pyright: ignore[reportCallIssue]
 
 
 class QuibletBasicSchema(ModelSchema):

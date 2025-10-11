@@ -19,6 +19,9 @@ from user.models import Profile
 
 
 class Quiblet(CreatedAtMixin, AvatarMixin, BannerMixin, TypeMixin):
+    if TYPE_CHECKING:
+        quibs: list["Quib"]
+
     name = models.CharField(
         unique=True,
         max_length=25,
