@@ -1,4 +1,3 @@
-from typing import cast
 from django.http import HttpRequest, HttpResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 from ninja import Router
@@ -8,7 +7,6 @@ from api.http import CustomHttpRequest
 from api.schemas.quiblet import QuibSchema
 from api.schemas.root import SearchSchema
 from quiblet.models import Quib, Quiblet
-from quiblet.querysets import QuibQuerySet
 from user.models import Profile
 
 router = Router()
@@ -48,5 +46,8 @@ def search(request: HttpRequest, q: str):
 @router.get("/feed", response=list[QuibSchema])
 @paginate
 def get_feed(request: CustomHttpRequest):
-    quibs_qs = cast(QuibQuerySet, cast(object, Quib.objects))
-    return quibs_qs.published().for_request(request).select_related("quiblet", "poster")
+    return (
+        Quib.objects.published()
+        .for_request(request)
+        .select_related("quiblet", "poster")
+    )
