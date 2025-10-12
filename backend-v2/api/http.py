@@ -1,11 +1,12 @@
+# pyright: reportUninitializedInstanceVariable=false
 from typing import cast
 from django.http import HttpRequest
 from user.models import Profile, CustomUser
 
 
 class CustomHttpRequest(HttpRequest):
-    user_p: Profile | None = None
-    _custom_user: CustomUser | None = None
+    user_p: Profile
+    _custom_user: CustomUser
 
     @property
     def custom_user(self):

@@ -1,4 +1,5 @@
-from typing import cast
+from typing import Literal
+from django.db import transaction
 from django.core.cache import cache
 from django.http import HttpRequest
 from django.shortcuts import get_object_or_404
@@ -16,7 +17,6 @@ from api.schemas.quiblet import (
 )
 from api.shared.schemas import UniqueNameResponseSchema
 from quiblet.models import Quib, QuibVote, Quiblet
-from user.models import Profile
 
 router = Router()
 
@@ -66,6 +66,23 @@ def get_quiblet_quibs(request: HttpRequest, name: str):
     )
 
 
+@router.post("/{name}/join-or-leave", auth=ProfileAuth(), response={204: None})
+def join_or_leave_quiblet(
+    request: CustomHttpRequest, name: str, action: Literal["join", "leave"]
+):
+    quiblet = get_object_or_404(Quiblet, name=name)
+    user_p = request.user_p
+
+    with transaction.atomic():
+        if action == "leave":
+            quiblet.members.remove(user_p)
+            quiblet.moderators.remove(user_p)
+        elif action == "join":
+            quiblet.members.add(user_p)
+
+    return 204, None
+
+
 @router.post("/", auth=ProfileAuth(), response=QuibletCreateOutSchema)
 def create_quiblet(
     request: CustomHttpRequest,
@@ -76,7 +93,7 @@ def create_quiblet(
     if Quiblet.objects.filter(name__iexact=data.name).exists():
         raise HttpError(400, f"Quiblet with name {data.name} already exists.")
 
-    user_p = cast(Profile, request.user_p)
+    user_p = request.user_p
     quiblet = Quiblet(**data.model_dump())
     quiblet.save()
 
