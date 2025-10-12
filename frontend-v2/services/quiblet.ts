@@ -39,3 +39,11 @@ export async function createQuiblet(data: Data): Promise<{ name: string }> {
   const res = await api.post(API_ENDPOINTS.QUIBLET(), formData);
   return res.data;
 }
+
+export async function joinOrLeaveQuiblet(
+  name: string,
+  action: "join" | "leave",
+): Promise<void> {
+  // returns 204 (no content) on success
+  await api.post(API_ENDPOINTS.QUIBLET_JOIN_OR_LEAVE(name, action));
+}

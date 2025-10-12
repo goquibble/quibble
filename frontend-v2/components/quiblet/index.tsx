@@ -12,9 +12,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { getQuiblet } from "@/services/quiblet";
 import type { Quiblet as IQuiblet } from "@/types/quiblet";
-import Quiblet404 from "./quiblet-404";
-import QuibletHighlights from "./quiblet-highlights";
-import QuibletQuibs from "./quiblet-quibs";
+import Quiblet404 from "../quiblet-404";
+import QuibletHighlights from "../quiblet-highlights";
+import QuibletQuibs from "../quiblet-quibs";
+import QuibletJoinBtn from "./quiblet-join-btn";
 
 export default function Quiblet() {
   const { name } = useParams<{ name: string }>();
@@ -41,9 +42,7 @@ export default function Quiblet() {
           <Plus />
           Create Quib
         </Button>
-        <Button variant={quiblet.has_joined ? "outline" : "default"}>
-          {quiblet.has_joined ? "Joined" : "Join"}
-        </Button>
+        <QuibletJoinBtn name={quiblet.name} hasJoined={quiblet.has_joined} />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant={"outline"} size={"icon"}>
