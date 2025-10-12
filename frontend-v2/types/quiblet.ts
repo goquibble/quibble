@@ -1,6 +1,7 @@
 import type { Nullable } from "./generics";
 
 export interface Quiblet {
+  has_joined: boolean;
   members_count: number;
   quibs_count: number;
   moderators: Array<{

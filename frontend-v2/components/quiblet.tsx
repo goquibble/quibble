@@ -41,7 +41,9 @@ export default function Quiblet() {
           <Plus />
           Create Quib
         </Button>
-        <Button variant={"outline"}>Joined</Button>
+        <Button variant={quiblet.has_joined ? "outline" : "default"}>
+          {quiblet.has_joined ? "Joined" : "Join"}
+        </Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant={"outline"} size={"icon"}>

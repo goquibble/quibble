@@ -6,7 +6,7 @@ import {
 import type { Metadata } from "next";
 import QuibletLayout from "@/components/layouts/quiblet-layout";
 import Quiblet from "@/components/quiblet";
-import { getQuiblet } from "@/services/quiblet";
+import { getQuibletSSR } from "@/services/quiblet.server";
 
 export async function generateMetadata({
   params,
@@ -24,7 +24,7 @@ export default async function QuibletPage({ params }: PageProps<"/q/[name]">) {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: ["quiblet", name],
-    queryFn: () => getQuiblet(name),
+    queryFn: () => getQuibletSSR(name),
   });
 
   return (

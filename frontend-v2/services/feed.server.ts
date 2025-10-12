@@ -6,7 +6,6 @@ import type { Feed } from "@/types/feed";
 export async function getFeedSSR(): Promise<Feed> {
   const cookieStore = await cookies();
   const cookieHeader = cookieStore.get("sessionid")?.value ?? "";
-
   const res = await api.get<Feed>(API_ENDPOINTS.FEED, {
     headers: { cookie: `sessionid=${cookieHeader}` },
   });
