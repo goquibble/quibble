@@ -1,10 +1,12 @@
 from enum import Enum
-from typing import cast
+from typing import Any, cast
+from django.http import HttpRequest
 from ninja import ModelSchema, Schema
 
 from api.schemas.user import ProfileBasicSchema
 from api.shared.schemas import VoteSchema
 from quiblet.models import Quib, Quiblet
+from user.models import Profile
 
 # --------------------
 # Quiblet Schemas
@@ -12,6 +14,7 @@ from quiblet.models import Quib, Quiblet
 
 
 class QuibletSchema(ModelSchema):
+    has_joined: bool
     members_count: int
     quibs_count: int
     moderators: list[ProfileBasicSchema]
@@ -32,12 +35,23 @@ class QuibletSchema(ModelSchema):
         ]
 
     @staticmethod
+    def resolve_has_joined(obj: Quiblet, context: Any):
+        request = cast(HttpRequest, context["request"])
+        user = getattr(request, "user", None)
+        print(request.COOKIES)
+        if user and user.is_authenticated:
+            if profile_id := request.COOKIES.get("profile_id"):
+                if Profile.objects.filter(user=user, id=profile_id).exists():
+                    return obj.members.filter(id=profile_id).exists()
+        return False
+
+    @staticmethod
     def resolve_members_count(obj: Quiblet):
         return obj.members.count()
 
     @staticmethod
     def resolve_quibs_count(obj: Quiblet) -> int:
-        return obj.quibs.count()  # pyright: ignore[reportCallIssue]
+        return obj.quibs.count()
 
 
 class QuibletBasicSchema(ModelSchema):
