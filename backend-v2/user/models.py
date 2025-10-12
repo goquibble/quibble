@@ -7,6 +7,9 @@ from core.mixins import AvatarMixin, CreatedAtMixin
 from core.validators import UsernameValidator
 from user.managers import CustomUserManager
 
+if TYPE_CHECKING:
+    from quiblet.models import Quib, QuibVote
+
 # --------------------
 # User Models
 # --------------------
@@ -49,6 +52,8 @@ class Profile(CreatedAtMixin, AvatarMixin):
     if TYPE_CHECKING:
         joined_quiblets: models.Manager["Profile"]
         moderated_quiblets: models.Manager["Profile"]
+        quibs: models.Manager[Quib]
+        quib_votes: models.Manager["QuibVote"]
 
     user = models.ForeignKey(
         CustomUser, related_name="profiles", on_delete=models.CASCADE

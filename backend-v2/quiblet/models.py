@@ -1,3 +1,4 @@
+# pyright: reportImportCycles=false
 # pyright: reportUninitializedInstanceVariable=false
 # pyright: reportIncompatibleVariableOverride=false
 from typing import TYPE_CHECKING, Any, cast, override
@@ -20,7 +21,7 @@ from user.models import Profile
 
 class Quiblet(CreatedAtMixin, AvatarMixin, BannerMixin, TypeMixin):
     if TYPE_CHECKING:
-        quibs: list["Quib"]
+        quibs: models.Manager["Quib"]
 
     name = models.CharField(
         unique=True,
@@ -51,9 +52,12 @@ class Quiblet(CreatedAtMixin, AvatarMixin, BannerMixin, TypeMixin):
 
 
 class Quib(CreatedAtMixin):
+    # for related names and extra type support
     if TYPE_CHECKING:
-        user_vote: list["QuibVote"]
+        user_vote: models.Manager["QuibVote"]
+        votes: models.Manager["QuibVote"]
 
+    # model-level util functions
     def cover_upload_path(self, filename: str):
         ext = filename.split(".")[-1]
         return f"covers/q-{self.pk}.{ext}"
@@ -95,6 +99,7 @@ class Quib(CreatedAtMixin):
         editable=False,
     )
 
+    # custom manager
     objects: QuibManager = QuibManager()
 
     class Meta:
