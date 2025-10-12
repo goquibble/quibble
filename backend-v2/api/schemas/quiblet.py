@@ -38,7 +38,6 @@ class QuibletSchema(ModelSchema):
     def resolve_has_joined(obj: Quiblet, context: Any):
         request = cast(HttpRequest, context["request"])
         user = getattr(request, "user", None)
-        print(request.COOKIES)
         if user and user.is_authenticated:
             if profile_id := request.COOKIES.get("profile_id"):
                 if Profile.objects.filter(user=user, id=profile_id).exists():
