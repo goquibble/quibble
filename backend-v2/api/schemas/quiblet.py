@@ -17,7 +17,6 @@ class QuibletSchema(ModelSchema):
     has_joined: bool
     members_count: int
     quibs_count: int
-    moderators: list[ProfileBasicSchema]
 
     class Meta:
         model = Quiblet
@@ -30,7 +29,6 @@ class QuibletSchema(ModelSchema):
             "description",
             "type",
             "nsfw",
-            "moderators",
             "created_at",
         ]
 

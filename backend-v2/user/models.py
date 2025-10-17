@@ -51,7 +51,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 class Profile(CreatedAtMixin, AvatarMixin):
     if TYPE_CHECKING:
         joined_quiblets: models.Manager["Profile"]
-        moderated_quiblets: models.Manager["Profile"]
         quibs: models.Manager[Quib]
         quib_votes: models.Manager["QuibVote"]
 

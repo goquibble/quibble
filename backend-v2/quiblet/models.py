@@ -22,6 +22,7 @@ from user.models import Profile
 class Quiblet(CreatedAtMixin, AvatarMixin, BannerMixin, TypeMixin):
     if TYPE_CHECKING:
         quibs: models.Manager["Quib"]
+        members: models.Manager["QuibletMember"]
 
     name = models.CharField(
         unique=True,
@@ -32,8 +33,6 @@ class Quiblet(CreatedAtMixin, AvatarMixin, BannerMixin, TypeMixin):
     description = models.TextField()
     title = models.CharField(max_length=50, null=True, blank=True)
     nsfw = models.BooleanField(default=False)
-    members = models.ManyToManyField(Profile, related_name="joined_quiblets")
-    moderators = models.ManyToManyField(Profile, related_name="moderated_quiblets")
 
     class Meta:
         ordering = ["-created_at"]
@@ -44,6 +43,28 @@ class Quiblet(CreatedAtMixin, AvatarMixin, BannerMixin, TypeMixin):
     @override
     def __str__(self) -> str:
         return f"q/{self.name}"
+
+
+class QuibletMember(models.Model):
+    quiblet = models.ForeignKey(
+        Quiblet, related_name="members", on_delete=models.CASCADE
+    )
+    is_moderator = models.BooleanField(default=False)
+    member = models.ForeignKey(
+        Profile, related_name="joined_quiblets", on_delete=models.CASCADE
+    )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["quiblet", "member"], name="unique_quiblet_member"
+            )
+        ]
+
+    @override
+    def __str__(self) -> str:
+        role = "(mod)" if self.is_moderator else "member"
+        return f"u/{self.member} {role} of q/{self.quiblet}"
 
 
 # --------------------
