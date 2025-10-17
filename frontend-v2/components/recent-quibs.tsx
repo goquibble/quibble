@@ -70,7 +70,7 @@ export default function RecentQuibs() {
               <Image
                 src={quib.cover}
                 alt={quib.title}
-                fill
+                fill={true}
                 className="rounded-md object-cover"
               />
             </div>

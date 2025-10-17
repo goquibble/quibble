@@ -23,7 +23,7 @@ export function CoverCard({ cover, cover_small, className }: CoverCardProps) {
         src={cover ?? ""}
         alt={`cover-${cover}`}
         className="z-2 object-contain"
-        layout="fill"
+        fill={true}
       />
     </div>
   );
