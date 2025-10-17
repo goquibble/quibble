@@ -35,7 +35,7 @@ export default function PfpDropdown({ children, username }: PfpDropdownProps) {
         <DropdownMenuLabel>u/{username}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>Profile</DropdownMenuItem>
-        <DropdownMenuItem>
+        <DropdownMenuItem disabled>
           Settings
           <Settings className="ml-auto" />
         </DropdownMenuItem>
