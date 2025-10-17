@@ -1,6 +1,7 @@
 from typing import Literal
 from django.db import transaction
 from django.core.cache import cache
+from django.db.models import Count, Prefetch
 from django.http import HttpRequest
 from django.shortcuts import get_object_or_404
 from ninja import File, Form, Router, UploadedFile
@@ -16,7 +17,7 @@ from api.schemas.quiblet import (
     QuibletSchema,
 )
 from api.shared.schemas import UniqueNameResponseSchema
-from quiblet.models import Quib, QuibVote, Quiblet
+from quiblet.models import Quib, QuibVote, Quiblet, QuibletMember
 
 router = Router()
 
@@ -39,7 +40,21 @@ def get_quiblet(request: HttpRequest, name: str):
     if cached_data := cache.get(cache_key):
         return cached_data
 
-    quiblet = get_object_or_404(Quiblet, name=name)
+    quiblet = get_object_or_404(
+        Quiblet.objects.annotate(
+            members_count=Count("members"), quibs_count=Count("quibs")
+        ).prefetch_related(
+            Prefetch(
+                "members",
+                to_attr="moderators_cache",
+                queryset=QuibletMember.objects.filter(is_moderator=True).select_related(
+                    "member"
+                ),
+            )
+        ),
+        name=name,
+        type="PUBLIC",
+    )
     cache.set(cache_key, quiblet, timeout=5 * 60)  # 5 mins
     return quiblet
 

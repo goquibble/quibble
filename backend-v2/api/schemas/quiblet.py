@@ -14,10 +14,10 @@ from user.models import Profile
 
 
 class QuibletSchema(ModelSchema):
-    has_joined: bool
     members_count: int
-    moderators: list[ProfileBasicSchema]
     quibs_count: int
+    has_joined: bool
+    moderators: list[ProfileBasicSchema]
 
     class Meta:
         model = Quiblet
@@ -44,16 +44,8 @@ class QuibletSchema(ModelSchema):
         return False
 
     @staticmethod
-    def resolve_members_count(obj: Quiblet) -> int:
-        return obj.members.count()
-
-    @staticmethod
-    def resolve_moderators(obj: Quiblet):
-        return obj.members.filter(is_moderator=True)
-
-    @staticmethod
-    def resolve_quibs_count(obj: Quiblet) -> int:
-        return obj.quibs.count()
+    def resolve_moderators(obj: Quiblet) -> list[Profile]:
+        return [qm.member for qm in obj.moderators_cache]  # pyright: ignore[reportAttributeAccessIssue]
 
 
 class QuibletBasicSchema(ModelSchema):
