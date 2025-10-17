@@ -37,6 +37,11 @@ services:
       - ./init-minio.sh:/init-minio.sh:ro
     entrypoint: ["/bin/sh", "/init-minio.sh"]
 
+  avatars:
+    image: goquibble/avatars
+    ports:
+      - "8001:80"
+
 volumes:
   db_data:
   redis_data:
