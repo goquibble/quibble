@@ -31,7 +31,7 @@ export default function Quiblet() {
     <div className="flex flex-col gap-2">
       <div className="h-20 w-full rounded-md border bg-muted/30" />
       <div className="relative flex items-center gap-2 px-4">
-        <Avatar className="absolute bottom-0 size-20 ring-4 ring-background">
+        <Avatar className="absolute bottom-0 size-20 rounded-full ring-4 ring-background">
           <AvatarImage src={quiblet.avatar ?? ""} alt={quiblet.name} />
           <AvatarFallback seed={quiblet.name} />
         </Avatar>
