@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useDebounce } from "use-debounce";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import type { Data } from "./create-quiblet-dialog";
 
@@ -13,6 +14,7 @@ interface PreviewCardProps {
 export default function PreviewCard({ data }: PreviewCardProps) {
   const [avatarPreview, setAvatarPreview] = useState("");
   const [bannerPreview, setBannerPreview] = useState("");
+  const [debouncedName] = useDebounce(data.name, 500);
 
   useEffect(() => {
     if (!data.avatar) return;
@@ -42,7 +44,7 @@ export default function PreviewCard({ data }: PreviewCardProps) {
         <div className="flex gap-2">
           <Avatar className="size-10 rounded-md">
             <AvatarImage src={avatarPreview} />
-            <AvatarFallback seed={data.name} />
+            <AvatarFallback seed={debouncedName} />
           </Avatar>
           <div className="flex flex-col">
             <span className="break-all font-medium">
