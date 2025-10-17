@@ -16,13 +16,15 @@ class QuibletModelTestCase(TestCase):
             description="desc",
         )
 
-        quiblet.members.add(user_p1)
-        quiblet.moderators.add(user_p2)
+        quiblet.members.create(member=user_p1)
+        quiblet.members.create(member=user_p2, is_moderator=True)
 
         self.assertEqual(quiblet.name, "TestQuiblet")
         self.assertEqual(quiblet.__str__(), "q/TestQuiblet")
-        self.assertIn(user_p1, quiblet.members.all())
-        self.assertIn(user_p2, quiblet.moderators.all())
+        self.assertTrue(quiblet.members.filter(member=user_p1).exists())
+        self.assertTrue(
+            quiblet.members.filter(member=user_p2, is_moderator=True).exists()
+        )
 
     def test_quiblet_unique_name_case_insensitive(self):
         Quiblet.objects.create(name="UniqueName", description="desc")

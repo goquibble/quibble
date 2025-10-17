@@ -75,10 +75,9 @@ def join_or_leave_quiblet(
 
     with transaction.atomic():
         if action == "leave":
-            quiblet.members.remove(user_p)
-            quiblet.moderators.remove(user_p)
+            quiblet.members.filter(member=user_p).delete()
         elif action == "join":
-            quiblet.members.add(user_p)
+            quiblet.members.create(member=user_p)
 
     return 204, None
 
@@ -97,8 +96,7 @@ def create_quiblet(
     quiblet = Quiblet(**data.model_dump())
     quiblet.save()
 
-    quiblet.members.add(user_p)
-    quiblet.moderators.add(user_p)
+    quiblet.members.create(member=user_p)
 
     if avatar is not None:
         quiblet.avatar.save(avatar.name, avatar)
