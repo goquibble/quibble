@@ -47,8 +47,8 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 flex h-14 items-center justify-between border-b bg-background px-4">
       <Link href={"/"} className="flex items-center gap-2">
-        <Icons.icon className="size-6" />
-        <Icons.logo className="h-6 w-max" />
+        <Icons.quibbleIcon className="size-6" />
+        <Icons.quibbleLogo className="h-6 w-max" />
       </Link>
       <nav className="flex items-center gap-2">
         {navLinkMapping.map((item) => {

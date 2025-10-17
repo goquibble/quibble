@@ -2,7 +2,7 @@
 import { PlusCircle } from "lucide-react";
 import { useAuthDialog } from "@/hooks/use-auth-dialog";
 import { useAuthStore } from "@/stores/auth";
-import CreateQuibletDialog from "../dialogs/create-quiblet-dialog/create-quiblet-dialog";
+import CreateQuibletDialog from "../dialogs/create-quiblet-dialog";
 import { Button } from "../ui/button";
 
 const CreateBtn = (props: React.ComponentProps<typeof Button>) => {

@@ -9,7 +9,7 @@ import { Icons } from "../icons";
 const misc = [
   {
     href: "https://github.com/quibblespace/quibble",
-    icon: Icons.icon,
+    icon: Icons.quibbleIcon,
     label: "About Quibble",
   },
   {

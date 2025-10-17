@@ -1,8 +1,8 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import { getFeed } from "@/services/feed";
-import QuibCard from "./quib-card/quib-card";
-import QuibHeader from "./quib-header/quib-header";
+import QuibCard from "./quib-card";
+import QuibHeader from "./quib-header";
 import Quibs404 from "./quibs-404";
 
 export default function Feed() {
