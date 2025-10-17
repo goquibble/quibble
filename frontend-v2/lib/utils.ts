@@ -48,3 +48,22 @@ export function timeAgo(isoDateString: string): string {
   // fallback
   return "just now";
 }
+
+export function getAvatarUrl(
+  seed?: string,
+  format: "svg" | "png" = "png",
+  options: {
+    color?: string;
+    expression?: string;
+  } = {},
+): string {
+  const url = process.env.NEXT_PUBLIC_AVATARS_API_URL;
+  const baseUrl = new URL(`${url}/1.x/avatar/${format}`);
+
+  Object.entries(options).forEach(([key, value]) => {
+    if (value) baseUrl.searchParams.set(key, value);
+  });
+
+  if (seed) baseUrl.searchParams.set("seed", seed);
+  return baseUrl.toString();
+}

@@ -1,8 +1,9 @@
 "use client";
 import * as AvatarPrimitive from "@radix-ui/react-avatar";
+import Image from "next/image";
 import type * as React from "react";
 
-import { cn } from "@/lib/utils";
+import { cn, getAvatarUrl } from "@/lib/utils";
 
 function Avatar({
   className,
@@ -11,10 +12,7 @@ function Avatar({
   return (
     <AvatarPrimitive.Root
       data-slot="avatar"
-      className={cn(
-        "relative flex size-8 shrink-0 overflow-hidden rounded-full",
-        className,
-      )}
+      className={cn("relative flex size-8 shrink-0", className)}
       {...props}
     />
   );
@@ -27,7 +25,7 @@ function AvatarImage({
   return (
     <AvatarPrimitive.Image
       data-slot="avatar-image"
-      className={cn("aspect-square size-full", className)}
+      className={cn("aspect-square size-full rounded-full", className)}
       {...props}
     />
   );
@@ -35,17 +33,20 @@ function AvatarImage({
 
 function AvatarFallback({
   className,
+  seed,
   ...props
-}: React.ComponentProps<typeof AvatarPrimitive.Fallback>) {
+}: React.ComponentProps<typeof AvatarPrimitive.Fallback> & {
+  seed?: string;
+}) {
+  const avatarUrl = getAvatarUrl(seed);
   return (
     <AvatarPrimitive.Fallback
       data-slot="avatar-fallback"
-      className={cn(
-        "flex size-full items-center justify-center bg-muted font-medium uppercase",
-        className,
-      )}
+      className={cn("relative flex size-full", className)}
       {...props}
-    />
+    >
+      <Image src={avatarUrl} alt={`avatar-${seed}`} fill />
+    </AvatarPrimitive.Fallback>
   );
 }
 

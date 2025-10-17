@@ -57,9 +57,9 @@ export default function QuibletInfo() {
         <span className="font-medium text-sm">Moderators</span>
         {quiblet.moderators.map((mod) => (
           <div key={mod.id} className="flex items-center gap-2">
-            <Avatar>
+            <Avatar className="rounded-none">
               <AvatarImage src={mod.avatar ?? ""} alt={mod.username} />
-              <AvatarFallback>{mod.username.slice(0, 2)}</AvatarFallback>
+              <AvatarFallback seed={mod.username} />
             </Avatar>
             <div className="flex flex-col">
               <span className="font-medium text-sm">u/{mod.username}</span>

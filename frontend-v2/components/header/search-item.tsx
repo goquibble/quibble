@@ -19,8 +19,7 @@ export default function SearchItem({
     <Link href={href} className="flex items-center gap-2">
       <Avatar>
         <AvatarImage src={avatar ?? ""} />
-        {/* mainText[2] removes first "q/" or "u/" strings */}
-        <AvatarFallback>{mainText[2]}</AvatarFallback>
+        <AvatarFallback seed={mainText.slice(2)} />
       </Avatar>
       <div className="flex flex-col">
         <span className="font-medium text-sm">{mainText}</span>

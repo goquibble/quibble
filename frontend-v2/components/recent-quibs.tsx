@@ -46,7 +46,7 @@ export default function RecentQuibs() {
             >
               <Avatar className="size-6">
                 <AvatarImage src={quib.quiblet.avatar} />
-                <AvatarFallback>{quib.quiblet.name[0]}</AvatarFallback>
+                <AvatarFallback seed={quib.quiblet.name} />
               </Avatar>
               <span className="font-semibold text-sm">
                 q/{quib.quiblet.name}

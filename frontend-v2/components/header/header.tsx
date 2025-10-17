@@ -84,9 +84,7 @@ export default function Header() {
             <PfpDropdown username={userProfile.username}>
               <Avatar className="size-9 rounded-md">
                 <AvatarImage src={userProfile.avatar ?? ""} />
-                <AvatarFallback>
-                  {userProfile.username.slice(0, 2)}
-                </AvatarFallback>
+                <AvatarFallback seed={userProfile.username} />
               </Avatar>
             </PfpDropdown>
           </>

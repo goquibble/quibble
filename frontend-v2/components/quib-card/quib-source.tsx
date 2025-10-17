@@ -16,7 +16,6 @@ export default function QuibSource({ quiblet, poster }: QuibSourceProps) {
     ? `/u/${poster.username}`
     : `/q/${quiblet.name}`;
   const avatarImage = routerParams.name ? poster.avatar : quiblet.avatar;
-  const fallbackText = routerParams.name ? poster.username[0] : quiblet.name[0];
   const sourceText = routerParams.name
     ? `u/${poster.username}`
     : `q/${quiblet.name}`;
@@ -28,7 +27,7 @@ export default function QuibSource({ quiblet, poster }: QuibSourceProps) {
     >
       <Avatar className="size-6">
         <AvatarImage src={avatarImage ?? ""} />
-        <AvatarFallback>{fallbackText}</AvatarFallback>
+        <AvatarFallback seed={sourceText.slice(2)} />
       </Avatar>
       <span className="font-semibold text-sm">{sourceText}</span>
     </Link>

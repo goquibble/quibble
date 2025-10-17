@@ -33,7 +33,7 @@ export default function Quiblet() {
       <div className="relative flex items-center gap-2 px-4">
         <Avatar className="absolute bottom-0 size-20 ring-4 ring-background">
           <AvatarImage src={quiblet.avatar ?? ""} alt={quiblet.name} />
-          <AvatarFallback>{quiblet.name.slice(0, 2)}</AvatarFallback>
+          <AvatarFallback seed={quiblet.name} />
         </Avatar>
         <h1 className="pl-22 font-bold text-3xl text-white/90">
           q/{quiblet.name}

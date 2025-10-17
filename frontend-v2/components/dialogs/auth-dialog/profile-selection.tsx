@@ -40,11 +40,8 @@ export default function ProfileSelection() {
                 className="-outline-offset-1 aspect-square h-auto w-full cursor-pointer rounded-md outline outline-foreground/15"
                 onClick={() => setSelected(idx)}
               >
-                {/* TODO: add cover field */}
-                <AvatarImage src="" />
-                <AvatarFallback className="rounded-md text-4xl">
-                  {item.username.slice(0, 2)}
-                </AvatarFallback>
+                <AvatarImage src={item.avatar ?? ""} />
+                <AvatarFallback seed={item.username} />
               </Avatar>
               <span
                 className={cn(

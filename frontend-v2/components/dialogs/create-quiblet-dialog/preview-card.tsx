@@ -42,9 +42,7 @@ export default function PreviewCard({ data }: PreviewCardProps) {
         <div className="flex gap-2">
           <Avatar className="size-10 rounded-md">
             <AvatarImage src={avatarPreview} />
-            <AvatarFallback>
-              {data.name ? data.name.slice(0, 2) : "QN"}
-            </AvatarFallback>
+            <AvatarFallback seed={data.name} />
           </Avatar>
           <div className="flex flex-col">
             <span className="break-all font-medium">
