@@ -64,7 +64,7 @@ class QuibletMember(models.Model):
     @override
     def __str__(self) -> str:
         role = "(mod)" if self.is_moderator else "member"
-        return f"u/{self.member} {role} of q/{self.quiblet}"
+        return f"{self.member} {role} of {self.quiblet}"
 
 
 # --------------------
