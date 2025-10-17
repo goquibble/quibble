@@ -16,6 +16,7 @@ from user.models import Profile
 class QuibletSchema(ModelSchema):
     has_joined: bool
     members_count: int
+    moderators: list[ProfileBasicSchema]
     quibs_count: int
 
     class Meta:
@@ -33,7 +34,7 @@ class QuibletSchema(ModelSchema):
         ]
 
     @staticmethod
-    def resolve_has_joined(obj: Quiblet, context: Any):
+    def resolve_has_joined(obj: Quiblet, context: Any) -> bool:
         request = cast(HttpRequest, context["request"])
         user = getattr(request, "user", None)
         if user and user.is_authenticated:
@@ -43,8 +44,12 @@ class QuibletSchema(ModelSchema):
         return False
 
     @staticmethod
-    def resolve_members_count(obj: Quiblet):
+    def resolve_members_count(obj: Quiblet) -> int:
         return obj.members.count()
+
+    @staticmethod
+    def resolve_moderators(obj: Quiblet):
+        return obj.members.filter(is_moderator=True)
 
     @staticmethod
     def resolve_quibs_count(obj: Quiblet) -> int:
