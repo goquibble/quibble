@@ -9,7 +9,9 @@ export const API_ENDPOINTS = {
   USER_ME_PROFILE: "api/v1/user/me/profile",
   USER_ME_PROFILES: "api/v1/user/me/profiles",
   // dyanmic api endpoints
+  // search
   SEARCH: (query: string) => `api/v1/search?q=${query}`,
+  // quiblet
   QUIBLET: (name?: string) => `api/v1/quiblet/${name || ""}`,
   QUIBLET_IS_UNIQUE_NAME: (name: string) =>
     `api/v1/quiblet/is-unique?name=${name}`,
@@ -19,4 +21,7 @@ export const API_ENDPOINTS = {
     `api/v1/quiblet/${name}/quib/${id}/${slug}/vote?value=${value}`,
   QUIBLET_JOIN_OR_LEAVE: (name: string, action: "join" | "leave") =>
     `api/v1/quiblet/${name}/join-or-leave?action=${action}`,
+  // quib
+  QUIB: (name: string, id: string, slug: string) =>
+    `api/v1/quiblet/${name}/quib/${id}/${slug}`,
 };

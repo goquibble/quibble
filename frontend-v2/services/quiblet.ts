@@ -1,4 +1,4 @@
-import type { Data } from "@/components/dialogs/create-quiblet-dialog/create-quiblet-dialog";
+import type { Data } from "@/components/dialogs/create-quiblet-dialog";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import api from "@/lib/api";
 import type { HighlightedQuib, Quib } from "@/types/quib";

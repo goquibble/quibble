@@ -1,11 +1,11 @@
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import api from "@/lib/api";
 import { getAuthCookieHeader } from "@/lib/cookies.server";
-import type { Quiblet } from "@/types/quiblet";
+import type { Quib } from "@/types/quib";
 
-export async function getQuibletSSR(name: string) {
+export async function getQuibSSR(name: string, id: string, slug: string) {
   const cookieHeader = await getAuthCookieHeader();
-  const res = await api.get<Quiblet>(API_ENDPOINTS.QUIBLET(name), {
+  const res = await api.get<Quib>(API_ENDPOINTS.QUIB(name, id, slug), {
     headers: { cookie: cookieHeader },
   });
 
