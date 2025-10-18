@@ -26,6 +26,7 @@ interface QuibActionsProps
   name: string;
   onShareClick?: () => void;
   showMoreBtn?: boolean;
+  className?: string;
 }
 
 export default function QuibActions({
@@ -37,6 +38,7 @@ export default function QuibActions({
   name,
   onShareClick,
   showMoreBtn = true,
+  className,
 }: QuibActionsProps) {
   const [voteState, setVoteState] = useState<VoteState>({
     voteCount: upvotes - downvotes,
@@ -89,7 +91,7 @@ export default function QuibActions({
   }, [voteState.myVote, debouncedVote]);
 
   return (
-    <div className="flex w-max items-center gap-2">
+    <div className={cn("flex w-max items-center gap-2", className)}>
       <div
         className={cn(
           "relative z-5 flex items-center gap-1 rounded-lg border",

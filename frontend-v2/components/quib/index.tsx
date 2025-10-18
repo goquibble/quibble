@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 import { timeAgo } from "@/lib/utils";
 import { getQuib } from "@/services/quib";
 import { CoverCard } from "../cover-card";
+import QuibActions from "../quib-actions";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 
@@ -58,6 +59,16 @@ export default function Quib() {
       {quib.content?.trim() && (
         <p className="whitespace-pre-wrap text-sm">{quib.content}</p>
       )}
+      <QuibActions
+        name={quib.quiblet.name}
+        id={quib.id}
+        slug={quib.slug}
+        upvotes={quib.upvotes}
+        downvotes={quib.downvotes}
+        user_vote_value={quib.user_vote_value}
+        showMoreBtn={false}
+        className="mt-2"
+      />
     </div>
   );
 }
