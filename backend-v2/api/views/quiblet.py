@@ -129,7 +129,7 @@ def create_quiblet(
 @router.get("/{name}/quib/{id}/{slug}", response=QuibSchema)
 def get_quib(request: HttpRequest, name: str, id: str, slug: str):
     _ = request
-    cache_key = f"quib:{id}:{slug}"
+    cache_key = f"quiblet:{name}:quib:{id}:{slug}"
     if cached_data := cache.get(cache_key):
         return cached_data
 
