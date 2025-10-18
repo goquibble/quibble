@@ -1,9 +1,12 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
+import { ChevronDown, Search } from "lucide-react";
 import { useParams } from "next/navigation";
 import { getQuib } from "@/services/quib";
 import { CoverCard } from "../cover-card";
 import QuibActions from "../quib-actions";
+import { Button } from "../ui/button";
+import IconInput from "../ui/icon-input";
 import CommentBox from "./comment-box";
 import QuibMeta from "./quib-meta";
 
@@ -49,6 +52,21 @@ export default function Quib() {
         className="mt-2"
       />
       <CommentBox />
+      <div className="flex items-center gap-2">
+        <span className="whitespace-nowrap text-muted-foreground text-sm">
+          Sort by:
+        </span>
+        <Button size={"sm"} variant={"ghost"} disabled>
+          Best
+          <ChevronDown />
+        </Button>
+        <IconInput
+          Icon={Search}
+          placeholder="Search comments"
+          className="w-auto"
+          disabled
+        />
+      </div>
     </div>
   );
 }
