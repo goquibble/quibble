@@ -17,7 +17,7 @@ export function CoverCard({ cover, cover_small, className }: CoverCardProps) {
         className,
       )}
     >
-      <div className="absolute inset-0 z-1 bg-background/50 backdrop-blur-md"></div>
+      <div className="absolute inset-0 z-1 bg-background/75 backdrop-blur-2xl"></div>
       <div className="pointer-events-none absolute inset-0 z-3 rounded-lg border border-foreground/15"></div>
       <Image
         src={cover ?? ""}

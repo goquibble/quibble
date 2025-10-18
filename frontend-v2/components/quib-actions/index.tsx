@@ -10,20 +10,22 @@ import { useDebouncedCallback } from "use-debounce";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import api from "@/lib/api";
 import { cn } from "@/lib/utils";
-import type { FeedQuib } from "@/types/feed";
 import type { Nullable } from "@/types/generics";
+import type { Quib } from "@/types/quib";
 import { Button } from "../ui/button";
-import QuibShareBtn from "./quib-share.btn";
+import QuibShareBtn from "./quib-share-btn";
 
 type Vote = "up" | "down";
 type VoteState = { voteCount: number; myVote: Vote | null };
 
 interface QuibActionsProps
   extends Pick<
-    FeedQuib,
+    Quib,
     "upvotes" | "downvotes" | "user_vote_value" | "id" | "slug"
   > {
-  quiblet_name: string;
+  name: string;
+  onShareClick?: () => void;
+  showMoreBtn?: boolean;
 }
 
 export default function QuibActions({
@@ -32,7 +34,9 @@ export default function QuibActions({
   upvotes,
   downvotes,
   user_vote_value,
-  quiblet_name,
+  name,
+  onShareClick,
+  showMoreBtn = true,
 }: QuibActionsProps) {
   const [voteState, setVoteState] = useState<VoteState>({
     voteCount: upvotes - downvotes,
@@ -71,9 +75,7 @@ export default function QuibActions({
 
       prevVote.current = vote;
       const value = vote === "up" ? 1 : vote === "down" ? -1 : 0;
-      await api.post(
-        API_ENDPOINTS.QUIBLET_QUIB_VOTE(quiblet_name, id, slug, value),
-      );
+      await api.post(API_ENDPOINTS.QUIBLET_QUIB_VOTE(name, id, slug, value));
     },
     500,
   );
@@ -116,14 +118,16 @@ export default function QuibActions({
           <ArrowBigDown />
         </Button>
       </div>
-      <Button size={"sm"} variant={"outline"}>
+      <Button size={"sm"} variant={"outline"} onClick={onShareClick}>
         <MessagesSquare />
         <span className="font-medium text-sm">4</span>
       </Button>
-      <QuibShareBtn id={id} slug={slug} quiblet_name={quiblet_name} />
-      <Button size={"icon-sm"} variant={"ghost"} disabled>
-        <MoreHorizontal />
-      </Button>
+      <QuibShareBtn id={id} slug={slug} quiblet_name={name} />
+      {showMoreBtn && (
+        <Button size={"icon-sm"} variant={"ghost"} disabled>
+          <MoreHorizontal />
+        </Button>
+      )}
     </div>
   );
 }
