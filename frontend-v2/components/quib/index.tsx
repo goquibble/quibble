@@ -1,14 +1,11 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
 import { useParams } from "next/navigation";
-import { timeAgo } from "@/lib/utils";
 import { getQuib } from "@/services/quib";
 import { CoverCard } from "../cover-card";
 import QuibActions from "../quib-actions";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Button } from "../ui/button";
+import CommentBox from "./comment-box";
+import QuibMeta from "./quib-meta";
 
 export default function Quib() {
   const { name, id, slug } = useParams<{
@@ -25,29 +22,11 @@ export default function Quib() {
   if (!quib) return null;
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex gap-2">
-        <Button size={"icon-sm"} variant={"outline"}>
-          <ArrowLeft />
-        </Button>
-        <Avatar>
-          <AvatarImage src={quib.quiblet.avatar ?? ""} />
-          <AvatarFallback seed={quib.quiblet.name} />
-        </Avatar>
-        <div className="flex flex-col gap-1 text-sm/none">
-          <Link
-            href={`/q/${quib.quiblet.name}`}
-            className="font-semibold transition-colors hover:text-primary"
-          >
-            q/{quib.quiblet.name}
-          </Link>
-          <span className="font-medium text-muted-foreground">
-            {quib.poster.username}
-          </span>
-        </div>
-        <span className="text-muted-foreground text-xs/none">
-          — {timeAgo(quib.created_at)}
-        </span>
-      </div>
+      <QuibMeta
+        quiblet={quib.quiblet}
+        poster={quib.poster}
+        created_at={quib.created_at}
+      />
       <h1 className="font-bold text-2xl dark:text-white/90">{quib.title}</h1>
       {quib.cover && (
         <CoverCard
@@ -69,6 +48,7 @@ export default function Quib() {
         showMoreBtn={false}
         className="mt-2"
       />
+      <CommentBox />
     </div>
   );
 }
