@@ -133,8 +133,14 @@ def get_quib(request: HttpRequest, name: str, id: str, slug: str):
     if cached_data := cache.get(cache_key):
         return cached_data
 
-    quib_qs = Quib.objects.published().for_quiblet(name)
-    quib = get_object_or_404(quib_qs, id=id, slug=slug)
+    quib = get_object_or_404(
+        Quib.objects.published()
+        .for_quiblet(name)
+        .for_request(request)
+        .select_related("quiblet", "poster"),
+        id=id,
+        slug=slug,
+    )
 
     cache.set(cache_key, quib, 5 * 60)  # 5 mins
     return quib
