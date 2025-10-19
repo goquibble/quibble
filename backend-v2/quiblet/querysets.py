@@ -12,15 +12,19 @@ if TYPE_CHECKING:
 
 class QuibQuerySet(models.QuerySet["Quib"], BaseQuerySetMixin):
     def published(self):
+        """Return only published quibs."""
         return self.filter(is_published=True)
 
     def highlighted(self):
+        """Return only highlighted (published) quibs."""
         return self.filter(is_highlighted=True)
 
     def for_quiblet(self, name: str):
+        """Return quibs related to a specific quiblet."""
         return self.filter(quiblet__name=name)
 
     def for_request(self, request: HttpRequest):
+        """Return comments based on request context."""
         qs = self
         profile_id = request.COOKIES.get("profile_id")
 
@@ -41,6 +45,7 @@ class QuibQuerySet(models.QuerySet["Quib"], BaseQuerySetMixin):
 
 class CommentQuerySet(TreeQuerySet, BaseQuerySetMixin):
     def for_request(self, request: HttpRequest):
+        """Return comments based on request context."""
         qs = self
         profile_id = request.COOKIES.get("profile_id")
 
