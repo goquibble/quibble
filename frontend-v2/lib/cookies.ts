@@ -1,11 +1,11 @@
 import Cookies from "js-cookie";
-import { isProd } from "./env";
+import { IS_PROD } from "@/constants/env";
 
 export function setProfileIdCookie(profileId: string) {
   Cookies.set("profile_id", profileId, {
     path: "/",
     sameSite: "lax",
-    secure: isProd,
+    secure: IS_PROD,
     expires: 14, // 2 weeks
   });
 }
