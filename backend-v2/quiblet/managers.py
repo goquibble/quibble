@@ -1,14 +1,13 @@
 # pyright: reportImportCycles=false
 # no worries, models are only imported for typing
-from typing import cast, override
+from typing import TYPE_CHECKING, cast, override
 from django.db import models
 from django_ltree.managers import TreeManager
 
 from quiblet.querysets import CommentQuerySet, QuibQuerySet
 
-# --------------------
-# Quiblet Managers
-# --------------------
+if TYPE_CHECKING:
+    from quiblet.models import Comment
 
 
 class QuibManager(models.Manager.from_queryset(QuibQuerySet)):
@@ -26,9 +25,9 @@ class QuibManager(models.Manager.from_queryset(QuibQuerySet)):
         return self.get_queryset().for_quiblet(name)
 
 
-# --------------------
-# Comment Managers
-# --------------------
+class CommentManager(TreeManager.from_queryset(CommentQuerySet)):
+    model: type["Comment"]
 
-
-class CommentManager(TreeManager.from_queryset(CommentQuerySet)): ...
+    @override
+    def get_queryset(self) -> CommentQuerySet:
+        return CommentQuerySet(self.model, using=self._db).with_votes()

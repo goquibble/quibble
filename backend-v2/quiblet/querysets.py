@@ -2,18 +2,15 @@ from typing import TYPE_CHECKING
 from django.db import models
 from django.db.models import Prefetch
 from django.http import HttpRequest
+from django_ltree.querysets import TreeQuerySet
 
 from quiblet.mixins import BaseQuerySetMixin
 
 if TYPE_CHECKING:
-    from quiblet.models import Comment, Quib  # noqa: F401
-
-# --------------------
-# Quiblet QuerySets
-# --------------------
+    from quiblet.models import Quib  # noqa: F401
 
 
-class QuibQuerySet(BaseQuerySetMixin, models.QuerySet["Quib"]):
+class QuibQuerySet(models.QuerySet["Quib"], BaseQuerySetMixin):
     def published(self):
         return self.filter(is_published=True)
 
@@ -40,10 +37,6 @@ class QuibQuerySet(BaseQuerySetMixin, models.QuerySet["Quib"]):
         return qs
 
 
-# --------------------
-# Comment QuerySets
-# --------------------
-
-
-class CommentQuerySet(models.QuerySet["Comment"]):
+class CommentQuerySet(TreeQuerySet, BaseQuerySetMixin):
+    # NOTE: add for_request method
     pass
