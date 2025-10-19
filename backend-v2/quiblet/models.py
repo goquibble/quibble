@@ -174,10 +174,6 @@ class QuibVote(models.Model):
             models.UniqueConstraint(fields=["quib", "voter"], name="unique_quib_voter")
         ]
 
-    @override
-    def __str__(self) -> str:
-        return f"Vote by {self.voter} for {self.quib}"
-
 
 # --------------------
 # Comment Models
@@ -197,3 +193,19 @@ class Comment(TreeModel):
     @override
     def __str__(self) -> str:
         return f"Comment by {self.commenter} on {self.quib}"
+
+
+class CommentVote(models.Model):
+    comment = models.ForeignKey(Comment, related_name="votes", on_delete=models.CASCADE)
+    voter = models.ForeignKey(
+        Profile, related_name="comment_votes", on_delete=models.SET_NULL, null=True
+    )
+    # voting logic: +1 for upvote and -1 for downvote
+    value = models.SmallIntegerField()
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["comment", "voter"], name="unique_comment_voter"
+            )
+        ]
