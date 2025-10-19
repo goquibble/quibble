@@ -1,6 +1,6 @@
 # pyright: reportImportCycles=false
 # no worries, models are only imported for typing
-from typing import TYPE_CHECKING, cast, override
+from typing import TYPE_CHECKING, override
 from django.db import models
 from django.http import HttpRequest
 from django_ltree.managers import TreeManager
@@ -8,15 +8,17 @@ from django_ltree.managers import TreeManager
 from quiblet.querysets import CommentQuerySet, QuibQuerySet
 
 if TYPE_CHECKING:
-    from quiblet.models import Comment
+    from quiblet.models import Comment, Quib
 
 
 class QuibManager(models.Manager.from_queryset(QuibQuerySet)):
+    model: type["Quib"]
+
     @override
     def get_queryset(self) -> QuibQuerySet:
-        return cast(QuibQuerySet, super().get_queryset()).with_votes()
+        return QuibQuerySet(self.model, using=self._db).with_votes()
 
-    # NOTE: manually promote only required entry method for linters
+    # NOTE: promote only top methods for typing
     def published(self):
         return self.get_queryset().published()
 
@@ -31,6 +33,6 @@ class CommentManager(TreeManager.from_queryset(CommentQuerySet)):
     def get_queryset(self) -> CommentQuerySet:
         return CommentQuerySet(self.model, using=self._db).with_votes()
 
-    # NOTE: manually promote only required entry method for linters
+    # NOTE: promote only top methods for typing
     def for_request(self, request: HttpRequest):
         return self.get_queryset().for_request(request)
