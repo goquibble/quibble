@@ -22,11 +22,13 @@ class QuibQuerySet(models.QuerySet["Quib"], BaseQuerySetMixin):
 
     def for_request(self, request: HttpRequest):
         qs = self
-        if request.user and request.user.is_authenticated:
+        profile_id = request.COOKIES.get("profile_id")
+
+        if request.user and request.user.is_authenticated and profile_id:
             from user.models import Profile
             from quiblet.models import QuibVote
 
-            voter = Profile.objects.get(user=request.user)
+            voter = Profile.objects.get(id=profile_id, user=request.user)
             qs = qs.prefetch_related(
                 Prefetch(
                     "votes",
@@ -38,5 +40,20 @@ class QuibQuerySet(models.QuerySet["Quib"], BaseQuerySetMixin):
 
 
 class CommentQuerySet(TreeQuerySet, BaseQuerySetMixin):
-    # NOTE: add for_request method
-    pass
+    def for_request(self, request: HttpRequest):
+        qs = self
+        profile_id = request.COOKIES.get("profile_id")
+
+        if request.user and request.user.is_authenticated and profile_id:
+            from user.models import Profile
+            from quiblet.models import CommentVote
+
+            voter = Profile.objects.get(id=profile_id, user=request.user)
+            qs = qs.prefetch_related(
+                Prefetch(
+                    "votes",
+                    queryset=CommentVote.objects.filter(voter=voter),
+                    to_attr="user_vote",
+                )
+            )
+        return qs

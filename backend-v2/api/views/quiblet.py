@@ -1,4 +1,4 @@
-from typing import Literal
+from typing import Literal, cast
 from django.db import transaction
 from django.db.models import Count, Prefetch
 from django.http import HttpRequest
@@ -19,6 +19,7 @@ from api.schemas.quiblet import (
 )
 from api.shared.schemas import UniqueNameResponseSchema
 from api.utils import cache_response
+from quiblet.managers import CommentManager
 from quiblet.models import Comment, Quib, QuibVote, Quiblet, QuibletMember
 
 router = Router()
@@ -159,7 +160,8 @@ def vote_quib(request: CustomHttpRequest, name: str, id: str, slug: str, value: 
 def get_comments(request: HttpRequest, name: str, id: str, slug: str):
     _ = request
     quib = get_object_or_404(Quib.objects.for_quiblet(name), id=id, slug=slug)
-    return quib.comments.select_related("commenter")
+    comments = cast(CommentManager, quib.comments)
+    return comments.for_request(request).select_related("commenter")
 
 
 @router.post(
