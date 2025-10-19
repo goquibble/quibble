@@ -1,7 +1,7 @@
 # pyright: reportMissingTypeArgument=false
 from django.contrib import admin
 
-from quiblet.models import Quib, QuibVote, Quiblet, QuibletMember
+from quiblet.models import Comment, Quib, QuibVote, Quiblet, QuibletMember
 
 # --------------------
 # Quiblet Admin
@@ -33,3 +33,13 @@ class QuibAdmin(admin.ModelAdmin):
 @admin.register(QuibVote)
 class QuibVoteAdmin(admin.ModelAdmin):
     list_display = ["quib", "voter", "value"]
+
+
+# --------------------
+# Comment Admin
+# --------------------
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ["quib", "commenter", "path", "is_deleted"]

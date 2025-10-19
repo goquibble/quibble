@@ -31,6 +31,7 @@ dependencies = [
     { name = "django-base16-admin" },
     { name = "django-cors-headers" },
     { name = "django-environ" },
+    { name = "django-ltree-2" },
     { name = "django-ninja" },
     { name = "django-redis" },
     { name = "django-resized" },
@@ -54,6 +55,7 @@ requires-dist = [
     { name = "django-base16-admin", specifier = ">=0.1.5" },
     { name = "django-cors-headers", specifier = ">=4.7.0" },
     { name = "django-environ", specifier = ">=0.12.0" },
+    { name = "django-ltree-2", specifier = ">=0.1.12" },
     { name = "django-ninja", specifier = ">=1.4.3" },
     { name = "django-redis", specifier = ">=6.0.0" },
     { name = "django-resized", specifier = ">=1.0.3" },
@@ -293,6 +295,19 @@ wheels = [
 ]
 
 [[package]]
+name = "django-ltree-2"
+version = "0.1.12"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django" },
+    { name = "psycopg" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/dc/11/e1119a8d188c979a8a278137c08ebcbcffa3b112aa490d42af1c5208e634/django_ltree_2-0.1.12.tar.gz", hash = "sha256:b0099db3cae53f256d5d4dcca75b4cf6269375b51611d7a7cafcde8bbe50fe61", size = 5960, upload-time = "2025-04-04T16:41:14.702Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c9/80/f4a7218399a37346fe06b5352ea18b109da86220eaf18f17e824eaf43f6c/django_ltree_2-0.1.12-py3-none-any.whl", hash = "sha256:9aac1d854d06220f8debd9872ffaff444ebe7e2af6525bfd4ef4b93866168109", size = 8900, upload-time = "2025-04-04T16:41:13.159Z" },
+]
+
+[[package]]
 name = "django-ninja"
 version = "1.4.3"
 source = { registry = "https://pypi.org/simple" }
@@ -465,6 +480,18 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/f0/77/bc6f92a3e8e6e46c0ca78abfffec0037845800ea38c73483760362804c41/pillow-11.3.0-cp314-cp314t-win32.whl", hash = "sha256:118ca10c0d60b06d006be10a501fd6bbdfef559251ed31b794668ed569c87e12", size = 6377370, upload-time = "2025-07-01T09:15:46.673Z" },
     { url = "https://files.pythonhosted.org/packages/4a/82/3a721f7d69dca802befb8af08b7c79ebcab461007ce1c18bd91a5d5896f9/pillow-11.3.0-cp314-cp314t-win_amd64.whl", hash = "sha256:8924748b688aa210d79883357d102cd64690e56b923a186f35a82cbc10f997db", size = 7121500, upload-time = "2025-07-01T09:15:48.512Z" },
     { url = "https://files.pythonhosted.org/packages/89/c7/5572fa4a3f45740eaab6ae86fcdf7195b55beac1371ac8c619d880cfe948/pillow-11.3.0-cp314-cp314t-win_arm64.whl", hash = "sha256:79ea0d14d3ebad43ec77ad5272e6ff9bba5b679ef73375ea760261207fa8e0aa", size = 2512835, upload-time = "2025-07-01T09:15:50.399Z" },
+]
+
+[[package]]
+name = "psycopg"
+version = "3.2.11"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "tzdata", marker = "sys_platform == 'win32'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/27/02/9fdfc018c026df2bcf9c11480c1014f9b90c6d801e5f929408cbfbf94cc0/psycopg-3.2.11.tar.gz", hash = "sha256:398bb484ed44361e041c8f804ed7af3d2fcefbffdace1d905b7446c319321706", size = 160644, upload-time = "2025-10-18T22:48:28.136Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/aa/1b/96ee90ed0007d64936d9bd1bb3108d0af3cf762b4f11dbd73359f0687c3d/psycopg-3.2.11-py3-none-any.whl", hash = "sha256:217231b2b6b72fba88281b94241b2f16043ee67f81def47c52a01b72ff0c086a", size = 206766, upload-time = "2025-10-18T22:43:32.114Z" },
 ]
 
 [[package]]

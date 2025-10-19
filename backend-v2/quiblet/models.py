@@ -6,6 +6,7 @@ from django.db import models
 from django.db.models.constraints import UniqueConstraint
 from django.db.models.functions import Lower
 from django.utils.text import slugify
+from django_ltree.models import TreeModel
 from django_resized.forms import ResizedImageField
 from django_shortuuid.fields import ShortUUIDField
 
@@ -175,3 +176,21 @@ class QuibVote(models.Model):
     @override
     def __str__(self) -> str:
         return f"Vote by {self.voter} for {self.quib}"
+
+
+# --------------------
+# Comment Models
+# --------------------
+
+
+class Comment(TreeModel):
+    quib = models.ForeignKey(Quib, related_name="comments", on_delete=models.CASCADE)
+    commenter = models.ForeignKey(
+        Profile, related_name="comments", on_delete=models.SET_NULL, null=True
+    )
+    content = models.TextField()
+    is_deleted = models.BooleanField(default=False)
+
+    @override
+    def __str__(self) -> str:
+        return f"Comment by {self.commenter} on {self.quib}"

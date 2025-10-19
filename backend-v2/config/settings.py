@@ -32,15 +32,16 @@ INSTALLED_APPS = [
     "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
     "django.contrib.humanize",
-    # cors
-    "corsheaders",
     # auth apps
     "allauth",
     "allauth.account",
     "allauth.headless",
     "allauth.usersessions",
     # "allauth.socialaccount",
+    # django extensions
+    "corsheaders",
     "storages",
+    "django_ltree",
     # custom apps
     "user",
     "quiblet",

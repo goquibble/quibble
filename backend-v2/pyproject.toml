@@ -10,6 +10,7 @@ dependencies = [
     "django-base16-admin>=0.1.5",
     "django-cors-headers>=4.7.0",
     "django-environ>=0.12.0",
+    "django-ltree-2>=0.1.12",
     "django-ninja>=1.4.3",
     "django-redis>=6.0.0",
     "django-resized>=1.0.3",
