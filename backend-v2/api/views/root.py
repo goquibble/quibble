@@ -19,8 +19,7 @@ router = Router()
 
 @router.get("/csrftoken", response={204: None})
 @ensure_csrf_cookie
-def set_csrftoken(request: HttpRequest):
-    _ = request
+def set_csrftoken(request: HttpRequest):  # pyright: ignore[reportUnusedParameter]
     return HttpResponse(status=204)
 
 
@@ -30,8 +29,7 @@ def set_csrftoken(request: HttpRequest):
 
 
 @router.get("/search", response=SearchSchema)
-def search(request: HttpRequest, q: str):
-    _ = request
+def search(request: HttpRequest, q: str):  # pyright: ignore[reportUnusedParameter]
     quiblets = Quiblet.objects.filter(name__istartswith=q)
     profiles = Profile.objects.filter(username__istartswith=q)
 

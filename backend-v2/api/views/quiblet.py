@@ -30,8 +30,7 @@ router = Router()
 
 
 @router.get("/is-unique", response=UniqueNameResponseSchema)
-def is_unique_name(request: HttpRequest, name: str):
-    _ = request
+def is_unique_name(request: HttpRequest, name: str):  # pyright: ignore[reportUnusedParameter]
     exists = Quiblet.objects.filter(name__iexact=name).exists()
     return {"unique": not exists}
 
@@ -158,7 +157,6 @@ def vote_quib(request: CustomHttpRequest, name: str, id: str, slug: str, value: 
 
 @router.get("/{name}/quib/{id}/{slug}/comments", response=list[CommentSchema])
 def get_comments(request: HttpRequest, name: str, id: str, slug: str):
-    _ = request
     quib = get_object_or_404(Quib.objects.for_quiblet(name), id=id, slug=slug)
     comments = cast(CommentManager, quib.comments)
     return comments.for_request(request).select_related("commenter")
