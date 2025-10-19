@@ -112,7 +112,7 @@ class HighlightedQuib(ModelSchema):
 # --------------------
 
 
-class CommentSchema(ModelSchema):
+class CommentSchema(ModelSchema, VoteSchema):
     commenter: ProfileBasicSchema
     path: str
 
