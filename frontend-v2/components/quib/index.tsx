@@ -8,6 +8,7 @@ import QuibActions from "../quib-actions";
 import { Button } from "../ui/button";
 import IconInput from "../ui/icon-input";
 import CommentBox from "./comment-box";
+import Comments from "./comments";
 import QuibMeta from "./quib-meta";
 
 export default function Quib() {
@@ -67,6 +68,7 @@ export default function Quib() {
           disabled
         />
       </div>
+      <Comments />
     </div>
   );
 }

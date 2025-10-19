@@ -5,7 +5,7 @@ import type { Quib } from "@/types/quib";
 
 export async function getQuibSSR(name: string, id: string, slug: string) {
   const cookieHeader = await getAuthCookieHeader();
-  const res = await api.get<Quib>(API_ENDPOINTS.QUIB(name, id, slug), {
+  const res = await api.get<Quib>(API_ENDPOINTS.QUIBLET_QUIB(name, id, slug), {
     headers: { cookie: cookieHeader },
   });
 
