@@ -10,6 +10,8 @@ from ninja.errors import HttpError
 from api.auth import ProfileAuth
 from api.http import CustomHttpRequest
 from api.schemas.quiblet import (
+    CommentCreateInSchema,
+    CommentSchema,
     HighlightedQuib,
     QuibSchema,
     QuibletCreateInSchema,
@@ -17,7 +19,7 @@ from api.schemas.quiblet import (
     QuibletSchema,
 )
 from api.shared.schemas import UniqueNameResponseSchema
-from quiblet.models import Quib, QuibVote, Quiblet, QuibletMember
+from quiblet.models import Comment, Quib, QuibVote, Quiblet, QuibletMember
 
 router = Router()
 
@@ -153,3 +155,39 @@ def vote_quib(request: CustomHttpRequest, name: str, id: str, slug: str, value: 
         quib=quib, voter=request.user_p, defaults={"value": value}
     )
     return 204, None
+
+
+# --------------------
+# Comment Routes
+# --------------------
+
+
+@router.get("/{name}/quib/{id}/{slug}/comments", response=list[CommentSchema])
+def get_comments(request: HttpRequest, name: str, id: str, slug: str):
+    _ = request
+    quib = get_object_or_404(Quib.objects.for_quiblet(name), id=id, slug=slug)
+    return quib.comments.select_related("commenter")
+
+
+@router.post(
+    "/{name}/quib/{id}/{slug}/comments", auth=ProfileAuth(), response=CommentSchema
+)
+def create_comment(
+    request: CustomHttpRequest,
+    data: CommentCreateInSchema,
+    name: str,
+    id: str,
+    slug: str,
+):
+    quib = get_object_or_404(Quib.objects.for_quiblet(name), id=id, slug=slug)
+    parent_instance = None
+
+    if data.parent_path:
+        parent_instance = Comment.objects.filter(path=data.parent_path).first()
+        if not parent_instance:
+            raise HttpError(400, "Invalid parent_path")
+
+    new_data = {"quib": quib, "commenter": request.user_p, "content": data.content}
+    comment = Comment.objects.create_child(parent=parent_instance, **new_data)  # pyright: ignore[reportArgumentType]
+
+    return comment

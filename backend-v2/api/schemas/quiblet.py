@@ -5,7 +5,7 @@ from ninja import ModelSchema, Schema
 
 from api.schemas.user import ProfileBasicSchema
 from api.shared.schemas import VoteSchema
-from quiblet.models import Quib, Quiblet
+from quiblet.models import Comment, Quib, Quiblet
 from user.models import Profile
 
 # --------------------
@@ -105,3 +105,26 @@ class HighlightedQuib(ModelSchema):
     class Meta:
         model = Quib
         fields = ["id", "slug", "title", "cover_small"]
+
+
+# --------------------
+# Comment Schemas
+# --------------------
+
+
+class CommentSchema(ModelSchema):
+    commenter: ProfileBasicSchema
+    path: str
+
+    class Meta:
+        model = Comment
+        fields = ["id", "commenter", "content", "is_deleted", "path"]
+
+    @staticmethod
+    def resolve_path(obj: Comment):
+        return str(cast(str, obj.path))
+
+
+class CommentCreateInSchema(Schema):
+    parent_path: str | None = None
+    content: str

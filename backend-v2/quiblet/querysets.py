@@ -1,19 +1,19 @@
 from typing import TYPE_CHECKING
 from django.db import models
-from django.db.models import Count, Q, Prefetch
+from django.db.models import Prefetch
 from django.http import HttpRequest
 
+from quiblet.mixins import BaseQuerySetMixin
+
 if TYPE_CHECKING:
-    from quiblet.models import Quib  # noqa: F401
+    from quiblet.models import Comment, Quib  # noqa: F401
+
+# --------------------
+# Quiblet QuerySets
+# --------------------
 
 
-class QuibQuerySet(models.QuerySet["Quib"]):
-    def with_votes(self):
-        return self.annotate(
-            upvotes=Count("votes", filter=Q(votes__value=1)),
-            downvotes=Count("votes", filter=Q(votes__value=-1)),
-        )
-
+class QuibQuerySet(BaseQuerySetMixin, models.QuerySet["Quib"]):
     def published(self):
         return self.filter(is_published=True)
 
@@ -38,3 +38,12 @@ class QuibQuerySet(models.QuerySet["Quib"]):
                 )
             )
         return qs
+
+
+# --------------------
+# Comment QuerySets
+# --------------------
+
+
+class CommentQuerySet(models.QuerySet["Comment"]):
+    pass

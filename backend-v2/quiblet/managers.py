@@ -2,11 +2,15 @@
 # no worries, models are only imported for typing
 from typing import cast, override
 from django.db import models
+from django_ltree.managers import TreeManager
 
-from quiblet.querysets import QuibQuerySet
+from quiblet.querysets import CommentQuerySet, QuibQuerySet
+
+# --------------------
+# Quiblet Managers
+# --------------------
 
 
-# inheriting methods from queryset
 class QuibManager(models.Manager.from_queryset(QuibQuerySet)):
     @override
     def get_queryset(self) -> QuibQuerySet:
@@ -20,3 +24,11 @@ class QuibManager(models.Manager.from_queryset(QuibQuerySet)):
 
     def for_quiblet(self, name: str):
         return self.get_queryset().for_quiblet(name)
+
+
+# --------------------
+# Comment Managers
+# --------------------
+
+
+class CommentManager(TreeManager.from_queryset(CommentQuerySet)): ...

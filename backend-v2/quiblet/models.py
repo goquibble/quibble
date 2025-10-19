@@ -12,7 +12,7 @@ from django_shortuuid.fields import ShortUUIDField
 
 from core.mixins import AvatarMixin, BannerMixin, CreatedAtMixin, TypeMixin
 from core.validators import UsernameValidator
-from quiblet.managers import QuibManager
+from quiblet.managers import CommentManager, QuibManager
 from user.models import Profile
 
 # --------------------
@@ -78,6 +78,7 @@ class Quib(CreatedAtMixin):
     if TYPE_CHECKING:
         user_vote: models.Manager["QuibVote"]
         votes: models.Manager["QuibVote"]
+        comments: models.Manager["Comment"]
 
     # model-level util functions
     def cover_upload_path(self, filename: str):
@@ -190,6 +191,8 @@ class Comment(TreeModel):
     )
     content = models.TextField()
     is_deleted = models.BooleanField(default=False)
+
+    objects: CommentManager = CommentManager()
 
     @override
     def __str__(self) -> str:
