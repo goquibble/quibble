@@ -52,7 +52,12 @@ export default function Quib() {
         showMoreBtn={false}
         className="mt-2"
       />
-      <CommentBox />
+      <CommentBox
+        name={quib.quiblet.name}
+        id={quib.id}
+        slug={quib.slug}
+        className="mt-2"
+      />
       <div className="flex items-center gap-2">
         <span className="whitespace-nowrap text-muted-foreground text-sm">
           Sort by:
