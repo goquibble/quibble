@@ -42,7 +42,7 @@ export default function CommentActions({
         >
           <ArrowBigUp />
         </Button>
-        <span className="font-bold text-xs">{voteState.voteCount}</span>
+        <span className="font-bold text-sm">{voteState.voteCount}</span>
         <Button
           size={"icon-sm"}
           variant={"ghost"}
@@ -58,11 +58,11 @@ export default function CommentActions({
         <Reply />
         Reply
       </Button>
-      <Button size={"sm"} variant={"ghost"}>
+      <Button size={"sm"} variant={"ghost"} disabled>
         <Forward />
         Share
       </Button>
-      <Button size={"icon-sm"} variant={"ghost"}>
+      <Button size={"icon-sm"} variant={"ghost"} disabled>
         <Ellipsis />
       </Button>
     </div>
