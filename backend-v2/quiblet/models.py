@@ -180,7 +180,7 @@ class QuibVote(models.Model):
 # --------------------
 
 
-class Comment(TreeModel):
+class Comment(TreeModel, CreatedAtMixin):
     quib = models.ForeignKey(Quib, related_name="comments", on_delete=models.CASCADE)
     commenter = models.ForeignKey(
         Profile, related_name="comments", on_delete=models.SET_NULL, null=True

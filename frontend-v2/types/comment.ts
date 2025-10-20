@@ -14,4 +14,5 @@ export interface Comment {
   id: number;
   content: string;
   is_deleted: boolean;
+  created_at: string;
 }

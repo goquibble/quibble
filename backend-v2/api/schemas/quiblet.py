@@ -118,7 +118,7 @@ class CommentSchema(ModelSchema, VoteSchema):
 
     class Meta:
         model = Comment
-        fields = ["id", "commenter", "content", "is_deleted", "path"]
+        fields = ["id", "commenter", "content", "is_deleted", "created_at"]
 
     @staticmethod
     def resolve_path(obj: Comment):

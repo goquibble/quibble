@@ -1,15 +1,8 @@
-import {
-  ArrowBigDown,
-  ArrowBigUp,
-  Ellipsis,
-  Forward,
-  Reply,
-} from "lucide-react";
 import type { TreeNode } from "@/lib/build-tree";
-import { cn } from "@/lib/utils";
+import { cn, timeAgo } from "@/lib/utils";
 import type { Comment } from "@/types/comment";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Button } from "../ui/button";
+import CommentActions from "./comment-actions";
 
 export default function CommentBlock({
   upvotes,
@@ -17,6 +10,7 @@ export default function CommentBlock({
   user_vote_value,
   commenter,
   content,
+  created_at,
   children,
 }: TreeNode<Comment>) {
   return (
@@ -36,39 +30,24 @@ export default function CommentBlock({
           <span className="h-full w-0.5 rounded-full bg-border transition-colors group-hover:bg-primary"></span>
         </button>
       </div>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-1">
         <div className="flex flex-col">
           <span className="flex items-center gap-1">
             <span className="font-medium text-sm">u/{commenter.username}</span>
-            <span className="text-muted-foreground text-xs">— 12hr ago</span>
+            <span className="text-muted-foreground text-xs">
+              — {timeAgo(created_at)}
+            </span>
           </span>
           <span className="text-muted-foreground text-sm/none">
             {commenter.name ?? commenter.username}
           </span>
         </div>
-        <p className="whitespace-pre-wrap text-sm">{content}</p>
-        <div className="flex items-center gap-2 text-muted-foreground">
-          <div className="flex items-center gap-0.5">
-            <Button size={"icon-sm"} variant={"ghost"}>
-              <ArrowBigUp />
-            </Button>
-            <span className="font-bold text-xs">{upvotes - downvotes}</span>
-            <Button size={"icon-sm"} variant={"ghost"}>
-              <ArrowBigDown />
-            </Button>
-          </div>
-          <Button size={"sm"} variant={"ghost"}>
-            <Reply />
-            Reply
-          </Button>
-          <Button size={"sm"} variant={"ghost"}>
-            <Forward />
-            Share
-          </Button>
-          <Button size={"icon-sm"} variant={"ghost"}>
-            <Ellipsis />
-          </Button>
-        </div>
+        <p className="mt-1 whitespace-pre-wrap text-sm">{content}</p>
+        <CommentActions
+          upvotes={upvotes}
+          downvotes={downvotes}
+          user_vote_value={user_vote_value}
+        />
         {children.length > 0 &&
           children.map((child) => <CommentBlock key={child.id} {...child} />)}
       </div>
