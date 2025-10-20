@@ -58,11 +58,11 @@ export default function CommentActions({
         <Reply />
         Reply
       </Button>
-      <Button size={"sm"} variant={"ghost"} disabled>
+      <Button size={"sm"} variant={"ghost"}>
         <Forward />
         Share
       </Button>
-      <Button size={"icon-sm"} variant={"ghost"} disabled>
+      <Button size={"icon-sm"} variant={"ghost"}>
         <Ellipsis />
       </Button>
     </div>

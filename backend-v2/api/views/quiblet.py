@@ -20,7 +20,7 @@ from api.schemas.quiblet import (
 from api.shared.schemas import UniqueNameResponseSchema
 from api.utils import cache_response
 from quiblet.managers import CommentManager
-from quiblet.models import Comment, Quib, QuibVote, Quiblet, QuibletMember
+from quiblet.models import Comment, CommentVote, Quib, QuibVote, Quiblet, QuibletMember
 
 router = Router()
 
@@ -182,9 +182,13 @@ def create_comment(
 
     new_data = {"quib": quib, "commenter": request.user_p, "content": data.content}
     comment = Comment.objects.create_child(parent=parent_instance, **new_data)  # pyright: ignore[reportArgumentType]
+    CommentVote.objects.create(comment=comment, voter=request.user_p, value=1)
     # re-fetch comment to get annotated fields
-    comment = Comment.objects.for_request(request).get(
-        pk=cast(Comment, cast(object, comment)).pk
+    comment = cast(
+        Comment,
+        Comment.objects.for_request(request).get(
+            pk=cast(Comment, cast(object, comment)).pk
+        ),
     )
 
     return comment
