@@ -64,7 +64,7 @@ export default function Quib() {
         <IconInput
           Icon={Search}
           placeholder="Search comments"
-          className="w-auto"
+          className="h-8 w-auto"
           disabled
         />
       </div>
