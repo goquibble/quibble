@@ -182,5 +182,9 @@ def create_comment(
 
     new_data = {"quib": quib, "commenter": request.user_p, "content": data.content}
     comment = Comment.objects.create_child(parent=parent_instance, **new_data)  # pyright: ignore[reportArgumentType]
+    # re-fetch comment to get annotated fields
+    comment = Comment.objects.for_request(request).get(
+        pk=cast(Comment, cast(object, comment)).pk
+    )
 
     return comment

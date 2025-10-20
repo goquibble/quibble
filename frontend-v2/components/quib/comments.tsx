@@ -23,7 +23,7 @@ export default function Comments() {
   if (!comments) return <Comments404 />;
 
   return (
-    <div>
+    <div className="flex flex-col gap-2">
       {buildTree(comments).map((comment) => (
         <CommentBlock key={comment.id} {...comment} />
       ))}
