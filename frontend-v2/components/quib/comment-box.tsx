@@ -32,6 +32,8 @@ export default function CommentBox({
         newComment,
         ...old,
       ]);
+      // close comment box to reset content
+      setOpen(false);
     },
   });
 
