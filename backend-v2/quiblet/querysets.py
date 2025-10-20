@@ -1,16 +1,22 @@
 from typing import TYPE_CHECKING
 from django.db import models
-from django.db.models import Prefetch
+from django.db.models import Q, Count, Prefetch
 from django.http import HttpRequest
 from django_ltree.querysets import TreeQuerySet
-
-from quiblet.mixins import BaseQuerySetMixin
 
 if TYPE_CHECKING:
     from quiblet.models import Quib  # noqa: F401
 
 
-class QuibQuerySet(models.QuerySet["Quib"], BaseQuerySetMixin):
+class QuibQuerySet(models.QuerySet["Quib"]):
+    def with_votes(self):
+        """Return new queryset with annotated fields."""
+        return self.annotate(
+            upvotes=Count("votes", filter=Q(votes__value=1), distinct=True),
+            downvotes=Count("votes", filter=Q(votes__value=-1), distinct=True),
+            comments_count=Count("comments", distinct=True),
+        )
+
     def published(self):
         """Return only published quibs."""
         return self.filter(is_published=True)
@@ -43,7 +49,14 @@ class QuibQuerySet(models.QuerySet["Quib"], BaseQuerySetMixin):
         return qs
 
 
-class CommentQuerySet(TreeQuerySet, BaseQuerySetMixin):
+class CommentQuerySet(TreeQuerySet):
+    def with_votes(self):
+        """Return new queryset with annotated fields."""
+        return self.annotate(
+            upvotes=Count("votes", filter=Q(votes__value=1)),
+            downvotes=Count("votes", filter=Q(votes__value=-1)),
+        )
+
     def for_request(self, request: HttpRequest):
         """Return comments based on request context."""
         qs = self

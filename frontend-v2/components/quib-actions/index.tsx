@@ -21,7 +21,12 @@ type VoteState = { voteCount: number; myVote: Vote | null };
 interface QuibActionsProps
   extends Pick<
     Quib,
-    "upvotes" | "downvotes" | "user_vote_value" | "id" | "slug"
+    | "upvotes"
+    | "downvotes"
+    | "user_vote_value"
+    | "comments_count"
+    | "id"
+    | "slug"
   > {
   name: string;
   onShareClick?: () => void;
@@ -35,6 +40,7 @@ export default function QuibActions({
   upvotes,
   downvotes,
   user_vote_value,
+  comments_count,
   name,
   onShareClick,
   showMoreBtn = true,
@@ -122,7 +128,7 @@ export default function QuibActions({
       </div>
       <Button size={"sm"} variant={"outline"} onClick={onShareClick}>
         <MessagesSquare />
-        <span className="font-medium text-sm">4</span>
+        <span className="font-medium text-sm">{comments_count}</span>
       </Button>
       <QuibShareBtn id={id} slug={slug} quiblet_name={name} />
       {showMoreBtn && (

@@ -23,6 +23,8 @@ export default function Quib() {
     queryFn: () => getQuib(name, id, slug),
   });
 
+  console.log(quib);
+
   if (!quib) return null;
   return (
     <div className="flex flex-col gap-2">
@@ -49,6 +51,7 @@ export default function Quib() {
         upvotes={quib.upvotes}
         downvotes={quib.downvotes}
         user_vote_value={quib.user_vote_value}
+        comments_count={quib.comments_count}
         showMoreBtn={false}
         className="mt-2"
       />

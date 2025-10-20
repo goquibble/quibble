@@ -4,6 +4,7 @@ export interface Quib {
   upvotes: number;
   downvotes: number;
   user_vote_value: Nullable<number>;
+  comments_count: number;
   quiblet: {
     id: number;
     name: string;

@@ -77,6 +77,7 @@ class QuibletCreateOutSchema(Schema):
 
 
 class QuibSchema(ModelSchema, VoteSchema):
+    comments_count: int
     quiblet: QuibletBasicSchema
     poster: ProfileBasicSchema
 
