@@ -88,7 +88,7 @@ export default function CommentBlock({
             id={quib_id}
             slug={quib_slug}
             parentPath={path}
-            setOpenCommentBox={setOpenReply}
+            onCancelClick={() => setOpenReply(false)}
             className="mt-2"
           />
         )}

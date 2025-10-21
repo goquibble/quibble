@@ -10,7 +10,7 @@ interface CommentBoxProps extends Pick<Quib, "id" | "slug"> {
   name: string;
   className?: string;
   parentPath?: string;
-  setOpenCommentBox: (open: boolean) => void;
+  onCancelClick: () => void;
 }
 
 export default function CommentBox({
@@ -19,20 +19,20 @@ export default function CommentBox({
   slug,
   className,
   parentPath,
-  setOpenCommentBox,
+  onCancelClick,
 }: CommentBoxProps) {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: (content: string) =>
       createComment(name, id, slug, { content, parentPath }),
     onSuccess: (newComment) => {
+      onCancelClick(); // close to reset content
+      // update cached data to include new comment
       const cacheKey = ["quiblet", name, "quib", id, slug, "comments"];
       queryClient.setQueryData(cacheKey, (old: Comment[]) => [
         newComment,
         ...old,
       ]);
-      // close comment box to reset content
-      setOpenCommentBox(false);
     },
   });
 
@@ -63,7 +63,7 @@ export default function CommentBox({
           variant={"outline"}
           className="ml-auto"
           disabled={mutation.isPending}
-          onClick={() => setOpenCommentBox(false)}
+          onClick={onCancelClick}
         >
           Cancel
         </Button>

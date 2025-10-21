@@ -61,7 +61,7 @@ export default function Quib() {
           id={quib.id}
           slug={quib.slug}
           className="mt-2"
-          setOpenCommentBox={setOpenCommentBox}
+          onCancelClick={() => setOpenCommentBox(false)}
         />
       ) : (
         <button
