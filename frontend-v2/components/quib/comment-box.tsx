@@ -26,13 +26,8 @@ export default function CommentBox({
   const mutation = useMutation({
     mutationFn: (content: string) =>
       createComment(name, id, slug, { content: content }),
-    onSuccess: async (newComment) => {
+    onSuccess: (newComment) => {
       const cacheKey = ["quiblet", name, "quib", id, slug, "comments"];
-      await queryClient.invalidateQueries({
-        queryKey: cacheKey.slice(0, -1),
-        exact: true,
-      });
-      // update query fetched data
       queryClient.setQueryData(cacheKey, (old: Comment[]) => [
         newComment,
         ...old,
