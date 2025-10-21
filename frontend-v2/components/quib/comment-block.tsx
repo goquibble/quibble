@@ -51,13 +51,15 @@ export default function CommentBlock({
       <div className="flex flex-col gap-1">
         <div className="flex flex-col">
           <span className="flex items-center gap-1">
-            <span className="font-medium text-sm">u/{commenter?.username}</span>
+            <span className="font-medium text-sm">
+              {is_deleted ? "[deleted]" : `u/${commenter?.username}`}
+            </span>
             <span className="text-muted-foreground text-xs">
               — {timeAgo(created_at)}
             </span>
           </span>
           <span className="text-muted-foreground text-sm/none">
-            {commenter?.name ?? commenter?.username}
+            {is_deleted ? "deleted" : (commenter?.name ?? commenter?.username)}
           </span>
         </div>
         <p className="mt-1 whitespace-pre-wrap text-sm">{content}</p>
