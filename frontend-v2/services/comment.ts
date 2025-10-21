@@ -19,7 +19,7 @@ export async function createComment(
   slug: string,
   data?: {
     content: string;
-    parent_path?: string;
+    parentPath?: string;
   },
 ): Promise<Comment> {
   const url = API_ENDPOINTS.QUIBLET_QUIB_COMMENTS(name, id, slug);

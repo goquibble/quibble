@@ -5,8 +5,16 @@ import { cn, timeAgo } from "@/lib/utils";
 import type { Comment } from "@/types/comment";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import CommentActions from "./comment-actions";
+import CommentBox from "./comment-box";
+
+interface CommentBlockProps extends TreeNode<Comment> {
+  quiblet_name: string;
+  quib_id: string;
+  quib_slug: string;
+}
 
 export default function CommentBlock({
+  path,
   upvotes,
   downvotes,
   user_vote_value,
@@ -15,7 +23,12 @@ export default function CommentBlock({
   created_at,
   is_deleted,
   children,
-}: TreeNode<Comment>) {
+  // quib(let) props
+  quiblet_name,
+  quib_id,
+  quib_slug,
+}: CommentBlockProps) {
+  const [openReply, setOpenReply] = useState(false);
   // collapse if comment is deleted (initial)
   const [isCollapsed, setIsCollapsed] = useState(is_deleted);
   const CollapseIcon = isCollapsed ? PlusCircle : MinusCircle;
@@ -48,7 +61,7 @@ export default function CommentBlock({
           </button>
         </div>
       </div>
-      <div className="flex flex-col gap-1">
+      <div className="flex w-full flex-col gap-1">
         <div className="flex flex-col">
           <span className="flex items-center gap-1">
             <span className="font-medium text-sm">
@@ -67,10 +80,29 @@ export default function CommentBlock({
           upvotes={upvotes}
           downvotes={downvotes}
           user_vote_value={user_vote_value}
+          onReplyClick={() => setOpenReply((prev) => !prev)}
         />
+        {openReply && (
+          <CommentBox
+            name={quiblet_name}
+            id={quib_id}
+            slug={quib_slug}
+            parentPath={path}
+            setOpenCommentBox={setOpenReply}
+            className="mt-2"
+          />
+        )}
         {!isCollapsed &&
           children.length > 0 &&
-          children.map((child) => <CommentBlock key={child.id} {...child} />)}
+          children.map((child) => (
+            <CommentBlock
+              key={child.id}
+              {...child}
+              quiblet_name={quiblet_name}
+              quib_id={quib_id}
+              quib_slug={quib_slug}
+            />
+          ))}
       </div>
     </div>
   );

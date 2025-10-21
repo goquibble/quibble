@@ -1,4 +1,3 @@
-"use client";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { buildTree } from "@/lib/build-tree";
@@ -25,7 +24,13 @@ export default function Comments() {
   return (
     <div className="flex flex-col gap-2">
       {buildTree(comments).map((comment) => (
-        <CommentBlock key={comment.id} {...comment} />
+        <CommentBlock
+          key={comment.id}
+          {...comment}
+          quiblet_name={name}
+          quib_id={id}
+          quib_slug={slug}
+        />
       ))}
     </div>
   );

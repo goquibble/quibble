@@ -1,4 +1,3 @@
-"use client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { cn } from "@/lib/utils";
 import { createComment } from "@/services/comment";
@@ -10,7 +9,7 @@ import { Textarea } from "../ui/textarea";
 interface CommentBoxProps extends Pick<Quib, "id" | "slug"> {
   name: string;
   className?: string;
-  parent_path?: string;
+  parentPath?: string;
   setOpenCommentBox: (open: boolean) => void;
 }
 
@@ -19,13 +18,13 @@ export default function CommentBox({
   id,
   slug,
   className,
-  parent_path,
+  parentPath,
   setOpenCommentBox,
 }: CommentBoxProps) {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: (content: string) =>
-      createComment(name, id, slug, { content, parent_path }),
+      createComment(name, id, slug, { content, parentPath }),
     onSuccess: (newComment) => {
       const cacheKey = ["quiblet", name, "quib", id, slug, "comments"];
       queryClient.setQueryData(cacheKey, (old: Comment[]) => [

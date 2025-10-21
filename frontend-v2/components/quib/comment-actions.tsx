@@ -1,4 +1,3 @@
-"use client";
 import {
   ArrowBigDown,
   ArrowBigUp,
@@ -14,15 +13,16 @@ import { Button } from "../ui/button";
 type Vote = "up" | "down";
 type VoteState = { voteCount: number; myVote: Vote | null };
 
-type CommentActionsProps = Pick<
-  Comment,
-  "upvotes" | "downvotes" | "user_vote_value"
->;
+interface CommentActionsProps
+  extends Pick<Comment, "upvotes" | "downvotes" | "user_vote_value"> {
+  onReplyClick: () => void;
+}
 
 export default function CommentActions({
   upvotes,
   downvotes,
   user_vote_value,
+  onReplyClick,
 }: CommentActionsProps) {
   const [voteState, _setVoteState] = useState<VoteState>({
     voteCount: upvotes - downvotes,
@@ -54,7 +54,7 @@ export default function CommentActions({
           <ArrowBigDown />
         </Button>
       </div>
-      <Button size={"sm"} variant={"ghost"}>
+      <Button size={"sm"} variant={"ghost"} onClick={onReplyClick}>
         <Reply />
         Reply
       </Button>
