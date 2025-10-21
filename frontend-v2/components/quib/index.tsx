@@ -1,7 +1,8 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import { ChevronDown, Search } from "lucide-react";
+import { ChevronDown, MessageCircle, Search } from "lucide-react";
 import { useParams } from "next/navigation";
+import { useState } from "react";
 import { getQuib } from "@/services/quib";
 import { CoverCard } from "../cover-card";
 import QuibActions from "../quib-actions";
@@ -18,6 +19,7 @@ export default function Quib() {
     slug: string;
   }>();
 
+  const [openCommentBox, setOpenCommentBox] = useState(false);
   const { data: quib } = useQuery({
     queryKey: ["quiblet", name, "quib", id, slug],
     queryFn: () => getQuib(name, id, slug),
@@ -53,12 +55,26 @@ export default function Quib() {
         showMoreBtn={false}
         className="mt-2"
       />
-      <CommentBox
-        name={quib.quiblet.name}
-        id={quib.id}
-        slug={quib.slug}
-        className="mt-2"
-      />
+      {openCommentBox ? (
+        <CommentBox
+          name={quib.quiblet.name}
+          id={quib.id}
+          slug={quib.slug}
+          className="mt-2"
+          setOpenCommentBox={setOpenCommentBox}
+        />
+      ) : (
+        <button
+          type="button"
+          className="flex w-full cursor-text items-center gap-2 rounded-md border bg-input/30 p-2 px-3"
+          onClick={() => setOpenCommentBox(true)}
+        >
+          <MessageCircle className="size-4 text-muted-foreground" />
+          <span className="text-muted-foreground text-sm">
+            Add your comment
+          </span>
+        </button>
+      )}
       <div className="flex items-center gap-2">
         <span className="whitespace-nowrap text-muted-foreground text-sm">
           Sort by:

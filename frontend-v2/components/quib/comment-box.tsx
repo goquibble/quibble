@@ -1,7 +1,5 @@
 "use client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { MessageCircle } from "lucide-react";
-import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { createComment } from "@/services/comment";
 import type { Comment } from "@/types/comment";
@@ -12,6 +10,8 @@ import { Textarea } from "../ui/textarea";
 interface CommentBoxProps extends Pick<Quib, "id" | "slug"> {
   name: string;
   className?: string;
+  parent_path?: string;
+  setOpenCommentBox: (open: boolean) => void;
 }
 
 export default function CommentBox({
@@ -19,13 +19,13 @@ export default function CommentBox({
   id,
   slug,
   className,
+  parent_path,
+  setOpenCommentBox,
 }: CommentBoxProps) {
-  const [open, setOpen] = useState(false);
   const queryClient = useQueryClient();
-
   const mutation = useMutation({
     mutationFn: (content: string) =>
-      createComment(name, id, slug, { content: content }),
+      createComment(name, id, slug, { content, parent_path }),
     onSuccess: (newComment) => {
       const cacheKey = ["quiblet", name, "quib", id, slug, "comments"];
       queryClient.setQueryData(cacheKey, (old: Comment[]) => [
@@ -33,7 +33,7 @@ export default function CommentBox({
         ...old,
       ]);
       // close comment box to reset content
-      setOpen(false);
+      setOpenCommentBox(false);
     },
   });
 
@@ -48,42 +48,30 @@ export default function CommentBox({
   };
 
   return (
-    <div className={cn(className)}>
-      {open ? (
-        <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
-          <Textarea
-            autoFocus
-            name="content"
-            placeholder="Add your comment"
-            className="scrollbar-hide"
-          />
-          <div className="flex gap-2">
-            <Button
-              size={"sm"}
-              variant={"outline"}
-              className="ml-auto"
-              disabled={mutation.isPending}
-              onClick={() => setOpen(false)}
-            >
-              Cancel
-            </Button>
-            <Button type="submit" size={"sm"} disabled={mutation.isPending}>
-              Comment
-            </Button>
-          </div>
-        </form>
-      ) : (
-        <button
-          type="button"
-          className="flex w-full cursor-text items-center gap-2 rounded-md border bg-input/30 p-2 px-3"
-          onClick={() => setOpen(true)}
+    <form
+      className={cn("flex flex-col gap-2", className)}
+      onSubmit={handleSubmit}
+    >
+      <Textarea
+        autoFocus
+        name="content"
+        placeholder="Add your comment"
+        className="scrollbar-hide"
+      />
+      <div className="flex gap-2">
+        <Button
+          size={"sm"}
+          variant={"outline"}
+          className="ml-auto"
+          disabled={mutation.isPending}
+          onClick={() => setOpenCommentBox(false)}
         >
-          <MessageCircle className="size-4 text-muted-foreground" />
-          <span className="text-muted-foreground text-sm">
-            Add your comment
-          </span>
-        </button>
-      )}
-    </div>
+          Cancel
+        </Button>
+        <Button type="submit" size={"sm"} disabled={mutation.isPending}>
+          Comment
+        </Button>
+      </div>
+    </form>
   );
 }
