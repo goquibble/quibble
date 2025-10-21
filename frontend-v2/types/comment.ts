@@ -4,12 +4,12 @@ export interface Comment {
   upvotes: number;
   downvotes: number;
   user_vote_value: Nullable<number>;
-  commenter: {
+  commenter: Nullable<{
     id: number;
     username: string;
     name: Nullable<string>;
     avatar: Nullable<string>;
-  };
+  }>;
   path: string;
   id: number;
   content: string;
