@@ -23,8 +23,6 @@ export default function Quib() {
     queryFn: () => getQuib(name, id, slug),
   });
 
-  console.log(quib);
-
   if (!quib) return null;
   return (
     <div className="flex flex-col gap-2">
