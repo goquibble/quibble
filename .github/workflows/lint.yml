@@ -19,7 +19,7 @@ jobs:
       frontend: ${{ steps.filter.outputs.frontend }}
     steps:
       # https://github.com/dorny/paths-filter/issues/212#issuecomment-1960976719
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       # For pull requests it's not necessary to checkout the code
       - uses: dorny/paths-filter@v3
         id: filter
@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -71,7 +71,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
