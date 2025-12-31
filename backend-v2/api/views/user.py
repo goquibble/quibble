@@ -1,0 +1,18 @@
+from ninja import Router
+from ninja.security import SessionAuth
+
+from api.auth import ProfileAuth
+from api.http import CustomHttpRequest
+from api.schemas.user import ProfileBasicSchema
+
+router = Router()
+
+
+@router.get("/me/profiles", auth=SessionAuth(), response=list[ProfileBasicSchema])
+def get_my_profiles(request: CustomHttpRequest):
+    return request.custom_user.profiles.all()
+
+
+@router.get("/me/profile", auth=ProfileAuth(), response=ProfileBasicSchema)
+def get_my_profile(request: CustomHttpRequest):
+    return request.user_p
