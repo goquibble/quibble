@@ -11,7 +11,7 @@ colorama==0.4.6 ; python_version >= "3.12" and python_version < "4.0" and platfo
 cryptography==45.0.3 ; python_version >= "3.12" and python_version < "4.0"
 dj-database-url==2.3.0 ; python_version >= "3.12" and python_version < "4.0"
 dj-rest-auth==7.0.1 ; python_version >= "3.12" and python_version < "4.0"
-django-allauth==65.11.0 ; python_version >= "3.12" and python_version < "4.0"
+django-allauth==65.12.1 ; python_version >= "3.12" and python_version < "4.0"
 django-cleanup==9.0.0 ; python_version >= "3.12" and python_version < "4.0"
 django-cloudinary-storage==0.3.0 ; python_version >= "3.12" and python_version < "4.0"
 django-cors-headers==4.7.0 ; python_version >= "3.12" and python_version < "4.0"
