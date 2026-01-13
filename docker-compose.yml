@@ -18,6 +18,8 @@ services:
   rustfs:
     image: rustfs/rustfs:latest
     container_name: rustfs
+    security_opt:
+      - "no-new-privileges:true"
     restart: unless-stopped
     ports:
       - "9000:9000"
