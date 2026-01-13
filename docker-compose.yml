@@ -14,12 +14,13 @@ services:
     networks:
       - quibble_net
 
-  # redis:
-  #   image: redis:8-alpine
-  #   ports:
-  #     - "6379:6379"
-  #   volumes:
-  #     - redis_data:/data
+  redis:
+    image: redis:8-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
 
   rustfs:
     image: rustfs/rustfs:latest
@@ -53,21 +54,21 @@ services:
     depends_on:
       rustfs:
         condition: service_healthy
-      # - minio
     env_file:
       - ./backend/.env
     volumes:
       - ./scripts/init-rustfs.sh:/init-rustfs.sh:ro
     entrypoint: ["/bin/sh", "/init-rustfs.sh"]
 
-  # avatars:
-  #   image: goquibble/avatars
-  #   ports:
-  #     - "8001:80"
+  avatars:
+    image: goquibble/avatars
+    container_name: avatars
+    ports:
+      - "8001:80"
 
 volumes:
   db_data:
-  # redis_data:
+  redis_data:
   rustfs_data:
 
 networks:
