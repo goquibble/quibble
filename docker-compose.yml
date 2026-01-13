@@ -1,13 +1,19 @@
 services:
-  # db:
-  #   image: postgres:17-alpine
-  #   environment:
-  #     POSTGRES_PASSWORD: postgres
-  #   ports:
-  #     - "5432:5432"
-  #   volumes:
-  #     - db_data:/var/lib/postgresql/data
-  #
+  db:
+    image: postgres:17-alpine
+    container_name: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: quibble
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - quibble_net
+
   # redis:
   #   image: redis:8-alpine
   #   ports:
@@ -29,18 +35,17 @@ services:
     environment:
       RUSTFS_VOLUMES: "/data/rustfs{0..3}"
       RUSTFS_CONSOLE_ENABLE: "true"
-      # RUSTFS_ACCESS_KEY: "rustfsadmin"
-      # RUSTFS_SECRET_KEY: "rustfsadmin"
+      RUSTFS_ACCESS_KEY: "rustfsadmin"
+      RUSTFS_SECRET_KEY: "rustfsadmin"
     healthcheck:
-      test: [
-        "CMD",
-        "sh", "-c",
-        "curl -f http://localhost:9000/health"
-      ]
+      test:
+        ["CMD-SHELL", "curl -fs http://localhost:9000/health || exit 1"]
       interval: 10s
-      start_period: 10s
       timeout: 5s
       retries: 5
+      start_period: 30s
+    networks:
+      - quibble_net
 
   mc:
     image: minio/mc
@@ -61,10 +66,11 @@ services:
   #     - "8001:80"
 
 volumes:
-  # db_data:
+  db_data:
   # redis_data:
   rustfs_data:
 
 networks:
   quibble_net:
+    name: quibble_net
     driver: bridge
