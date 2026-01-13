@@ -1,48 +1,77 @@
 services:
-  db:
-    image: postgres:17-alpine
-    environment:
-      POSTGRES_PASSWORD: postgres
-    ports:
-      - "5432:5432"
-    volumes:
-      - db_data:/var/lib/postgresql/data
+  # db:
+  #   image: postgres:17-alpine
+  #   environment:
+  #     POSTGRES_PASSWORD: postgres
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - db_data:/var/lib/postgresql/data
+  #
+  # redis:
+  #   image: redis:8-alpine
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #     - redis_data:/data
 
-  redis:
-    image: redis:8-alpine
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
+  # minio:
+  #   image: minio/minio
+  #   environment:
+  #     MINIO_ROOT_USER: minioadmin
+  #     MINIO_ROOT_PASSWORD: minioadmin
+  #   ports:
+  #     - "9000:9000"
+  #     - "9001:9001"
+  #   command: server /data --console-address ":9001"
+  #   volumes:
+  #     - minio_data:/data
 
-  minio:
-    image: minio/minio
-    environment:
-      MINIO_ROOT_USER: minioadmin
-      MINIO_ROOT_PASSWORD: minioadmin
+  rustfs:
+    image: rustfs/rustfs:latest
+    container_name: rustfs
+    restart: unless-stopped
     ports:
       - "9000:9000"
       - "9001:9001"
-    command: server /data --console-address ":9001"
     volumes:
-      - minio_data:/data
+      - rustfs_data:/data
+    environment:
+      RUSTFS_VOLUMES: "/data/rustfs{0..3}"
+      RUSTFS_CONSOLE_ENABLE: "true"
+      # RUSTFS_ACCESS_KEY: "rustfsadmin"
+      # RUSTFS_SECRET_KEY: "rustfsadmin"
+    healthcheck:
+      test: [
+        "CMD",
+        "sh", "-c",
+        "curl -f http://localhost:9000/health"
+      ]
+      interval: 10s
+      start_period: 10s
+      timeout: 5s
+      retries: 5
 
   mc:
     image: minio/mc
+    container_name: mc
     depends_on:
-      - minio
+      rustfs:
+        condition: service_healthy
+      # - minio
     env_file:
-      - ./backend-v2/.env
+      - ./backend/.env
     volumes:
-      - ./init-minio.sh:/init-minio.sh:ro
-    entrypoint: ["/bin/sh", "/init-minio.sh"]
+      - ./scripts/init-rustfs.sh:/init-rustfs.sh:ro
+    entrypoint: ["/bin/sh", "/init-rustfs.sh"]
 
-  avatars:
-    image: goquibble/avatars
-    ports:
-      - "8001:80"
+  # avatars:
+  #   image: goquibble/avatars
+  #   ports:
+  #     - "8001:80"
 
 volumes:
-  db_data:
-  redis_data:
-  minio_data:
+  # db_data:
+  # redis_data:
+  # minio_data:
+  rustfs_data:
