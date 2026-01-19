@@ -1,7 +1,7 @@
 services:
   db:
     image: postgres:17-alpine
-    container_name: postgres
+    container_name: db
     restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
@@ -59,6 +59,9 @@ services:
     volumes:
       - ./scripts/init-rustfs.sh:/init-rustfs.sh:ro
     entrypoint: ["/bin/sh", "/init-rustfs.sh"]
+    restart: "no"
+    networks:
+      - quibble_net
 
   avatars:
     image: goquibble/avatars
