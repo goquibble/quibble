@@ -11,11 +11,9 @@ export default function AuthDialogProvider({
   children,
 }: AuthDialogProviderProps) {
   const [open, setOpen] = useState(false);
-  const [currentStep, setCurrentStep] = useState(0);
 
   const showDialog = () => setOpen(true);
   const closeDialog = () => setOpen(false);
-  const nextStep = () => setCurrentStep((prev) => prev + 1);
 
   return (
     <AuthDialogContext.Provider
@@ -24,9 +22,6 @@ export default function AuthDialogProvider({
         setOpen,
         showDialog,
         closeDialog,
-        currentStep,
-        setCurrentStep,
-        nextStep,
       }}
     >
       {children}
