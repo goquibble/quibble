@@ -12,7 +12,7 @@ api.interceptors.request.use((config) => {
   // Inject Access Token if available
   const token = tokenStore.getAccessToken();
   if (token) {
-     config.headers.Authorization = `Bearer ${token}`;
+    config.headers.Authorization = `Bearer ${token}`;
   }
 
   let csrftoken = Cookies.get("csrftoken");
@@ -23,7 +23,7 @@ api.interceptors.request.use((config) => {
     // Let's keep it for now but note it might be deprecated.
     axios.get(`${config.baseURL}/api/v1/csrftoken`, {
       withCredentials: true,
-    }); 
+    });
     csrftoken = Cookies.get("csrftoken");
   }
 

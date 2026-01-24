@@ -12,11 +12,12 @@ interface AuthProviderProps {
 
 export default function AuthProvider({ children }: AuthProviderProps) {
   const setUserProfile = useAuthStore((state) => state.setUserProfile);
-  const { data: userProfile, refetch: fetchUserProfile } = useQuery<UserProfile>({
-    queryKey: ["user-profile"],
-    queryFn: () => getUserProfile(),
-    enabled: false, // Don't fetch automatically until token is ready
-  });
+  const { data: userProfile, refetch: fetchUserProfile } =
+    useQuery<UserProfile>({
+      queryKey: ["user-profile"],
+      queryFn: () => getUserProfile(),
+      enabled: false, // Don't fetch automatically until token is ready
+    });
 
   useEffect(() => {
     const initAuth = async () => {
@@ -26,7 +27,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
         // 2. Fetch User Profile (API call -> Backend -> Auth Service)
         const profile = await fetchUserProfile();
         if (profile.data) {
-           setUserProfile(profile.data);
+          setUserProfile(profile.data);
         }
       }
     };
