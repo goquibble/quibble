@@ -24,6 +24,7 @@ export function CoverCard({ cover, cover_small, className }: CoverCardProps) {
         alt={`cover-${cover}`}
         className="z-2 object-contain"
         fill={true}
+        sizes="(max-width: 768px) 100vw, 500px"
       />
     </div>
   );

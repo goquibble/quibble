@@ -3,9 +3,10 @@ export const API_ENDPOINTS = {
   // auth endpoints
   AUTH_REFRESH: "http://localhost:8002/api/v1/auth/refresh-token",
   AUTH_LOGOUT: "http://localhost:8002/api/v1/auth/logout",
+  AUTH_APP_URL: "http://localhost:5173",
   // user endpoints
-  USER_ME_PROFILE: "api/v1/user/me/profile",
-  USER_ME_PROFILES: "api/v1/user/me/profiles",
+  USER_ME_PROFILE: "http://localhost:8002/api/v1/users/me",
+  // USER_ME_PROFILES: "api/v1/user/me/profiles",
   // dyanmic api endpoints
   // search
   SEARCH: (query: string) => `api/v1/search?q=${query}`,

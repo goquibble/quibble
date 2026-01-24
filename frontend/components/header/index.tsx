@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useAuthDialog } from "@/hooks/use-auth-dialog";
+import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/stores/auth";
 import { Icons } from "../icons";
@@ -41,7 +41,6 @@ const navLinkMapping = [
 
 export default function Header() {
   const pathname = usePathname();
-  const { showDialog } = useAuthDialog();
   const userProfile = useAuthStore((state) => state.userProfile);
 
   return (
@@ -90,11 +89,15 @@ export default function Header() {
           </>
         ) : (
           <>
-            <Button variant={"ghost"} onClick={showDialog}>
-              Sign up
+            <Button variant={"ghost"} asChild>
+              <Link href={`${API_ENDPOINTS.AUTH_APP_URL}/create-account`}>
+                Sign up
+              </Link>
             </Button>
-            <Button onClick={showDialog}>
-              Log in <LogIn />
+            <Button asChild>
+              <Link href={`${API_ENDPOINTS.AUTH_APP_URL}/log-in`}>
+                Log in <LogIn className="ml-2" />
+              </Link>
             </Button>
           </>
         )}

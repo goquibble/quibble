@@ -45,7 +45,7 @@ function AvatarFallback({
       className={cn("relative flex size-full", className)}
       {...props}
     >
-      <Image src={avatarUrl} alt={`avatar-${seed}`} fill={true} />
+      <Image src={avatarUrl} alt={`avatar-${seed}`} fill={true} sizes="64px" />
     </AvatarPrimitive.Fallback>
   );
 }

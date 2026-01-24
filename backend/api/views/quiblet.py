@@ -85,13 +85,13 @@ def join_or_leave_quiblet(
     request: CustomHttpRequest, name: str, action: Literal["join", "leave"]
 ):
     quiblet = get_object_or_404(Quiblet, name=name)
-    user_p = request.user_p
+    user_id = request.user_id
 
     with transaction.atomic():
         if action == "leave":
-            quiblet.members.filter(member=user_p).delete()
+            quiblet.members.filter(member_id=user_id).delete()
         elif action == "join":
-            quiblet.members.create(member=user_p)
+            quiblet.members.create(member_id=user_id)
 
     return 204, None
 

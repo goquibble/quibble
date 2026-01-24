@@ -8,17 +8,18 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import { useAuthDialog } from "@/hooks/use-auth-dialog";
 
 export default function AuthDialog() {
   const { open, setOpen } = useAuthDialog();
 
   const handleLogin = () => {
-    window.location.href = "http://localhost:5173/log-in";
+    window.location.href = `${API_ENDPOINTS.AUTH_APP_URL}/log-in`;
   };
 
   const handleSignup = () => {
-    window.location.href = "http://localhost:5173/create-account";
+    window.location.href = `${API_ENDPOINTS.AUTH_APP_URL}/create-account`;
   };
 
   return (

@@ -1,7 +1,6 @@
-import { API_ENDPOINTS } from "@/constants/api-endpoints";
-import api from "@/lib/api";
-import { tokenStore } from "@/lib/token-store";
 import axios from "axios";
+import { API_ENDPOINTS } from "@/constants/api-endpoints";
+import { tokenStore } from "@/lib/token-store";
 
 export async function refreshToken(): Promise<string | null> {
   try {
@@ -30,6 +29,6 @@ export async function logOutSession(): Promise<void> {
   } finally {
     tokenStore.clear();
     // Redirect to login page or reload
-    window.location.href = "http://localhost:5173/log-in";
+    window.location.href = `${API_ENDPOINTS.AUTH_APP_URL}/log-in`;
   }
 }

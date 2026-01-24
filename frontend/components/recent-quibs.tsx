@@ -72,6 +72,7 @@ export default function RecentQuibs() {
                 alt={quib.title}
                 fill={true}
                 className="rounded-md object-cover"
+                sizes="75px"
               />
             </div>
           )}
