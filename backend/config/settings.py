@@ -33,17 +33,13 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.humanize",
     # auth apps
-    "allauth",
-    "allauth.account",
-    "allauth.headless",
-    "allauth.usersessions",
-    # "allauth.socialaccount",
+    "django.contrib.humanize",
     # django extensions
     "corsheaders",
     "storages",
     "django_ltree",
     # custom apps
-    "user",
+    "quiblet",
     "quiblet",
 ]
 
@@ -57,19 +53,12 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    # custom one to add `custom_user` field
-    "core.middlewares.CustomUserMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    # account middleware:
-    "allauth.account.middleware.AccountMiddleware",
 ]
 
 AUTHENTICATION_BACKENDS = [
-    # needed to login by username in django admin, regardless of `allauth`
+    # needed to login by username in django admin
     "django.contrib.auth.backends.ModelBackend",
-    # `allauth` specific authentication methods, such as login by email
-    "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -167,26 +156,9 @@ MEDIA_URL = f"{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/media/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Custom user model
-AUTH_USER_MODEL = "user.CustomUser"
+# Auth Service
+AUTH_SERVICE_URL = env("AUTH_SERVICE_URL", default="http://localhost:8001")
 
-# Email configs
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-
-# Django-allauth configs
-# https://docs.allauth.org/en/dev/headless/configuration.html
-HEADLESS_CLIENTS = ("browser",)
-HEADLESS_ONLY = True
-HEADLESS_SERVE_SPECIFICATION = True
-HEADLESS_FRONTEND_URLS = {
-    "account_signup": "http://localhost:3000",
-    "account_reset_password": "http://localhost:3000/account/password/reset",
-}
-
-ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*"]
-ACCOUNT_LOGIN_METHODS = {"email"}
-ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-ACCOUNT_EMAIL_VERIFICATION_BY_CODE_ENABLED = True
 
 # django-cors-headers settings
 # https://pypi.org/project/django-cors-headers/

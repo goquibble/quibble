@@ -3,10 +3,10 @@ from typing import Any, cast
 from django.http import HttpRequest
 from ninja import ModelSchema, Schema
 
-from api.schemas.user import ProfileBasicSchema
+from api.schemas.user import UserBasicSchema
 from api.shared.schemas import VoteSchema
+from core.services.auth import fetch_user
 from quiblet.models import Comment, Quib, Quiblet
-from user.models import Profile
 
 # --------------------
 # Quiblet Schemas
@@ -17,7 +17,7 @@ class QuibletSchema(ModelSchema):
     members_count: int
     quibs_count: int
     has_joined: bool
-    moderators: list[ProfileBasicSchema]
+    moderators: list[UserBasicSchema]
 
     class Meta:
         model = Quiblet
@@ -36,16 +36,30 @@ class QuibletSchema(ModelSchema):
     @staticmethod
     def resolve_has_joined(obj: Quiblet, context: Any) -> bool:
         request = cast(HttpRequest, context["request"])
-        user = getattr(request, "user", None)
-        if user and user.is_authenticated:
-            if profile_id := request.COOKIES.get("profile_id"):
-                if Profile.objects.filter(user=user, id=profile_id).exists():
-                    return obj.members.filter(id=profile_id).exists()
+        user_id = getattr(request, "user_id", None)
+        if user_id:
+            # Check if user_id is in members
+            return obj.members.filter(member_id=user_id).exists()
         return False
 
     @staticmethod
-    def resolve_moderators(obj: Quiblet) -> list[Profile]:
-        return [qm.member for qm in obj.moderators_cache]  # pyright: ignore[reportAttributeAccessIssue]
+    def resolve_moderators(obj: Quiblet) -> list[Any]:
+        # obj.moderators_cache should be populated by prefetch logic if available
+        # But generally accessing obj.members.filter(is_moderator=True)
+        # Assuming moderators_cache works on QuibletMember
+        moderator_members = [
+            m for m in getattr(obj, "moderators_cache", []) if m.is_moderator
+        ]
+        if not moderator_members:
+            # Fallback if cache not present
+            moderator_members = obj.members.filter(is_moderator=True)
+
+        users = []
+        for mod in moderator_members:
+            u = fetch_user(mod.member_id)
+            if u:
+                users.append(u)
+        return users
 
 
 class QuibletBasicSchema(ModelSchema):
@@ -79,7 +93,7 @@ class QuibletCreateOutSchema(Schema):
 class QuibSchema(ModelSchema, VoteSchema):
     comments_count: int
     quiblet: QuibletBasicSchema
-    poster: ProfileBasicSchema
+    poster: UserBasicSchema | None
 
     class Meta:
         model = Quib
@@ -93,6 +107,12 @@ class QuibSchema(ModelSchema, VoteSchema):
             "content",
             "created_at",
         ]
+
+    @staticmethod
+    def resolve_poster(obj: Quib) -> Any | None:
+        if not obj.poster_id:
+            return None
+        return fetch_user(obj.poster_id)
 
     @staticmethod
     def resolve_content(obj: Quib) -> str | None:
@@ -114,12 +134,18 @@ class HighlightedQuib(ModelSchema):
 
 
 class CommentSchema(ModelSchema, VoteSchema):
-    commenter: ProfileBasicSchema
+    commenter: UserBasicSchema | None
     path: str
 
     class Meta:
         model = Comment
         fields = ["id", "commenter", "content", "is_deleted", "created_at"]
+
+    @staticmethod
+    def resolve_commenter(obj: Comment) -> Any | None:
+        if not obj.commenter_id:
+            return None
+        return fetch_user(obj.commenter_id)
 
     @staticmethod
     def resolve_path(obj: Comment):

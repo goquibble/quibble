@@ -1,9 +1,9 @@
-from ninja import ModelSchema
+from ninja import Schema
+from uuid import UUID
 
-from user.models import Profile
 
-
-class ProfileBasicSchema(ModelSchema):
-    class Meta:
-        model = Profile
-        fields = ["id", "username", "name", "avatar"]
+class UserBasicSchema(Schema):
+    id: UUID
+    username: str | None = None
+    name: str | None = None
+    avatar: str | None = None

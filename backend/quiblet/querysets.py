@@ -32,17 +32,13 @@ class QuibQuerySet(models.QuerySet["Quib"]):
     def for_request(self, request: HttpRequest):
         """Return comments based on request context."""
         qs = self
-        profile_id = request.COOKIES.get("profile_id")
-
-        if request.user and request.user.is_authenticated and profile_id:
-            from user.models import Profile
+        if hasattr(request, "user_id") and request.user_id:
             from quiblet.models import QuibVote
 
-            voter = Profile.objects.get(id=profile_id, user=request.user)
             qs = qs.prefetch_related(
                 Prefetch(
                     "votes",
-                    queryset=QuibVote.objects.filter(voter=voter),
+                    queryset=QuibVote.objects.filter(voter_id=request.user_id),
                     to_attr="user_vote",
                 )
             )
@@ -60,17 +56,13 @@ class CommentQuerySet(TreeQuerySet):
     def for_request(self, request: HttpRequest):
         """Return comments based on request context."""
         qs = self
-        profile_id = request.COOKIES.get("profile_id")
-
-        if request.user and request.user.is_authenticated and profile_id:
-            from user.models import Profile
+        if hasattr(request, "user_id") and request.user_id:
             from quiblet.models import CommentVote
 
-            voter = Profile.objects.get(id=profile_id, user=request.user)
             qs = qs.prefetch_related(
                 Prefetch(
                     "votes",
-                    queryset=CommentVote.objects.filter(voter=voter),
+                    queryset=CommentVote.objects.filter(voter_id=request.user_id),
                     to_attr="user_vote",
                 )
             )
