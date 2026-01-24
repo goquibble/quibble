@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404
 from ninja import File, Form, Router, UploadedFile
 from ninja.errors import HttpError
 
-from api.auth import ProfileAuth
+from api.auth import AuthBearer
 from api.http import CustomHttpRequest
 from api.schemas.quiblet import (
     CommentCreateInSchema,
@@ -45,9 +45,7 @@ def get_quiblet(request: HttpRequest, name: str):  # pyright: ignore[reportUnuse
                 Prefetch(
                     "members",
                     to_attr="moderators_cache",
-                    queryset=QuibletMember.objects.filter(
-                        is_moderator=True
-                    ).select_related("member"),
+                    queryset=QuibletMember.objects.filter(is_moderator=True),
                 )
             ),
             name=name,
@@ -74,30 +72,31 @@ def get_quiblet_quibs(request: HttpRequest, name: str):
             Quib.objects.published()
             .for_quiblet(name)
             .for_request(request)
-            .select_related("quiblet", "poster")
+            .for_request(request)
+            .select_related("quiblet")
         )
 
     cache_key = f"quiblet:{name}:quibs"
     return cache_response(cache_key, fetch)
 
 
-@router.post("/{name}/join-or-leave", auth=ProfileAuth(), response={204: None})
+@router.post("/{name}/join-or-leave", auth=AuthBearer(), response={204: None})
 def join_or_leave_quiblet(
     request: CustomHttpRequest, name: str, action: Literal["join", "leave"]
 ):
     quiblet = get_object_or_404(Quiblet, name=name)
-    user_p = request.user_p
+    user_id = request.user_id
 
     with transaction.atomic():
         if action == "leave":
-            quiblet.members.filter(member=user_p).delete()
+            quiblet.members.filter(member_id=user_id).delete()
         elif action == "join":
-            quiblet.members.create(member=user_p)
+            quiblet.members.create(member_id=user_id)
 
     return 204, None
 
 
-@router.post("/", auth=ProfileAuth(), response=QuibletCreateOutSchema)
+@router.post("/", auth=AuthBearer(), response=QuibletCreateOutSchema)
 def create_quiblet(
     request: CustomHttpRequest,
     data: Form[QuibletCreateInSchema],
@@ -107,10 +106,10 @@ def create_quiblet(
     if Quiblet.objects.filter(name__iexact=data.name).exists():
         raise HttpError(400, f"Quiblet with name {data.name} already exists.")
 
-    user_p = request.user_p
+    user_id = request.user_id
     quiblet = Quiblet(**data.model_dump())
     quiblet.save()
-    quiblet.members.create(member=user_p)
+    quiblet.members.create(member_id=user_id, is_moderator=True)
 
     if avatar is not None:
         quiblet.avatar.save(avatar.name, avatar)
@@ -132,7 +131,7 @@ def get_quib(request: HttpRequest, name: str, id: str, slug: str):
             Quib.objects.published()
             .for_quiblet(name)
             .for_request(request)
-            .select_related("quiblet", "poster"),
+            .select_related("quiblet"),
             id=id,
             slug=slug,
         )
@@ -141,11 +140,11 @@ def get_quib(request: HttpRequest, name: str, id: str, slug: str):
     return cache_response(cache_key, fetch)
 
 
-@router.post("/{name}/quib/{id}/{slug}/vote", auth=ProfileAuth(), response={204: None})
+@router.post("/{name}/quib/{id}/{slug}/vote", auth=AuthBearer(), response={204: None})
 def vote_quib(request: CustomHttpRequest, name: str, id: str, slug: str, value: int):
     quib = get_object_or_404(Quib.objects.for_quiblet(name), id=id, slug=slug)
     QuibVote.objects.update_or_create(
-        quib=quib, voter=request.user_p, defaults={"value": value}
+        quib=quib, voter_id=request.user_id, defaults={"value": value}
     )
     return 204, None
 
@@ -159,11 +158,11 @@ def vote_quib(request: CustomHttpRequest, name: str, id: str, slug: str, value: 
 def get_comments(request: HttpRequest, name: str, id: str, slug: str):
     quib = get_object_or_404(Quib.objects.for_quiblet(name), id=id, slug=slug)
     comments = cast(CommentManager, quib.comments)
-    return comments.for_request(request).select_related("commenter")
+    return comments.for_request(request)
 
 
 @router.post(
-    "/{name}/quib/{id}/{slug}/comments", auth=ProfileAuth(), response=CommentSchema
+    "/{name}/quib/{id}/{slug}/comments", auth=AuthBearer(), response=CommentSchema
 )
 def create_comment(
     request: CustomHttpRequest,
@@ -180,9 +179,9 @@ def create_comment(
         if not parent_instance:
             raise HttpError(400, "Invalid parent_path")
 
-    new_data = {"quib": quib, "commenter": request.user_p, "content": data.content}
+    new_data = {"quib": quib, "commenter_id": request.user_id, "content": data.content}
     comment = Comment.objects.create_child(parent=parent_instance, **new_data)  # pyright: ignore[reportArgumentType]
-    CommentVote.objects.create(comment=comment, voter=request.user_p, value=1)
+    CommentVote.objects.create(comment=comment, voter_id=request.user_id, value=1)
     # re-fetch comment to get annotated fields
     comment = cast(
         Comment,

@@ -1,24 +1,34 @@
-import type { z } from "zod";
+import axios from "axios";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
-import api from "@/lib/api";
-import type { AuthFormSchema, VerificationFormSchema } from "@/schemas/auth";
+import { tokenStore } from "@/lib/token-store";
 
-export async function authenticate(
-  mode: "login" | "signup",
-  values: z.infer<typeof AuthFormSchema>,
-): Promise<{ status: number }> {
-  const url =
-    mode === "login" ? API_ENDPOINTS.AUTH_LOGIN : API_ENDPOINTS.AUTH_SIGNUP;
-  const res = await api.post(url, values);
-  return { status: res.status };
+export async function refreshToken(): Promise<string | null> {
+  try {
+    // changing base url for this request
+    const res = await axios.post(
+      API_ENDPOINTS.AUTH_REFRESH,
+      {},
+      { withCredentials: true },
+    );
+    const token = res.data.access_token;
+    if (token) {
+      tokenStore.setAccessToken(token);
+      return token;
+    }
+  } catch (error) {
+    console.error("Failed to refresh token", error);
+  }
+  return null;
 }
 
 export async function logOutSession(): Promise<void> {
-  await api.delete(API_ENDPOINTS.AUTH_LOGOUT_SESSION);
-}
-
-export async function verifySession(
-  values: z.infer<typeof VerificationFormSchema>,
-): Promise<void> {
-  await api.post(API_ENDPOINTS.AUTH_VERIFY_EMAIL, values);
+  try {
+    await axios.post(API_ENDPOINTS.AUTH_LOGOUT, {}, { withCredentials: true });
+  } catch (error) {
+    console.error("Logout failed", error);
+  } finally {
+    tokenStore.clear();
+    // Redirect to login page or reload
+    window.location.href = `${API_ENDPOINTS.AUTH_APP_URL}/log-in`;
+  }
 }

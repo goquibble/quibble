@@ -1,37 +1,43 @@
 "use client";
-import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import VerificationForm from "@/components/forms/verification-form";
-import { Icons } from "@/components/icons";
+import { LogIn, UserPlus } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import { useAuthDialog } from "@/hooks/use-auth-dialog";
-import Auth from "./auth";
-import ProfileSelection from "./profile-selection";
-
-const forms = [Auth, VerificationForm, ProfileSelection];
 
 export default function AuthDialog() {
-  const { open, setOpen, currentStep } = useAuthDialog();
-  const Form = forms[currentStep];
+  const { open, setOpen } = useAuthDialog();
+
+  const handleLogin = () => {
+    window.location.href = `${API_ENDPOINTS.AUTH_APP_URL}/log-in`;
+  };
+
+  const handleSignup = () => {
+    window.location.href = `${API_ENDPOINTS.AUTH_APP_URL}/create-account`;
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent>
-        <VisuallyHidden>
-          <DialogHeader>
-            <DialogTitle>Authentication Dialog</DialogTitle>
-          </DialogHeader>
-        </VisuallyHidden>
-        <div className="mx-auto flex w-full max-w-xs flex-col gap-4">
-          <Icons.quibbles className="mx-auto h-max w-1/3" />
-          <h5 className="text-center font-bold text-2xl dark:text-white/90">
-            Welcome to <br /> Quibble
-          </h5>
-          <Form />
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Authentication Required</DialogTitle>
+          <DialogDescription>
+            You need to be logged in to perform this action.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="flex flex-col gap-4 py-4">
+          <Button onClick={handleLogin} className="w-full">
+            <LogIn className="mr-2 h-4 w-4" /> Log In
+          </Button>
+          <Button onClick={handleSignup} variant="outline" className="w-full">
+            <UserPlus className="mr-2 h-4 w-4" /> Sign Up
+          </Button>
         </div>
       </DialogContent>
     </Dialog>

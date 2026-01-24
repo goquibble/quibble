@@ -1,13 +1,12 @@
 export const API_ENDPOINTS = {
   FEED: "api/v1/feed",
   // auth endpoints
-  AUTH_LOGIN: "_allauth/browser/v1/auth/login",
-  AUTH_SIGNUP: "_allauth/browser/v1/auth/signup",
-  AUTH_LOGOUT_SESSION: "_allauth/browser/v1/auth/session",
-  AUTH_VERIFY_EMAIL: "_allauth/browser/v1/auth/email/verify",
+  AUTH_REFRESH: "http://localhost:8002/api/v1/auth/refresh-token",
+  AUTH_LOGOUT: "http://localhost:8002/api/v1/auth/logout",
+  AUTH_APP_URL: "http://localhost:5173",
   // user endpoints
-  USER_ME_PROFILE: "api/v1/user/me/profile",
-  USER_ME_PROFILES: "api/v1/user/me/profiles",
+  USER_ME_PROFILE: "http://localhost:8002/api/v1/users/me",
+  // USER_ME_PROFILES: "api/v1/user/me/profiles",
   // dyanmic api endpoints
   // search
   SEARCH: (query: string) => `api/v1/search?q=${query}`,

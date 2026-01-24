@@ -1,27 +1,15 @@
-from typing import Any, cast, override
-from ninja.errors import HttpError
-from ninja.security import SessionAuth
+from typing import Optional
+from ninja.security import HttpBearer
 from django.http import HttpRequest
-
-from api.http import CustomHttpRequest
-from user.models import Profile
+from core.services.auth import get_user_from_token, User
 
 
-class ProfileAuth(SessionAuth):
-    @override
-    def authenticate(self, request: HttpRequest, key: str | None) -> Any:
-        user = super().authenticate(request, key)
-        if not user:
-            return None
-
-        profile_id = request.COOKIES.get("profile_id")
-        if not profile_id:
-            raise HttpError(400, "Please select a profile to continue.")
-
-        try:
-            user_p = Profile.objects.get(user=user, id=profile_id)
-        except Profile.DoesNotExist:
-            raise HttpError(403, "The selected profile is invalid. Please try again.")
-
-        cast(CustomHttpRequest, request).user_p = user_p
-        return user
+class AuthBearer(HttpBearer):
+    def authenticate(self, request: HttpRequest, token: str) -> Optional[User]:
+        user = get_user_from_token(token)
+        if user:
+            # Attach user to request for easy access
+            request.user_id = user.id  # type: ignore
+            request.auth_user = user  # type: ignore
+            return user
+        return None

@@ -13,7 +13,6 @@ from django_shortuuid.fields import ShortUUIDField
 from core.mixins import AvatarMixin, BannerMixin, CreatedAtMixin, TypeMixin
 from core.validators import UsernameValidator
 from quiblet.managers import CommentManager, QuibManager
-from user.models import Profile
 
 # --------------------
 # Quiblet Models
@@ -51,21 +50,18 @@ class QuibletMember(models.Model):
         Quiblet, related_name="members", on_delete=models.CASCADE
     )
     is_moderator = models.BooleanField(default=False)
-    member = models.ForeignKey(
-        Profile, related_name="joined_quiblets", on_delete=models.CASCADE
-    )
+    member_id = models.UUIDField()
 
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=["quiblet", "member"], name="unique_quiblet_member"
+                fields=["quiblet", "member_id"], name="unique_quiblet_member"
             )
         ]
 
-    @override
     def __str__(self) -> str:
         role = "(mod)" if self.is_moderator else "member"
-        return f"{self.member} {role} of {self.quiblet}"
+        return f"{self.member_id} {role} of {self.quiblet}"
 
 
 # --------------------
@@ -96,9 +92,7 @@ class Quib(CreatedAtMixin):
         collision_check=False,  # no need, because we're using both id and slug for query
     )
     quiblet = models.ForeignKey(Quiblet, related_name="quibs", on_delete=models.CASCADE)
-    poster = models.ForeignKey(
-        Profile, related_name="quibs", on_delete=models.SET_NULL, null=True
-    )
+    poster_id = models.UUIDField(null=True)
     title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=50, editable=False, blank=True)
     content = models.TextField(null=True, blank=True)
@@ -163,15 +157,15 @@ class Quib(CreatedAtMixin):
 
 class QuibVote(models.Model):
     quib = models.ForeignKey(Quib, related_name="votes", on_delete=models.CASCADE)
-    voter = models.ForeignKey(
-        Profile, related_name="quib_votes", on_delete=models.SET_NULL, null=True
-    )
+    voter_id = models.UUIDField(null=True)
     # voting logic: +1 for upvote and -1 for downvote
     value = models.SmallIntegerField()
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=["quib", "voter"], name="unique_quib_voter")
+            models.UniqueConstraint(
+                fields=["quib", "voter_id"], name="unique_quib_voter"
+            )
         ]
 
 
@@ -182,9 +176,7 @@ class QuibVote(models.Model):
 
 class Comment(TreeModel, CreatedAtMixin):
     quib = models.ForeignKey(Quib, related_name="comments", on_delete=models.CASCADE)
-    commenter = models.ForeignKey(
-        Profile, related_name="comments", on_delete=models.SET_NULL, null=True
-    )
+    commenter_id = models.UUIDField(null=True)
     content = models.TextField()
     is_deleted = models.BooleanField(default=False)
 
@@ -192,20 +184,18 @@ class Comment(TreeModel, CreatedAtMixin):
 
     @override
     def __str__(self) -> str:
-        return f"Comment by {self.commenter} on {self.quib}"
+        return f"Comment by {self.commenter_id} on {self.quib}"
 
 
 class CommentVote(models.Model):
     comment = models.ForeignKey(Comment, related_name="votes", on_delete=models.CASCADE)
-    voter = models.ForeignKey(
-        Profile, related_name="comment_votes", on_delete=models.SET_NULL, null=True
-    )
+    voter_id = models.UUIDField(null=True)
     # voting logic: +1 for upvote and -1 for downvote
     value = models.SmallIntegerField()
 
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=["comment", "voter"], name="unique_comment_voter"
+                fields=["comment", "voter_id"], name="unique_comment_voter"
             )
         ]
