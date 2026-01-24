@@ -1,0 +1,6 @@
+SystemCheckError: System check identified some issues:
+
+ERRORS:
+?: (admin.E409) 'django.contrib.messages.middleware.MessageMiddleware' must be in MIDDLEWARE in order to use the admin application.
+
+System check identified 1 issue (0 silenced).

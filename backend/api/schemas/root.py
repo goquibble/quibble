@@ -1,4 +1,5 @@
 from ninja import Schema
+from uuid import UUID
 
 from quiblet.models import Quiblet
 
@@ -19,7 +20,7 @@ class SearchQuibletSchema(Schema):
 
 
 class SearchProfileSchema(Schema):
-    id: int
+    id: UUID
     username: str
     name: str | None
     avatar: str | None

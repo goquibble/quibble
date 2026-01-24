@@ -21,7 +21,7 @@ ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
 # Application definition
 INSTALLED_APPS = [
-    "base16_admin",
+    # "base16_admin",
     # default django apps
     "django.contrib.admin",
     "django.contrib.auth",
@@ -31,15 +31,11 @@ INSTALLED_APPS = [
     # use whitenoise features for dev
     "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
-    "django.contrib.humanize",
     # auth apps
-    "django.contrib.humanize",
-    # django extensions
     "corsheaders",
     "storages",
     "django_ltree",
     # custom apps
-    "quiblet",
     "quiblet",
 ]
 
@@ -53,6 +49,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
@@ -73,7 +70,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "base16_admin.context_processors.base16_theme",
+                # "base16_admin.context_processors.base16_theme",
             ],
         },
     },
@@ -155,10 +152,8 @@ MEDIA_URL = f"{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/media/"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Custom user model
 # Auth Service
-AUTH_SERVICE_URL = env("AUTH_SERVICE_URL", default="http://localhost:8001")
-
+AUTH_SERVICE_URL = env("AUTH_SERVICE_URL", default="http://localhost:8002")
 
 # django-cors-headers settings
 # https://pypi.org/project/django-cors-headers/

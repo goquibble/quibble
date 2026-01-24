@@ -39,7 +39,7 @@ def fetch_user(user_id: UUID | str) -> Optional[User]:
             # invalid cache
             pass
 
-    auth_service_url = getattr(settings, "AUTH_SERVICE_URL", "http://localhost:8001")
+    auth_service_url = getattr(settings, "AUTH_SERVICE_URL", "http://localhost:8002")
     url = f"{auth_service_url}/api/v1/users/{user_id}"
 
     try:
@@ -76,7 +76,7 @@ def get_user_from_token(token: str) -> Optional[User]:
         except Exception:
             pass
 
-    auth_service_url = getattr(settings, "AUTH_SERVICE_URL", "http://localhost:8001")
+    auth_service_url = getattr(settings, "AUTH_SERVICE_URL", "http://localhost:8002")
     url = f"{auth_service_url}/api/v1/users/me"
     headers = {"Authorization": f"Bearer {token}"}
 
