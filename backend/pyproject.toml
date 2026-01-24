@@ -25,12 +25,3 @@ dependencies = [
 dev = [
     "django-stubs>=5.2.7",
 ]
-
-[tool.pyright]
-reportAny = "none"
-reportExplicitAny = "none"
-reportUnusedCallResult = "none"
-reportUnknownVariableType = "none"
-reportUnknownMemberType = "none"
-reportUnannotatedClassAttribute = "none"
-reportMissingTypeStubs = "none"
