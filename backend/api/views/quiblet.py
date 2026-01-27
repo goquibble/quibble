@@ -17,6 +17,7 @@ from api.schemas.quiblet import (
     QuibletCreateInSchema,
     QuibletCreateOutSchema,
     QuibletSchema,
+    QuibletBasicSchema,
 )
 from api.shared.schemas import UniqueNameResponseSchema
 from api.utils import cache_response
@@ -34,6 +35,11 @@ router = Router()
 def is_unique_name(request: HttpRequest, name: str):  # pyright: ignore[reportUnusedParameter]
     exists = Quiblet.objects.filter(name__iexact=name).exists()
     return {"unique": not exists}
+
+
+@router.get("/search", response=list[QuibletBasicSchema])
+def search_quiblets(request: HttpRequest, q: str):  # pyright: ignore[reportUnusedParameter]
+    return Quiblet.objects.filter(name__istartswith=q)[:10]
 
 
 @router.get("/{name}", response=QuibletSchema)

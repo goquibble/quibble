@@ -1,11 +1,14 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { X } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { Check, ChevronDown, X } from "lucide-react";
 import { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useForm } from "react-hook-form";
+import { useDebounce } from "use-debounce";
 import * as z from "zod";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -16,6 +19,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { API_ENDPOINTS } from "@/constants/api-endpoints";
+import api from "@/lib/api";
 import { cn } from "@/lib/utils";
 
 // Define the form validation schema
@@ -28,6 +33,7 @@ const formSchema = z
     content: z.string().optional(),
     type: z.enum(["text", "media", "link", "poll"]),
     media: z.array(z.instanceof(File)).optional(),
+    quiblet: z.string().optional(), // Store quiblet ID or Name
   })
   .superRefine((data, ctx) => {
     if (data.type === "media" && (!data.media || data.media.length === 0)) {
@@ -50,9 +56,23 @@ const POST_TYPES = [
   { id: "poll", label: "Poll", disabled: true },
 ];
 
+interface QuibletOption {
+  id: string;
+  name: string;
+  avatar: string | null;
+}
+
 export default function SubmitPage() {
   const [activeType, setActiveType] = useState<PostType>("text");
   const [charCount, setCharCount] = useState(0);
+
+  // Quiblet Selector State
+  const [isSelectorOpen, setIsSelectorOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedQuiblet, setSelectedQuiblet] = useState<QuibletOption | null>(
+    null,
+  );
+  const [debouncedQuery] = useDebounce(searchQuery, 300);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -64,8 +84,22 @@ export default function SubmitPage() {
     },
   });
 
+  // Fetch Quiblets
+  const { data: quiblets, isLoading } = useQuery({
+    queryKey: ["quiblets", debouncedQuery],
+    queryFn: async () => {
+      if (!debouncedQuery) return [];
+      const res = await api.get<QuibletOption[]>(
+        API_ENDPOINTS.QUIBLET_SEARCH(debouncedQuery),
+      );
+      return res.data;
+    },
+    enabled: isSelectorOpen && debouncedQuery.length > 0,
+    staleTime: 60000,
+  });
+
   function onSubmit(values: FormValues) {
-    console.log("Form Submitted:", values);
+    console.log("Form Submitted:", { ...values, quiblet: selectedQuiblet?.id });
     // TODO: Add API logic later
   }
 
@@ -85,6 +119,92 @@ export default function SubmitPage() {
   return (
     <div className="mx-auto my-4 flex max-w-3xl flex-1 flex-col gap-4 px-4">
       <h3 className="font-bold text-2xl text-foreground">Create a Quib</h3>
+
+      {/* Quiblet Selector */}
+      <div className="relative">
+        {!isSelectorOpen ? (
+          <button
+            type="button"
+            onClick={() => setIsSelectorOpen(true)}
+            className="flex h-9 min-w-[200px] items-center justify-between gap-2 rounded-md border border-input px-3 py-2 text-sm transition-colors hover:bg-input/30"
+          >
+            {selectedQuiblet ? (
+              <div className="flex items-center gap-2">
+                <Avatar className="h-5 w-5">
+                  <AvatarImage src={selectedQuiblet.avatar || undefined} />
+                  <AvatarFallback>
+                    {selectedQuiblet.name[0]?.toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
+                <span className="font-medium">{selectedQuiblet.name}</span>
+              </div>
+            ) : (
+              <span className="text-muted-foreground">Select a Quiblet</span>
+            )}
+            <ChevronDown className="h-4 w-4 opacity-50" />
+          </button>
+        ) : (
+          <div className="relative w-full max-w-sm">
+            <div className="relative">
+              <Input
+                autoFocus
+                placeholder="Search communities..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onBlur={() => setIsSelectorOpen(false)}
+                className="pr-8"
+              />
+              <ChevronDown
+                className="-translate-y-1/2 absolute top-1/2 right-3 h-4 w-4 cursor-pointer opacity-50"
+                onClick={() => setIsSelectorOpen(false)}
+              />
+            </div>
+
+            {/* Results Dropdown */}
+            {searchQuery && (
+              <div className="fade-in zoom-in-95 absolute top-full z-50 mt-2 w-full animate-in overflow-hidden rounded-md border border-border bg-popover text-popover-foreground shadow-md">
+                {isLoading ? (
+                  <div className="p-2 text-center text-muted-foreground text-sm">
+                    Loading...
+                  </div>
+                ) : quiblets && quiblets.length > 0 ? (
+                  <ul className="max-h-[300px] overflow-auto">
+                    {quiblets.map((quiblet) => (
+                      <li
+                        key={quiblet.id}
+                        onMouseDown={(e) => {
+                          e.preventDefault(); // Prevent blur
+                          setSelectedQuiblet(quiblet);
+                          form.setValue("quiblet", quiblet.id); // Or name depending on API
+                          setIsSelectorOpen(false);
+                          setSearchQuery("");
+                        }}
+                        className="flex cursor-pointer items-center gap-2 px-3 py-2 text-sm hover:bg-muted"
+                      >
+                        <Avatar className="h-6 w-6">
+                          <AvatarImage src={quiblet.avatar || undefined} />
+                          <AvatarFallback>
+                            {quiblet.name[0]?.toUpperCase()}
+                          </AvatarFallback>
+                        </Avatar>
+                        <span>{quiblet.name}</span>
+                        {selectedQuiblet?.id === quiblet.id && (
+                          <Check className="ml-auto h-4 w-4" />
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className="p-2 text-center text-muted-foreground text-sm">
+                    No communities found.
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -251,8 +371,6 @@ export default function SubmitPage() {
           </div>
         </form>
       </Form>
-
-      <div className="w-full flex-1" />
     </div>
   );
 }
