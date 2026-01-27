@@ -39,7 +39,7 @@ export default function QuibletInfo() {
           </span>
         </div>
       </div>
-      <Button variant={"outline"} size={"sm"}>
+      <Button variant={"outline"} size={"sm"} disabled>
         <Book />
         Quiblet Guide
       </Button>
