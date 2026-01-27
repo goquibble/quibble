@@ -63,6 +63,8 @@ class QuibletSchema(ModelSchema):
 
 
 class QuibletBasicSchema(ModelSchema):
+    members_count: int
+
     class Meta:
         model = Quiblet
         fields = ["id", "name", "avatar"]

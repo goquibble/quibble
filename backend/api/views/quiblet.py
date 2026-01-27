@@ -39,7 +39,9 @@ def is_unique_name(request: HttpRequest, name: str):  # pyright: ignore[reportUn
 
 @router.get("/search", response=list[QuibletBasicSchema])
 def search_quiblets(request: HttpRequest, q: str):  # pyright: ignore[reportUnusedParameter]
-    return Quiblet.objects.filter(name__istartswith=q)[:10]
+    return Quiblet.objects.filter(name__istartswith=q).annotate(
+        members_count=Count("members")
+    )[:10]
 
 
 @router.get("/{name}", response=QuibletSchema)

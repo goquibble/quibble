@@ -2,12 +2,13 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
-import { Check, ChevronDown, X } from "lucide-react";
+import { ChevronDown, X } from "lucide-react";
 import { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useForm } from "react-hook-form";
 import { useDebounce } from "use-debounce";
 import * as z from "zod";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,6 +19,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverAnchor,
+  PopoverContent,
+} from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import api from "@/lib/api";
@@ -60,6 +66,7 @@ interface QuibletOption {
   id: string;
   name: string;
   avatar: string | null;
+  members_count: number;
 }
 
 export default function SubmitPage() {
@@ -121,88 +128,96 @@ export default function SubmitPage() {
       <h3 className="font-bold text-2xl text-foreground">Create a Quib</h3>
 
       {/* Quiblet Selector */}
-      <div className="relative">
-        {!isSelectorOpen ? (
-          <button
-            type="button"
-            onClick={() => setIsSelectorOpen(true)}
-            className="flex h-9 min-w-[200px] items-center justify-between gap-2 rounded-md border border-input px-3 py-2 text-sm transition-colors hover:bg-input/30"
-          >
-            {selectedQuiblet ? (
-              <div className="flex items-center gap-2">
-                <Avatar className="h-5 w-5">
-                  <AvatarImage src={selectedQuiblet.avatar || undefined} />
-                  <AvatarFallback>
-                    {selectedQuiblet.name[0]?.toUpperCase()}
-                  </AvatarFallback>
-                </Avatar>
-                <span className="font-medium">{selectedQuiblet.name}</span>
-              </div>
-            ) : (
-              <span className="text-muted-foreground">Select a Quiblet</span>
-            )}
-            <ChevronDown className="h-4 w-4 opacity-50" />
-          </button>
-        ) : (
-          <div className="relative w-full max-w-sm">
-            <div className="relative">
-              <Input
-                autoFocus
-                placeholder="Search communities..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onBlur={() => setIsSelectorOpen(false)}
-                className="pr-8"
-              />
-              <ChevronDown
-                className="-translate-y-1/2 absolute top-1/2 right-3 h-4 w-4 cursor-pointer opacity-50"
-                onClick={() => setIsSelectorOpen(false)}
-              />
-            </div>
-
-            {/* Results Dropdown */}
-            {searchQuery && (
-              <div className="fade-in zoom-in-95 absolute top-full z-50 mt-2 w-full animate-in overflow-hidden rounded-md border border-border bg-popover text-popover-foreground shadow-md">
-                {isLoading ? (
-                  <div className="p-2 text-center text-muted-foreground text-sm">
-                    Loading...
+      <div className="relative w-max">
+        <Popover open={isSelectorOpen && !!searchQuery} onOpenChange={() => {}}>
+          <PopoverAnchor asChild>
+            {!isSelectorOpen ? (
+              <button
+                type="button"
+                onClick={() => setIsSelectorOpen(true)}
+                className="flex h-9 min-w-[200px] items-center justify-between gap-2 rounded-md border border-input px-3 py-2 text-sm transition-colors hover:bg-input/30"
+              >
+                {selectedQuiblet ? (
+                  <div className="flex items-center gap-2">
+                    <Avatar className="h-5 w-5">
+                      <AvatarImage src={selectedQuiblet.avatar || undefined} />
+                      <AvatarFallback>
+                        {selectedQuiblet.name[0]?.toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                    <span className="font-medium">
+                      q/{selectedQuiblet.name}
+                    </span>
                   </div>
-                ) : quiblets && quiblets.length > 0 ? (
-                  <ul className="max-h-[300px] overflow-auto">
-                    {quiblets.map((quiblet) => (
-                      <li
-                        key={quiblet.id}
-                        onMouseDown={(e) => {
-                          e.preventDefault(); // Prevent blur
-                          setSelectedQuiblet(quiblet);
-                          form.setValue("quiblet", quiblet.id); // Or name depending on API
-                          setIsSelectorOpen(false);
-                          setSearchQuery("");
-                        }}
-                        className="flex cursor-pointer items-center gap-2 px-3 py-2 text-sm hover:bg-muted"
-                      >
-                        <Avatar className="h-6 w-6">
-                          <AvatarImage src={quiblet.avatar || undefined} />
-                          <AvatarFallback>
-                            {quiblet.name[0]?.toUpperCase()}
-                          </AvatarFallback>
-                        </Avatar>
-                        <span>{quiblet.name}</span>
-                        {selectedQuiblet?.id === quiblet.id && (
-                          <Check className="ml-auto h-4 w-4" />
-                        )}
-                      </li>
-                    ))}
-                  </ul>
                 ) : (
-                  <div className="p-2 text-center text-muted-foreground text-sm">
-                    No communities found.
-                  </div>
+                  <span className="text-muted-foreground">
+                    Select a Quiblet
+                  </span>
                 )}
+                <ChevronDown className="h-4 w-4 opacity-50" />
+              </button>
+            ) : (
+              <div className="relative min-w-[300px]">
+                <Input
+                  autoFocus
+                  placeholder="Search communities..."
+                  value={searchQuery}
+                  className="pr-8"
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onBlur={() => setIsSelectorOpen(false)}
+                />
+                <ChevronDown
+                  className="-translate-y-1/2 absolute top-1/2 right-3 h-4 w-4 cursor-pointer opacity-50"
+                  onClick={() => setIsSelectorOpen(false)}
+                />
               </div>
             )}
-          </div>
-        )}
+          </PopoverAnchor>
+
+          <PopoverContent
+            sideOffset={10}
+            className="flex w-[var(--radix-popover-trigger-width)] flex-col gap-2 p-1"
+            onOpenAutoFocus={(e) => e.preventDefault()}
+          >
+            {isLoading ? (
+              <div className="p-2 text-center text-muted-foreground text-sm">
+                Loading...
+              </div>
+            ) : quiblets && quiblets.length > 0 ? (
+              quiblets.map((quiblet) => (
+                <button
+                  type="button"
+                  key={quiblet.id}
+                  className="flex items-center gap-2 rounded-sm px-2 py-1.5 text-left text-sm"
+                  onMouseDown={(e) => {
+                    e.preventDefault(); // Prevent blur when clicking
+                    setSelectedQuiblet(quiblet);
+                    form.setValue("quiblet", quiblet.id);
+                    setIsSelectorOpen(false);
+                    setSearchQuery("");
+                  }}
+                >
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src={quiblet.avatar || undefined} />
+                    <AvatarFallback>
+                      {quiblet.name[0]?.toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="flex flex-col">
+                    <span className="font-medium">q/{quiblet.name}</span>
+                    <span className="text-muted-foreground text-xs">
+                      {quiblet.members_count || 0} member(s)
+                    </span>
+                  </div>
+                </button>
+              ))
+            ) : (
+              <div className="p-2 text-center text-muted-foreground text-sm">
+                No communities found.
+              </div>
+            )}
+          </PopoverContent>
+        </Popover>
       </div>
 
       <Form {...form}>
