@@ -20,12 +20,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { MarkdownEditor } from "@/components/ui/markdown-editor";
 import {
   Popover,
   PopoverAnchor,
   PopoverContent,
 } from "@/components/ui/popover";
-import { Textarea } from "@/components/ui/textarea";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import api from "@/lib/api";
 import { cn } from "@/lib/utils";
@@ -271,7 +271,6 @@ export default function SubmitPage() {
               );
             })}
           </div>
-
           {/* Title Field */}
           <FormField
             control={form.control}
@@ -303,8 +302,8 @@ export default function SubmitPage() {
               </FormItem>
             )}
           />
-
           {/* Dynamic Content Area */}
+
           {activeType === "text" && (
             <FormField
               control={form.control}
@@ -312,9 +311,8 @@ export default function SubmitPage() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Textarea
+                    <MarkdownEditor
                       placeholder="Body Text (optional)"
-                      className="min-h-[200px] resize-y bg-transparent!"
                       {...field}
                     />
                   </FormControl>
@@ -323,7 +321,6 @@ export default function SubmitPage() {
               )}
             />
           )}
-
           {activeType === "media" && (
             <FormField
               control={form.control}
@@ -383,7 +380,6 @@ export default function SubmitPage() {
               )}
             />
           )}
-
           <div className="flex justify-end gap-3">
             <Button variant="outline" type="button" disabled>
               Save Draft
