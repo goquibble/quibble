@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
-import { ChevronDown, X } from "lucide-react";
+import { ChevronDown, Search, X } from "lucide-react";
 import { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useForm } from "react-hook-form";
@@ -158,17 +158,25 @@ export default function SubmitPage() {
               </button>
             ) : (
               <div className="relative min-w-[300px]">
+                <Search className="-translate-y-1/2 absolute top-1/2 left-3 h-4 w-4 text-muted-foreground" />
                 <Input
                   autoFocus
                   placeholder="Search communities..."
                   value={searchQuery}
-                  className="pr-8"
+                  className="pr-8 pl-9"
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onBlur={() => setIsSelectorOpen(false)}
                 />
-                <ChevronDown
-                  className="-translate-y-1/2 absolute top-1/2 right-3 h-4 w-4 cursor-pointer opacity-50"
-                  onClick={() => setIsSelectorOpen(false)}
+                <X
+                  className="-translate-y-1/2 absolute top-1/2 right-3 h-4 w-4 cursor-pointer text-muted-foreground"
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => {
+                    if (searchQuery) {
+                      setSearchQuery("");
+                    } else {
+                      setIsSelectorOpen(false);
+                    }
+                  }}
                 />
               </div>
             )}
