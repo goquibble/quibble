@@ -8,6 +8,7 @@ from ninja.errors import HttpError
 
 from api.auth import AuthBearer
 from api.http import CustomHttpRequest
+
 from api.schemas.quiblet import (
     CommentCreateInSchema,
     CommentSchema,
@@ -36,7 +37,7 @@ def is_unique_name(request: HttpRequest, name: str):  # pyright: ignore[reportUn
 
 
 @router.get("/{name}", response=QuibletSchema)
-def get_quiblet(request: HttpRequest, name: str):  # pyright: ignore[reportUnusedParameter]
+def get_quiblet(request: HttpRequest, name: str):
     def fetch():
         return get_object_or_404(
             Quiblet.objects.annotate(
@@ -94,6 +95,12 @@ def join_or_leave_quiblet(
             quiblet.members.create(member_id=user_id)
 
     return 204, None
+
+
+@router.get("/{name}/membership", auth=AuthBearer(), response={200: bool})
+def get_membership_status(request: CustomHttpRequest, name: str):
+    quiblet = get_object_or_404(Quiblet, name=name)
+    return quiblet.members.filter(member_id=request.user_id).exists()
 
 
 @router.post("/", auth=AuthBearer(), response=QuibletCreateOutSchema)

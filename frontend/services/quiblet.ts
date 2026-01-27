@@ -47,3 +47,8 @@ export async function joinOrLeaveQuiblet(
   // returns 204 (no content) on success
   await api.post(API_ENDPOINTS.QUIBLET_JOIN_OR_LEAVE(name, action));
 }
+
+export async function getQuibletMembership(name: string): Promise<boolean> {
+  const res = await api.get<boolean>(API_ENDPOINTS.QUIBLET_MEMBERSHIP(name));
+  return res.data;
+}
