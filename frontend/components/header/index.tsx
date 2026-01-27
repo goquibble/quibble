@@ -75,8 +75,8 @@ export default function Header() {
       <nav className="flex items-center gap-2">
         {isLoading ? (
           <>
-            <Skeleton className="h-9 w-42" />
-            <Skeleton className="size-9" />
+            <Skeleton className="h-9 w-31" />
+            <Skeleton className="h-9 w-20" />
           </>
         ) : userProfile ? (
           <>
