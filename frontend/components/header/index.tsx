@@ -15,6 +15,7 @@ import { useAuthStore } from "@/stores/auth";
 import { Icons } from "../icons";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
+import { Skeleton } from "../ui/skeleton";
 import PfpDropdown from "./pfp-dropdown";
 import SearchBar from "./search-bar";
 
@@ -42,6 +43,7 @@ const navLinkMapping = [
 export default function Header() {
   const pathname = usePathname();
   const userProfile = useAuthStore((state) => state.userProfile);
+  const isLoading = useAuthStore((state) => state.isLoading);
 
   return (
     <header className="sticky top-0 z-50 flex h-14 items-center justify-between border-b bg-background px-4">
@@ -71,7 +73,12 @@ export default function Header() {
         <SearchBar />
       </nav>
       <nav className="flex items-center gap-2">
-        {userProfile ? (
+        {isLoading ? (
+          <>
+            <Skeleton className="h-9 w-42" />
+            <Skeleton className="size-9" />
+          </>
+        ) : userProfile ? (
           <>
             <Button>
               <Plus />

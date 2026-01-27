@@ -72,7 +72,11 @@ function DialogContent({
             className="absolute top-2 right-2"
             asChild
           >
-            <Button size={"icon-sm"} variant={"ghost"}>
+            <Button
+              size={"icon-sm"}
+              variant={"ghost"}
+              className="text-muted-foreground"
+            >
               <XIcon />
               <span className="sr-only">Close</span>
             </Button>
