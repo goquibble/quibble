@@ -2,7 +2,8 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
-import { ChevronDown, Search, X } from "lucide-react";
+import { ChevronDown, Search, Trash, X } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useForm } from "react-hook-form";
@@ -38,7 +39,10 @@ const formSchema = z
       .max(300, "Title cannot exceed 300 characters"),
     content: z.string().optional(),
     type: z.enum(["text", "media", "link", "poll"]),
-    media: z.array(z.instanceof(File)).optional(),
+    media: z
+      .array(z.instanceof(File))
+      .max(1, "Only one image is allowed")
+      .optional(),
     quiblet: z.string().optional(), // Store quiblet ID or Name
   })
   .superRefine((data, ctx) => {
@@ -113,9 +117,13 @@ export default function SubmitPage() {
   // Dropzone configuration
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: {
-      "image/*": [],
-      "video/*": [],
+      "image/jpeg": [],
+      "image/png": [],
+      "image/gif": [],
+      "image/webp": [],
     },
+    maxFiles: 1,
+    maxSize: 5 * 1024 * 1024, // 5MB
     onDrop: (droppedFiles) => {
       form.setValue("media", droppedFiles, { shouldValidate: true });
     },
@@ -321,56 +329,51 @@ export default function SubmitPage() {
               control={form.control}
               name="media"
               render={() => (
-                // Removed unused field param
                 <FormItem>
                   <FormControl>
                     <div className="flex flex-col gap-4">
-                      <div
-                        {...getRootProps()}
-                        className={cn(
-                          "flex min-h-[200px] cursor-pointer flex-col items-center justify-center rounded-md border-2 border-muted-foreground/25 border-dashed bg-muted/5 p-10 text-center transition-colors hover:bg-muted/10",
-                          isDragActive && "border-primary",
-                        )}
-                      >
-                        <input {...getInputProps()} />
-                        <p className="font-medium">
-                          Drag & drop files or{" "}
-                          <span className="text-primary hover:underline">
-                            Upload
-                          </span>
-                        </p>
-                        <p className="text-muted-foreground text-sm">
-                          Supported formats: Images & Video
-                        </p>
-                      </div>
-
-                      {/* Preview Section */}
-                      {selectedFiles && selectedFiles.length > 0 && (
-                        <div className="flex flex-col gap-2">
-                          <p className="font-medium text-sm">Selected Files:</p>
-                          <div className="flex flex-wrap gap-2">
-                            {selectedFiles.map((file, i) => (
-                              <div
-                                key={`${file.name}-${i}`}
-                                className="flex items-center gap-2 rounded-md border border-border bg-background px-3 py-2 text-sm"
-                              >
-                                <span className="max-w-[200px] truncate">
-                                  {file.name}
-                                </span>
-                                <button
-                                  type="button"
-                                  onClick={() => {
-                                    const newFiles = [...selectedFiles];
-                                    newFiles.splice(i, 1);
-                                    form.setValue("media", newFiles);
-                                  }}
-                                  className="ml-2 text-muted-foreground hover:text-destructive"
-                                >
-                                  <X className="h-4 w-4" />
-                                </button>
-                              </div>
-                            ))}
+                      {!selectedFiles || selectedFiles.length === 0 ? (
+                        <div
+                          {...getRootProps()}
+                          className={cn(
+                            "flex min-h-[200px] cursor-pointer flex-col items-center justify-center rounded-md border-2 border-muted-foreground/25 border-dashed p-10 text-center transition-colors hover:bg-muted/10",
+                            isDragActive && "border-primary",
+                          )}
+                        >
+                          <input {...getInputProps()} />
+                          <p className="font-medium">
+                            Drag & drop files or{" "}
+                            <span className="text-primary hover:underline">
+                              Upload
+                            </span>
+                          </p>
+                          <p className="text-muted-foreground text-sm">
+                            Supported formats: JPG, PNG, GIF
+                          </p>
+                          <p className="mt-1 text-muted-foreground text-xs">
+                            Maximum file size: 5MB
+                          </p>
+                        </div>
+                      ) : (
+                        <div className="relative overflow-hidden rounded-md border">
+                          <div className="relative flex aspect-video max-h-[200px] w-full items-center justify-center">
+                            {/* We create a URL for preview */}
+                            <Image
+                              src={URL.createObjectURL(selectedFiles[0])}
+                              alt="Preview"
+                              fill
+                              unoptimized
+                              className="object-contain"
+                            />
                           </div>
+                          <Button
+                            variant={"ghost"}
+                            size={"icon-sm"}
+                            onClick={() => form.setValue("media", [])}
+                            className="absolute top-2 right-2"
+                          >
+                            <Trash className="h-4 w-4" />
+                          </Button>
                         </div>
                       )}
                     </div>
