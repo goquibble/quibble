@@ -362,10 +362,8 @@ export default function SubmitPage() {
                             </span>
                           </p>
                           <p className="text-muted-foreground text-sm">
-                            Supported formats: JPG, PNG, GIF
-                          </p>
-                          <p className="mt-1 text-muted-foreground text-xs">
-                            Maximum file size: 5MB
+                            Supported formats: JPG, PNG, GIF & Max file size:
+                            5MB
                           </p>
                         </div>
                       ) : (
