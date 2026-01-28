@@ -43,7 +43,7 @@ const formSchema = z
       .array(z.instanceof(File))
       .max(1, "Only one image is allowed")
       .optional(),
-    quiblet: z.string().optional(), // Store quiblet ID or Name
+    quiblet: z.string().min(1, "Please select a quiblet"), // Store quiblet ID
   })
   .superRefine((data, ctx) => {
     if (data.type === "media" && (!data.media || data.media.length === 0)) {
@@ -92,6 +92,7 @@ export default function SubmitPage() {
       content: "",
       type: "text",
       media: [],
+      quiblet: "",
     },
   });
 
@@ -135,108 +136,124 @@ export default function SubmitPage() {
     <div className="mx-auto my-4 flex max-w-3xl flex-1 flex-col gap-4 px-4">
       <h3 className="font-bold text-2xl text-foreground">Create a Quib</h3>
 
-      {/* Quiblet Selector */}
-      <div className="relative w-max">
-        <Popover open={isSelectorOpen && !!searchQuery} onOpenChange={() => {}}>
-          <PopoverAnchor asChild>
-            {!isSelectorOpen ? (
-              <button
-                type="button"
-                onClick={() => setIsSelectorOpen(true)}
-                className="flex h-9 min-w-[200px] items-center justify-between gap-2 rounded-md border border-input px-3 py-2 text-sm transition-colors hover:bg-input/30"
-              >
-                {selectedQuiblet ? (
-                  <div className="flex items-center gap-2">
-                    <Avatar className="h-5 w-5">
-                      <AvatarImage src={selectedQuiblet.avatar || undefined} />
-                      <AvatarFallback>
-                        {selectedQuiblet.name[0]?.toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
-                    <span className="font-medium">
-                      q/{selectedQuiblet.name}
-                    </span>
-                  </div>
-                ) : (
-                  <span className="text-muted-foreground">
-                    Select a Quiblet
-                  </span>
-                )}
-                <ChevronDown className="h-4 w-4 opacity-50" />
-              </button>
-            ) : (
-              <div className="relative min-w-[300px]">
-                <Search className="-translate-y-1/2 absolute top-1/2 left-3 h-4 w-4 text-muted-foreground" />
-                <Input
-                  autoFocus
-                  placeholder="Search communities..."
-                  value={searchQuery}
-                  className="pr-8 pl-9"
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  onBlur={() => setIsSelectorOpen(false)}
-                />
-                <X
-                  className="-translate-y-1/2 absolute top-1/2 right-3 h-4 w-4 cursor-pointer text-muted-foreground"
-                  onMouseDown={(e) => e.preventDefault()}
-                  onClick={() => {
-                    if (searchQuery) {
-                      setSearchQuery("");
-                    } else {
-                      setIsSelectorOpen(false);
-                    }
-                  }}
-                />
-              </div>
-            )}
-          </PopoverAnchor>
-
-          <PopoverContent
-            sideOffset={10}
-            className="flex w-[var(--radix-popover-trigger-width)] flex-col gap-2 p-1"
-            onOpenAutoFocus={(e) => e.preventDefault()}
-          >
-            {isLoading ? (
-              <div className="p-2 text-center text-muted-foreground text-sm">
-                Loading...
-              </div>
-            ) : quiblets && quiblets.length > 0 ? (
-              quiblets.map((quiblet) => (
-                <button
-                  type="button"
-                  key={quiblet.id}
-                  className="flex items-center gap-2 rounded-sm px-2 py-1.5 text-left text-sm"
-                  onMouseDown={(e) => {
-                    e.preventDefault(); // Prevent blur when clicking
-                    setSelectedQuiblet(quiblet);
-                    form.setValue("quiblet", quiblet.id);
-                    setIsSelectorOpen(false);
-                    setSearchQuery("");
-                  }}
-                >
-                  <Avatar className="h-8 w-8">
-                    <AvatarImage src={quiblet.avatar || undefined} />
-                    <AvatarFallback>
-                      {quiblet.name[0]?.toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="flex flex-col">
-                    <span className="font-medium">q/{quiblet.name}</span>
-                    <span className="text-muted-foreground text-xs">
-                      {quiblet.members_count || 0} member(s)
-                    </span>
-                  </div>
-                </button>
-              ))
-            ) : (
-              <div className="p-2 text-center text-muted-foreground text-sm">
-                No communities found.
-              </div>
-            )}
-          </PopoverContent>
-        </Popover>
-      </div>
-
       <Form {...form}>
+        {/* Quiblet Selector */}
+        <FormField
+          control={form.control}
+          name="quiblet"
+          render={({ field }) => (
+            <FormItem className="relative w-max">
+              <FormControl>
+                <Popover
+                  open={isSelectorOpen && !!searchQuery}
+                  onOpenChange={() => {}}
+                >
+                  <PopoverAnchor asChild>
+                    {!isSelectorOpen ? (
+                      <button
+                        type="button"
+                        onClick={() => setIsSelectorOpen(true)}
+                        className="flex h-9 min-w-[200px] items-center justify-between gap-2 rounded-md border border-input px-3 py-2 text-sm transition-colors hover:bg-input/30"
+                      >
+                        {selectedQuiblet ? (
+                          <div className="flex items-center gap-2">
+                            <Avatar className="h-5 w-5">
+                              <AvatarImage
+                                src={selectedQuiblet.avatar || undefined}
+                              />
+                              <AvatarFallback>
+                                {selectedQuiblet.name[0]?.toUpperCase()}
+                              </AvatarFallback>
+                            </Avatar>
+                            <span className="font-medium">
+                              q/{selectedQuiblet.name}
+                            </span>
+                          </div>
+                        ) : (
+                          <span className="text-muted-foreground">
+                            Select a Quiblet
+                          </span>
+                        )}
+                        <ChevronDown className="h-4 w-4 opacity-50" />
+                      </button>
+                    ) : (
+                      <div className="relative min-w-[300px]">
+                        <Search className="-translate-y-1/2 absolute top-1/2 left-3 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          autoFocus
+                          placeholder="Search communities..."
+                          value={searchQuery}
+                          className="pr-8 pl-9"
+                          onChange={(e) => setSearchQuery(e.target.value)}
+                          onBlur={() => setIsSelectorOpen(false)}
+                        />
+                        <X
+                          className="-translate-y-1/2 absolute top-1/2 right-3 h-4 w-4 cursor-pointer text-muted-foreground"
+                          onMouseDown={(e) => e.preventDefault()}
+                          onClick={() => {
+                            if (searchQuery) {
+                              setSearchQuery("");
+                            } else {
+                              setIsSelectorOpen(false);
+                            }
+                          }}
+                        />
+                      </div>
+                    )}
+                  </PopoverAnchor>
+
+                  <PopoverContent
+                    sideOffset={10}
+                    className="flex w-[var(--radix-popover-trigger-width)] flex-col gap-2 p-1"
+                    onOpenAutoFocus={(e) => e.preventDefault()}
+                  >
+                    {isLoading ? (
+                      <div className="p-2 text-center text-muted-foreground text-sm">
+                        Loading...
+                      </div>
+                    ) : quiblets && quiblets.length > 0 ? (
+                      quiblets.map((quiblet) => (
+                        <button
+                          type="button"
+                          key={quiblet.id}
+                          className="flex items-center gap-2 rounded-sm px-2 py-1.5 text-left text-sm"
+                          onMouseDown={(e) => {
+                            e.preventDefault(); // Prevent blur when clicking
+                            setSelectedQuiblet(quiblet);
+                            field.onChange(quiblet.id); // Validates automatically
+                            setIsSelectorOpen(false);
+                            setSearchQuery("");
+                          }}
+                        >
+                          <Avatar className="h-8 w-8">
+                            <AvatarImage src={quiblet.avatar || undefined} />
+                            <AvatarFallback>
+                              {quiblet.name[0]?.toUpperCase()}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="flex flex-col">
+                            <span className="font-medium">
+                              q/{quiblet.name}
+                            </span>
+                            <span className="text-muted-foreground text-xs">
+                              {quiblet.members_count || 0} member(s)
+                            </span>
+                          </div>
+                        </button>
+                      ))
+                    ) : (
+                      <div className="p-2 text-center text-muted-foreground text-sm">
+                        No communities found.
+                      </div>
+                    )}
+                  </PopoverContent>
+                </Popover>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col gap-4"
@@ -254,7 +271,7 @@ export default function SubmitPage() {
                   onClick={() => {
                     const newType = type.id as PostType;
                     setActiveType(newType);
-                    form.setValue("type", newType);
+                    form.setValue("type", newType, { shouldValidate: true });
                   }}
                   className={cn(
                     "relative flex w-max justify-center gap-2 rounded-md p-2 px-4 font-semibold transition-colors hover:bg-muted",
@@ -366,7 +383,11 @@ export default function SubmitPage() {
                           <Button
                             variant={"ghost"}
                             size={"icon-sm"}
-                            onClick={() => form.setValue("media", [])}
+                            onClick={() =>
+                              form.setValue("media", [], {
+                                shouldValidate: true,
+                              })
+                            }
                             className="absolute top-2 right-2"
                           >
                             <Trash className="h-4 w-4" />
@@ -384,10 +405,7 @@ export default function SubmitPage() {
             <Button variant="outline" type="button" disabled>
               Save Draft
             </Button>
-            <Button
-              type="submit"
-              disabled={!form.formState.isValid || form.formState.isSubmitting}
-            >
+            <Button type="submit" disabled={form.formState.isSubmitting}>
               Submit
             </Button>
           </div>
