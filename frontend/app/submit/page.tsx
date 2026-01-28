@@ -67,7 +67,7 @@ const POST_TYPES = [
 ];
 
 interface QuibletOption {
-  id: string;
+  id: number;
   name: string;
   avatar: string | null;
   members_count: number;
@@ -111,7 +111,7 @@ export default function SubmitPage() {
   });
 
   function onSubmit(values: FormValues) {
-    console.log("Form Submitted:", { ...values, quiblet: selectedQuiblet?.id });
+    console.log("Form Submitted:", values);
     // TODO: Add API logic later
   }
 
@@ -220,7 +220,7 @@ export default function SubmitPage() {
                           onMouseDown={(e) => {
                             e.preventDefault(); // Prevent blur when clicking
                             setSelectedQuiblet(quiblet);
-                            field.onChange(quiblet.id); // Validates automatically
+                            field.onChange(quiblet.name); // Validates automatically
                             setIsSelectorOpen(false);
                             setSearchQuery("");
                           }}

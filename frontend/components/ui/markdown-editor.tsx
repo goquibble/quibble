@@ -1,9 +1,18 @@
 "use client";
 
 import Placeholder from "@tiptap/extension-placeholder";
+import Superscript from "@tiptap/extension-superscript"; // Extension
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { Bold, Italic, Strikethrough } from "lucide-react";
+import {
+  Bold,
+  Heading as HeadingIcon,
+  Italic,
+  List as ListIcon,
+  ListOrdered, // Icon
+  Strikethrough,
+  Superscript as SuperscriptIcon, // Icon
+} from "lucide-react";
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";
@@ -27,6 +36,7 @@ export const MarkdownEditor = React.forwardRef<
   const editor = useEditor({
     extensions: [
       StarterKit,
+      Superscript,
       Placeholder.configure({
         placeholder: placeholder || "Write something...",
         emptyEditorClass:
@@ -39,6 +49,10 @@ export const MarkdownEditor = React.forwardRef<
         class: cn(
           "prose dark:prose-invert max-w-none min-h-[200px] w-full rounded-md bg-transparent px-3 py-2 text-base shadow-none outline-none md:text-sm",
           "focus-visible:outline-none focus:outline-none",
+          "[&_h2]:text-2xl [&_h2]:font-bold",
+          "[&_ul]:list-disc [&_ul]:pl-5 [&_ul]:my-2",
+          "[&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:my-2",
+          "[&_li]:my-1",
         ),
       },
     },
@@ -62,6 +76,14 @@ export const MarkdownEditor = React.forwardRef<
   const toggleBold = () => editor?.chain().focus().toggleBold().run();
   const toggleItalic = () => editor?.chain().focus().toggleItalic().run();
   const toggleStrike = () => editor?.chain().focus().toggleStrike().run();
+  const toggleSuperscript = () =>
+    editor?.chain().focus().toggleSuperscript().run();
+  const toggleHeading = () =>
+    editor?.chain().focus().toggleHeading({ level: 2 }).run();
+  const toggleBulletList = () =>
+    editor?.chain().focus().toggleBulletList().run();
+  const toggleOrderedList = () =>
+    editor?.chain().focus().toggleOrderedList().run();
 
   if (!editor) {
     return null;
@@ -76,7 +98,7 @@ export const MarkdownEditor = React.forwardRef<
       )}
       {...props} // pass name/etc if needed
     >
-      <div className="flex items-center gap-1 p-1">
+      <div className="flex flex-wrap items-center gap-1 p-1">
         <Button
           type="button"
           variant="ghost"
@@ -84,6 +106,7 @@ export const MarkdownEditor = React.forwardRef<
           onClick={toggleBold}
           disabled={!editor.can().chain().focus().toggleBold().run()}
           className={cn("h-8 w-8", editor.isActive("bold") && "bg-muted")}
+          title="Bold"
         >
           <Bold className="h-4 w-4 text-muted-foreground" />
         </Button>
@@ -94,6 +117,7 @@ export const MarkdownEditor = React.forwardRef<
           onClick={toggleItalic}
           disabled={!editor.can().chain().focus().toggleItalic().run()}
           className={cn("h-8 w-8", editor.isActive("italic") && "bg-muted")}
+          title="Italic"
         >
           <Italic className="h-4 w-4 text-muted-foreground" />
         </Button>
@@ -104,8 +128,64 @@ export const MarkdownEditor = React.forwardRef<
           onClick={toggleStrike}
           disabled={!editor.can().chain().focus().toggleStrike().run()}
           className={cn("h-8 w-8", editor.isActive("strike") && "bg-muted")}
+          title="Strikethrough"
         >
           <Strikethrough className="h-4 w-4 text-muted-foreground" />
+        </Button>
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon-sm"
+          onClick={toggleSuperscript}
+          disabled={!editor.can().chain().focus().toggleSuperscript().run()}
+          className={cn(
+            "h-8 w-8",
+            editor.isActive("superscript") && "bg-muted",
+          )}
+          title="Superscript"
+        >
+          <SuperscriptIcon className="h-4 w-4 text-muted-foreground" />
+        </Button>
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon-sm"
+          onClick={toggleHeading}
+          disabled={
+            !editor.can().chain().focus().toggleHeading({ level: 2 }).run()
+          }
+          className={cn(
+            "h-8 w-8",
+            editor.isActive("heading", { level: 2 }) && "bg-muted",
+          )}
+          title="Heading"
+        >
+          <HeadingIcon className="h-4 w-4 text-muted-foreground" />
+        </Button>
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon-sm"
+          onClick={toggleBulletList}
+          disabled={!editor.can().chain().focus().toggleBulletList().run()}
+          className={cn("h-8 w-8", editor.isActive("bulletList") && "bg-muted")}
+          title="Bullet List"
+        >
+          <ListIcon className="h-4 w-4 text-muted-foreground" />
+        </Button>
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon-sm"
+          onClick={toggleOrderedList}
+          disabled={!editor.can().chain().focus().toggleOrderedList().run()}
+          className={cn(
+            "h-8 w-8",
+            editor.isActive("orderedList") && "bg-muted",
+          )}
+          title="Ordered List"
+        >
+          <ListOrdered className="h-4 w-4 text-muted-foreground" />
         </Button>
       </div>
 
