@@ -11,6 +11,7 @@ import IconInput from "../ui/icon-input";
 import CommentBox from "./comment-box";
 import Comments from "./comments";
 import QuibMeta from "./quib-meta";
+import QuibViewer from "./quib-viewer";
 
 export default function Quib() {
   const { name, id, slug } = useParams<{
@@ -41,9 +42,7 @@ export default function Quib() {
           className="aspect-video"
         />
       )}
-      {quib.content?.trim() && (
-        <p className="whitespace-pre-wrap text-sm">{quib.content}</p>
-      )}
+      {quib.content?.trim() && <QuibViewer content={quib.content} />}
       <QuibActions
         name={quib.quiblet.name}
         id={quib.id}
