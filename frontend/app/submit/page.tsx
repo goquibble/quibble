@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
 import { ChevronDown, Search, Trash, X } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useForm } from "react-hook-form";
@@ -74,6 +75,7 @@ interface QuibletOption {
 }
 
 export default function SubmitPage() {
+  const router = useRouter();
   const [activeType, setActiveType] = useState<PostType>("text");
   const [charCount, setCharCount] = useState(0);
 
@@ -110,9 +112,40 @@ export default function SubmitPage() {
     staleTime: 60000,
   });
 
-  function onSubmit(values: FormValues) {
-    console.log("Form Submitted:", values);
-    // TODO: Add API logic later
+  async function onSubmit(values: FormValues) {
+    try {
+      const formData = new FormData();
+      formData.append("title", values.title);
+
+      // Only append content if it's a text post
+      if (values.type === "text" && values.content) {
+        formData.append("content", values.content);
+      }
+
+      // Only append media if it's a media post
+      if (values.type === "media" && values.media?.[0]) {
+        formData.append("cover", values.media[0]);
+      }
+
+      const res = await api.post(
+        API_ENDPOINTS.QUIBLET_CREATE_QUIB(values.quiblet),
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        },
+      );
+
+      // Navigate to the created quib
+      // Response is QuibSchema: { quiblet: { name: ... }, id: ..., slug: ... }
+      const quibletName = values.quiblet; // Or res.data.quiblet.name
+      const { id, slug } = res.data;
+      router.push(`/q/${quibletName}/quib/${id}/${slug}`);
+    } catch (error) {
+      console.error("Failed to create quib:", error);
+      // TODO: Add toast notification here
+    }
   }
 
   // Dropzone configuration

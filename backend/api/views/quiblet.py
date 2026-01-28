@@ -14,6 +14,7 @@ from api.schemas.quiblet import (
     CommentSchema,
     HighlightedQuib,
     QuibSchema,
+    QuibCreateInSchema,
     QuibletCreateInSchema,
     QuibletCreateOutSchema,
     QuibletSchema,
@@ -137,6 +138,30 @@ def create_quiblet(
 # --------------------
 # Quib Routes
 # --------------------
+
+
+@router.post("/{name}/quib", auth=AuthBearer(), response=QuibSchema)
+def create_quib(
+    request: CustomHttpRequest,
+    name: str,
+    data: Form[QuibCreateInSchema],
+    cover: File[UploadedFile] | None = None,
+):
+    quiblet = get_object_or_404(Quiblet, name=name)
+
+    quib = Quib(
+        quiblet=quiblet,
+        poster_id=request.user_id,
+        title=data.title,
+        content=data.content,
+    )
+    quib.save()
+
+    if cover:
+        quib.cover.save(cover.name, cover)
+        quib.save()
+
+    return quib
 
 
 @router.get("/{name}/quib/{id}/{slug}", response=QuibSchema)

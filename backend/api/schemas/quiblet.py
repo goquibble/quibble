@@ -69,6 +69,10 @@ class QuibletBasicSchema(ModelSchema):
         model = Quiblet
         fields = ["id", "name", "avatar"]
 
+    @staticmethod
+    def resolve_members_count(obj: Quiblet) -> int:
+        return getattr(obj, "members_count", obj.members.count())
+
 
 class QuibletType(str, Enum):
     PUBLIC = "PUBLIC"
@@ -90,6 +94,11 @@ class QuibletCreateOutSchema(Schema):
 # --------------------
 # Quib Schemas
 # --------------------
+
+
+class QuibCreateInSchema(Schema):
+    title: str
+    content: str | None = None
 
 
 class QuibSchema(ModelSchema, VoteSchema):
@@ -115,6 +124,18 @@ class QuibSchema(ModelSchema, VoteSchema):
         if not obj.poster_id:
             return None
         return fetch_user(obj.poster_id)
+
+    @staticmethod
+    def resolve_upvotes(obj: Quib) -> int:
+        return getattr(obj, "upvotes", 0)
+
+    @staticmethod
+    def resolve_downvotes(obj: Quib) -> int:
+        return getattr(obj, "downvotes", 0)
+
+    @staticmethod
+    def resolve_comments_count(obj: Quib) -> int:
+        return getattr(obj, "comments_count", 0)
 
     @staticmethod
     def resolve_content(obj: Quib) -> str | None:

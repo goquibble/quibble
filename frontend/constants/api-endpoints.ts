@@ -26,4 +26,5 @@ export const API_ENDPOINTS = {
   QUIBLET_MEMBERSHIP: (name: string) => `api/v1/quiblet/${name}/membership`,
   QUIBLET_QUIB_COMMENTS: (name: string, id: string, slug: string) =>
     `api/v1/quiblet/${name}/quib/${id}/${slug}/comments`,
+  QUIBLET_CREATE_QUIB: (name: string) => `api/v1/quiblet/${name}/quib`,
 };
