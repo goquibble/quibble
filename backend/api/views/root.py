@@ -7,6 +7,7 @@ from api.http import CustomHttpRequest
 from api.schemas.quiblet import QuibSchema
 from api.schemas.root import SearchSchema
 from quiblet.models import Quib, Quiblet
+from api.auth import AuthBearer
 
 router = Router()
 
@@ -42,7 +43,11 @@ def search(request: HttpRequest, q: str):  # pyright: ignore[reportUnusedParamet
 # --------------------
 
 
-@router.get("/feed", response=list[QuibSchema])
+@router.get(
+    "/feed",
+    response=list[QuibSchema],
+    auth=[AuthBearer(), lambda request: True],
+)
 @paginate
-def get_feed(request: CustomHttpRequest):
+def get_feed(request: CustomHttpRequest) -> list[QuibSchema]:
     return Quib.objects.published().for_request(request).select_related("quiblet")
