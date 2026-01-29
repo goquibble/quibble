@@ -45,7 +45,11 @@ def search_quiblets(request: HttpRequest, q: str):  # pyright: ignore[reportUnus
     )[:10]
 
 
-@router.get("/{name}", response=QuibletSchema)
+@router.get(
+    "/{name}",
+    response=QuibletSchema,
+    auth=[AuthBearer(), lambda request: True],
+)
 def get_quiblet(request: HttpRequest, name: str):
     def fetch():
         return get_object_or_404(
@@ -163,7 +167,11 @@ def create_quib(
     return quib
 
 
-@router.get("/{name}/quib/{id}/{slug}", response=QuibSchema)
+@router.get(
+    "/{name}/quib/{id}/{slug}",
+    response=QuibSchema,
+    auth=[AuthBearer(), lambda request: True],
+)
 def get_quib(request: HttpRequest, name: str, id: str, slug: str):
     def fetch():
         return get_object_or_404(
@@ -208,7 +216,11 @@ def vote_quib(request: CustomHttpRequest, name: str, id: str, slug: str, value: 
 # --------------------
 
 
-@router.get("/{name}/quib/{id}/{slug}/comments", response=list[CommentSchema])
+@router.get(
+    "/{name}/quib/{id}/{slug}/comments",
+    response=list[CommentSchema],
+    auth=[AuthBearer(), lambda request: True],
+)
 def get_comments(request: HttpRequest, name: str, id: str, slug: str):
     quib = get_object_or_404(Quib.objects.for_quiblet(name), id=id, slug=slug)
     comments = cast(CommentManager, quib.comments)
