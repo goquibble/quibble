@@ -24,6 +24,7 @@ export default function QuibViewer({ content, className }: QuibViewerProps) {
           "[&_ul]:list-disc [&_ul]:pl-5 [&_ul]:my-2",
           "[&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:my-2",
           "[&_li]:my-1",
+          "[&_.ProseMirror-trailingBreak]:hidden",
         ),
       },
     },
