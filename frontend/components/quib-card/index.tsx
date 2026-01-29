@@ -2,6 +2,7 @@ import Link from "next/link";
 import { timeAgo } from "@/lib/utils";
 import type { Quib } from "@/types/quib";
 import { CoverCard } from "../cover-card";
+import QuibViewer from "../quib/quib-viewer";
 import QuibActions from "../quib-actions";
 import QuibSource from "./quib-source";
 
@@ -9,6 +10,7 @@ export default function QuibCard({
   upvotes,
   downvotes,
   user_vote_value,
+  comments_count,
   quiblet,
   poster,
   id,
@@ -41,7 +43,7 @@ export default function QuibCard({
           className="aspect-video"
         />
       ) : content?.trim() ? (
-        <p className="text-sm">{content}</p>
+        <QuibViewer content={content} />
       ) : null}
       <QuibActions
         id={id}
@@ -50,6 +52,7 @@ export default function QuibCard({
         downvotes={downvotes}
         user_vote_value={user_vote_value}
         name={quiblet.name}
+        comments_count={comments_count}
       />
     </div>
   );
