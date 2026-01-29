@@ -179,6 +179,21 @@ def get_quib(request: HttpRequest, name: str, id: str, slug: str):
     return cache_response(cache_key, fetch)
 
 
+@router.get("/{name}/quib/{id}/{slug}/vote", auth=AuthBearer(), response={200: int})
+def get_quib_vote(request: CustomHttpRequest, name: str, id: str, slug: str):
+    vote = (
+        QuibVote.objects.filter(
+            quib__quiblet__name=name,
+            quib__id=id,
+            quib__slug=slug,
+            voter_id=request.user_id,
+        )
+        .values_list("value", flat=True)
+        .first()
+    )
+    return 200, vote if vote is not None else 0
+
+
 @router.post("/{name}/quib/{id}/{slug}/vote", auth=AuthBearer(), response={204: None})
 def vote_quib(request: CustomHttpRequest, name: str, id: str, slug: str, value: int):
     quib = get_object_or_404(Quib.objects.for_quiblet(name), id=id, slug=slug)
