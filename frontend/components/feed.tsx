@@ -1,11 +1,10 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import { Skeleton } from "@/components/ui/skeleton";
-import { cn } from "@/lib/utils";
 import { getFeed } from "@/services/feed";
 import { useAuthStore } from "@/stores/auth";
 import QuibCard from "./quib-card";
 import QuibHeader from "./quib-header";
+import QuibSkeleton from "./quib-skeleton";
 import Quibs404 from "./quibs-404";
 
 export default function Feed() {
@@ -22,24 +21,10 @@ export default function Feed() {
         <QuibHeader />
         <div className="flex flex-col gap-4">
           {[...Array(2)].map((_, i) => (
-            <div
+            <QuibSkeleton
               key={String(i)}
-              className="flex flex-col gap-2 rounded-lg border p-4"
-            >
-              <div className="flex items-center gap-2">
-                <Skeleton className="size-6 rounded-full" />
-                <Skeleton className="h-4 w-24" />
-              </div>
-              <Skeleton className="h-6 w-100" />
-              <Skeleton
-                className={cn("w-full", i === 1 ? "aspect-video" : "h-30")}
-              />
-              <div className="flex items-center gap-2">
-                <Skeleton className="h-8 w-20" />
-                <Skeleton className="h-8 w-36" />
-                <Skeleton className="h-8 w-8" />
-              </div>
-            </div>
+              mediaClassName={i === 1 ? "aspect-video" : "h-30"}
+            />
           ))}
         </div>
       </div>

@@ -75,7 +75,11 @@ def get_quiblet_highlights(request: HttpRequest, name: str):  # pyright: ignore[
     return cache_response(cache_key, fetch)
 
 
-@router.get("/{name}/quibs", response=list[QuibSchema])
+@router.get(
+    "/{name}/quibs",
+    response=list[QuibSchema],
+    auth=[AuthBearer(), lambda request: True],
+)
 def get_quiblet_quibs(request: HttpRequest, name: str):
     def fetch():
         return (
