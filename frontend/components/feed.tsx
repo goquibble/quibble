@@ -32,7 +32,7 @@ export default function Feed() {
               </div>
               <Skeleton className="h-6 w-100" />
               <Skeleton
-                className={cn("w-full", i === 1 ? "aspect-video" : "h-38")}
+                className={cn("w-full", i === 1 ? "aspect-video" : "h-30")}
               />
               <div className="flex items-center gap-2">
                 <Skeleton className="h-8 w-20" />

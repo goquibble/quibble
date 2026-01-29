@@ -8,7 +8,7 @@ import {
   Plus,
 } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/stores/auth";
@@ -41,6 +41,7 @@ const navLinkMapping = [
 ];
 
 export default function Header() {
+  const router = useRouter();
   const pathname = usePathname();
   const userProfile = useAuthStore((state) => state.userProfile);
   const isLoading = useAuthStore((state) => state.isLoading);
@@ -80,7 +81,7 @@ export default function Header() {
           </>
         ) : userProfile ? (
           <>
-            <Button>
+            <Button onClick={() => router.push("/submit")}>
               <Plus />
               Create Quib
             </Button>
