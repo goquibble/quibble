@@ -22,7 +22,7 @@ export default function QuibCard({
   created_at,
 }: Quib) {
   return (
-    <div className="group relative flex flex-col gap-2 rounded-lg border p-4 pb-2">
+    <div className="group relative flex flex-col gap-2 rounded-lg border p-4 hover:bg-muted/50">
       <Link
         href={`/q/${quiblet.name}/quib/${id}/${slug}`}
         className="absolute inset-0 z-4"
