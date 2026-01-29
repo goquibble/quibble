@@ -2,6 +2,7 @@ import { redditMono, redditSans } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
 import type { Metadata } from "next";
+import NextTopLoader from "nextjs-toploader";
 import AppSidebar from "@/components/app-sidebar";
 import Header from "@/components/header";
 import { Toaster } from "@/components/ui/sonner";
@@ -30,6 +31,7 @@ export default function RootLayout({
           redditMono.variable,
         )}
       >
+        <NextTopLoader color="var(--primary)" showSpinner={false} height={2} />
         <Providers>
           <Header />
           <main className="flex">
