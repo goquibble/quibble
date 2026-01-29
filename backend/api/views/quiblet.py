@@ -81,17 +81,12 @@ def get_quiblet_highlights(request: HttpRequest, name: str):  # pyright: ignore[
     auth=[AuthBearer(), lambda request: True],
 )
 def get_quiblet_quibs(request: HttpRequest, name: str):
-    def fetch():
-        return (
-            Quib.objects.published()
-            .for_quiblet(name)
-            .for_request(request)
-            .for_request(request)
-            .select_related("quiblet")
-        )
-
-    cache_key = f"quiblet:{name}:quibs"
-    return cache_response(cache_key, fetch)
+    return (
+        Quib.objects.published()
+        .for_quiblet(name)
+        .for_request(request)
+        .select_related("quiblet")
+    )
 
 
 @router.post("/{name}/join-or-leave", auth=AuthBearer(), response={204: None})
