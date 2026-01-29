@@ -4,8 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
 import { ChevronDown, Search, Trash, X } from "lucide-react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useForm } from "react-hook-form";
 import { useDebounce } from "use-debounce";
@@ -29,7 +29,7 @@ import {
 } from "@/components/ui/popover";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import api from "@/lib/api";
-import { cn } from "@/lib/utils";
+import { cn, getAvatarUrl } from "@/lib/utils";
 
 // Define the form validation schema
 const formSchema = z
@@ -76,15 +76,17 @@ interface QuibletOption {
 
 export default function SubmitPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [activeType, setActiveType] = useState<PostType>("text");
   const [charCount, setCharCount] = useState(0);
 
   // Quiblet Selector State
   const [isSelectorOpen, setIsSelectorOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedQuiblet, setSelectedQuiblet] = useState<QuibletOption | null>(
-    null,
-  );
+  const [selectedQuiblet, setSelectedQuiblet] = useState<Pick<
+    QuibletOption,
+    "name" | "avatar"
+  > | null>(null);
   const [debouncedQuery] = useDebounce(searchQuery, 300);
 
   const form = useForm<FormValues>({
@@ -97,6 +99,17 @@ export default function SubmitPage() {
       quiblet: "",
     },
   });
+
+  useEffect(() => {
+    const quibletName = searchParams.get("q");
+    if (quibletName) {
+      form.setValue("quiblet", quibletName);
+      setSelectedQuiblet({
+        name: quibletName,
+        avatar: getAvatarUrl(quibletName),
+      });
+    }
+  }, [searchParams, form]);
 
   // Fetch Quiblets
   const { data: quiblets, isLoading } = useQuery({

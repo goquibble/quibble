@@ -1,6 +1,7 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import { BellOff, Ellipsis, Plus, Star } from "lucide-react";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -38,10 +39,12 @@ export default function Quiblet() {
         <h1 className="pl-22 font-bold text-3xl text-white/90">
           q/{quiblet.name}
         </h1>
-        <Button variant={"outline"} className="ml-auto">
-          <Plus />
-          Create Quib
-        </Button>
+        <Link href={`/submit?q=${quiblet.name}`} className="ml-auto">
+          <Button variant={"outline"}>
+            <Plus />
+            Create Quib
+          </Button>
+        </Link>
         <QuibletJoinBtn name={quiblet.name} hasJoined={quiblet.has_joined} />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
