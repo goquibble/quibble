@@ -27,7 +27,8 @@ export default function QuibVote({
   className,
   showMoreBtn,
 }: QuibVoteProps) {
-  const { isAuthenticated, isLoading: isAuthLoading } = useAuthStore();
+  const isAuthLoading = useAuthStore((state) => state.isLoading);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   const { data: user_vote_value, isLoading: isQuibLoading } = useQuery({
     queryKey: ["quib-vote", name, id, slug],

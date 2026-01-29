@@ -216,7 +216,9 @@ def get_comments(request: HttpRequest, name: str, id: str, slug: str):
 
 
 @router.post(
-    "/{name}/quib/{id}/{slug}/comments", auth=AuthBearer(), response=CommentSchema
+    "/{name}/quib/{id}/{slug}/comments",
+    auth=AuthBearer(),
+    response=CommentSchema,
 )
 def create_comment(
     request: CustomHttpRequest,

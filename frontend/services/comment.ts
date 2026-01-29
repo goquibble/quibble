@@ -23,7 +23,13 @@ export async function createComment(
   },
 ): Promise<Comment> {
   const url = API_ENDPOINTS.QUIBLET_QUIB_COMMENTS(name, id, slug);
-  const res = await api.post<Comment>(url, data);
+  const payload = data
+    ? {
+        content: data.content,
+        parent_path: data.parentPath,
+      }
+    : undefined;
 
+  const res = await api.post<Comment>(url, payload);
   return res.data;
 }
