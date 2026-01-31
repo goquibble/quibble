@@ -59,6 +59,7 @@ export default function CommentBox({
         placeholder="Add your comment"
         className="min-h-[100px]"
         editorClassName="min-h-[100px]"
+        autofocus={true}
       />
       <div className="flex gap-2">
         <Button

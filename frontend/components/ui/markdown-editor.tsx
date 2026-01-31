@@ -28,6 +28,7 @@ interface MarkdownEditorProps {
   name?: string;
   onBlur?: () => void;
   editorClassName?: string;
+  autofocus?: boolean | "start" | "end" | "all" | number | null;
 }
 
 export const MarkdownEditor = React.forwardRef<
@@ -77,6 +78,7 @@ export const MarkdownEditor = React.forwardRef<
       onBlur: () => {
         onBlur?.();
       },
+      autofocus: props.autofocus,
       immediatelyRender: false, // Fixes some SSR hydration mismatches
     });
 
