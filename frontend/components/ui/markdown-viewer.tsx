@@ -6,12 +6,12 @@ import StarterKit from "@tiptap/starter-kit";
 import { useEffect } from "react";
 import { cn } from "@/lib/utils";
 
-interface QuibViewerProps {
+interface MarkdownViewerProps {
   content: string;
   className?: string;
 }
 
-export default function QuibViewer({ content, className }: QuibViewerProps) {
+export function MarkdownViewer({ content, className }: MarkdownViewerProps) {
   const editor = useEditor({
     extensions: [StarterKit, Superscript],
     content: content,

@@ -7,10 +7,10 @@ import { getQuib } from "@/services/quib";
 import { CoverCard } from "../cover-card";
 import { Button } from "../ui/button";
 import IconInput from "../ui/icon-input";
+import { MarkdownViewer } from "../ui/markdown-viewer";
 import CommentBox from "./comment-box";
 import Comments from "./comments";
 import QuibMeta from "./quib-meta";
-import QuibViewer from "./quib-viewer";
 import QuibVote from "./quib-vote";
 
 export default function Quib() {
@@ -42,7 +42,7 @@ export default function Quib() {
           className="aspect-video"
         />
       )}
-      {quib.content?.trim() && <QuibViewer content={quib.content} />}
+      {quib.content?.trim() && <MarkdownViewer content={quib.content} />}
       <QuibVote
         name={quib.quiblet.name}
         id={quib.id}

@@ -4,6 +4,7 @@ import type { TreeNode } from "@/lib/build-tree";
 import { cn, timeAgo } from "@/lib/utils";
 import type { Comment } from "@/types/comment";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { MarkdownViewer } from "../ui/markdown-viewer";
 import CommentActions from "./comment-actions";
 import CommentBox from "./comment-box";
 
@@ -75,7 +76,7 @@ export default function CommentBlock({
             {is_deleted ? "deleted" : (commenter?.name ?? commenter?.username)}
           </span>
         </div>
-        <p className="mt-1 whitespace-pre-wrap text-sm">{content}</p>
+        <MarkdownViewer content={content} className="mt-1" />
         <CommentActions
           upvotes={upvotes}
           downvotes={downvotes}

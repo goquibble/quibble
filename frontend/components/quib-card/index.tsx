@@ -2,8 +2,8 @@ import Link from "next/link";
 import { timeAgo } from "@/lib/utils";
 import type { Quib } from "@/types/quib";
 import { CoverCard } from "../cover-card";
-import QuibViewer from "../quib/quib-viewer";
 import QuibActions from "../quib-actions";
+import { MarkdownViewer } from "../ui/markdown-viewer";
 import QuibSource from "./quib-source";
 
 export default function QuibCard({
@@ -43,7 +43,7 @@ export default function QuibCard({
           className="aspect-video"
         />
       ) : content?.trim() ? (
-        <QuibViewer content={content} />
+        <MarkdownViewer content={content} />
       ) : null}
       <QuibActions
         id={id}
