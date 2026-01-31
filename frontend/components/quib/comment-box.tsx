@@ -57,25 +57,27 @@ export default function CommentBox({
         value={content}
         onChange={setContent}
         placeholder="Add your comment"
-        className="min-h-[100px]"
-        editorClassName="min-h-[100px]"
+        className="min-h-10"
+        editorClassName="min-h-10"
         autofocus={true}
+        footer={
+          <div className="flex gap-2 p-1">
+            <Button
+              size={"sm"}
+              variant={"outline"}
+              className="ml-auto"
+              disabled={mutation.isPending}
+              onClick={onCancelClick}
+              type="button"
+            >
+              Cancel
+            </Button>
+            <Button type="submit" size={"sm"} disabled={mutation.isPending}>
+              Comment
+            </Button>
+          </div>
+        }
       />
-      <div className="flex gap-2">
-        <Button
-          size={"sm"}
-          variant={"outline"}
-          className="ml-auto"
-          disabled={mutation.isPending}
-          onClick={onCancelClick}
-          type="button"
-        >
-          Cancel
-        </Button>
-        <Button type="submit" size={"sm"} disabled={mutation.isPending}>
-          Comment
-        </Button>
-      </div>
     </form>
   );
 }

@@ -29,6 +29,7 @@ interface MarkdownEditorProps {
   onBlur?: () => void;
   editorClassName?: string;
   autofocus?: boolean | "start" | "end" | "all" | number | null;
+  footer?: React.ReactNode;
 }
 
 export const MarkdownEditor = React.forwardRef<
@@ -210,6 +211,7 @@ export const MarkdownEditor = React.forwardRef<
         </div>
 
         <EditorContent editor={editor} className="flex-1" />
+        {props.footer}
       </div>
     );
   },

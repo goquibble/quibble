@@ -90,7 +90,7 @@ export default function CommentBlock({
             slug={quib_slug}
             parentPath={path}
             onCancelClick={() => setOpenReply(false)}
-            className="mt-2"
+            className="my-2"
           />
         )}
         {!isCollapsed &&
