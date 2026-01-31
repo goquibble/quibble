@@ -3,8 +3,8 @@ import { useParams } from "next/navigation";
 import { buildTree } from "@/lib/build-tree";
 import { getComments } from "@/services/comment";
 import { useAuthStore } from "@/stores/auth";
-import Loading from "../loading";
 import CommentBlock from "./comment-block";
+import CommentSkeleton from "./comment-skeleton";
 import Comments404 from "./comments-404";
 
 export default function Comments() {
@@ -22,7 +22,7 @@ export default function Comments() {
     enabled: !isAuthLoading,
   });
 
-  if (isAuthLoading || isLoading) return <Loading />;
+  if (isAuthLoading || isLoading) return <CommentSkeleton />;
   if (!comments) return <Comments404 />;
 
   return (
