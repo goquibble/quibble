@@ -36,7 +36,7 @@ export default function Feed() {
   }
 
   return (
-    <div className="flex flex-1 flex-col p-4 pr-2">
+    <div className="flex flex-1 flex-col gap-4 p-4 pr-2">
       <QuibHeader />
       {data.items.map((quib) => (
         <QuibCard key={quib.id} {...quib} />
