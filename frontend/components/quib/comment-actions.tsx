@@ -35,6 +35,7 @@ interface CommentActionsProps
   quibId: string;
   quibSlug: string;
   commenterId?: number;
+  isDeleted: boolean;
 }
 
 export default function CommentActions({
@@ -47,6 +48,7 @@ export default function CommentActions({
   quibId,
   quibSlug,
   commenterId,
+  isDeleted,
 }: CommentActionsProps) {
   // Import useQueryClient
   const queryClient = useQueryClient();
@@ -137,7 +139,7 @@ export default function CommentActions({
           <DropdownMenuItem
             variant="destructive"
             onClick={handleDelete}
-            disabled={!isOwner}
+            disabled={!isOwner || isDeleted}
           >
             <Trash2 />
             <span>Delete</span>

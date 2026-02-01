@@ -89,6 +89,7 @@ export default function CommentBlock({
           quibId={quib_id}
           quibSlug={quib_slug}
           commenterId={commenter?.id}
+          isDeleted={is_deleted}
         />
         {openReply && (
           <CommentBox
