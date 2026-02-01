@@ -14,6 +14,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { deleteComment } from "@/services/comment";
+import { useAuthStore } from "@/stores/auth";
 import type { Comment } from "@/types/comment";
 import { Button } from "../ui/button";
 import {
@@ -33,6 +34,7 @@ interface CommentActionsProps
   quibletName: string;
   quibId: string;
   quibSlug: string;
+  commenterId?: number;
 }
 
 export default function CommentActions({
@@ -44,15 +46,19 @@ export default function CommentActions({
   quibletName,
   quibId,
   quibSlug,
+  commenterId,
 }: CommentActionsProps) {
   // Import useQueryClient
   const queryClient = useQueryClient();
   const router = useRouter();
+  const userProfile = useAuthStore((state) => state.userProfile);
   const [voteState, _setVoteState] = useState<VoteState>({
     voteCount: upvotes - downvotes,
     myVote:
       user_vote_value === 1 ? "up" : user_vote_value === -1 ? "down" : null,
   });
+
+  const isOwner = userProfile?.id === commenterId;
 
   const handleDelete = async () => {
     const promise = deleteComment(quibletName, quibId, quibSlug, commentId);
@@ -129,10 +135,11 @@ export default function CommentActions({
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem
+            variant="destructive"
             onClick={handleDelete}
-            className="cursor-pointer text-destructive focus:text-destructive"
+            disabled={!isOwner}
           >
-            <Trash2 className="mr-2 h-4 w-4" />
+            <Trash2 />
             <span>Delete</span>
           </DropdownMenuItem>
         </DropdownMenuContent>

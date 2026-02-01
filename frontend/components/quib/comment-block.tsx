@@ -88,6 +88,7 @@ export default function CommentBlock({
           quibletName={quiblet_name}
           quibId={quib_id}
           quibSlug={quib_slug}
+          commenterId={commenter?.id}
         />
         {openReply && (
           <CommentBox
