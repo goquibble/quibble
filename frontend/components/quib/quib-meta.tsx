@@ -55,7 +55,11 @@ export default function QuibMeta({
 
   return (
     <div className="flex gap-2">
-      <Button size={"icon-sm"} variant={"outline"}>
+      <Button
+        size={"icon-sm"}
+        variant={"outline"}
+        onClick={() => router.back()}
+      >
         <ArrowLeft />
       </Button>
       <Avatar>
