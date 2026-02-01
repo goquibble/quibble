@@ -211,6 +211,26 @@ def vote_quib(request: CustomHttpRequest, name: str, id: str, slug: str, value: 
     return 204, None
 
 
+@router.delete(
+    "/{name}/quib/{id}/{slug}",
+    auth=AuthBearer(),
+    response={204: None},
+)
+def delete_quib(request: CustomHttpRequest, name: str, id: str, slug: str):
+    quib = get_object_or_404(
+        Quib,
+        quiblet__name=name,
+        id=id,
+        slug=slug,
+    )
+
+    if quib.poster_id != request.user_id:
+        raise HttpError(403, "You can only delete your own quibs.")
+
+    quib.delete()
+    return 204, None
+
+
 # --------------------
 # Comment Routes
 # --------------------

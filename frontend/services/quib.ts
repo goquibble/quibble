@@ -13,3 +13,7 @@ export async function getQuibVote(name: string, id: string, slug: string) {
   );
   return res.data;
 }
+
+export async function deleteQuib(name: string, id: string, slug: string) {
+  await api.delete(API_ENDPOINTS.QUIBLET_QUIB(name, id, slug));
+}

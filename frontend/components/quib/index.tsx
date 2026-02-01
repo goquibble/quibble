@@ -33,6 +33,8 @@ export default function Quib() {
         quiblet={quib.quiblet}
         poster={quib.poster}
         created_at={quib.created_at}
+        id={quib.id}
+        slug={quib.slug}
       />
       <h1 className="font-bold text-2xl dark:text-white/90">{quib.title}</h1>
       {quib.cover && (
