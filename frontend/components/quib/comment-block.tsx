@@ -25,9 +25,11 @@ export default function CommentBlock({
   is_deleted,
   children,
   // quib(let) props
+  // quib(let) props
   quiblet_name,
   quib_id,
   quib_slug,
+  id,
 }: CommentBlockProps) {
   const [openReply, setOpenReply] = useState(false);
   // collapse if comment is deleted (initial)
@@ -82,6 +84,10 @@ export default function CommentBlock({
           downvotes={downvotes}
           user_vote_value={user_vote_value}
           onReplyClick={() => setOpenReply((prev) => !prev)}
+          commentId={id}
+          quibletName={quiblet_name}
+          quibId={quib_id}
+          quibSlug={quib_slug}
         />
         {openReply && (
           <CommentBox

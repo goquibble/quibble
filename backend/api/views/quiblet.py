@@ -259,3 +259,32 @@ def create_comment(
     )
 
     return comment
+
+
+@router.delete(
+    "/{name}/quib/{id}/{slug}/comments/{comment_id}",
+    auth=AuthBearer(),
+    response={204: None},
+)
+def delete_comment(
+    request: CustomHttpRequest,
+    name: str,
+    id: str,
+    slug: str,
+    comment_id: int,
+):
+    comment = get_object_or_404(
+        Comment,
+        id=comment_id,
+        quib__quiblet__name=name,
+        quib__id=id,
+        quib__slug=slug,
+    )
+
+    if comment.commenter_id != request.user_id:
+        raise HttpError(403, "You can only delete your own comments.")
+
+    comment.is_deleted = True
+    comment.save()
+
+    return 204, None

@@ -33,3 +33,13 @@ export async function createComment(
   const res = await api.post<Comment>(url, payload);
   return res.data;
 }
+
+export async function deleteComment(
+  name: string,
+  id: string,
+  slug: string,
+  commentId: number,
+): Promise<void> {
+  const url = API_ENDPOINTS.QUIBLET_QUIB_COMMENT(name, id, slug, commentId);
+  await api.delete(url);
+}
