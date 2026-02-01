@@ -42,7 +42,7 @@ export default function QuibMeta({
         queryClient.setQueryData(
           ["quiblet", quiblet.name, "quibs"],
           (oldQuibs: Quib[] | undefined) => {
-            if (!oldQuibs) return [];
+            if (!oldQuibs) return undefined;
             return oldQuibs.filter((q) => q.id !== id);
           },
         );
