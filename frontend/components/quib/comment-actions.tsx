@@ -128,7 +128,16 @@ export default function CommentActions({
         <Reply />
         Reply
       </Button>
-      <Button size={"sm"} variant={"ghost"}>
+      <Button
+        size={"sm"}
+        variant={"ghost"}
+        onClick={() => {
+          navigator.clipboard
+            .writeText(window.location.href)
+            .then(() => toast.success("Link copied to clipboard"))
+            .catch(() => toast.error("Failed to copy link"));
+        }}
+      >
         <Forward />
         Share
       </Button>

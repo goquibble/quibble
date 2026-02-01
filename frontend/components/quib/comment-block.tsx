@@ -40,8 +40,8 @@ export default function CommentBlock({
     <div className="flex gap-2">
       <div className="flex flex-col gap-2">
         <Avatar className="size-7">
-          <AvatarImage src={commenter?.avatar ?? ""} />
-          <AvatarFallback seed={commenter?.username} />
+          {!is_deleted && <AvatarImage src={commenter?.avatar ?? ""} />}
+          <AvatarFallback seed={is_deleted ? "deleted" : commenter?.username} />
         </Avatar>
         <div
           className={cn(
