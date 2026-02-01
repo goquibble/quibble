@@ -44,6 +44,7 @@ export const MarkdownEditor = React.forwardRef<
       onChange,
       placeholder,
       onBlur,
+      autofocus,
       ...props
     },
     ref,
@@ -79,7 +80,7 @@ export const MarkdownEditor = React.forwardRef<
       onBlur: () => {
         onBlur?.();
       },
-      autofocus: props.autofocus,
+      autofocus: autofocus,
       immediatelyRender: false, // Fixes some SSR hydration mismatches
     });
 
