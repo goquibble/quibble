@@ -147,7 +147,7 @@ def create_quiblet(
 def create_quib(
     request: CustomHttpRequest,
     name: str,
-    data: Form[QuibCreateInSchema],
+    payload: Form[QuibCreateInSchema],
     cover: File[UploadedFile] | None = None,
 ):
     quiblet = get_object_or_404(Quiblet, name=name)
@@ -155,16 +155,16 @@ def create_quib(
     quib = Quib(
         quiblet=quiblet,
         poster_id=request.user_id,
-        title=data.title,
-        content=data.content,
+        title=payload.title,
+        content=payload.content,
     )
+
+    if actual_cover := cover or request.FILES.get("cover"):
+        quib.cover.save(actual_cover.name, actual_cover)
+
     quib.save()
-
-    if cover:
-        quib.cover.save(cover.name, cover)
-        quib.save()
-
     QuibVote.objects.create(quib=quib, voter_id=request.user_id, value=1)
+
     return quib
 
 

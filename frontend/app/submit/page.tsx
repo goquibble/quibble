@@ -143,11 +143,6 @@ export default function SubmitPage() {
       const res = await api.post(
         API_ENDPOINTS.QUIBLET_CREATE_QUIB(values.quiblet),
         formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        },
       );
 
       // Navigate to the created quib
