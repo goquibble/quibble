@@ -376,6 +376,7 @@ export default function SubmitPage() {
                   <FormControl>
                     <MarkdownEditor
                       placeholder="Body Text (optional)"
+                      autofocus={false}
                       {...field}
                     />
                   </FormControl>
