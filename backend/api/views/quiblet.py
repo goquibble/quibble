@@ -164,6 +164,7 @@ def create_quib(
         quib.cover.save(cover.name, cover)
         quib.save()
 
+    QuibVote.objects.create(quib=quib, voter_id=request.user_id, value=1)
     return quib
 
 
