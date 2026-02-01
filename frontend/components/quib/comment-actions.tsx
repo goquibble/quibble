@@ -4,7 +4,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import {
   ArrowBigDown,
   ArrowBigUp,
+  CircleMinus,
   Ellipsis,
+  Flag,
   Forward,
   Reply,
   Trash2,
@@ -21,6 +23,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 
@@ -136,6 +139,11 @@ export default function CommentActions({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
+          <DropdownMenuItem disabled>
+            <Flag />
+            <span>Report</span>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
           <DropdownMenuItem
             variant="destructive"
             onClick={handleDelete}
@@ -143,6 +151,10 @@ export default function CommentActions({
           >
             <Trash2 />
             <span>Delete</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem disabled>
+            <CircleMinus />
+            <span>Request removal</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
