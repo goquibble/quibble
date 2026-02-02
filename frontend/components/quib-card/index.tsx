@@ -43,7 +43,7 @@ export default function QuibCard({
             </span>
           </div>
 
-          <h2 className="line-clamp-2 font-bold text-base leading-tight decoration-2 decoration-primary group-hover:underline dark:text-white/90">
+          <h2 className="line-clamp-2 font-bold text-lg leading-tight decoration-2 decoration-primary group-hover:underline dark:text-white/90">
             {title}
           </h2>
 
@@ -56,6 +56,7 @@ export default function QuibCard({
               user_vote_value={user_vote_value}
               name={quiblet.name}
               comments_count={comments_count}
+              compact
             />
           </div>
         </div>

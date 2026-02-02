@@ -19,7 +19,7 @@ export default function Feed() {
 
   if (isLoading || isLoadingAuth) {
     return (
-      <div className="flex flex-1 flex-col p-4 pr-2">
+      <div className="flex flex-1 flex-col gap-4 p-4 pr-2">
         <QuibHeader />
         <div className="flex flex-col gap-4">
           {[...Array(2)].map((_, i) => (

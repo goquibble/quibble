@@ -46,6 +46,7 @@ export default function QuibActions({
   onShareClick,
   showMoreBtn = true,
   className,
+  compact = false,
 }: QuibActionsProps) {
   const [voteState, setVoteState] = useState<VoteState>({
     voteCount: upvotes - downvotes,
@@ -131,7 +132,7 @@ export default function QuibActions({
         <MessagesSquare />
         <span className="ml-2 font-medium text-sm">{comments_count}</span>
       </Button>
-      <QuibShareBtn id={id} slug={slug} quiblet_name={name} />
+      <QuibShareBtn id={id} slug={slug} quiblet_name={name} compact={compact} />
       {showMoreBtn && (
         <Button size={"icon-sm"} variant={"ghost"} disabled>
           <MoreHorizontal />
