@@ -1,4 +1,6 @@
+"use client";
 import Link from "next/link";
+import { useState } from "react";
 import { timeAgo } from "@/lib/utils";
 import type { Quib } from "@/types/quib";
 import { CoverCard } from "../cover-card";
@@ -26,6 +28,14 @@ export default function QuibCard({
   content,
   created_at,
 }: QuibCardProps) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const handleToggleExpand = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsExpanded((prev) => !prev);
+  };
+
   if (layout === "compact") {
     return (
       <div className="group relative flex items-start gap-4 rounded-lg border p-3 hover:bg-muted/50">
@@ -47,6 +57,20 @@ export default function QuibCard({
             {title}
           </h2>
 
+          {isExpanded && (
+            <div className="relative z-5">
+              {cover ? (
+                <CoverCard
+                  cover={cover}
+                  cover_small={cover_small}
+                  className="aspect-video w-full"
+                />
+              ) : content?.trim() ? (
+                <MarkdownViewer content={content} />
+              ) : null}
+            </div>
+          )}
+
           <div className="mt-1">
             <QuibActions
               id={id}
@@ -57,12 +81,14 @@ export default function QuibCard({
               name={quiblet.name}
               comments_count={comments_count}
               compact
+              isExpanded={isExpanded}
+              onToggleExpand={handleToggleExpand}
             />
           </div>
         </div>
 
         {/* Right Side: Thumbnail */}
-        {cover ? (
+        {cover && !isExpanded ? (
           <CoverCard
             cover={cover}
             cover_small={cover_small}

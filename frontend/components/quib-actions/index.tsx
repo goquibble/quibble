@@ -2,7 +2,9 @@
 import {
   ArrowBigDown,
   ArrowBigUp,
+  Maximize2,
   MessagesSquare,
+  Minimize2,
   MoreHorizontal,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -33,6 +35,8 @@ interface QuibActionsProps
   showMoreBtn?: boolean;
   className?: string;
   compact?: boolean;
+  isExpanded?: boolean;
+  onToggleExpand?: (e: React.MouseEvent) => void;
 }
 
 export default function QuibActions({
@@ -47,6 +51,8 @@ export default function QuibActions({
   showMoreBtn = true,
   className,
   compact = false,
+  isExpanded = false,
+  onToggleExpand,
 }: QuibActionsProps) {
   const [voteState, setVoteState] = useState<VoteState>({
     voteCount: upvotes - downvotes,
@@ -100,6 +106,20 @@ export default function QuibActions({
 
   return (
     <div className={cn("flex w-max items-center gap-2", className)}>
+      {compact && (
+        <Button
+          size="icon-sm"
+          variant={"outline"}
+          onClick={onToggleExpand}
+          className="relative z-5 h-8 w-8"
+        >
+          {isExpanded ? (
+            <Minimize2 className="h-4 w-4" />
+          ) : (
+            <Maximize2 className="h-4 w-4" />
+          )}
+        </Button>
+      )}
       <div
         className={cn(
           "relative z-5 flex items-center gap-1 rounded-lg border",
@@ -116,7 +136,7 @@ export default function QuibActions({
           className={cn(voteState.myVote !== "up" && "hover:text-primary")}
           onClick={() => handleVote("up")}
         >
-          <ArrowBigUp />
+          <ArrowBigUp className={cn(compact && "h-4 w-4")} />
         </Button>
         <span className="font-medium text-sm">{voteState.voteCount}</span>
         <Button
@@ -125,17 +145,27 @@ export default function QuibActions({
           className={cn(voteState.myVote !== "down" && "hover:text-secondary")}
           onClick={() => handleVote("down")}
         >
-          <ArrowBigDown />
+          <ArrowBigDown className={cn(compact && "h-4 w-4")} />
         </Button>
       </div>
-      <Button size={"sm"} variant={"outline"} onClick={onShareClick}>
-        <MessagesSquare />
-        <span className="ml-2 font-medium text-sm">{comments_count}</span>
+      <Button
+        size={"sm"}
+        variant={"outline"}
+        onClick={onShareClick}
+        className={cn(compact && "px-2")}
+      >
+        <MessagesSquare className={cn(compact && "h-4 w-4")} />
+        <span className="ml-1 text-xs">{comments_count}</span>
       </Button>
       <QuibShareBtn id={id} slug={slug} quiblet_name={name} compact={compact} />
       {showMoreBtn && (
-        <Button size={"icon-sm"} variant={"ghost"} disabled>
-          <MoreHorizontal />
+        <Button
+          size={"icon-sm"}
+          variant={"ghost"}
+          disabled
+          className={cn(compact && "h-8 w-8")}
+        >
+          <MoreHorizontal className={cn(compact && "h-4 w-4")} />
         </Button>
       )}
     </div>
