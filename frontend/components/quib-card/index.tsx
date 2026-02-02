@@ -56,7 +56,6 @@ export default function QuibCard({
               user_vote_value={user_vote_value}
               name={quiblet.name}
               comments_count={comments_count}
-              compact
             />
           </div>
         </div>
