@@ -1,6 +1,6 @@
-"use client";
 import { Link, Share2, Split } from "lucide-react";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import {
   DropdownMenu,
@@ -13,12 +13,16 @@ interface QuibShareBtnProps {
   id: string;
   slug: string;
   quiblet_name: string;
+  className?: string;
+  compact?: boolean;
 }
 
 export default function QuibShareBtn({
   id,
   slug,
   quiblet_name,
+  className,
+  compact,
 }: QuibShareBtnProps) {
   const handleCopyLink = () => {
     const link = `${window.location.origin}/q/${quiblet_name}/quib/${id}/${slug}`;
@@ -31,9 +35,13 @@ export default function QuibShareBtn({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button size={"sm"} variant={"outline"} className="relative z-5">
-          <Share2 />
-          <span className="font-medium text-sm">Share</span>
+        <Button
+          size={compact ? "icon-sm" : "sm"}
+          variant={"outline"}
+          className={cn("relative z-5", className)}
+        >
+          <Share2 className={cn(compact && "h-4 w-4")} />
+          {!compact && <span className="font-medium text-sm">Share</span>}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" side="bottom">

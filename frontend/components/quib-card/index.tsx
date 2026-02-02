@@ -6,7 +6,12 @@ import QuibActions from "../quib-actions";
 import { MarkdownViewer } from "../ui/markdown-viewer";
 import QuibSource from "./quib-source";
 
+interface QuibCardProps extends Quib {
+  layout?: "card" | "compact";
+}
+
 export default function QuibCard({
+  layout = "card",
   upvotes,
   downvotes,
   user_vote_value,
@@ -20,7 +25,54 @@ export default function QuibCard({
   cover_small,
   content,
   created_at,
-}: Quib) {
+}: QuibCardProps) {
+  if (layout === "compact") {
+    return (
+      <div className="group relative flex items-start gap-4 rounded-lg border p-3 hover:bg-muted/50">
+        <Link
+          href={`/q/${quiblet.name}/quib/${id}/${slug}`}
+          className="absolute inset-0 z-4"
+        />
+
+        {/* Left Side: Content */}
+        <div className="flex min-w-0 flex-1 flex-col gap-1">
+          <div className="flex items-center gap-2 text-xs">
+            <QuibSource quiblet={quiblet} poster={poster} />
+            <span className="text-muted-foreground">
+              — {timeAgo(created_at)}
+            </span>
+          </div>
+
+          <h2 className="line-clamp-2 font-bold text-base leading-tight decoration-2 decoration-primary group-hover:underline dark:text-white/90">
+            {title}
+          </h2>
+
+          <div className="mt-1">
+            <QuibActions
+              id={id}
+              slug={slug}
+              upvotes={upvotes}
+              downvotes={downvotes}
+              user_vote_value={user_vote_value}
+              name={quiblet.name}
+              comments_count={comments_count}
+              compact
+            />
+          </div>
+        </div>
+
+        {/* Right Side: Thumbnail */}
+        {cover ? (
+          <CoverCard
+            cover={cover}
+            cover_small={cover_small}
+            className="h-20 w-32 shrink-0 rounded-md object-cover"
+          />
+        ) : null}
+      </div>
+    );
+  }
+
   return (
     <div className="group relative flex flex-col gap-2 rounded-lg border p-4 hover:bg-muted/50">
       <Link

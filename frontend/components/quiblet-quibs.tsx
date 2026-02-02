@@ -2,6 +2,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getQuibletQuibs } from "@/services/quiblet";
 import { useAuthStore } from "@/stores/auth";
+import { useLayoutStore } from "@/stores/layout";
 import QuibCard from "./quib-card";
 import QuibHeader from "./quib-header";
 import QuibSkeleton from "./quib-skeleton";
@@ -13,6 +14,7 @@ interface QuibletQuibsProps {
 
 export default function QuibletQuibs({ name }: QuibletQuibsProps) {
   const isLoadingAuth = useAuthStore((state) => state.isLoading);
+  const layout = useLayoutStore((state) => state.layout);
   const { data, isLoading } = useQuery({
     queryKey: ["quiblet", name, "quibs"],
     queryFn: () => getQuibletQuibs(name),
@@ -39,7 +41,7 @@ export default function QuibletQuibs({ name }: QuibletQuibsProps) {
     <div className="mt-2 flex flex-col gap-4">
       <QuibHeader />
       {data.map((quib) => (
-        <QuibCard key={quib.id} {...quib} />
+        <QuibCard key={quib.id} layout={layout} {...quib} />
       ))}
     </div>
   );
