@@ -36,8 +36,8 @@ export default function RecentQuibs() {
         </div>
       ) : (
         recentQuibs.map((quib) => (
-          <div key={quib.id} className="flex gap-2">
-            <div className="flex flex-col gap-2">
+          <div key={quib.id} className="flex justify-between gap-2">
+            <div className="flex flex-col">
               <Link
                 href={`/q/${quib.quiblet.name}`}
                 className="flex flex-1 items-center gap-2 hover:text-primary"
@@ -51,11 +51,8 @@ export default function RecentQuibs() {
                 </span>
               </Link>
               <Link
-                href={`/q/${quib.quiblet.name}/quib/${quib.id}/${quib.title
-                  .toLowerCase()
-                  .replace(/[^a-z0-9]+/g, "-")
-                  .replace(/(^-|-$)+/g, "")}`}
-                className="font-semibold decoration-primary hover:underline"
+                href={`/q/${quib.quiblet.name}/quib/${quib.id}/${quib.slug}`}
+                className="mt-2 line-clamp-2 font-semibold decoration-primary hover:underline"
               >
                 {quib.title}
               </Link>

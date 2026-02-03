@@ -9,6 +9,7 @@ export interface RecentQuib {
     avatar: string;
   };
   title: string;
+  slug: string;
   cover: Nullable<string>;
   upvotes: number;
   comments: number;

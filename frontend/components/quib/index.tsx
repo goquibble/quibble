@@ -39,6 +39,7 @@ export default function Quib() {
           avatar: quib.quiblet.avatar ?? "",
         },
         title: quib.title,
+        slug: quib.slug,
         cover: quib.cover,
         upvotes: quib.upvotes,
         comments: quib.comments_count,
