@@ -2,8 +2,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { ChevronDown, MessageCircle, Search } from "lucide-react";
 import { useParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getQuib } from "@/services/quib";
+import { useAuthStore } from "@/stores/auth";
+import { useRecentStore } from "@/stores/recent";
 import { CoverCard } from "../cover-card";
 import { Button } from "../ui/button";
 import IconInput from "../ui/icon-input";
@@ -25,6 +27,24 @@ export default function Quib() {
     queryKey: ["quiblet", name, "quib", id, slug],
     queryFn: () => getQuib(name, id, slug),
   });
+  const { userProfile } = useAuthStore();
+  const { addRecentQuib } = useRecentStore();
+
+  useEffect(() => {
+    if (quib && userProfile) {
+      addRecentQuib(userProfile.username, {
+        id: quib.id,
+        quiblet: {
+          name: quib.quiblet.name,
+          avatar: quib.quiblet.avatar ?? "",
+        },
+        title: quib.title,
+        cover: quib.cover,
+        upvotes: quib.upvotes,
+        comments: quib.comments_count,
+      });
+    }
+  }, [quib, userProfile, addRecentQuib]);
 
   if (!quib) return null;
   return (

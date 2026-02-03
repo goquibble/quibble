@@ -8,12 +8,14 @@ interface QuibletItemProps {
   name: string;
   avatar: string;
   isStarred: boolean;
+  onToggle: () => void;
 }
 
 export default function QuibletItem({
   name,
   avatar,
   isStarred,
+  onToggle,
 }: QuibletItemProps) {
   return (
     <div className="flex items-center gap-2 rounded-md p-1.5 hover:bg-muted">
@@ -24,7 +26,12 @@ export default function QuibletItem({
         </Avatar>
         <span className="font-medium text-sm">q/{name}</span>
       </Link>
-      <Button size={"icon"} variant={"ghost"} className="ml-auto size-6">
+      <Button
+        size={"icon"}
+        variant={"ghost"}
+        className="ml-auto size-6"
+        onClick={onToggle}
+      >
         <Star
           className={cn(
             "size-4",

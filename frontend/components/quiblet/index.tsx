@@ -1,8 +1,10 @@
 "use client";
+
 import { useQuery } from "@tanstack/react-query";
 import { BellOff, Ellipsis, Plus, Star } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,7 +13,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
 import { getQuiblet } from "@/services/quiblet";
+import { useAuthStore } from "@/stores/auth";
+import { useRecentStore } from "@/stores/recent";
 import type { Quiblet as IQuiblet } from "@/types/quiblet";
 import Quiblet404 from "../quiblet-404";
 import QuibletHighlights from "../quiblet-highlights";
@@ -24,6 +29,25 @@ export default function Quiblet() {
     queryKey: ["quiblet", name],
     queryFn: () => getQuiblet(name),
   });
+  const { userProfile } = useAuthStore();
+  const { addRecentQuiblet, toggleFavoriteQuiblet, getRecentQuiblets } =
+    useRecentStore();
+
+  const isFavorite =
+    userProfile && quiblet
+      ? getRecentQuiblets(userProfile.username).find(
+          (q) => q.name === quiblet.name,
+        )?.isStarred
+      : false;
+
+  useEffect(() => {
+    if (quiblet && userProfile) {
+      addRecentQuiblet(userProfile.username, {
+        name: quiblet.name,
+        avatar: quiblet.avatar ?? "",
+      });
+    }
+  }, [quiblet, userProfile, addRecentQuiblet]);
 
   if (error) return <Quiblet404 name={name} />;
   if (!quiblet) return null;
@@ -53,9 +77,20 @@ export default function Quiblet() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>
-              <Star />
-              Add to favorities
+            <DropdownMenuItem
+              onClick={() =>
+                userProfile &&
+                toggleFavoriteQuiblet(userProfile.username, quiblet.name)
+              }
+              disabled={!userProfile}
+            >
+              <Star
+                className={cn(
+                  "mr-2 size-4",
+                  isFavorite && "fill-primary stroke-primary",
+                )}
+              />
+              {isFavorite ? "Remove from favorites" : "Add to favorites"}
             </DropdownMenuItem>
             <DropdownMenuItem disabled>
               <BellOff />
