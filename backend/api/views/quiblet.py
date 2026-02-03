@@ -115,6 +115,22 @@ def get_membership_status(request: CustomHttpRequest, name: str):
     return quiblet.members.filter(member_id=request.user_id).exists()
 
 
+@router.get(
+    "/member/list",
+    auth=AuthBearer(),
+    response=list[QuibletBasicSchema],
+)
+def get_user_quiblets(request: CustomHttpRequest):
+    user_id = request.user_id
+    # We can annotate members_count if needed by QuibletBasicSchema resolve_members_count
+    # returning Quiblet objects will trigger Schema resolver.
+    return (
+        Quiblet.objects.filter(members__member_id=user_id)
+        .annotate(members_count=Count("members"))
+        .order_by("name")
+    )
+
+
 @router.post("/", auth=AuthBearer(), response=QuibletCreateOutSchema)
 def create_quiblet(
     request: CustomHttpRequest,

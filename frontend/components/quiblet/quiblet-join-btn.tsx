@@ -40,6 +40,9 @@ export default function QuibletJoinBtn({
       queryClient.invalidateQueries({
         queryKey: ["quiblet", name, "membership"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["user-quiblets"],
+      });
     },
   });
 

@@ -20,3 +20,10 @@ export interface Quiblet {
   nfsw: boolean;
   created_at: string;
 }
+
+export interface QuibletBasic {
+  id: number;
+  name: string;
+  avatar: Nullable<string>;
+  members_count: number;
+}

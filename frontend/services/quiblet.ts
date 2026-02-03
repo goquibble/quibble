@@ -2,7 +2,7 @@ import type { Data } from "@/components/dialogs/create-quiblet-dialog";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import api from "@/lib/api";
 import type { HighlightedQuib, Quib } from "@/types/quib";
-import type { Quiblet } from "@/types/quiblet";
+import type { Quiblet, QuibletBasic } from "@/types/quiblet";
 
 export async function getQuiblet(name: string) {
   const res = await api.get<Quiblet>(API_ENDPOINTS.QUIBLET(name));
@@ -50,5 +50,10 @@ export async function joinOrLeaveQuiblet(
 
 export async function getQuibletMembership(name: string): Promise<boolean> {
   const res = await api.get<boolean>(API_ENDPOINTS.QUIBLET_MEMBERSHIP(name));
+  return res.data;
+}
+
+export async function getUserQuiblets() {
+  const res = await api.get<Array<QuibletBasic>>(API_ENDPOINTS.USER_QUIBLETS);
   return res.data;
 }

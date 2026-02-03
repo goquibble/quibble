@@ -1,5 +1,5 @@
 "use client";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
@@ -50,6 +50,7 @@ export default function CreateQuibletDialog({
 }: CreateQuibletDialogProps) {
   const router = useRouter();
 
+  const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [data, setData] = useState<Data>({});
@@ -59,6 +60,7 @@ export default function CreateQuibletDialog({
   const mutation = useMutation({
     mutationFn: () => createQuiblet(data),
     onSuccess: ({ name }) => {
+      queryClient.invalidateQueries({ queryKey: ["user-quiblets"] });
       router.push(`/q/${name}`);
       setOpen(false);
     },
