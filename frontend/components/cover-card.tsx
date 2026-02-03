@@ -13,16 +13,16 @@ export function CoverCard({ cover, cover_small, className }: CoverCardProps) {
     <div
       style={{ backgroundImage: `url(${cover_small})` }}
       className={cn(
-        "relative overflow-hidden rounded-lg bg-center bg-cover bg-no-repeat",
+        "relative rounded-2xl bg-center bg-cover bg-no-repeat",
         className,
       )}
     >
-      <div className="absolute inset-0 z-1 bg-background/75 backdrop-blur-2xl"></div>
+      <div className="absolute inset-0 z-1 rounded-lg bg-background/75 backdrop-blur-xl"></div>
       <div className="pointer-events-none absolute inset-0 z-3 rounded-lg border border-foreground/15"></div>
       <Image
         src={cover ?? ""}
         alt={`cover-${cover}`}
-        className="z-2 object-contain"
+        className="z-2 rounded-lg object-contain"
         fill={true}
         sizes="(max-width: 768px) 100vw, 500px"
       />

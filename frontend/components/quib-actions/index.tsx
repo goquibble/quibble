@@ -4,8 +4,8 @@ import {
   ArrowBigUp,
   Maximize2,
   MessagesSquare,
-  Minimize2,
   MoreHorizontal,
+  X,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
@@ -113,11 +113,7 @@ export default function QuibActions({
           onClick={onToggleExpand}
           className="relative z-5 h-8 w-8"
         >
-          {isExpanded ? (
-            <Minimize2 className="h-4 w-4" />
-          ) : (
-            <Maximize2 className="h-4 w-4" />
-          )}
+          {isExpanded ? <X /> : <Maximize2 />}
         </Button>
       )}
       <div
