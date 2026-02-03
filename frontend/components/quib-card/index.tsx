@@ -1,4 +1,5 @@
 "use client";
+import { ImageOff } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { timeAgo } from "@/lib/utils";
@@ -44,7 +45,20 @@ export default function QuibCard({
           className="absolute inset-0 z-4"
         />
 
-        {/* Left Side: Content */}
+        {/* left Side: Thumbnail */}
+        {cover ? (
+          <CoverCard
+            cover={cover}
+            cover_small={cover_small}
+            className="size-23 shrink-0 rounded-lg object-cover"
+          />
+        ) : (
+          <div className="flex size-23 shrink-0 items-center justify-center rounded-lg border bg-muted/50">
+            <ImageOff className="size-6 text-muted-foreground" />
+          </div>
+        )}
+
+        {/* Right Side: Content */}
         <div className="flex min-w-0 flex-1 flex-col gap-1">
           <div className="flex items-center gap-2 text-xs">
             <QuibSource quiblet={quiblet} poster={poster} />
@@ -56,20 +70,6 @@ export default function QuibCard({
           <h2 className="line-clamp-2 font-bold text-lg leading-tight decoration-2 decoration-primary group-hover:underline dark:text-white/90">
             {title}
           </h2>
-
-          {isExpanded && (
-            <div className="relative z-5">
-              {cover ? (
-                <CoverCard
-                  cover={cover}
-                  cover_small={cover_small}
-                  className="aspect-video w-full"
-                />
-              ) : content?.trim() ? (
-                <MarkdownViewer content={content} />
-              ) : null}
-            </div>
-          )}
 
           <div className="mt-1">
             <QuibActions
@@ -85,16 +85,21 @@ export default function QuibCard({
               onToggleExpand={handleToggleExpand}
             />
           </div>
-        </div>
 
-        {/* Right Side: Thumbnail */}
-        {cover && !isExpanded ? (
-          <CoverCard
-            cover={cover}
-            cover_small={cover_small}
-            className="h-20 w-32 shrink-0 rounded-md object-cover"
-          />
-        ) : null}
+          {isExpanded && (
+            <div className="relative z-5">
+              {cover ? (
+                <CoverCard
+                  cover={cover}
+                  cover_small={cover_small}
+                  className="mt-2 aspect-video w-full"
+                />
+              ) : content?.trim() ? (
+                <MarkdownViewer content={content} />
+              ) : null}
+            </div>
+          )}
+        </div>
       </div>
     );
   }
