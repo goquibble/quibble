@@ -23,7 +23,8 @@ export default function YourQuiblets() {
         {userProfile && (
           <Link
             href={`/u/${userProfile.username}/quiblets`}
-            className="flex items-center gap-2 rounded-md p-1.5 hover:bg-muted"
+            className="pointer-events-none flex select-none items-center gap-2 rounded-md p-1.5 opacity-50 hover:bg-muted"
+            aria-disabled={true}
           >
             <div className="grid size-6 place-items-center">
               <Settings className="size-4 text-muted-foreground" />
