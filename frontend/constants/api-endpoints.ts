@@ -6,6 +6,8 @@ export const API_ENDPOINTS = {
   AUTH_APP_URL: "http://localhost:5173",
   // user endpoints
   USER_ME_PROFILE: "http://localhost:8002/api/v1/users/me",
+  USER_BY_USERNAME: (username: string) =>
+    `http://localhost:8002/api/v1/users/username/${username}`,
   // USER_ME_PROFILES: "api/v1/user/me/profiles",
   // dyanmic api endpoints
   // search
