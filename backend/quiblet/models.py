@@ -50,6 +50,7 @@ class QuibletMember(models.Model):
         Quiblet, related_name="members", on_delete=models.CASCADE
     )
     is_moderator = models.BooleanField(default=False)
+    is_favorite = models.BooleanField(default=False)
     member_id = models.UUIDField()
 
     class Meta:

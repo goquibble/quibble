@@ -1,8 +1,7 @@
 "use client";
-import { useQuery } from "@tanstack/react-query";
-import { ChevronUp, CircleSlash, Settings } from "lucide-react";
-import Link from "next/link";
-import { getUserQuiblets } from "@/services/quiblet";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { ChevronUp, CircleSlash } from "lucide-react";
+import { getUserQuiblets, toggleQuibletFavorite } from "@/services/quiblet";
 import { useAuthStore } from "@/stores/auth";
 import {
   Collapsible,
@@ -14,11 +13,21 @@ import QuibletItem from "./quiblet-item";
 
 export default function YourQuiblets() {
   const userProfile = useAuthStore((state) => state.userProfile);
+  const queryClient = useQueryClient();
 
   const { data: quiblets, isLoading } = useQuery({
     queryKey: ["user-quiblets", userProfile?.id],
     queryFn: getUserQuiblets,
     enabled: !!userProfile,
+  });
+
+  const toggleFavoriteMutation = useMutation({
+    mutationFn: toggleQuibletFavorite,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["user-quiblets", userProfile?.id],
+      });
+    },
   });
 
   if (!userProfile) return null;
@@ -30,18 +39,6 @@ export default function YourQuiblets() {
         <ChevronUp className="size-4 text-muted-foreground transition-transform group-data-[state=closed]:rotate-180" />
       </CollapsibleTrigger>
       <CollapsibleContent>
-        {quiblets && quiblets.length > 0 && (
-          <Link
-            href={`/u/${userProfile.username}/quiblets`}
-            className="pointer-events-none flex select-none items-center gap-2 rounded-md p-1.5 opacity-50 hover:bg-muted"
-            aria-disabled={true}
-          >
-            <div className="grid size-6 place-items-center">
-              <Settings className="size-4 text-muted-foreground" />
-            </div>
-            <span className="font-medium text-sm">Manage Quiblets</span>
-          </Link>
-        )}
         {isLoading ? (
           <div className="flex flex-col gap-1">
             {Array.from({ length: 3 }).map((_, i) => (
@@ -63,8 +60,8 @@ export default function YourQuiblets() {
               key={quiblet.name}
               name={quiblet.name}
               avatar={quiblet.avatar || ""}
-              isStarred={false}
-              onToggle={() => {}}
+              isStarred={quiblet.is_favorite}
+              onToggle={() => toggleFavoriteMutation.mutate(quiblet.name)}
             />
           ))
         )}

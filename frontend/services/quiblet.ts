@@ -57,3 +57,7 @@ export async function getUserQuiblets() {
   const res = await api.get<Array<QuibletBasic>>(API_ENDPOINTS.USER_QUIBLETS);
   return res.data;
 }
+
+export async function toggleQuibletFavorite(name: string) {
+  await api.post(API_ENDPOINTS.TOGGLE_FAVORITE(name));
+}

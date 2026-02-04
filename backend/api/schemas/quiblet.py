@@ -69,6 +69,12 @@ class QuibletBasicSchema(ModelSchema):
         model = Quiblet
         fields = ["id", "name", "avatar"]
 
+    is_favorite: bool
+
+    @staticmethod
+    def resolve_is_favorite(obj: Quiblet) -> bool:
+        return getattr(obj, "is_favorite", False)
+
     @staticmethod
     def resolve_members_count(obj: Quiblet) -> int:
         return getattr(obj, "members_count", obj.members.count())

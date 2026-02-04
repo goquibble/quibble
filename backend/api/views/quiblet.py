@@ -122,13 +122,41 @@ def get_membership_status(request: CustomHttpRequest, name: str):
 )
 def get_user_quiblets(request: CustomHttpRequest):
     user_id = request.user_id
-    # We can annotate members_count if needed by QuibletBasicSchema resolve_members_count
-    # returning Quiblet objects will trigger Schema resolver.
+    # We filter by members__member_id, so we can access the specific member record via the reverse relation filtered
+    # But standard Django filtering doesn't automatically limit the 'members' prefetch/relation to just the match.
+    # However, since we are doing a direct filter on the M2M-like table (QuibletMember),
+    # we can use Inner Join logic.
+    # To get 'is_favorite' cleanly, we can use a Subquery or simply iterate since user lists are small.
+    # OR, we can just query QuibletMember and return the Quiblet + extra info.
+    # But to keep returning Quiblet objects for the Schema:
+
+    from django.db.models import OuterRef, Subquery
+
+    is_favorite_subquery = Subquery(
+        QuibletMember.objects.filter(quiblet=OuterRef("pk"), member_id=user_id).values(
+            "is_favorite"
+        )[:1]
+    )
+
     return (
         Quiblet.objects.filter(members__member_id=user_id)
-        .annotate(members_count=Count("members"))
-        .order_by("name")
+        .annotate(
+            members_count=Count("members"),
+            is_favorite=is_favorite_subquery,
+        )
+        .order_by("-is_favorite", "name")
     )
+
+
+@router.post("/{name}/toggle-favorite", auth=AuthBearer(), response={204: None})
+def toggle_favorite_quiblet(request: CustomHttpRequest, name: str):
+    quiblet = get_object_or_404(Quiblet, name=name)
+    member = get_object_or_404(
+        QuibletMember, quiblet=quiblet, member_id=request.user_id
+    )
+    member.is_favorite = not member.is_favorite
+    member.save()
+    return 204, None
 
 
 @router.post("/", auth=AuthBearer(), response=QuibletCreateOutSchema)

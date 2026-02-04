@@ -26,4 +26,5 @@ export interface QuibletBasic {
   name: string;
   avatar: Nullable<string>;
   members_count: number;
+  is_favorite: boolean;
 }
