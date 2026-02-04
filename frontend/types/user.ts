@@ -1,7 +1,7 @@
 import type { Nullable } from "./generics";
 
 export interface UserProfile {
-  id: number;
+  id: string;
   username: string;
   avatar: Nullable<string>;
 }

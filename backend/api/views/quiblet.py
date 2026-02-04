@@ -1,4 +1,5 @@
 from typing import Literal, cast
+from uuid import UUID
 from django.db import transaction
 from django.db.models import Count, Prefetch
 from django.http import HttpRequest
@@ -77,6 +78,20 @@ def get_quiblet_highlights(request: HttpRequest, name: str):  # pyright: ignore[
 
     cache_key = f"quiblet:{name}:highlights"
     return cache_response(cache_key, fetch)
+
+
+@router.get(
+    "/u/{user_id}/quibs",
+    response=list[QuibSchema],
+    auth=[AuthBearer(), lambda request: True],
+)
+def get_user_quibs(request: HttpRequest, user_id: UUID):
+    return (
+        Quib.objects.published()
+        .filter(poster_id=user_id)
+        .for_request(request)
+        .select_related("quiblet")
+    )
 
 
 @router.get(
