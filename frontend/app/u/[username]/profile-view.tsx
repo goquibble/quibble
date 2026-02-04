@@ -43,9 +43,15 @@ export default function ProfileView({ profile }: ProfileViewProps) {
           </div>
         </div>
         {userProfile?.username === profile.username && (
-          <Button variant={"outline"}>
-            <Settings />
-            Settings
+          <Button variant={"outline"} asChild>
+            <a
+              href="http://localhost:5173"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Settings />
+              Settings
+            </a>
           </Button>
         )}
       </div>
