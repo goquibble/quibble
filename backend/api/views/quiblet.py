@@ -224,6 +224,10 @@ def create_quib(
     quib.save()
     QuibVote.objects.create(quib=quib, voter_id=request.user_id, value=1)
 
+    # Schedule moderation task
+    from quiblet.tasks import moderate_quib
+
+    moderate_quib.apply_async(args=[quib.id], countdown=10)
     return quib
 
 

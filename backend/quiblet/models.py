@@ -99,6 +99,16 @@ class Quib(CreatedAtMixin):
     content = models.TextField(null=True, blank=True)
     is_highlighted = models.BooleanField(default=False)
     is_published = models.BooleanField(default=True)
+
+    class Status(models.TextChoices):
+        PENDING = "PENDING", "Pending"
+        APPROVED = "APPROVED", "Approved"
+        REJECTED = "REJECTED", "Rejected"
+
+    status = models.CharField(
+        max_length=10, choices=Status.choices, default=Status.PENDING
+    )
+
     cover = ResizedImageField(
         upload_to=cover_upload_path,
         quality=75,
