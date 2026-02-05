@@ -32,7 +32,7 @@ export default function QuibMeta({
   const queryClient = useQueryClient();
   const router = useRouter();
   const userProfile = useAuthStore((state) => state.userProfile);
-  const isPoster = userProfile?.id === poster.id;
+  const isPoster = !!poster && userProfile?.id === poster.id;
 
   const handleDelete = () => {
     const promise = deleteQuib(quiblet.name, id, slug);
@@ -74,7 +74,7 @@ export default function QuibMeta({
           q/{quiblet.name}
         </Link>
         <span className="font-medium text-muted-foreground">
-          {poster.username}
+          {poster?.username ?? "deleted-user"}
         </span>
       </div>
       <span className="text-muted-foreground text-xs/none">

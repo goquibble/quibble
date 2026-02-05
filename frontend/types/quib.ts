@@ -10,12 +10,12 @@ export interface Quib {
     name: string;
     avatar: Nullable<string>;
   };
-  poster: {
-    id: number;
+  poster: Nullable<{
+    id: string;
     username: string;
     name: Nullable<string>;
     avatar: Nullable<string>;
-  };
+  }>;
   id: string;
   slug: string;
   title: string;

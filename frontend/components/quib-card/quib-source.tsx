@@ -12,13 +12,14 @@ interface QuibSourceProps {
 export default function QuibSource({ quiblet, poster }: QuibSourceProps) {
   const routerParams = useParams<{ name?: string }>();
 
-  const href = routerParams.name
-    ? `/u/${poster.username}`
-    : `/q/${quiblet.name}`;
-  const avatarImage = routerParams.name ? poster.avatar : quiblet.avatar;
-  const sourceText = routerParams.name
-    ? `u/${poster.username}`
-    : `q/${quiblet.name}`;
+  const href =
+    routerParams.name && poster
+      ? `/u/${poster.username}`
+      : `/q/${quiblet.name}`;
+  const avatarImage =
+    routerParams.name && poster ? poster.avatar : quiblet.avatar;
+  const sourceText =
+    routerParams.name && poster ? `u/${poster.username}` : `q/${quiblet.name}`;
 
   return (
     <Link
