@@ -19,7 +19,7 @@ class QuibQuerySet(models.QuerySet["Quib"]):
 
     def published(self):
         """Return only published quibs."""
-        return self.filter(is_published=True)
+        return self.filter(is_published=True, status="APPROVED")
 
     def highlighted(self):
         """Return only highlighted (published) quibs."""

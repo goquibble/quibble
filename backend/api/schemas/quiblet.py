@@ -119,6 +119,7 @@ class QuibSchema(ModelSchema, VoteSchema):
             "slug",
             "title",
             "is_highlighted",
+            "status",
             "cover",
             "cover_small",
             "content",

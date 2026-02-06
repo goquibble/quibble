@@ -19,6 +19,7 @@ export interface Quib {
   id: string;
   slug: string;
   title: string;
+  status: "PENDING" | "APPROVED" | "REJECTED";
   cover: Nullable<string>;
   cover_small: Nullable<string>;
   content: Nullable<string>;
