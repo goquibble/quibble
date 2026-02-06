@@ -1,12 +1,18 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import { ChevronDown, MessageCircle, Search } from "lucide-react";
+import {
+  AlertCircleIcon,
+  ChevronDown,
+  MessageCircle,
+  Search,
+} from "lucide-react";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getQuib } from "@/services/quib";
 import { useAuthStore } from "@/stores/auth";
 import { useRecentStore } from "@/stores/recent";
 import { CoverCard } from "../cover-card";
+import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { Button } from "../ui/button";
 import IconInput from "../ui/icon-input";
 import { MarkdownViewer } from "../ui/markdown-viewer";
@@ -66,6 +72,16 @@ export default function Quib() {
         />
       )}
       {quib.content?.trim() && <MarkdownViewer content={quib.content} />}
+      {quib.status === "PENDING" && (
+        <Alert variant="destructive" className="max-w-md">
+          <AlertCircleIcon />
+          <AlertTitle>Awaiting for moderator approval</AlertTitle>
+          <AlertDescription>
+            Your quib is awaiting for moderator approval. It will be visible to
+            everyone once approved.
+          </AlertDescription>
+        </Alert>
+      )}
       <QuibVote
         name={quib.quiblet.name}
         id={quib.id}
