@@ -23,7 +23,7 @@ export default function Comments() {
   });
 
   if (isAuthLoading || isLoading) return <CommentSkeleton />;
-  if (!comments) return <Comments404 />;
+  if (!comments?.length) return <Comments404 />;
 
   return (
     <div className="flex flex-col gap-2">
