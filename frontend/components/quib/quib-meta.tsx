@@ -3,7 +3,7 @@ import { ArrowLeft, Bookmark, Ellipsis, Flag, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { timeAgo } from "@/lib/utils";
+import { cn, timeAgo } from "@/lib/utils";
 import { deleteQuib } from "@/services/quib";
 import { useAuthStore } from "@/stores/auth";
 import type { Quib } from "@/types/quib";
@@ -69,13 +69,19 @@ export default function QuibMeta({
       <div className="flex flex-col gap-1 text-sm/none">
         <Link
           href={`/q/${quiblet.name}`}
-          className="font-semibold transition-colors hover:text-primary"
+          className="font-semibold hover:text-primary"
         >
           q/{quiblet.name}
         </Link>
-        <span className="font-medium text-muted-foreground">
+        <Link
+          href={`/u/${poster?.username}`}
+          className={cn(
+            "font-medium text-muted-foreground hover:text-foreground",
+            !poster && "pointer-events-none",
+          )}
+        >
           {poster?.username ?? "[deleted]"}
-        </span>
+        </Link>
       </div>
       <span className="text-muted-foreground text-xs/none">
         — {timeAgo(created_at)}
