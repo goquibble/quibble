@@ -62,10 +62,11 @@ export default function Header() {
               aria-disabled={item.isDisabled}
               className={cn(
                 "flex items-center gap-2",
+                isActive && "text-primary",
                 item.isDisabled && "pointer-events-none opacity-75",
               )}
             >
-              <item.Icon className={cn("size-5", isActive && "text-primary")} />
+              <item.Icon className="size-5" />
               <span className="font-medium text-sm">{item.label}</span>
             </Link>
           );
