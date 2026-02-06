@@ -1,4 +1,5 @@
 import { LogOut, Settings } from "lucide-react";
+import Link from "next/link";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -37,7 +38,9 @@ export default function PfpDropdown({ children, username }: PfpDropdownProps) {
       >
         <DropdownMenuLabel>u/{username}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Profile</DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href={`/u/${username}`}>Profile</Link>
+        </DropdownMenuItem>
         <DropdownMenuItem disabled>
           Settings
           <Settings className="ml-auto" />
