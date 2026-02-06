@@ -74,9 +74,11 @@ export default function CommentBlock({
               — {timeAgo(created_at)}
             </span>
           </span>
-          <span className="text-muted-foreground text-sm/none">
-            {is_deleted ? "deleted" : (commenter?.name ?? commenter?.username)}
-          </span>
+          {!is_deleted && (
+            <span className="text-muted-foreground text-sm/none">
+              {commenter?.name ?? commenter?.username}
+            </span>
+          )}
         </div>
         <MarkdownViewer content={content} className="mt-1" />
         <CommentActions
