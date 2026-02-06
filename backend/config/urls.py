@@ -5,6 +5,9 @@ from django.conf.urls.static import static
 
 from api.urls import api_v1
 
+admin.site.site_header = "Quibble Administration"
+admin.site.site_title = "Quibble"
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/v1/", api_v1.urls),
