@@ -55,7 +55,8 @@ def get_quiblet(request: HttpRequest, name: str):
     def fetch():
         return get_object_or_404(
             Quiblet.objects.annotate(
-                members_count=Count("members"), quibs_count=Count("quibs")
+                members_count=Count("members", distinct=True),
+                quibs_count=Count("quibs", distinct=True),
             ).prefetch_related(
                 Prefetch(
                     "members",
