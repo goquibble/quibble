@@ -73,7 +73,7 @@ export default function Quib() {
       )}
       {quib.content?.trim() && <MarkdownViewer content={quib.content} />}
       {quib.status === "PENDING" && (
-        <Alert variant="destructive" className="max-w-md">
+        <Alert variant="destructive">
           <AlertCircleIcon />
           <AlertTitle>Awaiting for moderator approval</AlertTitle>
           <AlertDescription>

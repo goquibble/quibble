@@ -74,7 +74,7 @@ export default function QuibMeta({
           q/{quiblet.name}
         </Link>
         <span className="font-medium text-muted-foreground">
-          {poster?.username ?? "deleted-user"}
+          {poster?.username ?? "[deleted]"}
         </span>
       </div>
       <span className="text-muted-foreground text-xs/none">

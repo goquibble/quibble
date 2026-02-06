@@ -86,12 +86,15 @@ def get_quiblet_highlights(request: HttpRequest, name: str):  # pyright: ignore[
     auth=[AuthBearer(), lambda request: True],
 )
 def get_user_quibs(request: HttpRequest, user_id: UUID):
-    return (
-        Quib.objects.published()
-        .filter(poster_id=user_id)
-        .for_request(request)
-        .select_related("quiblet")
-    )
+    qs = Quib.objects.filter(is_published=True)
+
+    # If the user is viewing their own profile, they can see everything.
+    # Otherwise, only show APPROVED quibs.
+    request_user_id = getattr(request, "user_id", None)
+    if request_user_id != user_id:
+        qs = qs.filter(status="APPROVED")
+
+    return qs.filter(poster_id=user_id).for_request(request).select_related("quiblet")
 
 
 @router.get(
@@ -238,8 +241,9 @@ def create_quib(
 )
 def get_quib(request: HttpRequest, name: str, id: str, slug: str):
     def fetch():
+        # fetching quib regardless of status as long as it is published
         return get_object_or_404(
-            Quib.objects.published()
+            Quib.objects.filter(is_published=True)
             .for_quiblet(name)
             .for_request(request)
             .select_related("quiblet"),
