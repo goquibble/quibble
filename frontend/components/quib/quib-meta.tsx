@@ -76,7 +76,7 @@ export default function QuibMeta({
         <Link
           href={`/u/${poster?.username}`}
           className={cn(
-            "font-medium text-muted-foreground hover:text-foreground",
+            "font-medium text-muted-foreground hover:underline",
             !poster && "pointer-events-none",
           )}
         >

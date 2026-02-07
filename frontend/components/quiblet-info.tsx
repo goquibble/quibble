@@ -1,6 +1,7 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import { Book, CakeSlice, Globe } from "lucide-react";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import { formatDate } from "@/lib/utils";
 import { getQuiblet } from "@/services/quiblet";
@@ -62,7 +63,12 @@ export default function QuibletInfo() {
               <AvatarFallback seed={mod.username} />
             </Avatar>
             <div className="flex flex-col">
-              <span className="font-medium text-sm">u/{mod.username}</span>
+              <Link
+                href={`/u/${mod.username}`}
+                className="font-medium text-sm hover:underline"
+              >
+                u/{mod.username}
+              </Link>
               <span className="text-muted-foreground text-sm/none">
                 {mod.name ?? mod.username}
               </span>
