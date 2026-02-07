@@ -231,7 +231,7 @@ def create_quib(
     # Schedule moderation task
     from quiblet.tasks import moderate_quib
 
-    moderate_quib.apply_async(args=[quib.id], countdown=10)
+    moderate_quib.apply_async(args=[quib.id])
     return quib
 
 
