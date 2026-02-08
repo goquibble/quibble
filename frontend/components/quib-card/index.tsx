@@ -39,7 +39,7 @@ export default function QuibCard({
 
   if (layout === "compact") {
     return (
-      <div className="group relative flex items-start gap-4 rounded-lg border p-3 hover:bg-muted/50">
+      <div className="relative flex items-start gap-4 rounded-lg border p-3 hover:bg-muted/50">
         <Link
           href={`/q/${quiblet.name}/quib/${id}/${slug}`}
           className="absolute inset-0 z-4"
@@ -67,7 +67,7 @@ export default function QuibCard({
             </span>
           </div>
 
-          <h2 className="line-clamp-2 font-bold text-lg leading-tight decoration-2 decoration-primary group-hover:underline dark:text-white/90">
+          <h2 className="line-clamp-2 font-bold text-lg leading-tight decoration-2 decoration-primary dark:text-white/90">
             {title}
           </h2>
 
@@ -105,7 +105,7 @@ export default function QuibCard({
   }
 
   return (
-    <div className="group relative flex flex-col gap-2 rounded-lg border p-4 hover:bg-muted/50">
+    <div className="relative flex flex-col gap-2 rounded-lg border p-4 hover:bg-muted/50">
       <Link
         href={`/q/${quiblet.name}/quib/${id}/${slug}`}
         className="absolute inset-0 z-4"
@@ -116,7 +116,7 @@ export default function QuibCard({
           — {timeAgo(created_at)}
         </span>
       </div>
-      <h2 className="font-bold text-xl decoration-2 decoration-primary group-hover:underline dark:text-white/90">
+      <h2 className="font-bold text-xl decoration-2 decoration-primary dark:text-white/90">
         {title}
       </h2>
       {cover ? (
