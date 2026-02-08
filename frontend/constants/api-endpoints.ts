@@ -40,4 +40,5 @@ export const API_ENDPOINTS = {
     commentId: number,
   ) => `api/v1/quiblet/${name}/quib/${id}/${slug}/comments/${commentId}`,
   QUIBLET_CREATE_QUIB: (name: string) => `api/v1/quiblet/${name}/quib`,
+  GENERATE_TITLE: "api/v1/ai/generate-title",
 };

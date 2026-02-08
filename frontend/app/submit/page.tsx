@@ -2,13 +2,14 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
-import { ChevronDown, Search, Trash, X } from "lucide-react";
+import { ChevronDown, Search, Sparkles, Trash, X } from "lucide-react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "nextjs-toploader/app";
 import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { useDebounce } from "use-debounce";
 import * as z from "zod";
 
@@ -125,6 +126,27 @@ export default function SubmitPage() {
     enabled: isSelectorOpen && debouncedQuery.length > 0,
     staleTime: 60000,
   });
+
+  async function handleGenerateTitle() {
+    const content = form.getValues("content");
+    if (!content || content.length < 50) {
+      toast.error("Content is too short to generate a title (min 50 chars).");
+      return;
+    }
+
+    toast.promise(
+      api.post<{ title: string }>(API_ENDPOINTS.GENERATE_TITLE, { content }),
+      {
+        loading: "Generating title...",
+        success: (res) => {
+          form.setValue("title", res.data.title, { shouldValidate: true });
+          setCharCount(res.data.title.length);
+          return "Title generated successfully!";
+        },
+        error: "Failed to generate title",
+      },
+    );
+  }
 
   async function onSubmit(values: FormValues) {
     try {
@@ -336,26 +358,37 @@ export default function SubmitPage() {
             name="title"
             render={({ field }) => (
               <FormItem className="relative">
-                <div className="relative">
-                  <FormControl>
-                    <Input
-                      placeholder="Title*"
-                      className="pr-16 font-medium text-lg"
-                      {...field}
-                      onChange={(e) => {
-                        field.onChange(e); // Trigger RHF
-                        setCharCount(e.target.value.length);
-                      }}
-                    />
-                  </FormControl>
-                  <span
-                    className={cn(
-                      "-translate-y-1/2 absolute top-1/2 right-3 text-muted-foreground text-xs",
-                      charCount > 300 && "text-destructive",
-                    )}
+                <div className="flex items-center gap-2">
+                  <div className="relative flex-1">
+                    <FormControl>
+                      <Input
+                        placeholder="Title*"
+                        className="pr-16 font-medium text-lg"
+                        {...field}
+                        onChange={(e) => {
+                          field.onChange(e); // Trigger RHF
+                          setCharCount(e.target.value.length);
+                        }}
+                      />
+                    </FormControl>
+                    <span
+                      className={cn(
+                        "-translate-y-1/2 absolute top-1/2 right-3 text-muted-foreground text-xs",
+                        charCount > 300 && "text-destructive",
+                      )}
+                    >
+                      {charCount}/300
+                    </span>
+                  </div>
+                  <Button
+                    type="button"
+                    variant={"outline"}
+                    onClick={handleGenerateTitle}
+                    disabled={activeType !== "text"}
                   >
-                    {charCount}/300
-                  </span>
+                    <Sparkles />
+                    Generate
+                  </Button>
                 </div>
                 <FormMessage />
               </FormItem>
