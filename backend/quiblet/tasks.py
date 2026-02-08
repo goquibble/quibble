@@ -87,7 +87,7 @@ def moderate_quib(quib_id: str):
                 Comment.objects.create(
                     quib=quib,
                     commenter_id=None,  # System/AI user
-                    content=f"This quib has been removed because it violates our community guidelines. Reason: {reason}",
+                    content=f"<b>Quibble AI Moderator:</b> This quib has been removed because it violates our community guidelines.<br><br><b>Reason:</b> {reason}",
                     is_moderator=True,
                 )
 
