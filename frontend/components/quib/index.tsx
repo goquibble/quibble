@@ -2,6 +2,7 @@
 import { useQuery } from "@tanstack/react-query";
 import {
   AlertCircleIcon,
+  Ban,
   ChevronDown,
   MessageCircle,
   Search,
@@ -80,6 +81,15 @@ export default function Quib() {
             Your quib is awaiting for moderator approval. It will be visible to
             everyone once approved.
           </AlertDescription>
+        </Alert>
+      )}
+      {quib.status === "REJECTED" && (
+        <Alert variant="destructive">
+          <Ban />
+          <AlertTitle>
+            Sorry, this post has been removed by the moderators of q/
+            {quib.quiblet.name}.
+          </AlertTitle>
         </Alert>
       )}
       <QuibVote
