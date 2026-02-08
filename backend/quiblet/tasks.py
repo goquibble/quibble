@@ -81,6 +81,15 @@ def moderate_quib(quib_id: str):
                 logger.info("Quib %s rejected: %s", quib_id, reason)
                 action = f"rejected ({reason})"
 
+                # Add rejection comment
+                from quiblet.models import Comment
+
+                Comment.objects.create(
+                    quib=quib,
+                    commenter_id=None,  # System/AI user
+                    content=f"**Quibble Moderator:** This quib has been removed because it violates our community guidelines.\n\n**Reason:** {reason}",
+                )
+
             quib.save()
             _invalidate_cache(quib)
             return f"Quib {quib_id} {action} by AI."

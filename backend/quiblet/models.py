@@ -190,6 +190,7 @@ class Comment(TreeModel, CreatedAtMixin):
     commenter_id = models.UUIDField(null=True)
     content = models.TextField()
     is_deleted = models.BooleanField(default=False)
+    is_moderator = models.BooleanField(default=False)
 
     objects: CommentManager = CommentManager()
 

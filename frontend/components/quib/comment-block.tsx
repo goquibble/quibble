@@ -40,8 +40,10 @@ export default function CommentBlock({
     <div className="flex gap-2">
       <div className="flex flex-col gap-2">
         <Avatar className="size-7">
-          {!is_deleted && <AvatarImage src={commenter?.avatar ?? ""} />}
-          <AvatarFallback seed={is_deleted ? "deleted" : commenter?.username} />
+          <AvatarImage src={commenter?.avatar ?? ""} />
+          <AvatarFallback
+            seed={commenter ? commenter.username : "Quibble AI"}
+          />
         </Avatar>
         <div
           className={cn(
@@ -67,16 +69,22 @@ export default function CommentBlock({
       <div className="flex w-full flex-col gap-1">
         <div className="flex flex-col">
           <span className="flex items-center gap-1">
-            <span className="font-medium text-sm">
-              {is_deleted ? "[deleted]" : `u/${commenter?.username}`}
-            </span>
+            {commenter ? (
+              <span className="font-medium text-sm">
+                u/{commenter.username}
+              </span>
+            ) : (
+              <span className="font-bold text-destructive text-sm">
+                Quibble AI
+              </span>
+            )}
             <span className="text-muted-foreground text-xs">
               — {timeAgo(created_at)}
             </span>
           </span>
-          {!is_deleted && (
+          {!is_deleted && commenter && (
             <span className="text-muted-foreground text-sm/none">
-              {commenter?.name ?? commenter?.username}
+              {commenter.name ?? commenter.username}
             </span>
           )}
         </div>
