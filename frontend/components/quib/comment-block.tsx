@@ -23,6 +23,7 @@ export default function CommentBlock({
   content,
   created_at,
   is_deleted,
+  is_moderator,
   children,
   // quib(let) props
   // quib(let) props
@@ -74,8 +75,13 @@ export default function CommentBlock({
                 u/{commenter.username}
               </span>
             ) : (
-              <span className="font-bold text-destructive text-sm">
+              <span className="flex items-center gap-1 font-bold text-sm">
                 Quibble AI
+              </span>
+            )}
+            {is_moderator && (
+              <span className="mx-1 text-primary text-xs leading-none">
+                MOD
               </span>
             )}
             <span className="text-muted-foreground text-xs">

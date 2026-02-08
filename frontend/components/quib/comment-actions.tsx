@@ -112,7 +112,9 @@ export default function CommentActions({
         >
           <ArrowBigUp />
         </Button>
-        <span className="font-bold text-sm">{voteState.voteCount}</span>
+        <span className="font-bold text-sm">
+          {commenterId ? voteState.voteCount : "Vote"}
+        </span>
         <Button
           size={"icon-sm"}
           variant={"ghost"}

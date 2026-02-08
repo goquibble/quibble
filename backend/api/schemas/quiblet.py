@@ -169,7 +169,14 @@ class CommentSchema(ModelSchema, VoteSchema):
 
     class Meta:
         model = Comment
-        fields = ["id", "commenter_id", "content", "is_deleted", "created_at"]
+        fields = [
+            "id",
+            "commenter_id",
+            "content",
+            "is_deleted",
+            "is_moderator",
+            "created_at",
+        ]
 
     @staticmethod
     def resolve_commenter(obj: Comment) -> Any | None:
