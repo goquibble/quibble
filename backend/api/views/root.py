@@ -17,7 +17,7 @@ router = Router()
 # --------------------
 
 
-@router.get("/csrftoken", response={204: None})
+@router.get("/csrftoken", response={204: None})  # ty:ignore[invalid-argument-type]
 @ensure_csrf_cookie  # ty:ignore[invalid-argument-type]
 def set_csrftoken(request: HttpRequest):  # pyright: ignore[reportUnusedParameter]
     return HttpResponse(status=204)
