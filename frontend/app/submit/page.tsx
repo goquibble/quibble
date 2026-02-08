@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
-import { ChevronDown, Search, Sparkles, Trash, X } from "lucide-react";
+import { ChevronDown, Loader2, Search, Sparkles, Trash, X } from "lucide-react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "nextjs-toploader/app";
@@ -81,6 +81,7 @@ export default function SubmitPage() {
   const searchParams = useSearchParams();
   const [activeType, setActiveType] = useState<PostType>("text");
   const [charCount, setCharCount] = useState(0);
+  const [isGenerating, setIsGenerating] = useState(false);
 
   // Quiblet Selector State
   const [isSelectorOpen, setIsSelectorOpen] = useState(false);
@@ -134,18 +135,20 @@ export default function SubmitPage() {
       return;
     }
 
-    toast.promise(
-      api.post<{ title: string }>(API_ENDPOINTS.GENERATE_TITLE, { content }),
-      {
-        loading: "Generating title...",
-        success: (res) => {
-          form.setValue("title", res.data.title, { shouldValidate: true });
-          setCharCount(res.data.title.length);
-          return "Title generated successfully!";
-        },
-        error: "Failed to generate title",
-      },
-    );
+    try {
+      setIsGenerating(true);
+      const res = await api.post<{ title: string }>(
+        API_ENDPOINTS.GENERATE_TITLE,
+        { content },
+      );
+      form.setValue("title", res.data.title, { shouldValidate: true });
+      setCharCount(res.data.title.length);
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to generate title. Please try again.");
+    } finally {
+      setIsGenerating(false);
+    }
   }
 
   async function onSubmit(values: FormValues) {
@@ -358,7 +361,7 @@ export default function SubmitPage() {
             name="title"
             render={({ field }) => (
               <FormItem className="relative">
-                <div className="flex items-center gap-2">
+                <div className="flex items-start gap-2">
                   <div className="relative flex-1">
                     <FormControl>
                       <Input
@@ -383,10 +386,15 @@ export default function SubmitPage() {
                   <Button
                     type="button"
                     variant={"outline"}
+                    className="bg-gradient-to-r from-input/90 to-input/60"
                     onClick={handleGenerateTitle}
-                    disabled={activeType !== "text"}
+                    disabled={activeType !== "text" || isGenerating}
                   >
-                    <Sparkles />
+                    {isGenerating ? (
+                      <Loader2 className="animate-spin" />
+                    ) : (
+                      <Sparkles />
+                    )}
                     Generate
                   </Button>
                 </div>
