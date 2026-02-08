@@ -106,18 +106,20 @@ export default function CommentActions({
         <Button
           size={"icon-sm"}
           variant={"ghost"}
+          disabled={!commenterId}
           className={cn(
             voteState.myVote === "up" && "text-primary hover:text-primary",
           )}
         >
           <ArrowBigUp />
         </Button>
-        <span className="font-bold text-sm">
+        <span className={cn("font-bold text-sm", !commenterId && "opacity-50")}>
           {commenterId ? voteState.voteCount : "Vote"}
         </span>
         <Button
           size={"icon-sm"}
           variant={"ghost"}
+          disabled={!commenterId}
           className={cn(
             voteState.myVote === "down" &&
               "text-secondary hover:text-secondary",
@@ -126,7 +128,12 @@ export default function CommentActions({
           <ArrowBigDown />
         </Button>
       </div>
-      <Button size={"sm"} variant={"ghost"} onClick={onReplyClick}>
+      <Button
+        size={"sm"}
+        variant={"ghost"}
+        onClick={onReplyClick}
+        disabled={!commenterId}
+      >
         <Reply />
         Reply
       </Button>
@@ -145,7 +152,7 @@ export default function CommentActions({
       </Button>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button size={"icon-sm"} variant={"ghost"}>
+          <Button size={"icon-sm"} variant={"ghost"} disabled={!commenterId}>
             <Ellipsis />
           </Button>
         </DropdownMenuTrigger>
