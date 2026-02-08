@@ -34,6 +34,7 @@ export default function PfpDropdown({ children, username }: PfpDropdownProps) {
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
+        className="w-40"
         onCloseAutoFocus={(e) => e.preventDefault()}
       >
         <DropdownMenuLabel>u/{username}</DropdownMenuLabel>
@@ -41,9 +42,15 @@ export default function PfpDropdown({ children, username }: PfpDropdownProps) {
         <DropdownMenuItem asChild>
           <Link href={`/u/${username}`}>Profile</Link>
         </DropdownMenuItem>
-        <DropdownMenuItem disabled>
-          Settings
-          <Settings className="ml-auto" />
+        <DropdownMenuItem asChild>
+          <a
+            href={"http://localhost:5173"}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Settings
+            <Settings className="ml-auto" />
+          </a>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem variant="destructive" onClick={handleLogOut}>
