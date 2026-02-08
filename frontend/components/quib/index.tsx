@@ -87,7 +87,7 @@ export default function Quib() {
         <Alert variant="destructive">
           <Ban />
           <AlertTitle>
-            Sorry, this post has been removed by the moderators of q/
+            Sorry, this quib has been removed by the moderators of q/
             {quib.quiblet.name}.
           </AlertTitle>
         </Alert>
