@@ -1,13 +1,15 @@
+import { AUTH_API_URL, AUTH_APP_URL } from "@/constants/env";
+
 export const API_ENDPOINTS = {
   FEED: "api/v1/feed",
   // auth endpoints
-  AUTH_REFRESH: "http://localhost:8002/api/v1/auth/refresh-token",
-  AUTH_LOGOUT: "http://localhost:8002/api/v1/auth/logout",
-  AUTH_APP_URL: "http://localhost:5173",
+  AUTH_REFRESH: `${AUTH_API_URL}/api/v1/auth/refresh-token`,
+  AUTH_LOGOUT: `${AUTH_API_URL}/api/v1/auth/logout`,
+  AUTH_APP_URL: `${AUTH_APP_URL}`,
   // user endpoints
-  USER_ME_PROFILE: "http://localhost:8002/api/v1/users/me",
+  USER_ME_PROFILE: `${AUTH_API_URL}/api/v1/users/me`,
   USER_BY_USERNAME: (username: string) =>
-    `http://localhost:8002/api/v1/users/username/${username}`,
+    `${AUTH_API_URL}/api/v1/users/username/${username}`,
   // USER_ME_PROFILES: "api/v1/user/me/profiles",
   // dyanmic api endpoints
   // search
