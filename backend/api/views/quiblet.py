@@ -193,10 +193,11 @@ def create_quiblet(
     quiblet.save()
     quiblet.members.create(member_id=user_id, is_moderator=True)
 
-    if avatar is not None:
-        quiblet.avatar.save(avatar.name, avatar)
-    if banner is not None:
-        quiblet.banner.save(banner.name, banner)
+    if actual_avatar := avatar or request.FILES.get("avatar"):
+        quiblet.avatar.save(actual_avatar.name, actual_avatar)
+
+    if actual_banner := banner or request.FILES.get("banner"):
+        quiblet.banner.save(actual_banner.name, actual_banner)
 
     return {"name": data.name}
 

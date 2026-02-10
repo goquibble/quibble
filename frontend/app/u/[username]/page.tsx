@@ -6,7 +6,8 @@ interface UserPageProps {
 }
 
 export default async function UserPage({ params }: UserPageProps) {
-  const profile = await getUserByUsername(params.username);
+  const { username } = await params;
+  const profile = await getUserByUsername(username);
 
   return <ProfileView profile={profile} />;
 }
