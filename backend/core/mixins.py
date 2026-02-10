@@ -19,7 +19,7 @@ class AvatarMixin(models.Model):
     Reduces quality to 75% and resizes to 300x300 ratio.
     """
 
-    avatar = ResizedImageField(
+    avatar_url = ResizedImageField(
         upload_to=get_avatar_upload_path,
         size=[300, 300],
         crop=["middle", "center"],

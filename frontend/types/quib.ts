@@ -8,7 +8,7 @@ export interface Quib {
   quiblet: {
     id: number;
     name: string;
-    avatar: Nullable<string>;
+    avatar_url: Nullable<string>;
   };
   poster: Nullable<{
     id: string;

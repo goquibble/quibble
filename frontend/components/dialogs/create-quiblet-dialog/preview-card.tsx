@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import type { Data } from "./create-quiblet-dialog";
+import type { Data } from "./index";
 
 const DEFAULT_NAME = "quibletname";
 const DEFAULT_DESCRIPTION = "Your quiblet description";

@@ -6,7 +6,7 @@ export interface RecentQuib {
   id: number | string;
   quiblet: {
     name: string;
-    avatar: string;
+    avatar_url: string;
   };
   title: string;
   slug: string;
@@ -18,7 +18,7 @@ export interface RecentQuib {
 
 export interface RecentQuiblet {
   name: string;
-  avatar: string;
+  avatar_url: string;
   isStarred: boolean;
   visitedAt: number;
 }

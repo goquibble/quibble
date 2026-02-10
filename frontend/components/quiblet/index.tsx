@@ -44,7 +44,7 @@ export default function Quiblet() {
     if (quiblet && userProfile) {
       addRecentQuiblet(userProfile.username, {
         name: quiblet.name,
-        avatar: quiblet.avatar ?? "",
+        avatar_url: quiblet.avatar_url ?? "",
       });
     }
   }, [quiblet, userProfile, addRecentQuiblet]);
@@ -57,7 +57,7 @@ export default function Quiblet() {
       <div className="h-20 w-full rounded-md border bg-muted/30" />
       <div className="relative flex items-center gap-2 px-4">
         <Avatar className="absolute bottom-0 size-20 rounded-full ring-4 ring-background">
-          <AvatarImage src={quiblet.avatar ?? ""} alt={quiblet.name} />
+          <AvatarImage src={quiblet.avatar_url ?? ""} alt={quiblet.name} />
           <AvatarFallback seed={quiblet.name} />
         </Avatar>
         <h1 className="pl-22 font-bold text-3xl text-white/90">

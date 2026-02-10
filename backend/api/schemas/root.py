@@ -11,7 +11,7 @@ from quiblet.models import Quiblet
 class SearchQuibletSchema(Schema):
     id: int
     name: str
-    avatar: str | None
+    avatar_url: str | None
     members_count: int
 
     @staticmethod
@@ -23,7 +23,7 @@ class SearchProfileSchema(Schema):
     id: UUID
     username: str
     name: str | None
-    avatar: str | None
+    avatar_url: str | None
 
 
 class SearchSchema(Schema):

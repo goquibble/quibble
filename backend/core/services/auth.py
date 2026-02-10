@@ -11,7 +11,7 @@ class User(BaseModel):
     email: str
     username: Optional[str] = None
     name: Optional[str] = None
-    avatar: Optional[str] = None
+    avatar_url: Optional[str] = None
     is_staff: bool = False
     is_superuser: bool = False
 

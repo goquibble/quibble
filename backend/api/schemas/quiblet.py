@@ -25,7 +25,7 @@ class QuibletSchema(ModelSchema):
             "id",
             "name",
             "title",
-            "avatar",
+            "avatar_url",
             "banner",
             "description",
             "type",
@@ -67,7 +67,7 @@ class QuibletBasicSchema(ModelSchema):
 
     class Meta:
         model = Quiblet
-        fields = ["id", "name", "avatar"]
+        fields = ["id", "name", "avatar_url"]
 
     is_favorite: bool
 

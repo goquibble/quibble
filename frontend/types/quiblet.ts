@@ -8,12 +8,12 @@ export interface Quiblet {
     id: number;
     username: string;
     name: Nullable<string>;
-    avatar: Nullable<string>;
+    avatar_url: Nullable<string>;
   }>;
   id: number;
   name: string;
   title: Nullable<string>;
-  avatar: Nullable<string>;
+  avatar_url: Nullable<string>;
   banner: Nullable<string>;
   description: string;
   type: "PUBLIC" | "RESTRICTED" | "PRIVATE";
@@ -24,7 +24,7 @@ export interface Quiblet {
 export interface QuibletBasic {
   id: number;
   name: string;
-  avatar: Nullable<string>;
+  avatar_url: Nullable<string>;
   members_count: number;
   is_favorite: boolean;
 }

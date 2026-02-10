@@ -72,7 +72,7 @@ const POST_TYPES = [
 interface QuibletOption {
   id: number;
   name: string;
-  avatar: string | null;
+  avatar_url: string | null;
   members_count: number;
 }
 
@@ -88,7 +88,7 @@ export default function SubmitPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedQuiblet, setSelectedQuiblet] = useState<Pick<
     QuibletOption,
-    "name" | "avatar"
+    "name" | "avatar_url"
   > | null>(null);
   const [debouncedQuery] = useDebounce(searchQuery, 300);
 
@@ -109,7 +109,7 @@ export default function SubmitPage() {
       form.setValue("quiblet", quibletName);
       setSelectedQuiblet({
         name: quibletName,
-        avatar: getAvatarUrl(quibletName),
+        avatar_url: getAvatarUrl(quibletName),
       });
     }
   }, [searchParams, form]);
@@ -226,7 +226,7 @@ export default function SubmitPage() {
                           <div className="flex items-center gap-2">
                             <Avatar className="h-5 w-5">
                               <AvatarImage
-                                src={selectedQuiblet.avatar || undefined}
+                                src={selectedQuiblet.avatar_url || undefined}
                               />
                               <AvatarFallback>
                                 {selectedQuiblet.name[0]?.toUpperCase()}
@@ -293,7 +293,9 @@ export default function SubmitPage() {
                           }}
                         >
                           <Avatar className="h-8 w-8">
-                            <AvatarImage src={quiblet.avatar || undefined} />
+                            <AvatarImage
+                              src={quiblet.avatar_url || undefined}
+                            />
                             <AvatarFallback>
                               {quiblet.name[0]?.toUpperCase()}
                             </AvatarFallback>

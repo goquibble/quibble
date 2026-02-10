@@ -4,21 +4,21 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 interface SearchItemProps {
   href: string;
-  avatar: Nullable<string>;
+  avatar_url: Nullable<string>;
   mainText: string;
   subText: string;
 }
 
 export default function SearchItem({
   href,
-  avatar,
+  avatar_url,
   mainText,
   subText,
 }: SearchItemProps) {
   return (
     <Link href={href} className="flex items-center gap-2">
       <Avatar>
-        <AvatarImage src={avatar ?? ""} />
+        <AvatarImage src={avatar_url ?? ""} />
         <AvatarFallback seed={mainText.slice(2)} />
       </Avatar>
       <div className="flex flex-col">

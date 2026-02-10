@@ -43,7 +43,7 @@ export default function RecentQuibs() {
                 className="flex flex-1 items-center gap-2 hover:text-primary"
               >
                 <Avatar className="size-6">
-                  <AvatarImage src={quib.quiblet.avatar} />
+                  <AvatarImage src={quib.quiblet.avatar_url} />
                   <AvatarFallback seed={quib.quiblet.name} />
                 </Avatar>
                 <span className="font-semibold text-sm">

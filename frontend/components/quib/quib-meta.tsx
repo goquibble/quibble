@@ -63,7 +63,7 @@ export default function QuibMeta({
         <ArrowLeft />
       </Button>
       <Avatar>
-        <AvatarImage src={quiblet.avatar ?? ""} />
+        <AvatarImage src={quiblet.avatar_url ?? ""} />
         <AvatarFallback seed={quiblet.name} />
       </Avatar>
       <div className="flex flex-col gap-1 text-sm/none">

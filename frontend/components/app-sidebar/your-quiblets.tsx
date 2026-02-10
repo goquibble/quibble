@@ -59,7 +59,7 @@ export default function YourQuiblets() {
             <QuibletItem
               key={quiblet.name}
               name={quiblet.name}
-              avatar={quiblet.avatar || ""}
+              avatar_url={quiblet.avatar_url || ""}
               isStarred={quiblet.is_favorite}
               onToggle={() => toggleFavoriteMutation.mutate(quiblet.name)}
             />

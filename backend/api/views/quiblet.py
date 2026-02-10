@@ -194,7 +194,7 @@ def create_quiblet(
     quiblet.members.create(member_id=user_id, is_moderator=True)
 
     if actual_avatar := avatar or request.FILES.get("avatar"):
-        quiblet.avatar.save(actual_avatar.name, actual_avatar)
+        quiblet.avatar_url.save(actual_avatar.name, actual_avatar)
 
     if actual_banner := banner or request.FILES.get("banner"):
         quiblet.banner.save(actual_banner.name, actual_banner)

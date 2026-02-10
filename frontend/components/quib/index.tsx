@@ -43,7 +43,7 @@ export default function Quib() {
         id: quib.id,
         quiblet: {
           name: quib.quiblet.name,
-          avatar: quib.quiblet.avatar ?? "",
+          avatar_url: quib.quiblet.avatar_url ?? "",
         },
         title: quib.title,
         slug: quib.slug,

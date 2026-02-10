@@ -57,7 +57,7 @@ export default function SearchBar() {
           <SearchItem
             key={quiblet.id}
             href={`/q/${quiblet.name}`}
-            avatar={quiblet.avatar}
+            avatar_url={quiblet.avatar_url}
             mainText={`q/${quiblet.name}`}
             subText={`${quiblet.members_count} member(s)`}
           />
@@ -75,7 +75,7 @@ export default function SearchBar() {
           <SearchItem
             key={profile.id}
             href={`/u/${profile.username}`}
-            avatar={profile.avatar}
+            avatar_url={profile.avatar_url}
             mainText={`u/${profile.username}`}
             subText={profile.name ?? profile.username}
           />

@@ -6,14 +6,14 @@ import { Button } from "../ui/button";
 
 interface QuibletItemProps {
   name: string;
-  avatar: string;
+  avatar_url: string;
   isStarred: boolean;
   onToggle: () => void;
 }
 
 export default function QuibletItem({
   name,
-  avatar,
+  avatar_url,
   isStarred,
   onToggle,
 }: QuibletItemProps) {
@@ -21,7 +21,7 @@ export default function QuibletItem({
     <div className="flex items-center gap-2 rounded-md p-1.5 hover:bg-muted">
       <Link href={`/q/${name}`} className="flex flex-1 items-center gap-2">
         <Avatar className="size-6">
-          <AvatarImage src={avatar} />
+          <AvatarImage src={avatar_url} />
           <AvatarFallback seed={name} />
         </Avatar>
         <span className="font-medium text-sm">q/{name}</span>
