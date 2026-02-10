@@ -17,20 +17,20 @@ export default function PreviewCard({ data }: PreviewCardProps) {
   const [debouncedName] = useDebounce(data.name, 500);
 
   useEffect(() => {
-    if (!data.avatar) return;
-    const url = URL.createObjectURL(data.avatar);
+    if (!data.avatar_file) return;
+    const url = URL.createObjectURL(data.avatar_file);
     setAvatarPreview(url);
     // prevent memory leaks
     return () => URL.revokeObjectURL(url);
-  }, [data.avatar]);
+  }, [data.avatar_file]);
 
   useEffect(() => {
-    if (!data.banner) return;
-    const url = URL.createObjectURL(data.banner);
+    if (!data.banner_file) return;
+    const url = URL.createObjectURL(data.banner_file);
     setBannerPreview(url);
     // prevent memory leaks
     return () => URL.revokeObjectURL(url);
-  }, [data.banner]);
+  }, [data.banner_file]);
 
   return (
     <div className="h-max w-60">

@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { formatBytes } from "@/lib/utils";
-import type { StepProps } from "./create-quiblet-dialog";
+import type { StepProps } from "./index";
 
 const MAX_FILE_SIZE = 1 * 1024 * 1024; // 1MB
 
@@ -25,8 +25,8 @@ const fileSchema = z
   );
 
 const FormSchema = z.object({
-  avatar: fileSchema.optional().nullable(),
-  banner: fileSchema.optional().nullable(),
+  avatar_file: fileSchema.optional().nullable(),
+  banner_file: fileSchema.optional().nullable(),
 });
 
 export default function StepTwo({
@@ -38,21 +38,21 @@ export default function StepTwo({
     resolver: zodResolver(FormSchema),
     mode: "onChange",
     defaultValues: {
-      avatar: data?.avatar,
-      banner: data?.banner,
+      avatar_file: data?.avatar_file,
+      banner_file: data?.banner_file,
     },
   });
 
-  const avatar = form.watch("avatar");
-  const banner = form.watch("banner");
+  const avatar_file = form.watch("avatar_file");
+  const banner_file = form.watch("banner_file");
 
   useEffect(() => {
-    onUpdate("avatar", avatar);
-  }, [avatar, onUpdate]);
+    onUpdate("avatar_file", avatar_file);
+  }, [avatar_file, onUpdate]);
 
   useEffect(() => {
-    onUpdate("banner", banner);
-  }, [banner, onUpdate]);
+    onUpdate("banner_file", banner_file);
+  }, [banner_file, onUpdate]);
 
   useEffect(() => {
     onValidityChange(form.formState.isValid);
@@ -63,14 +63,14 @@ export default function StepTwo({
       <div className="grid grid-cols-2 gap-4">
         <FormField
           control={form.control}
-          name="avatar"
+          name="avatar_file"
           render={({ field: { onChange, value, ...field } }) => (
             <FormItem className="h-max gap-1">
               <div className="flex items-center justify-between">
                 <FormLabel>Avatar</FormLabel>
                 <FormMessage>
-                  {form.getValues("avatar")
-                    ? `${formatBytes((form.getValues("avatar") as File).size)}`
+                  {form.getValues("avatar_file")
+                    ? `${formatBytes((form.getValues("avatar_file") as File).size)}`
                     : `(max ${formatBytes(MAX_FILE_SIZE)})`}
                 </FormMessage>
               </div>
@@ -82,22 +82,22 @@ export default function StepTwo({
                   onChange={(e) => onChange(e.target.files?.[0] ?? null)}
                 />
               </FormControl>
-              {data?.avatar && (
-                <FormDescription>{data.avatar.name}</FormDescription>
+              {data?.avatar_file && (
+                <FormDescription>{data.avatar_file.name}</FormDescription>
               )}
             </FormItem>
           )}
         />
         <FormField
           control={form.control}
-          name="banner"
+          name="banner_file"
           render={({ field: { onChange, value, ...field } }) => (
             <FormItem className="h-max gap-1">
               <div className="flex items-center justify-between">
                 <FormLabel>Banner</FormLabel>
                 <FormMessage>
-                  {form.getValues("banner")
-                    ? `${formatBytes((form.getValues("banner") as File).size)}`
+                  {form.getValues("banner_file")
+                    ? `${formatBytes((form.getValues("banner_file") as File).size)}`
                     : `(max ${formatBytes(MAX_FILE_SIZE)})`}
                 </FormMessage>
               </div>
@@ -109,8 +109,8 @@ export default function StepTwo({
                   onChange={(e) => onChange(e.target.files?.[0] ?? null)}
                 />
               </FormControl>
-              {data?.banner && (
-                <FormDescription>{data.banner.name}</FormDescription>
+              {data?.banner_file && (
+                <FormDescription>{data.banner_file.name}</FormDescription>
               )}
             </FormItem>
           )}

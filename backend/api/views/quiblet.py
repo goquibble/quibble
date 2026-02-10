@@ -182,8 +182,8 @@ def toggle_favorite_quiblet(request: CustomHttpRequest, name: str):
 def create_quiblet(
     request: CustomHttpRequest,
     data: Form[QuibletCreateInSchema],
-    avatar: File[UploadedFile] | None = None,
-    banner: File[UploadedFile] | None = None,
+    avatar_file: File[UploadedFile] | None = None,
+    banner_file: File[UploadedFile] | None = None,
 ):
     if Quiblet.objects.filter(name__iexact=data.name).exists():
         raise HttpError(400, f"Quiblet with name {data.name} already exists.")
@@ -193,10 +193,10 @@ def create_quiblet(
     quiblet.save()
     quiblet.members.create(member_id=user_id, is_moderator=True)
 
-    if actual_avatar := avatar or request.FILES.get("avatar"):
+    if actual_avatar := avatar_file or request.FILES.get("avatar_file"):
         quiblet.avatar_url.save(actual_avatar.name, actual_avatar)
 
-    if actual_banner := banner or request.FILES.get("banner"):
+    if actual_banner := banner_file or request.FILES.get("banner_file"):
         quiblet.banner.save(actual_banner.name, actual_banner)
 
     return {"name": data.name}

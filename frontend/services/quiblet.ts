@@ -33,8 +33,8 @@ export async function createQuiblet(data: Data): Promise<{ name: string }> {
   formData.append("description", data.description);
   formData.append("type", data.type.toUpperCase());
   if (data.nsfw !== undefined) formData.append("nsfw", String(data.nsfw));
-  if (data.avatar) formData.append("avatar", data.avatar);
-  if (data.banner) formData.append("banner", data.banner);
+  if (data.avatar_file) formData.append("avatar_file", data.avatar_file);
+  if (data.banner_file) formData.append("banner_file", data.banner_file);
 
   const res = await api.post(API_ENDPOINTS.QUIBLET(), formData);
   return res.data;

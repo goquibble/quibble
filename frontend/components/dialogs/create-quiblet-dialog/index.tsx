@@ -34,8 +34,8 @@ export interface Data
     description: string;
     type: string;
     nsfw: boolean;
-    avatar: Nullable<File>;
-    banner: Nullable<File>;
+    avatar_file: Nullable<File>;
+    banner_file: Nullable<File>;
   }> {}
 
 type UpdateValue = Nullable<string | File | boolean | undefined>;
