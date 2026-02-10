@@ -17,7 +17,7 @@ export default function QuibSource({ quiblet, poster }: QuibSourceProps) {
       ? `/u/${poster.username}`
       : `/q/${quiblet.name}`;
   const avatarImage =
-    routerParams.name && poster ? poster.avatar : quiblet.avatar;
+    routerParams.name && poster ? poster.avatar_url : quiblet.avatar;
   const sourceText =
     routerParams.name && poster ? `u/${poster.username}` : `q/${quiblet.name}`;
 

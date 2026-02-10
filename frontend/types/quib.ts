@@ -14,7 +14,7 @@ export interface Quib {
     id: string;
     username: string;
     name: Nullable<string>;
-    avatar: Nullable<string>;
+    avatar_url: Nullable<string>;
   }>;
   id: string;
   slug: string;

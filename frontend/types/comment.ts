@@ -8,7 +8,7 @@ export interface Comment {
     id: number;
     username: string;
     name: Nullable<string>;
-    avatar: Nullable<string>;
+    avatar_url: Nullable<string>;
   }>;
   path: string;
   id: number;
