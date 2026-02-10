@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:17-alpine
+    image: pgvector/pgvector:pg17
     container_name: db
     restart: unless-stopped
     environment:
@@ -39,8 +39,7 @@ services:
       RUSTFS_ACCESS_KEY: "rustfsadmin"
       RUSTFS_SECRET_KEY: "rustfsadmin"
     healthcheck:
-      test:
-        ["CMD-SHELL", "curl -fs http://localhost:9000/health || exit 1"]
+      test: [ "CMD-SHELL", "curl -fs http://localhost:9000/health || exit 1" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -58,7 +57,7 @@ services:
       - ./backend/.env
     volumes:
       - ./scripts/init-rustfs.sh:/init-rustfs.sh:ro
-    entrypoint: ["/bin/sh", "/init-rustfs.sh"]
+    entrypoint: [ "/bin/sh", "/init-rustfs.sh" ]
     restart: "no"
     networks:
       - quibble_net
@@ -73,6 +72,7 @@ volumes:
   db_data:
   redis_data:
   rustfs_data:
+
 
 networks:
   quibble_net:
