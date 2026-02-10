@@ -18,8 +18,10 @@ dependencies = [
     "django-storages[s3]>=1.14.6",
     "google-genai>=0.2.0",
     "httpx>=0.28.1",
+    "pgvector>=0.4.2",
     "pillow>=11.3.0",
     "psycopg2-binary>=2.9.10",
+    "sentence-transformers>=5.2.2",
     "whitenoise[brotli]>=6.11.0",
 ]
 

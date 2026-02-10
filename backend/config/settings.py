@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     "django_ltree",
     # custom apps
     "quiblet",
+    "ai_search",
+    "pgvector",
 ]
 
 MIDDLEWARE = [

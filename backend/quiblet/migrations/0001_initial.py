@@ -12,104 +12,280 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
+        migrations.RunSQL("CREATE EXTENSION IF NOT EXISTS ltree;"),
         migrations.CreateModel(
-            name='Quib',
+            name="Quib",
             fields=[
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('id', django_shortuuid.fields.ShortUUIDField(alphabet='abcdefghijklmnopqrstuvwxyz0123456789', blank=True, collision_check=False, editable=False, length=7, max_length=7, max_retries=10, prefix='', primary_key=True, serialize=False, unique=True)),
-                ('poster_id', models.UUIDField(null=True)),
-                ('title', models.CharField(max_length=255)),
-                ('slug', models.SlugField(blank=True, editable=False)),
-                ('content', models.TextField(blank=True, null=True)),
-                ('is_highlighted', models.BooleanField(default=False)),
-                ('is_published', models.BooleanField(default=True)),
-                ('cover', django_resized.forms.ResizedImageField(blank=True, crop=None, force_format='WEBP', keep_meta=True, null=True, quality=75, scale=None, size=[1920, 1080], upload_to=quiblet.models.Quib.cover_upload_path)),
-                ('cover_small', django_resized.forms.ResizedImageField(blank=True, crop=['middle', 'center'], editable=False, force_format='WEBP', keep_meta=True, null=True, quality=1, scale=None, size=[100, 100], upload_to=quiblet.models.Quib.cover_small_upload_path)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "id",
+                    django_shortuuid.fields.ShortUUIDField(
+                        alphabet="abcdefghijklmnopqrstuvwxyz0123456789",
+                        blank=True,
+                        collision_check=False,
+                        editable=False,
+                        length=7,
+                        max_length=7,
+                        max_retries=10,
+                        prefix="",
+                        primary_key=True,
+                        serialize=False,
+                        unique=True,
+                    ),
+                ),
+                ("poster_id", models.UUIDField(null=True)),
+                ("title", models.CharField(max_length=255)),
+                ("slug", models.SlugField(blank=True, editable=False)),
+                ("content", models.TextField(blank=True, null=True)),
+                ("is_highlighted", models.BooleanField(default=False)),
+                ("is_published", models.BooleanField(default=True)),
+                (
+                    "cover",
+                    django_resized.forms.ResizedImageField(
+                        blank=True,
+                        crop=None,
+                        force_format="WEBP",
+                        keep_meta=True,
+                        null=True,
+                        quality=75,
+                        scale=None,
+                        size=[1920, 1080],
+                        upload_to=quiblet.models.Quib.cover_upload_path,
+                    ),
+                ),
+                (
+                    "cover_small",
+                    django_resized.forms.ResizedImageField(
+                        blank=True,
+                        crop=["middle", "center"],
+                        editable=False,
+                        force_format="WEBP",
+                        keep_meta=True,
+                        null=True,
+                        quality=1,
+                        scale=None,
+                        size=[100, 100],
+                        upload_to=quiblet.models.Quib.cover_small_upload_path,
+                    ),
+                ),
             ],
             options={
-                'ordering': ['-created_at'],
+                "ordering": ["-created_at"],
             },
         ),
         migrations.CreateModel(
-            name='Comment',
+            name="Comment",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('path', django_ltree.fields.PathField(unique=True)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('commenter_id', models.UUIDField(null=True)),
-                ('content', models.TextField()),
-                ('is_deleted', models.BooleanField(default=False)),
-                ('quib', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments', to='quiblet.quib')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("path", django_ltree.fields.PathField(unique=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("commenter_id", models.UUIDField(null=True)),
+                ("content", models.TextField()),
+                ("is_deleted", models.BooleanField(default=False)),
+                (
+                    "quib",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="comments",
+                        to="quiblet.quib",
+                    ),
+                ),
             ],
             options={
-                'ordering': ('path',),
-                'abstract': False,
+                "ordering": ("path",),
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='Quiblet',
+            name="Quiblet",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('avatar', django_resized.forms.ResizedImageField(blank=True, crop=['middle', 'center'], force_format='WEBP', keep_meta=True, null=True, quality=75, scale=None, size=[300, 300], upload_to=core.utils.get_avatar_upload_path)),
-                ('banner', django_resized.forms.ResizedImageField(blank=True, crop=['middle', 'center'], force_format='WEBP', keep_meta=True, null=True, quality=75, scale=None, size=[1200, 300], upload_to=core.utils.get_banner_upload_path)),
-                ('type', models.CharField(choices=[('PUBLIC', 'Public'), ('RESTRICTED', 'Restricted'), ('PRIVATE', 'Private')], default='PUBLIC')),
-                ('name', models.CharField(error_messages={'unique': 'Quiblet with this name already exists.'}, max_length=25, unique=True, validators=[core.validators.UsernameValidator()])),
-                ('description', models.TextField()),
-                ('title', models.CharField(blank=True, max_length=50, null=True)),
-                ('nsfw', models.BooleanField(default=False)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "avatar",
+                    django_resized.forms.ResizedImageField(
+                        blank=True,
+                        crop=["middle", "center"],
+                        force_format="WEBP",
+                        keep_meta=True,
+                        null=True,
+                        quality=75,
+                        scale=None,
+                        size=[300, 300],
+                        upload_to=core.utils.get_avatar_upload_path,
+                    ),
+                ),
+                (
+                    "banner",
+                    django_resized.forms.ResizedImageField(
+                        blank=True,
+                        crop=["middle", "center"],
+                        force_format="WEBP",
+                        keep_meta=True,
+                        null=True,
+                        quality=75,
+                        scale=None,
+                        size=[1200, 300],
+                        upload_to=core.utils.get_banner_upload_path,
+                    ),
+                ),
+                (
+                    "type",
+                    models.CharField(
+                        choices=[
+                            ("PUBLIC", "Public"),
+                            ("RESTRICTED", "Restricted"),
+                            ("PRIVATE", "Private"),
+                        ],
+                        default="PUBLIC",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        error_messages={
+                            "unique": "Quiblet with this name already exists."
+                        },
+                        max_length=25,
+                        unique=True,
+                        validators=[core.validators.UsernameValidator()],
+                    ),
+                ),
+                ("description", models.TextField()),
+                ("title", models.CharField(blank=True, max_length=50, null=True)),
+                ("nsfw", models.BooleanField(default=False)),
             ],
             options={
-                'ordering': ['-created_at'],
-                'constraints': [models.UniqueConstraint(django.db.models.functions.text.Lower('name'), name='unique_quiblet_name_case_insensitive')],
+                "ordering": ["-created_at"],
+                "constraints": [
+                    models.UniqueConstraint(
+                        django.db.models.functions.text.Lower("name"),
+                        name="unique_quiblet_name_case_insensitive",
+                    )
+                ],
             },
         ),
         migrations.AddField(
-            model_name='quib',
-            name='quiblet',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='quibs', to='quiblet.quiblet'),
+            model_name="quib",
+            name="quiblet",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="quibs",
+                to="quiblet.quiblet",
+            ),
         ),
         migrations.CreateModel(
-            name='CommentVote',
+            name="CommentVote",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('voter_id', models.UUIDField(null=True)),
-                ('value', models.SmallIntegerField()),
-                ('comment', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='votes', to='quiblet.comment')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("voter_id", models.UUIDField(null=True)),
+                ("value", models.SmallIntegerField()),
+                (
+                    "comment",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="votes",
+                        to="quiblet.comment",
+                    ),
+                ),
             ],
             options={
-                'constraints': [models.UniqueConstraint(fields=('comment', 'voter_id'), name='unique_comment_voter')],
+                "constraints": [
+                    models.UniqueConstraint(
+                        fields=("comment", "voter_id"), name="unique_comment_voter"
+                    )
+                ],
             },
         ),
         migrations.CreateModel(
-            name='QuibletMember',
+            name="QuibletMember",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('is_moderator', models.BooleanField(default=False)),
-                ('member_id', models.UUIDField()),
-                ('quiblet', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='members', to='quiblet.quiblet')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("is_moderator", models.BooleanField(default=False)),
+                ("member_id", models.UUIDField()),
+                (
+                    "quiblet",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="members",
+                        to="quiblet.quiblet",
+                    ),
+                ),
             ],
             options={
-                'constraints': [models.UniqueConstraint(fields=('quiblet', 'member_id'), name='unique_quiblet_member')],
+                "constraints": [
+                    models.UniqueConstraint(
+                        fields=("quiblet", "member_id"), name="unique_quiblet_member"
+                    )
+                ],
             },
         ),
         migrations.CreateModel(
-            name='QuibVote',
+            name="QuibVote",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('voter_id', models.UUIDField(null=True)),
-                ('value', models.SmallIntegerField()),
-                ('quib', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='votes', to='quiblet.quib')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("voter_id", models.UUIDField(null=True)),
+                ("value", models.SmallIntegerField()),
+                (
+                    "quib",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="votes",
+                        to="quiblet.quib",
+                    ),
+                ),
             ],
             options={
-                'constraints': [models.UniqueConstraint(fields=('quib', 'voter_id'), name='unique_quib_voter')],
+                "constraints": [
+                    models.UniqueConstraint(
+                        fields=("quib", "voter_id"), name="unique_quib_voter"
+                    )
+                ],
             },
         ),
     ]
