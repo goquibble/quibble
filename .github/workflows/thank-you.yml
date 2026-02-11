@@ -15,7 +15,7 @@ jobs:
       contents: write
     steps:
       - name: Add thankyou note
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const thankyou_note = 'Your contribution makes Quibble a better place for open discussions and thriving communities! :sparkles: Thank you for helping shape the platform with your efforts. We appreciate your time and dedication—keep building, keep quibbling! :speech_balloon: Your impact matters! :raised_hands:';
