@@ -7,6 +7,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { MarkdownViewer } from "@/components/ui/markdown-viewer";
 import api from "@/lib/api";
 import { timeAgo } from "@/lib/utils";
 import { useAuthStore } from "@/stores/auth";
@@ -86,9 +87,8 @@ export default function SearchPage() {
   };
 
   return (
-    <div className="m-auto flex w-full max-w-3xl flex-1 flex-col items-center gap-8 p-4">
-      {/* Header (hidden when results are shown to save space, or kept? Let's keep distinct layout) */}
-      {!hasSearched ? (
+    <div className="m-auto flex w-full max-w-3xl flex-1 flex-col items-center gap-4 p-4">
+      {!hasSearched && (
         <div className="mt-20 flex flex-col items-center gap-4 text-center">
           <div className="flex items-center gap-2">
             <Sparkles className="size-5 text-primary" />
@@ -100,10 +100,6 @@ export default function SearchPage() {
             How can I help you find?
           </h1>
         </div>
-      ) : (
-        <div className="w-full pt-4">
-          {/* Compact header state could go here if needed */}
-        </div>
       )}
 
       {/* Input Area */}
@@ -114,7 +110,7 @@ export default function SearchPage() {
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Search anything..."
-            className="h-14 w-full rounded-full pr-16 pl-6 font-semibold text-base shadow-sm"
+            className="h-14 w-full rounded-full pr-16 pl-6 font-medium text-base! shadow-sm"
           />
           <Button
             size="icon"
@@ -122,11 +118,7 @@ export default function SearchPage() {
             disabled={!query.trim() || isLoading}
             onClick={handleSearch}
           >
-            {isLoading ? (
-              <Sparkles className="size-5 animate-pulse" />
-            ) : (
-              <ArrowUp className="size-5" />
-            )}
+            <ArrowUp className="size-5" />
             <span className="sr-only">Send</span>
           </Button>
         </div>
@@ -146,7 +138,7 @@ export default function SearchPage() {
               // biome-ignore lint/suspicious/noArrayIndexKey: suggestions are static
               key={index}
               type="button"
-              className="flex items-center gap-2 rounded-full border bg-card px-4 py-2 text-muted-foreground text-sm transition-colors hover:bg-muted/50 hover:text-foreground"
+              className="flex items-center gap-2 rounded-full border bg-card px-4 py-2 text-muted-foreground text-sm hover:bg-muted/50 hover:text-foreground"
               onClick={() => handleSuggestionClick(suggestion.text)}
             >
               {suggestion.icon}
@@ -168,6 +160,7 @@ export default function SearchPage() {
                   // biome-ignore lint/suspicious/noArrayIndexKey: suggestions are static
                   key={i}
                   className="h-24 w-full animate-pulse rounded-xl bg-muted/50"
+                  style={{ opacity: 1 - i * 0.25 }}
                 />
               ))}
             </div>
@@ -176,7 +169,7 @@ export default function SearchPage() {
               <Link
                 key={result.id}
                 href={`/q/${result.slug}`}
-                className="group flex flex-col gap-3 rounded-xl border bg-card p-4 transition-colors hover:bg-accent/50 sm:flex-row sm:items-start"
+                className="group flex flex-col gap-3 rounded-xl border bg-card p-4 hover:bg-muted/50 sm:flex-row sm:items-start"
               >
                 {/* Cover Image (if available) */}
                 {result.cover && (
@@ -193,21 +186,18 @@ export default function SearchPage() {
                 <div className="flex flex-1 flex-col justify-between gap-2">
                   <div className="flex flex-col gap-1">
                     <div className="flex items-center gap-2 text-muted-foreground text-xs">
-                      <div className="flex items-center gap-1">
-                        {result.quiblet.avatar_url && (
-                          <Image
-                            src={result.quiblet.avatar_url}
-                            alt={result.quiblet.name}
-                            width={16}
-                            height={16}
-                            className="rounded-full"
-                          />
-                        )}
-                        <span className="font-medium text-foreground">
-                          {result.quiblet.name}
-                        </span>
-                      </div>
-                      <span>•</span>
+                      {result.quiblet.avatar_url && (
+                        <Image
+                          src={result.quiblet.avatar_url}
+                          alt={result.quiblet.name}
+                          width={16}
+                          height={16}
+                          className="rounded-full"
+                        />
+                      )}
+                      <span className="font-medium text-foreground text-sm">
+                        {result.quiblet.name}
+                      </span>
                       <span>{timeAgo(result.created_at)}</span>
                     </div>
                     <h3 className="font-semibold text-lg leading-tight group-hover:text-primary">
@@ -216,9 +206,10 @@ export default function SearchPage() {
                   </div>
 
                   {result.content && (
-                    <p className="line-clamp-2 text-muted-foreground text-sm">
-                      {result.content}
-                    </p>
+                    <MarkdownViewer
+                      content={result.content}
+                      className="text-muted-foreground text-sm"
+                    />
                   )}
                 </div>
               </Link>

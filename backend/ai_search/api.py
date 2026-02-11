@@ -42,10 +42,15 @@ def semantic_search(request, q: str):
     # We join with the embedding table to filter quibs that have embeddings.
     # Cosine distance is 1 - cosine_similarity, so smaller distance is better.
 
+    # Filter for results with high similarity (distance < 0.55)
+    # Cosine distance ranges from 0 (identical) to 2 (opposite).
+    # A distance of 0.55 roughly corresponds to a cosine similarity of 0.45,
+    # which generally indicates relevant content for most embedding models.
     quibs = (
         Quib.objects.select_related("quiblet")
         .filter(embedding__isnull=False)
         .annotate(distance=CosineDistance("embedding__embedding", query_embedding))
+        .filter(distance__lt=0.55)
         .order_by("distance")[:20]
     )
 
