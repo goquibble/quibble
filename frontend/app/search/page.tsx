@@ -39,7 +39,7 @@ const ResultItem = ({
   truncateContent?: boolean;
 }) => (
   <Link
-    href={`/q/${result.slug}`}
+    href={`/q/${result.quiblet.name}/quib/${result.id}/${result.slug}`}
     className="group flex flex-col gap-3 rounded-xl border bg-card p-4 hover:bg-muted/50 sm:flex-row sm:items-start"
   >
     {/* Cover Image (if available) */}
