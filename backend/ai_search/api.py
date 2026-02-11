@@ -1,4 +1,4 @@
-from ninja import ModelSchema, Router
+from ninja import ModelSchema, Router, Schema
 from typing import List, cast
 from pgvector.django import CosineDistance
 
@@ -29,29 +29,33 @@ class QuibSearchSchema(ModelSchema):
         return content if content and content.strip() else None
 
 
-@router.get("/search", response=List[QuibSearchSchema])
+class SemanticSearchResponse(Schema):
+    results: List[QuibSearchSchema]
+    similar_items: List[QuibSearchSchema]
+
+
+@router.get("/search", response=SemanticSearchResponse)
 def semantic_search(request, q: str):
     if not q:
-        return []
+        return {"results": [], "similar_items": []}
 
     query_embedding = generate_embedding(q)
     if not query_embedding:
-        return []
+        return {"results": [], "similar_items": []}
 
-    # Get Quibs ordered by cosine distance (similarity)
-    # We join with the embedding table to filter quibs that have embeddings.
-    # Cosine distance is 1 - cosine_similarity, so smaller distance is better.
-
-    # Filter for results with high similarity (distance < 0.55)
-    # Cosine distance ranges from 0 (identical) to 2 (opposite).
-    # A distance of 0.55 roughly corresponds to a cosine similarity of 0.45,
-    # which generally indicates relevant content for most embedding models.
-    quibs = (
+    # Base query annotated with distance
+    base_qs = (
         Quib.objects.select_related("quiblet")
         .filter(embedding__isnull=False)
         .annotate(distance=CosineDistance("embedding__embedding", query_embedding))
-        .filter(distance__lt=0.55)
-        .order_by("distance")[:20]
     )
 
-    return list(quibs)
+    # High similarity results: distance < 0.55, top 10
+    results = list(base_qs.filter(distance__lt=0.55).order_by("distance")[:10])
+
+    # Similar items: distance >= 0.55, top 5
+    # (assuming we want the "next best" which are still somewhat relevant,
+    # so we still order by distance ascending)
+    similar_items = list(base_qs.filter(distance__gte=0.55).order_by("distance")[:5])
+
+    return {"results": results, "similar_items": similar_items}
