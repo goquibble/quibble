@@ -1,15 +1,35 @@
-from ninja import Router
-from typing import List
+from ninja import ModelSchema, Router
+from typing import List, cast
 from pgvector.django import CosineDistance
 
 from quiblet.models import Quib
-from api.schemas.quiblet import QuibSchema
+from api.schemas.quiblet import QuibletBasicSchema
 from .services import generate_embedding
 
 router = Router()
 
 
-@router.get("/search", response=List[QuibSchema])
+class QuibSearchSchema(ModelSchema):
+    quiblet: QuibletBasicSchema
+
+    class Meta:
+        model = Quib
+        fields = [
+            "id",
+            "slug",
+            "title",
+            "cover",
+            "content",
+            "created_at",
+        ]
+
+    @staticmethod
+    def resolve_content(obj: Quib) -> str | None:
+        content = cast(str, obj.content)
+        return content if content and content.strip() else None
+
+
+@router.get("/search", response=List[QuibSearchSchema])
 def semantic_search(request, q: str):
     if not q:
         return []
@@ -19,12 +39,11 @@ def semantic_search(request, q: str):
         return []
 
     # Get Quibs ordered by cosine distance (similarity)
-    # We use with_votes() to ensure all annotated fields required by QuibSchema are present.
     # We join with the embedding table to filter quibs that have embeddings.
     # Cosine distance is 1 - cosine_similarity, so smaller distance is better.
 
     quibs = (
-        Quib.objects.with_votes()
+        Quib.objects.select_related("quiblet")
         .filter(embedding__isnull=False)
         .annotate(distance=CosineDistance("embedding__embedding", query_embedding))
         .order_by("distance")[:20]
