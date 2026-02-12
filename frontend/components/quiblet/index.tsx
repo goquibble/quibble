@@ -86,7 +86,7 @@ export default function Quiblet() {
             >
               <Star
                 className={cn(
-                  "mr-2 size-4",
+                  "size-4",
                   isFavorite && "fill-primary stroke-primary",
                 )}
               />

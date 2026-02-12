@@ -3,7 +3,7 @@ import RecentQuibs from "@/components/recent-quibs";
 
 export default function Home() {
   return (
-    <div className="mx-auto flex max-w-300 flex-1">
+    <div className="mx-auto flex max-w-275 flex-1">
       <Feed />
       <RecentQuibs />
     </div>
