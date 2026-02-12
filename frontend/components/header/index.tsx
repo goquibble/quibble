@@ -6,6 +6,7 @@ import {
   Home,
   LogIn,
   Plus,
+  Sparkles,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -51,7 +52,7 @@ export default function Header() {
         <Icons.quibbleIcon className="size-6" />
         <Icons.quibbleLogo className="h-6 w-max" />
       </Link>
-      <nav className="flex items-center gap-2">
+      <nav className="-translate-x-1/2 absolute left-1/2 flex items-center gap-2">
         {navLinkMapping.map((item) => {
           const isActive = pathname === item.href;
           return (
@@ -72,6 +73,12 @@ export default function Header() {
           );
         })}
         <SearchBar />
+        <Button variant={"ghost"} asChild>
+          <Link href="/search" className="border">
+            <Sparkles className="size-4 text-purple-500" />
+            <span>AI Search</span>
+          </Link>
+        </Button>
       </nav>
       <nav className="flex items-center gap-2">
         {isLoading ? (
