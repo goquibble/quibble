@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUp, Image as ImageIcon, Sparkles } from "lucide-react";
+import { ArrowUp, Sparkles, WandSparkles } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -103,10 +103,6 @@ export default function SearchPage() {
       text: "What are the latest developments in AI?",
     },
     {
-      icon: <ImageIcon className="size-4" />,
-      text: "Show me funny cat videos from last week",
-    },
-    {
       icon: <Sparkles className="size-4" />,
       text: "Find posts about retro gaming consoles",
     },
@@ -150,11 +146,11 @@ export default function SearchPage() {
   };
 
   return (
-    <div className="m-auto flex w-full max-w-3xl flex-1 flex-col items-center gap-4 p-4">
+    <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col items-center gap-4 p-4">
       {!hasSearched && (
-        <div className="mt-20 flex flex-col items-center gap-4 text-center">
-          <div className="flex items-center gap-2">
-            <Sparkles className="size-5 text-primary" />
+        <div className="mt-20 flex flex-col items-center text-center">
+          <div className="flex items-center gap-2 self-start">
+            <WandSparkles className="size-6 text-purple-500" />
             <span className="text-2xl capitalize">
               Hi {userProfile?.username || "there"}!
             </span>
@@ -173,11 +169,11 @@ export default function SearchPage() {
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Search anything..."
-            className="h-14 w-full rounded-full pr-16 pl-6 font-medium text-base! shadow-sm"
+            className="h-14 w-full rounded-full pr-16 pl-6 font-medium text-base! shadow-sm ring-purple-500!"
           />
           <Button
             size="icon"
-            className="absolute top-2 right-2 size-10 rounded-full"
+            className="absolute top-2 right-2 size-10 rounded-full bg-purple-500 text-white hover:bg-purple-500/90"
             disabled={!query.trim() || isLoading}
             onClick={handleSearch}
           >
