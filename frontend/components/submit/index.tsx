@@ -2,7 +2,14 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
-import { ChevronDown, Loader2, Search, Sparkles, Trash, X } from "lucide-react";
+import {
+  ChevronDown,
+  Loader2,
+  Search,
+  Trash,
+  WandSparkles,
+  X,
+} from "lucide-react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "nextjs-toploader/app";
@@ -387,15 +394,15 @@ export default function SubmitForm() {
                   </div>
                   <Button
                     type="button"
-                    variant={"outline"}
-                    className="bg-gradient-to-r from-input/90 to-input/60"
+                    variant={"ghost"}
+                    className="border"
                     onClick={handleGenerateTitle}
                     disabled={activeType !== "text" || isGenerating}
                   >
                     {isGenerating ? (
                       <Loader2 className="animate-spin" />
                     ) : (
-                      <Sparkles />
+                      <WandSparkles className="text-purple-500" />
                     )}
                     Generate
                   </Button>
