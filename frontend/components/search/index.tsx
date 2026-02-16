@@ -1,8 +1,9 @@
 "use client";
 
-import { ArrowUp, Sparkles, WandSparkles } from "lucide-react";
+import { ArrowUp, SearchX, Sparkles, WandSparkles } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import api from "@/lib/api";
@@ -87,7 +88,7 @@ export default function SearchContent() {
       )}
 
       {/* Input Area */}
-      <div className="sticky top-4 z-10 w-full space-y-2 bg-background/80 pb-2 backdrop-blur-sm">
+      <div className="w-full space-y-2">
         <div className="relative">
           <Input
             value={query}
@@ -150,20 +151,27 @@ export default function SearchContent() {
             </div>
           ) : results.length > 0 || similarItems.length > 0 ? (
             <>
-              {results.length > 0 && (
-                <div className="flex flex-col gap-4">
-                  <div className="px-4 text-muted-foreground">Top Matches</div>
-                  {results.map((result) => (
+              <div className="flex flex-col gap-4">
+                <div className="px-4 text-muted-foreground">Top Matches</div>
+                {results.length > 0 ? (
+                  results.map((result) => (
                     <ResultItem key={result.id} result={result} />
-                  ))}
-                </div>
-              )}
+                  ))
+                ) : (
+                  <Alert>
+                    <SearchX />
+                    <AlertTitle>No high-confidence matches found</AlertTitle>
+                    <AlertDescription>
+                      We couldn't find any direct matches for your query. Check
+                      out the recommended items below.
+                    </AlertDescription>
+                  </Alert>
+                )}
+              </div>
 
               {similarItems.length > 0 && (
                 <div className="flex flex-col gap-4">
-                  <div className="px-4 text-muted-foreground">
-                    Similar Items
-                  </div>
+                  <div className="px-4 text-muted-foreground">Recommended</div>
                   {similarItems.map((result) => (
                     <ResultItem
                       key={result.id}
@@ -177,7 +185,10 @@ export default function SearchContent() {
           ) : (
             <div className="flex flex-col items-center justify-center gap-2 py-12 text-center text-muted-foreground">
               <Sparkles className="size-8 opacity-20" />
-              <p>No results found specifically matching your query.</p>
+              <p>
+                I couldn't find any content semantically related to your
+                request.
+              </p>
             </div>
           )}
         </div>

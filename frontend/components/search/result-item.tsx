@@ -55,6 +55,7 @@ export const ResultItem = ({
           <span className="font-medium text-foreground text-sm">
             {result.quiblet.name}
           </span>
+          <span>—</span>
           <span>{timeAgo(result.created_at)}</span>
         </div>
         <h3 className="font-bold text-lg leading-tight group-hover:text-primary">
