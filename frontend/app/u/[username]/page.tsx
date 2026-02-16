@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
+import ProfileView from "@/components/profile";
 import { getUserByUsername } from "@/services/user";
-import ProfileView from "./profile-view";
 
 interface UserPageProps {
   params: Promise<{ username: string }>;

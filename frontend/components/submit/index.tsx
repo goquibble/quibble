@@ -76,7 +76,7 @@ interface QuibletOption {
   members_count: number;
 }
 
-export default function SubmitPage() {
+export default function SubmitForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [activeType, setActiveType] = useState<PostType>("text");

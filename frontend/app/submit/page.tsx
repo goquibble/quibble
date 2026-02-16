@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import SubmitForm from "./submit-form";
+import SubmitForm from "@/components/submit";
 
 export const metadata: Metadata = {
   title: "Submit a Quib",
