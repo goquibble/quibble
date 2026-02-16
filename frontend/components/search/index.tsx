@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUp, SearchX, Sparkles, WandSparkles } from "lucide-react";
+import { ArrowUp, Info, SearchX, Sparkles, WandSparkles } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -181,6 +181,21 @@ export default function SearchContent() {
                   ))}
                 </div>
               )}
+
+              <div className="flex items-start gap-3 px-4">
+                <div className="rounded-full bg-muted p-1">
+                  <Info className="size-3.5 text-muted-foreground" />
+                </div>
+                <div className="space-y-1 text-sm">
+                  <p className="font-medium text-foreground">How this works</p>
+                  <p className="text-muted-foreground text-xs leading-relaxed">
+                    This semantic search uses AI to understand the meaning
+                    behind your query, not just keywords. As we gather more
+                    data, the results will become more precise. Please note that
+                    AI-generated results may not always be 100% accurate.
+                  </p>
+                </div>
+              </div>
             </>
           ) : (
             <div className="flex flex-col items-center justify-center gap-2 py-12 text-center text-muted-foreground">
