@@ -94,7 +94,7 @@ export default function Header() {
                 Create Quib
               </Button>
             </Link>
-            <Button variant={"outline"} size={"icon"}>
+            <Button variant={"outline"} size={"icon"} disabled>
               <Bell />
             </Button>
             <PfpDropdown username={userProfile.username}>
