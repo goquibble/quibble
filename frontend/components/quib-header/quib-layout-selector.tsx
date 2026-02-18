@@ -1,4 +1,7 @@
+"use client";
+
 import { ChevronDown, Rows2, Rows3 } from "lucide-react";
+import { useEffect, useId, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,10 +13,18 @@ import { Button } from "../ui/button";
 
 export default function QuibLayoutSelector() {
   const { layout, setLayout } = useLayoutStore();
+  const [mounted, setMounted] = useState(false);
+  const id = useId();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger asChild id={id}>
         <Button size={"sm"} variant={"outline"}>
           {layout === "card" ? (
             <Rows2 className="text-primary" />

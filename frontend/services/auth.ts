@@ -16,6 +16,9 @@ export async function refreshToken(): Promise<string | null> {
       return token;
     }
   } catch (error) {
+    if (axios.isAxiosError(error) && error.response?.status === 401) {
+      return null;
+    }
     console.error("Failed to refresh token", error);
   }
   return null;
