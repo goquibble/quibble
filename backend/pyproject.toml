@@ -22,7 +22,7 @@ dependencies = [
     "pgvector>=0.4.2",
     "pillow>=11.3.0",
     "psycopg2-binary>=2.9.10",
-    "sentence-transformers>=5.2.2",
+    "fastembed>=0.6.1",
     "whitenoise[brotli]>=6.11.0",
 ]
 
