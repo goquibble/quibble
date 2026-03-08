@@ -11,7 +11,7 @@ permissions:
 
 env:
   AWS_REGION: ap-south-1
-  ECR_REPO_URI: 903050880736.dkr.ecr.ap-south-1.amazonaws.com/goquibble/quibble
+  ECR_REPOSITORY: goquibble/quibble
 
 jobs:
   build-and-push:
@@ -25,7 +25,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v6
         with:
-          role-to-assume: arn:aws:iam::903050880736:role/github-quibble-backend-deploy-role
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Login to Amazon ECR
@@ -34,9 +34,10 @@ jobs:
 
       - name: Build, tag, and push image to ECR
         working-directory: backend
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
         run: |
-          IMAGE_TAG="${GITHUB_SHA::7}"
-          docker build -t $ECR_REPO_URI:$IMAGE_TAG -t $ECR_REPO_URI:latest .
-          docker push $ECR_REPO_URI:$IMAGE_TAG
-          docker push $ECR_REPO_URI:latest
-          echo "Pushed image: $ECR_REPO_URI:$IMAGE_TAG"
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
