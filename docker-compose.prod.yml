@@ -1,21 +1,17 @@
 services:
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    image: 903050880736.dkr.ecr.ap-south-1.amazonaws.com/goquibble/quibble:latest
     container_name: quibble-backend
     restart: unless-stopped
     env_file:
-      - ./backend/.env
+      - .env
     ports:
       - "8000:8000"
 
   celery-worker:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    image: 903050880736.dkr.ecr.ap-south-1.amazonaws.com/goquibble/quibble:latest
     container_name: quibble-celery-worker
     restart: unless-stopped
     env_file:
-      - ./backend/.env
-    command: celery -A config worker --loglevel=info --concurrency=4
+      - .env
+    command: celery -A config worker --loglevel=info --concurrency=1
