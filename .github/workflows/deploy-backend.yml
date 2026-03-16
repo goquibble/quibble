@@ -33,7 +33,7 @@ jobs:
       - name: Build, tag, and push image to ECR
         working-directory: backend
         env:
-          ECR_REGISTRY: public.ecr.aws
+          ECR_REGISTRY: public.ecr.aws/b4a5m7o3
           ECR_REPOSITORY: goquibble/quibble
           IMAGE_TAG: ${{ github.sha }}
         run: |
