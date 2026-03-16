@@ -11,7 +11,7 @@ permissions:
 
 env:
   AWS_REGION: us-east-1
-  ECR_REPOSITORY: goquibble/quibble
+  ECR_REPOSITORY: quibble
 
 jobs:
   build-and-push:
