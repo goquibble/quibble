@@ -31,9 +31,19 @@ ENV PATH="/app/.venv/bin:$PATH"
 COPY . .
 
 # Collect static files (uses whitenoise for serving)
-RUN python manage.py collectstatic --noinput 2>/dev/null || true
+# We provide dummy environment variables so django-environ doesn't crash during build
+RUN SECRET_KEY="dummy" \
+    DEBUG="True" \
+    ALLOWED_HOSTS="*" \
+    DATABASE_URL="sqlite:///:memory:" \
+    CACHE_URL="locmem://" \
+    AWS_S3_BUCKET_NAME="dummy" \
+    AWS_S3_REGION_NAME="dummy" \
+    ALLOWED_ORIGINS="*" \
+    COOKIE_DOMAIN="dummy" \
+    python manage.py collectstatic --noinput
 
 EXPOSE 8000
 
 # Default command: run gunicorn (overridden in docker-compose for celery)
-CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "1", "--threads", "2", "--timeout", "120"]
+CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "1", "--threads", "2", "--timeout", "120", "--access-logfile", "-", "--error-logfile", "-", "--log-level", "info"]
