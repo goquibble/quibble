@@ -26,7 +26,10 @@ const FormSchema = z.object({
   name: z
     .string()
     .min(MIN_NAME_LENGTH, "Name must be at least 3 characters long")
-    .max(MAX_NAME_LENGTH),
+    .max(MAX_NAME_LENGTH)
+    .refine((name) => !name.toLowerCase().includes("quibble"), {
+      message: "Name cannot contain 'quibble'",
+    }),
   description: z
     .string()
     .min(1, "Description too short")
