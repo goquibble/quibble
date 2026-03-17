@@ -8,6 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { AUTH_APP_URL } from "@/constants/env";
 import { cn } from "@/lib/utils";
 import { logOutSession } from "@/services/auth";
 
@@ -43,11 +44,7 @@ export default function PfpDropdown({ children, username }: PfpDropdownProps) {
           <Link href={`/u/${username}`}>Profile</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <a
-            href={"http://localhost:5173"}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href={AUTH_APP_URL} target="_blank" rel="noopener noreferrer">
             Settings
             <Settings className="ml-auto" />
           </a>

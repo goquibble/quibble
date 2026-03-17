@@ -6,6 +6,7 @@ import QuibLayoutSelector from "@/components/quib-header/quib-layout-selector";
 import QuibSkeleton from "@/components/quib-skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { AUTH_APP_URL } from "@/constants/env";
 import { cn } from "@/lib/utils";
 import { getUserQuibs } from "@/services/quiblet";
 import { useAuthStore } from "@/stores/auth";
@@ -44,11 +45,7 @@ export default function ProfileView({ profile }: ProfileViewProps) {
         </div>
         {userProfile?.username === profile.username && (
           <Button variant={"outline"} asChild>
-            <a
-              href="http://localhost:5173"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href={AUTH_APP_URL} target="_blank" rel="noopener noreferrer">
               <Settings />
               Settings
             </a>
