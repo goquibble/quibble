@@ -4,7 +4,6 @@ import type { UserProfile } from "@/types/user";
 
 export async function getUserProfile(): Promise<UserProfile> {
   const res = await api.get<UserProfile>(API_ENDPOINTS.USER_ME_PROFILE);
-  console.log(res.data);
   return res.data;
 }
 

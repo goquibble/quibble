@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
 import api from "@/lib/api";
-import type { StepProps } from "./create-quiblet-dialog";
+import type { StepProps } from "./index";
 
 const MAX_NAME_LENGTH = 20;
 const MIN_NAME_LENGTH = 3;

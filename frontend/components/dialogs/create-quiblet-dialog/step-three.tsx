@@ -15,7 +15,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
-import type { StepProps } from "./create-quiblet-dialog";
+import type { StepProps } from "./index";
 
 const FormSchema = z.object({
   type: z.enum(["public", "restricted", "private"]),
