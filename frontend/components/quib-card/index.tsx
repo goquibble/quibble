@@ -1,11 +1,12 @@
 "use client";
-import { ImageOff } from "lucide-react";
+import { ExternalLink, ImageOff } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
-import { timeAgo } from "@/lib/utils";
+import { useEffect, useRef, useState } from "react";
+import { cn, timeAgo } from "@/lib/utils";
 import type { Quib } from "@/types/quib";
 import { CoverCard } from "../cover-card";
 import QuibActions from "../quib-actions";
+import { Button } from "../ui/button";
 import { MarkdownViewer } from "../ui/markdown-viewer";
 import QuibSource from "./quib-source";
 
@@ -30,6 +31,22 @@ export default function QuibCard({
   created_at,
 }: QuibCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [isOverflowing, setIsOverflowing] = useState(false);
+
+  useEffect(() => {
+    const checkOverflow = () => {
+      if (contentRef.current) {
+        setIsOverflowing(
+          contentRef.current.scrollHeight > contentRef.current.clientHeight,
+        );
+      }
+    };
+
+    requestAnimationFrame(checkOverflow);
+    window.addEventListener("resize", checkOverflow);
+    return () => window.removeEventListener("resize", checkOverflow);
+  }, []);
 
   const handleToggleExpand = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -116,7 +133,7 @@ export default function QuibCard({
           — {timeAgo(created_at)}
         </span>
       </div>
-      <h2 className="font-bold text-xl">{title}</h2>
+      <h2 className="font-bold text-lg">{title}</h2>
       {cover ? (
         <CoverCard
           cover={cover}
@@ -124,7 +141,25 @@ export default function QuibCard({
           className="aspect-video"
         />
       ) : content?.trim() ? (
-        <MarkdownViewer content={content} />
+        <div className="relative">
+          <div
+            ref={contentRef}
+            className={cn(
+              "max-h-[150px] overflow-hidden",
+              isOverflowing && "mask-b-from-50%",
+            )}
+          >
+            <MarkdownViewer content={content} />
+          </div>
+          {isOverflowing && (
+            <Button
+              variant={"ghost"}
+              className="absolute inset-x-0 bottom-0 mx-auto w-max bg-accent!"
+            >
+              Read More <ExternalLink />
+            </Button>
+          )}
+        </div>
       ) : null}
       <QuibActions
         id={id}

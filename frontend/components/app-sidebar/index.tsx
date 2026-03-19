@@ -23,7 +23,7 @@ export default function AppSidebar() {
         <YourQuiblets />
         <Misc />
       </div>
-      <span className="mx-auto text-secondary text-xs">
+      <span className="mx-auto mt-auto text-secondary text-xs">
         Quibble &copy; {new Date().getFullYear()}. All rights reserved.
       </span>
     </aside>
