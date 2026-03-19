@@ -55,6 +55,8 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd ~/app
+            # Cleanup some space
+            docker image prune -a -f || true
             docker compose pull
             docker compose up -d
             # Wait for backend container to be healthy
