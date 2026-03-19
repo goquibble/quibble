@@ -52,7 +52,7 @@ export default function RecentQuibs() {
               </Link>
               <Link
                 href={`/q/${quib.quiblet.name}/quib/${quib.id}/${quib.slug}`}
-                className="mt-2 line-clamp-2 font-semibold decoration-primary hover:underline"
+                className="mt-2 line-clamp-2 font-semibold hover:underline"
               >
                 {quib.title}
               </Link>
