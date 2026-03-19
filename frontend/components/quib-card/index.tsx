@@ -133,7 +133,7 @@ export default function QuibCard({
           — {timeAgo(created_at)}
         </span>
       </div>
-      <h2 className="font-bold text-xl">{title}</h2>
+      <h2 className="font-bold text-lg">{title}</h2>
       {cover ? (
         <CoverCard
           cover={cover}
@@ -153,8 +153,8 @@ export default function QuibCard({
           </div>
           {isOverflowing && (
             <Button
-              variant={"outline"}
-              className="absolute inset-x-0 bottom-0 mx-auto w-max bg-input!"
+              variant={"ghost"}
+              className="absolute inset-x-0 bottom-0 mx-auto w-max bg-accent!"
             >
               Read More <ExternalLink />
             </Button>
