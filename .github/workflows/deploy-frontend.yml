@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "frontend/**"
 
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
