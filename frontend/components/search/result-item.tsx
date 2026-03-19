@@ -26,7 +26,7 @@ export const ResultItem = ({
 }) => (
   <Link
     href={`/q/${result.quiblet.name}/quib/${result.id}/${result.slug}`}
-    className="group flex flex-col gap-3 rounded-xl border bg-card p-4 hover:bg-muted/50 sm:flex-row sm:items-start"
+    className="flex flex-col gap-3 rounded-xl border bg-card p-4 hover:bg-muted/50 sm:flex-row sm:items-start"
   >
     {/* Cover Image (if available) */}
     {result.cover && (
@@ -35,7 +35,7 @@ export const ResultItem = ({
           src={result.cover}
           alt={result.title}
           fill
-          className="object-cover transition-transform group-hover:scale-105"
+          className="object-cover transition-transform"
         />
       </div>
     )}
@@ -58,9 +58,7 @@ export const ResultItem = ({
           <span>—</span>
           <span>{timeAgo(result.created_at)}</span>
         </div>
-        <h3 className="font-bold text-lg leading-tight group-hover:text-primary">
-          {result.title}
-        </h3>
+        <h3 className="font-bold text-lg leading-tight">{result.title}</h3>
       </div>
 
       {result.content && (
