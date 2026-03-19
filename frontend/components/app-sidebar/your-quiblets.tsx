@@ -35,7 +35,9 @@ export default function YourQuiblets() {
   return (
     <Collapsible defaultOpen>
       <CollapsibleTrigger className="group flex w-full items-center justify-between gap-2 rounded-md px-2.5 py-1.5 hover:bg-muted">
-        <span className="text-muted-foreground">Your Quiblets</span>
+        <span className="font-mono text-muted-foreground text-sm uppercase">
+          Your Quiblets
+        </span>
         <ChevronUp className="size-4 text-muted-foreground transition-transform group-data-[state=closed]:rotate-180" />
       </CollapsibleTrigger>
       <CollapsibleContent>

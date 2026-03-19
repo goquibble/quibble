@@ -1,8 +1,8 @@
 import { Filter } from "lucide-react";
 import IconInput from "../ui/icon-input";
 import CreateQuibletBtn from "./create-quiblet-btn";
-import Misc from "./misc";
 import RecentQuiblets from "./recent-quiblets";
+import Resources from "./resources";
 import YourQuiblets from "./your-quiblets";
 
 export default function AppSidebar() {
@@ -21,7 +21,7 @@ export default function AppSidebar() {
       <div className="flex flex-col gap-2">
         <RecentQuiblets />
         <YourQuiblets />
-        <Misc />
+        <Resources />
       </div>
       <span className="mx-auto mt-auto text-secondary text-xs">
         Quibble &copy; {new Date().getFullYear()}. All rights reserved.
