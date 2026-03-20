@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type * as React from "react";
 import { useEffect, useState } from "react";
+import { useAuthDialog } from "@/hooks/use-auth-dialog";
 import { getQuibletMembership, joinOrLeaveQuiblet } from "@/services/quiblet";
 import { useAuthStore } from "@/stores/auth";
 import { Button } from "../ui/button";
@@ -18,6 +19,7 @@ export default function QuibletJoinBtn({
   const queryClient = useQueryClient();
   const [isJoined, setIsJoined] = useState(hasJoined);
   const { isAuthenticated, isLoading: isAuthLoading } = useAuthStore();
+  const { showDialog: showAuthDialog } = useAuthDialog();
 
   const { data: membershipStatus, isLoading: isMembershipLoading } = useQuery({
     queryKey: ["quiblet", name, "membership"],
@@ -49,6 +51,10 @@ export default function QuibletJoinBtn({
   });
 
   const handleClick = () => {
+    if (!isAuthenticated) {
+      showAuthDialog();
+      return;
+    }
     mutation.mutate(isJoined ? "leave" : "join");
   };
 
