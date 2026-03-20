@@ -18,7 +18,9 @@ export default function RecentQuibs() {
   return (
     <aside className="flex flex-col gap-4">
       <div className="flex items-center justify-between gap-2">
-        <h4 className="font-medium text-secondary">Recent Quibs</h4>
+        <h4 className="font-medium font-mono text-secondary text-sm uppercase">
+          Recent Quibs
+        </h4>
         <Button
           size={"sm"}
           variant={"ghost"}

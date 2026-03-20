@@ -1,10 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import type * as React from "react";
 import { useEffect, useState } from "react";
 import { getQuibletMembership, joinOrLeaveQuiblet } from "@/services/quiblet";
 import { useAuthStore } from "@/stores/auth";
 import { Button } from "../ui/button";
 
-interface QuibletJoinBtnProps {
+interface QuibletJoinBtnProps extends React.ComponentProps<typeof Button> {
   name: string;
   hasJoined: boolean;
 }
@@ -12,6 +13,7 @@ interface QuibletJoinBtnProps {
 export default function QuibletJoinBtn({
   name,
   hasJoined,
+  ...props
 }: QuibletJoinBtnProps) {
   const queryClient = useQueryClient();
   const [isJoined, setIsJoined] = useState(hasJoined);
@@ -57,8 +59,12 @@ export default function QuibletJoinBtn({
   return (
     <Button
       variant={isJoined ? "outline" : "default"}
-      onClick={handleClick}
+      onClick={(e) => {
+        e.preventDefault(); // allow using inside Link rows without navigation issue
+        handleClick();
+      }}
       disabled={mutation.isPending}
+      {...props}
     >
       {isJoined ? "Joined" : "Join"}
     </Button>
