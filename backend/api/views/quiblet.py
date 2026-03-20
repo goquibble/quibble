@@ -46,6 +46,17 @@ def search_quiblets(request: HttpRequest, q: str):  # pyright: ignore[reportUnus
     )[:10]
 
 
+@router.get("/popular", response=list[QuibletBasicSchema])
+def get_popular_quiblets(request: HttpRequest):
+    def fetch():
+        return Quiblet.objects.filter(type="PUBLIC").annotate(
+            members_count=Count("members")
+        ).order_by("-members_count")[:5]
+
+    cache_key = "quiblets:popular"
+    return cache_response(cache_key, fetch)
+
+
 @router.get(
     "/{name}",
     response=QuibletSchema,

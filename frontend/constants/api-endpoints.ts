@@ -16,6 +16,7 @@ export const API_ENDPOINTS = {
   SEARCH: (query: string) => `api/v1/search?q=${query}`,
   // quiblet
   QUIBLET_SEARCH: (query: string) => `api/v1/quiblet/search?q=${query}`,
+  POPULAR_QUIBLETS: "api/v1/quiblet/popular",
   QUIBLET: (name?: string) => `api/v1/quiblet/${name || ""}`,
   QUIBLET_IS_UNIQUE_NAME: (name: string) =>
     `api/v1/quiblet/is-unique?name=${name}`,
