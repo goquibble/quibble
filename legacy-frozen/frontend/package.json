@@ -48,7 +48,7 @@
     "svelte": "^5.0.0",
     "svelte-check": "^4.0.0",
     "svelte-medium-image-zoom": "^0.2.4",
-    "sveltekit-superforms": "^2.23.1",
+    "sveltekit-superforms": "^2.27.4",
     "tailwind-merge": "^2.5.4",
     "tailwind-scrollbar": "^4.0.1",
     "tailwindcss": "^4.0.12",
