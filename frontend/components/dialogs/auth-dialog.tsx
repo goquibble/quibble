@@ -33,22 +33,22 @@ export default function AuthDialog() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="overflow-hidden sm:max-w-[400px]">
         <div className="flex flex-col items-center text-center">
-          <div className="-mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-b from-primary/25 to-primary/10">
-            <LockKeyhole className="h-8 w-8 text-primary" />
+          <div className="relative mb-2 rounded-full border border-primary/20 bg-primary/10 p-3">
+            <LockKeyhole className="size-7 text-primary shadow-sm" />
           </div>
 
           <DialogHeader>
             <DialogTitle className="text-center font-bold text-2xl tracking-tight">
-              Unlock Full Access
+              Authentication Required
             </DialogTitle>
-            <DialogDescription className="mx-auto max-w-[75%] text-center text-base">
-              Log in to your account to save your progress and manage your
-              preferences.
+            <DialogDescription className="mx-auto text-center text-base">
+              This actions needs you to be logged in to your account. Your
+              progress will be saved.
             </DialogDescription>
           </DialogHeader>
         </div>
 
-        <div className="space-y-2 rounded-md bg-muted/50 p-4">
+        <div hidden className="space-y-2 rounded-md bg-muted/50 p-4">
           <div className="flex items-center gap-3 text-muted-foreground text-sm">
             <CheckCircle2 className="size-4 shrink-0 text-primary" />
             <span>Sync your account across all devices</span>
