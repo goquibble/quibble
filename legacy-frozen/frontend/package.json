@@ -17,7 +17,7 @@
   "devDependencies": {
     "@coreproject-moe/icons": "^0.0.67",
     "@dotenvx/dotenvx": "^1.28.0",
-    "@playwright/test": "^1.45.3",
+    "@playwright/test": "^1.57.0",
     "@sveltejs/adapter-vercel": "^5.6.3",
     "@sveltejs/kit": "^2.20.6",
     "@sveltejs/vite-plugin-svelte": "^5.0.3",
