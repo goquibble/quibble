@@ -10,8 +10,10 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { API_ENDPOINTS } from "@/constants/api-endpoints";
+import { useAuthDialog } from "@/hooks/use-auth-dialog";
 import api from "@/lib/api";
 import { cn } from "@/lib/utils";
+import { useAuthStore } from "@/stores/auth";
 import type { Nullable } from "@/types/generics";
 import type { Quib } from "@/types/quib";
 import { Button } from "../ui/button";
@@ -62,7 +64,15 @@ export default function QuibActions({
   const isFirstRender = useRef(true);
   const prevVote = useRef(voteState.myVote);
 
+  const { isAuthenticated } = useAuthStore();
+  const { showDialog: showAuthDialog } = useAuthDialog();
+
   const handleVote = (vote: Vote) => {
+    if (!isAuthenticated) {
+      showAuthDialog();
+      return;
+    }
+
     setVoteState(({ voteCount, myVote }) => {
       let newVote: Nullable<Vote> = vote;
       let voteDiff = 0;
