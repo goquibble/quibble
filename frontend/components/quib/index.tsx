@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useAuthDialog } from "@/hooks/use-auth-dialog";
 import { getQuib } from "@/services/quib";
 import { useAuthStore } from "@/stores/auth";
 import { useRecentStore } from "@/stores/recent";
@@ -34,8 +35,9 @@ export default function Quib() {
     queryKey: ["quiblet", name, "quib", id, slug],
     queryFn: () => getQuib(name, id, slug),
   });
-  const { userProfile } = useAuthStore();
+  const { userProfile, isAuthenticated } = useAuthStore();
   const { addRecentQuib } = useRecentStore();
+  const { showDialog: showAuthDialog } = useAuthDialog();
 
   useEffect(() => {
     if (quib && userProfile) {
@@ -54,7 +56,18 @@ export default function Quib() {
     }
   }, [quib, userProfile, addRecentQuib]);
 
-  if (!quib) return null;
+  const handleOpenCommentBox = (open: boolean) => {
+    if (!isAuthenticated) {
+      showAuthDialog();
+      return;
+    }
+    setOpenCommentBox(open);
+  };
+
+  if (!quib) {
+    return null;
+  }
+
   return (
     <div className="flex flex-col gap-2">
       <QuibMeta
@@ -108,13 +121,13 @@ export default function Quib() {
           id={quib.id}
           slug={quib.slug}
           className="mt-2"
-          onCancelClick={() => setOpenCommentBox(false)}
+          onCancelClick={() => handleOpenCommentBox(false)}
         />
       ) : (
         <button
           type="button"
           className="flex w-full cursor-text items-center gap-2 rounded-md border bg-input/30 p-2 px-3"
-          onClick={() => setOpenCommentBox(true)}
+          onClick={() => handleOpenCommentBox(true)}
         >
           <MessageCircle className="size-4 text-muted-foreground" />
           <span className="text-muted-foreground text-sm">
