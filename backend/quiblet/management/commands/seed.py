@@ -60,7 +60,7 @@ class Command(BaseCommand):
             "poster": "liamtech",
             "title": "Why Rust is the future of systems programming",
             "content": (
-                "<h1>The Case for Rust</h1>"
+                "<h2>The Case for Rust</h2>"
                 "<p>Rust has been the <b>most loved</b> language on the Stack Overflow survey for years, and for good reason. "
                 "It solves the age-old problem of <b>memory safety</b> without the overhead of a garbage collector.</p>"
                 "<h2>Key Benefits</h2>"
@@ -129,7 +129,7 @@ class Command(BaseCommand):
             "title": "Async/Await: It's not as scary as it looks",
             "content": (
                 "<p>Async programming is often seen as a dark art, but once you understand the <b>Event Loop</b>, everything clicks.</p>"
-                "<p><i>\"The event loop is like a waiter. It takes your order, tells the kitchen, and moves to the next table instead of waiting by the stove.\"</i></p>"
+                '<p><i>"The event loop is like a waiter. It takes your order, tells the kitchen, and moves to the next table instead of waiting by the stove."</i></p>'
                 "<p>The key insight is that <b>await</b> doesn't block the thread — it yields control back to the loop so other tasks can run in the meantime.</p>"
                 "<p>Once that mental model clicks, writing concurrent I/O-bound code becomes almost intuitive.</p>"
             ),
@@ -190,7 +190,7 @@ class Command(BaseCommand):
             "poster": "noahbuilds",
             "title": "Elden Ring: Shadow of the Erdtree impressions",
             "content": (
-                "<h1>Return to the Lands Between</h1>"
+                "<h2>Return to the Lands Between</h2>"
                 "<p>I've spent 20 hours in the DLC and I'm still blown away. FromSoftware has done it again. "
                 "The verticality of the map is <b>insane</b>.</p>"
                 "<h2>The Good</h2>"
@@ -240,7 +240,7 @@ class Command(BaseCommand):
             "comments": [
                 {
                     "commenter": "noahbuilds",
-                    "content": "Balatro consumed my entire weekend. I told myself \"one more run\" about fourteen times. The way jokers synergize is just *chef's kiss*.",
+                    "content": 'Balatro consumed my entire weekend. I told myself "one more run" about fourteen times. The way jokers synergize is just *chef\'s kiss*.',
                     "reply": {
                         "commenter": "mayacodes",
                         "content": "The Hologram + Blueprint combo is absurd. I had a run where every hand was scoring 10 million chips by ante 6.",
@@ -327,7 +327,7 @@ class Command(BaseCommand):
             "poster": "liamtech",
             "title": "Stoicism for the Modern Developer",
             "content": (
-                "<p><i>\"You have power over your mind — not outside events. Realize this, and you will find strength.\"</i> — Marcus Aurelius</p>"
+                '<p><i>"You have power over your mind — not outside events. Realize this, and you will find strength."</i> — Marcus Aurelius</p>'
                 "<h2>Applied to software engineering</h2>"
                 "<ul>"
                 "<li><b>Externals</b> — stakeholder changes, legacy bugs, server outages.</li>"
@@ -404,7 +404,9 @@ class Command(BaseCommand):
             )
             quiblets.append(quiblet)
             if created:
-                self.stdout.write(self.style.SUCCESS(f"Created quiblet: q/{quiblet.name}"))
+                self.stdout.write(
+                    self.style.SUCCESS(f"Created quiblet: q/{quiblet.name}")
+                )
                 # First user becomes moderator, others join as members
                 mod_id = USERS["liamtech"]
                 quiblet.members.create(member_id=mod_id, is_moderator=True)
@@ -429,7 +431,7 @@ class Command(BaseCommand):
                 is_published=True,
             )
             created_quibs.append((quib, data))
-            self.stdout.write(f"  Created quib: \"{quib.title}\" by {data['poster']}")
+            self.stdout.write(f'  Created quib: "{quib.title}" by {data["poster"]}')
 
         # ── 3. Create Comments & Replies ──────
         for quib, data in created_quibs:
@@ -444,7 +446,9 @@ class Command(BaseCommand):
                     content=c["content"],
                 )
                 # Auto-upvote own comment
-                CommentVote.objects.create(comment=comment, voter_id=commenter_id, value=1)
+                CommentVote.objects.create(
+                    comment=comment, voter_id=commenter_id, value=1
+                )
 
                 # Reply (if present)
                 if "reply" in c:
@@ -456,7 +460,9 @@ class Command(BaseCommand):
                         commenter_id=reply_id,
                         content=r["content"],
                     )
-                    CommentVote.objects.create(comment=reply, voter_id=reply_id, value=1)
+                    CommentVote.objects.create(
+                        comment=reply, voter_id=reply_id, value=1
+                    )
 
             # ── 4. Quib votes ─────────────────
             # Simulate organic voting: each user has a chance to vote
