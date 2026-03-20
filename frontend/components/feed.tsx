@@ -1,5 +1,6 @@
 "use client";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { CheckCircle2 } from "lucide-react";
 import { Fragment, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { getFeed } from "@/services/feed";
@@ -65,9 +66,19 @@ export default function Feed() {
         </Fragment>
       ))}
 
-      {hasNextPage && (
+      {hasNextPage ? (
         <div ref={ref}>
           <QuibSkeleton mediaClassName="h-20" />
+        </div>
+      ) : (
+        <div className="flex flex-col items-center justify-center px-4 py-12 text-center">
+          <div className="relative mb-4 rounded-full border border-primary/20 bg-primary/10 p-3">
+            <CheckCircle2 className="h-8 w-8 text-primary shadow-sm" />
+          </div>
+          <h3 className="font-bold text-foreground">You've reached the end</h3>
+          <p className="max-w-xs text-muted-foreground text-sm">
+            You're all caught up! Why not join some new quiblets to see more?
+          </p>
         </div>
       )}
     </div>

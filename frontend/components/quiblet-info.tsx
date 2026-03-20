@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 import { formatDate } from "@/lib/utils";
 import { getQuiblet } from "@/services/quiblet";
 import type { Quiblet } from "@/types/quiblet";
+import LegalLinks from "./legal-links";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 
@@ -76,6 +77,7 @@ export default function QuibletInfo() {
           </div>
         ))}
       </div>
+      <LegalLinks />
     </aside>
   );
 }

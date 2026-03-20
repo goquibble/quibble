@@ -8,18 +8,22 @@ const sortMapping = {
   best: {
     Icon: Rocket,
     label: "Best",
+    isDisabled: false,
   },
   hot: {
     Icon: Flame,
     label: "Hot",
+    isDisabled: true,
   },
   new: {
     Icon: Sparkles,
     label: "New",
+    isDisabled: true,
   },
   top: {
     Icon: CircleArrowOutUpRight,
     label: "Top",
+    isDisabled: true,
   },
 };
 
@@ -46,10 +50,13 @@ export default function QuibSort() {
           <button
             key={key}
             type="button"
-            className="flex items-center gap-2"
             aria-pressed={isActive}
             aria-label={item.label}
-            disabled={isActive}
+            disabled={item.isDisabled}
+            className={cn(
+              "flex items-center gap-2",
+              item.isDisabled && "pointer-events-none opacity-75",
+            )}
             onClick={() => !isActive && setSearchParams("s", key)}
           >
             <item.Icon
