@@ -83,8 +83,8 @@ export default function Header() {
       <nav className="flex items-center gap-2">
         {isLoading ? (
           <>
-            <Skeleton className="h-9 w-31" />
-            <Skeleton className="h-9 w-20" />
+            <Skeleton className="h-8 w-31 md:h-9" />
+            <Skeleton className="h-8 w-9 md:h-9 md:w-20" />
           </>
         ) : userProfile ? (
           <>
@@ -111,12 +111,12 @@ export default function Header() {
           </>
         ) : (
           <>
-            <Button variant={"ghost"} asChild>
+            <Button variant={"ghost"} className="h-8 md:h-9" asChild>
               <Link href={`${API_ENDPOINTS.AUTH_APP_URL}/create-account`}>
                 Sign up
               </Link>
             </Button>
-            <Button asChild>
+            <Button className="h-8 md:h-9" asChild>
               <Link href={`${API_ENDPOINTS.AUTH_APP_URL}/log-in`}>
                 Log in <LogIn className="ml-2" />
               </Link>

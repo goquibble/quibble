@@ -53,11 +53,11 @@ export default function QuibSkeleton({
         <Skeleton className="size-6 rounded-full" />
         <Skeleton className="h-4 w-24" />
       </div>
-      <Skeleton className="h-6 w-100" />
+      <Skeleton className="h-6 w-full md:w-100" />
       <Skeleton className={cn("w-full", mediaClassName)} />
       <div className="flex items-center gap-2">
         <Skeleton className="h-8 w-20" />
-        <Skeleton className="h-8 w-36" />
+        <Skeleton className="h-8 w-14 md:w-36" />
         <Skeleton className="h-8 w-8" />
       </div>
     </div>
