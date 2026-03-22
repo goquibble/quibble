@@ -353,7 +353,7 @@ export default function SubmitForm() {
                     "relative flex w-max justify-center gap-2 rounded-md p-2 px-4 font-semibold transition-colors hover:bg-muted",
                     isActive && "text-primary",
                     type.disabled &&
-                      "cursor-not-allowed opacity-50 hover:bg-transparent",
+                      "hidden cursor-not-allowed opacity-50 hover:bg-transparent md:flex",
                   )}
                 >
                   <span>{type.label}</span>
