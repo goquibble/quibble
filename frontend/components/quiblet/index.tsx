@@ -54,16 +54,16 @@ export default function Quiblet() {
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="h-20 w-full rounded-md border bg-muted/30" />
-      <div className="relative flex items-center gap-2 px-4">
-        <Avatar className="absolute bottom-0 size-20 rounded-full ring-4 ring-background">
+      <div className="h-16 w-full rounded-md border bg-muted/30 md:h-20" />
+      <div className="relative flex flex-wrap items-center gap-2 px-4">
+        <Avatar className="absolute bottom-11 size-15 rounded-full ring-4 ring-background md:bottom-0 md:size-20">
           <AvatarImage src={quiblet.avatar_url ?? ""} alt={quiblet.name} />
           <AvatarFallback seed={quiblet.name} />
         </Avatar>
-        <h1 className="pl-22 font-bold text-3xl text-white/90">
+        <h1 className="pl-17 font-bold text-2xl text-white/90 md:pl-22 md:text-3xl">
           q/{quiblet.name}
         </h1>
-        <Link href={`/submit?q=${quiblet.name}`} className="ml-auto">
+        <Link href={`/submit?q=${quiblet.name}`} className="-ml-4 md:ml-auto">
           <Button variant={"outline"}>
             <Plus />
             Create Quib
