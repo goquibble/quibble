@@ -146,6 +146,7 @@ export default function Quib() {
         <IconInput
           Icon={Search}
           placeholder="Search comments"
+          wrapperClassName="hidden md:flex"
           className="h-8 w-auto"
           disabled
         />

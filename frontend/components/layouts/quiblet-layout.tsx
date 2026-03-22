@@ -5,7 +5,7 @@ export default function QuibletLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <div className="mx-auto flex min-w-0 max-w-275 flex-1">
-      <div className="flex min-w-0 flex-1 flex-col p-4 pr-2">{children}</div>
+      <div className="flex min-w-0 flex-1 flex-col p-4">{children}</div>
       <QuibletInfo />
     </div>
   );
