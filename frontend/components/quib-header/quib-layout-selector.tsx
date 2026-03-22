@@ -25,7 +25,7 @@ export default function QuibLayoutSelector() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild id={id}>
-        <Button size={"sm"} variant={"outline"}>
+        <Button size={"sm"} variant={"outline"} className="hidden md:flex">
           {layout === "card" ? (
             <Rows2 className="text-primary" />
           ) : (

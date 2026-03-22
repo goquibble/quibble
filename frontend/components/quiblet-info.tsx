@@ -22,7 +22,7 @@ export default function QuibletInfo() {
   }
 
   return (
-    <aside className="sticky top-14 flex h-[calc(100vh-var(--spacing)*14)] w-75 flex-col gap-4 p-4 pl-2">
+    <aside className="sticky top-14 hidden h-[calc(100vh-var(--spacing)*14)] w-75 flex-col gap-4 p-4 pl-0 md:flex">
       <div className="flex flex-col gap-1">
         <span className="font-bold">q/{quiblet.name}</span>
         <p className="font-medium text-muted-foreground text-sm">

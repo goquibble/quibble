@@ -7,7 +7,7 @@ import YourQuiblets from "./your-quiblets";
 
 export default function AppSidebar() {
   return (
-    <aside className="scrollbar-track-rounded-full scrollbar-thin scrollbar-track-transparent scrollbar-thumb-accent scrollbar scrollbar-thumb-rounded-full sticky top-14 flex h-[calc(100vh-var(--spacing)*14)] w-75 flex-col gap-4 overflow-y-auto border-r p-4">
+    <aside className="scrollbar-track-rounded-full scrollbar-thin scrollbar-track-transparent scrollbar-thumb-accent scrollbar scrollbar-thumb-rounded-full sticky top-14 hidden h-[calc(100vh-var(--spacing)*14)] w-75 flex-col gap-4 overflow-y-auto border-r p-4 md:flex">
       <div className="flex flex-col gap-2">
         <IconInput
           Icon={Filter}
