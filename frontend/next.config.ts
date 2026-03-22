@@ -1,25 +1,32 @@
 import type { NextConfig } from "next";
 import type { RemotePattern } from "next/dist/shared/lib/image-config";
 
-function getRemotePattern(url?: string): RemotePattern {
-  if (!url) throw new Error(`Not a valid URL: ${url}`);
+function getRemotePattern(url?: string): RemotePattern | null {
+  if (!url) return null;
 
-  const u = new URL(url);
-  return {
-    protocol: u.protocol.includes("s") ? "https" : "http",
-    hostname: u.hostname,
-    port: u.port,
-    pathname: "/**",
-  };
+  try {
+    const u = new URL(url);
+    return {
+      protocol: u.protocol.includes("s") ? "https" : "http",
+      hostname: u.hostname,
+      port: u.port,
+      pathname: "/**",
+    };
+  } catch {
+    return null;
+  }
 }
+
+const s3Urls = process.env.AWS_S3_ENDPOINT_URLS?.split(",") || [];
+const avatarsUrl = process.env.AVATARS_API_URL;
 
 const nextConfig: NextConfig = {
   devIndicators: false,
   images: {
     remotePatterns: [
-      getRemotePattern(process.env.AWS_S3_ENDPOINT_URL),
-      getRemotePattern(process.env.AVATARS_API_URL),
-    ],
+      ...s3Urls.map((url) => getRemotePattern(url.trim())),
+      getRemotePattern(avatarsUrl),
+    ].filter((p): p is RemotePattern => p !== null),
   },
 };
 
