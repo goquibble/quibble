@@ -41,7 +41,7 @@ export default function SearchBar() {
         <IconInput
           Icon={Search}
           placeholder="Search..."
-          wrapperClassName="ml-2"
+          wrapperClassName="ml-2 hidden md:flex"
           className="w-100"
           onChange={debouncedOnChange}
         />

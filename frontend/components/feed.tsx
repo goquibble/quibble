@@ -36,7 +36,7 @@ export default function Feed() {
 
   if (status === "pending" || isLoadingAuth) {
     return (
-      <div className="flex flex-1 flex-col gap-4 p-4 pr-2">
+      <div className="flex flex-1 flex-col gap-4 p-4">
         <QuibHeader />
         <div className="flex flex-col gap-4">
           {[...Array(2)].map((_, i) => (
@@ -55,7 +55,7 @@ export default function Feed() {
   }
 
   return (
-    <div className="flex flex-1 flex-col gap-4 p-4 pr-2">
+    <div className="flex flex-1 flex-col gap-4 p-4">
       <QuibHeader />
       {data.pages.map((page, i) => (
         /* biome-ignore lint/suspicious/noArrayIndexKey: Page order is stable */

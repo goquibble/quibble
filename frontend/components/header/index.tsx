@@ -52,7 +52,7 @@ export default function Header() {
         <Icons.quibbleIcon className="size-6" />
         <Icons.quibbleLogo className="h-6 w-max" />
       </Link>
-      <nav className="-translate-x-1/2 absolute left-1/2 flex items-center gap-2">
+      <nav className="md:-translate-x-1/2 flex items-center gap-2 md:absolute md:left-1/2">
         {navLinkMapping.map((item) => {
           const isActive = pathname === item.href;
           return (
@@ -62,7 +62,7 @@ export default function Header() {
               tabIndex={item.isDisabled ? -1 : 0}
               aria-disabled={item.isDisabled}
               className={cn(
-                "flex items-center gap-2",
+                "hidden items-center gap-2 md:flex",
                 isActive && "text-primary",
                 item.isDisabled && "pointer-events-none opacity-75",
               )}
@@ -73,7 +73,7 @@ export default function Header() {
           );
         })}
         <SearchBar />
-        <Button variant={"ghost"} asChild>
+        <Button variant={"ghost"} className="hidden md:flex" asChild>
           <Link href="/search" className="border">
             <Sparkles className="size-4 text-purple-500" />
             <span>AI Search</span>
@@ -89,16 +89,21 @@ export default function Header() {
         ) : userProfile ? (
           <>
             <Link href="/submit">
-              <Button>
+              <Button className="h-8 md:h-9">
                 <Plus />
                 Create Quib
               </Button>
             </Link>
-            <Button variant={"outline"} size={"icon"} disabled>
+            <Button
+              variant={"outline"}
+              size={"icon"}
+              className="hidden md:flex"
+              disabled
+            >
               <Bell />
             </Button>
             <PfpDropdown username={userProfile.username}>
-              <Avatar className="size-9 rounded-md">
+              <Avatar className="size-8 rounded-md md:size-9">
                 <AvatarImage src={userProfile.avatar_url ?? ""} />
                 <AvatarFallback seed={userProfile.username} />
               </Avatar>
