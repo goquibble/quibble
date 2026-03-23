@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { MarkdownViewer } from "@/components/ui/markdown-viewer";
 import { cn, timeAgo } from "@/lib/utils";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 export interface SearchResult {
   id: string;
@@ -43,15 +44,13 @@ export const ResultItem = ({
     <div className="flex flex-1 flex-col justify-between gap-2">
       <div className="flex flex-col gap-1.5">
         <div className="flex items-center gap-2 text-muted-foreground text-xs">
-          {result.quiblet.avatar_url && (
-            <Image
-              src={result.quiblet.avatar_url}
+          <Avatar className="size-5">
+            <AvatarImage
+              src={result.quiblet.avatar_url ?? ""}
               alt={result.quiblet.name}
-              width={16}
-              height={16}
-              className="rounded-full"
             />
-          )}
+            <AvatarFallback seed={result.quiblet.name} />
+          </Avatar>
           <span className="font-semibold text-primary text-sm">
             q/{result.quiblet.name}
           </span>
