@@ -1,6 +1,7 @@
 import { redditMono, redditSans } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import NextTopLoader from "nextjs-toploader";
 import AppSidebar from "@/components/app-sidebar";
@@ -39,6 +40,7 @@ export default function RootLayout({
             {children}
           </main>
         </Providers>
+        <Analytics />
         <Toaster
           position="bottom-center"
           closeButton={true}
