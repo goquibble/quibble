@@ -133,8 +133,20 @@ export default function SearchContent() {
         </div>
       )}
 
+      {/* Compact header — only after searching */}
+      {hasSearched && (
+        <div className="flex items-center gap-2 self-start">
+          <div className="rounded-lg bg-primary/10 p-1.5">
+            <WandSparkles className="size-4 text-primary" />
+          </div>
+          <span className="font-semibold text-foreground text-sm">
+            Ask Quibble
+          </span>
+        </div>
+      )}
+
       {/* Search input area */}
-      <div className="relative w-full">
+      <div className="-mt-4 relative w-full">
         <Textarea
           ref={inputRef}
           value={query}
@@ -146,7 +158,7 @@ export default function SearchContent() {
         />
         <Button
           size="icon"
-          className="absolute right-2 bottom-2 rounded-lg"
+          className="absolute right-1.5 bottom-1.5 rounded-lg"
           disabled={!query.trim() || isLoading}
           onClick={handleSearch}
         >
