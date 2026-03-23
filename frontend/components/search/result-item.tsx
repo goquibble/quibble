@@ -26,7 +26,7 @@ export const ResultItem = ({
 }) => (
   <Link
     href={`/q/${result.quiblet.name}/quib/${result.id}/${result.slug}`}
-    className="flex flex-col gap-3 rounded-xl border bg-card p-4 hover:bg-muted/50 sm:flex-row sm:items-start"
+    className="flex flex-col gap-3 rounded-xl border border-border bg-card p-4 transition-all hover:bg-muted/50 hover:shadow-sm sm:flex-row sm:items-start"
   >
     {/* Cover Image (if available) */}
     {result.cover && (
@@ -35,13 +35,13 @@ export const ResultItem = ({
           src={result.cover}
           alt={result.title}
           fill
-          className="object-cover transition-transform"
+          className="object-cover"
         />
       </div>
     )}
 
     <div className="flex flex-1 flex-col justify-between gap-2">
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1.5">
         <div className="flex items-center gap-2 text-muted-foreground text-xs">
           {result.quiblet.avatar_url && (
             <Image
@@ -52,13 +52,12 @@ export const ResultItem = ({
               className="rounded-full"
             />
           )}
-          <span className="font-medium text-foreground text-sm">
-            {result.quiblet.name}
+          <span className="font-semibold text-primary text-sm">
+            q/{result.quiblet.name}
           </span>
-          <span>—</span>
           <span>{timeAgo(result.created_at)}</span>
         </div>
-        <h3 className="font-bold text-lg leading-tight">{result.title}</h3>
+        <h3 className="font-bold text-base leading-snug">{result.title}</h3>
       </div>
 
       {result.content && (
